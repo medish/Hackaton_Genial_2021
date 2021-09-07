@@ -6,5 +6,6 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'angular-ui';
+  constructor(){
+  }
 }
