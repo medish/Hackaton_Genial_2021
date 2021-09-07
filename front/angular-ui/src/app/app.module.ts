@@ -9,6 +9,9 @@ import { ProfComponent } from './prof/prof.component';
 import { HeaderComponent } from './header/header.component';
 import { AComponent } from './a/a.component';
 import { BComponent } from './b/b.component';
+import { OutputCalendarService } from './services/output-calendar.service';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,8 @@ import { BComponent } from './b/b.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
