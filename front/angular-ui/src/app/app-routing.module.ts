@@ -5,10 +5,12 @@ import { LoginComponent } from './login/login.component';
 import {AdminComponent} from "./admin/admin.component";
 import {ProfComponent} from "./prof/prof.component";
 import {AComponent} from './a/a.component';
+import {TableauContraintesComponent} from './tableau-contraintes/tableau-contraintes.component';
 const routes: Routes = [{path:'login',component:LoginComponent},
   {path:'admin',component:AdminComponent},
   {path:'prof',component:ProfComponent},
   {path:'a',component:AComponent},
+  {path:'tableau',component:TableauContraintesComponent},
   {path:'',redirectTo:'/login',pathMatch:'full'}];
 
 @NgModule({

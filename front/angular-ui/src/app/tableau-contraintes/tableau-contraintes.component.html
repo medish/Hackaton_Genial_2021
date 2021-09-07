@@ -1,0 +1,65 @@
+<!-- <p>tableau-contraintes works!</p> -->
+<div id="div-tableau-contraintes">
+    <!-- <table class="table table-striped">
+        <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Country</th>
+          <th scope="col">Area</th>
+          <th scope="col">Population</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let country of countries; index as i">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>
+            <img [src]="'https://upload.wikimedia.org/wikipedia/commons/' + country.flag" class="mr-2" style="width: 20px">
+            {{ country.name }}
+          </td>
+          <td>{{ country.area | number }}</td>
+          <td>{{ country.population | number }}</td>
+        </tr>
+        </tbody>
+      </table> -->
+      <table class="table table-hover">
+        <col>
+        <colgroup span="3"></colgroup>
+        <thead class="thead-dark">
+        <tr>
+          <th rowspan="2" colspan="1">Active</th>
+          <th colspan="3">Selector</th>
+          <th scope="col" rowspan="2">Choix</th>
+          <th scope="colgroup" colspan="2">Date</th>
+          <th scope="col" rowspan="2">Salle</th>
+          <th scope="col" rowspan="2">Priorité</th>
+          <th scope="colgroup" colspan="3">Precedences</th>
+        </tr>
+        <tr>
+            <th scope="col">Enseignant</th>
+            <th scope="col">Enseignement</th>
+            <th scope="col">Cursus</th>
+            <th scope="col">Jour</th>
+            <th scope="col">Temps</th>
+            <th scope="col">Precedence</th>
+            <th scope="col">Selectors Cibles</th>
+            <th scope="col">Strict</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Oui</td>
+            <td>Oui</td>
+            <td>Oui</td>
+            <td>Oui</td>
+            <td>Oui</td>
+            <td>Oui</td>
+            <td>Oui</td>
+            <td>Oui</td>
+            <td>Oui</td>
+            <td>Oui</td>
+            <td>Oui</td>
+            <td>Oui</td>
+        </tr>
+        </tbody>
+      </table>
+</div>

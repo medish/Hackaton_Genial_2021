@@ -9,6 +9,7 @@ import { ProfComponent } from './prof/prof.component';
 import { HeaderComponent } from './header/header.component';
 import { AComponent } from './a/a.component';
 import { BComponent } from './b/b.component';
+import { TableauContraintesComponent } from './tableau-contraintes/tableau-contraintes.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { BComponent } from './b/b.component';
     ProfComponent,
     HeaderComponent,
     AComponent,
-    BComponent
+    BComponent,
+    TableauContraintesComponent
   ],
   imports: [
     BrowserModule,
