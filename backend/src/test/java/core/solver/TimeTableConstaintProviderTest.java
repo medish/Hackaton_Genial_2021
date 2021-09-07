@@ -22,18 +22,22 @@ import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-
-import org.apache.commons.io.IOUtils;
-import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import core.dataclasses.Room;
+import core.dataclasses.Teacher;
 import core.optaplaner.SolverOptaplaner;
 import core.optaplaner.domain.LessonOptaPlaner;
 import core.optaplaner.domain.TimeTableOptaPlaner;
 import core.output.Timeslot;
+import org.apache.commons.io.IOUtils;
+import org.junit.jupiter.api.Test;
+import org.optaplanner.core.api.score.stream.Joiners;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TimeTableConstaintProviderTest {
 
@@ -73,28 +77,100 @@ public class TimeTableConstaintProviderTest {
 
 		List<LessonOptaPlaner> lessonList = new ArrayList<>();
 		long id = 0;
-		lessonList.add(new LessonOptaPlaner(id++, "Math", "A. Turing", "9th grade"));
-		lessonList.add(new LessonOptaPlaner(id++, "Math", "A. Turing", "9th grade"));
-		lessonList.add(new LessonOptaPlaner(id++, "Physics", "M. Curie", "9th grade"));
-		lessonList.add(new LessonOptaPlaner(id++, "Chemistry", "M. Curie", "9th grade"));
-		lessonList.add(new LessonOptaPlaner(id++, "Biology", "C. Darwin", "9th grade"));
-		lessonList.add(new LessonOptaPlaner(id++, "History", "I. Jones", "9th grade"));
-		lessonList.add(new LessonOptaPlaner(id++, "English", "I. Jones", "9th grade"));
-		lessonList.add(new LessonOptaPlaner(id++, "English", "I. Jones", "9th grade"));
-		lessonList.add(new LessonOptaPlaner(id++, "Spanish", "P. Cruz", "9th grade"));
-		lessonList.add(new LessonOptaPlaner(id++, "Spanish", "P. Cruz", "9th grade"));
 
-		lessonList.add(new LessonOptaPlaner(id++, "Math", "A. Turing", "10th grade"));
-		lessonList.add(new LessonOptaPlaner(id++, "Math", "A. Turing", "10th grade"));
-		lessonList.add(new LessonOptaPlaner(id++, "Math", "A. Turing", "10th grade"));
-		lessonList.add(new LessonOptaPlaner(id++, "Physics", "M. Curie", "10th grade"));
-		lessonList.add(new LessonOptaPlaner(id++, "Chemistry", "M. Curie", "10th grade"));
-		lessonList.add(new LessonOptaPlaner(id++, "French", "M. Curie", "10th grade"));
-		lessonList.add(new LessonOptaPlaner(id++, "Geography", "C. Darwin", "10th grade"));
-		lessonList.add(new LessonOptaPlaner(id++, "History", "I. Jones", "10th grade"));
-		lessonList.add(new LessonOptaPlaner(id++, "English", "P. Cruz", "10th grade"));
-		lessonList.add(new LessonOptaPlaner(id++, "Spanish", "P. Cruz", "10th grade"));
+		Teacher turing = new Teacher("Turing");
 
-		return new TimeTableOptaPlaner(timeslotList, roomList, lessonList);
+		lessonList.add(new LessonOptaPlaner(id++, "Math", turing, "9th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "Math", turing, "9th grade"));
+		Teacher curie = new Teacher("M. Curie");
+
+		lessonList.add(new LessonOptaPlaner(id++, "Physics", curie, "9th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "Chemistry", curie, "9th grade"));
+
+		Teacher darwin = new Teacher("C. Darwin");
+		lessonList.add(new LessonOptaPlaner(id++, "Biology", darwin, "9th grade"));
+
+		Teacher jones = new Teacher("I. Jones");
+		lessonList.add(new LessonOptaPlaner(id++, "History", jones, "9th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "English", jones, "9th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "English", jones, "9th grade"));
+		Teacher cruz = new Teacher("P. Cruz");
+		lessonList.add(new LessonOptaPlaner(id++, "Spanish", cruz, "9th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "Spanish", cruz, "9th grade"));
+
+		lessonList.add(new LessonOptaPlaner(id++, "Math", turing, "10th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "Math", turing, "10th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "Math", turing, "10th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "Physics", curie, "10th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "Chemistry", curie, "10th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "French", curie, "10th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "Geography", darwin, "10th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "History", jones, "10th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "English", cruz, "10th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "Spanish", cruz, "10th grade"));
+
+		List<Teacher> teacherList = List.of(
+				curie, cruz, turing, jones, darwin
+		);
+		return new TimeTableOptaPlaner(timeslotList, roomList, lessonList, teacherList);
+	}
+
+	private static String printTimetable(TimeTableOptaPlaner timeTable) {
+		StringBuilder stringBuilder =new StringBuilder();
+		List<Room> roomList = timeTable.getRoomList();
+		List<LessonOptaPlaner> lessonList = timeTable.getLessonList();
+		Map<Timeslot, Map<Room, List<LessonOptaPlaner>>> lessonMap = lessonList.stream()
+				.filter(lesson -> lesson.getTimeslot() != null && lesson.getRoom() != null)
+				.collect(Collectors.groupingBy(LessonOptaPlaner::getTimeslot, Collectors.groupingBy(LessonOptaPlaner::getRoom)));
+		stringBuilder.append("|            | " + roomList.stream().map(room -> String.format("%-10s", room.getName()))
+				.collect(Collectors.joining(" | ")) + " |\n");
+		stringBuilder.append("|" + "------------|".repeat(roomList.size() + 1)+"\n");
+		for (Timeslot timeslot : timeTable.getTimeslotList()) {
+			List<List<LessonOptaPlaner>> cellList = roomList.stream().map(room -> {
+				Map<Room, List<LessonOptaPlaner>> byRoomMap = lessonMap.get(timeslot);
+				if (byRoomMap == null) {
+					return Collections.<LessonOptaPlaner>emptyList();
+				}
+				List<LessonOptaPlaner> cellLessonList = byRoomMap.get(room);
+				if (cellLessonList == null) {
+					return Collections.<LessonOptaPlaner>emptyList();
+				}
+				return cellLessonList;
+			}).collect(Collectors.toList());
+
+			stringBuilder.append("| "
+					+ String.format(
+							"%-10s", timeslot.getDayOfWeek().toString().substring(0, 3) + " " + timeslot.getStartTime())
+					+ " | "
+					+ cellList.stream()
+							.map(cellLessonList -> String.format("%-10s",
+									cellLessonList.stream().map(LessonOptaPlaner::getSubject).collect(Collectors.joining(", "))))
+							.collect(Collectors.joining(" | "))
+					+ " |\n");
+			stringBuilder.append("|            | " + cellList.stream()
+					.map(cellLessonList -> String.format("%-10s",
+							cellLessonList.stream().map(LessonOptaPlaner::getTeacher).map(Teacher::getName).collect(Collectors.joining(", "))))
+					.collect(Collectors.joining(" | ")) + " |\n");
+			stringBuilder.append("|            | "
+					+ cellList.stream()
+							.map(cellLessonList -> String.format("%-10s",
+									cellLessonList.stream().map(LessonOptaPlaner::getStudentGroup)
+											.collect(Collectors.joining(", "))))
+							.collect(Collectors.joining(" | "))
+					+ " |\n");
+			stringBuilder.append("|" + "------------|".repeat(roomList.size() + 1)+"\n");
+		}
+		List<LessonOptaPlaner> unassignedLessons = lessonList.stream()
+				.filter(lesson -> lesson.getTimeslot() == null || lesson.getRoom() == null)
+				.collect(Collectors.toList());
+		if (!unassignedLessons.isEmpty()) {
+			stringBuilder.append("");
+			stringBuilder.append("Unassigned lessons");
+			for (LessonOptaPlaner lesson : unassignedLessons) {
+				stringBuilder.append(
+						"  " + lesson.getSubject() + " - " + lesson.getTeacher() + " - " + lesson.getStudentGroup()+"\n");
+			}
+		}
+		return stringBuilder.toString();
 	}
 }

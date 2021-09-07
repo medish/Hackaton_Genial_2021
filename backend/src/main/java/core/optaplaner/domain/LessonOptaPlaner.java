@@ -22,12 +22,12 @@ import org.optaplanner.core.api.domain.variable.PlanningVariable;
 import core.dataclasses.Lesson;
 import core.dataclasses.Room;
 import core.output.Timeslot;
-
+import core.dataclasses.Teacher;
 @PlanningEntity
 public class LessonOptaPlaner extends AbstractPersistable implements FromInputToOptaPlaner<Lesson> {
 
 	private String subject;
-	private String teacher;
+	private Teacher teacher;
 	private String studentGroup;
 
 	@PlanningVariable(valueRangeProviderRefs = "timeslotRange")
@@ -38,15 +38,15 @@ public class LessonOptaPlaner extends AbstractPersistable implements FromInputTo
 	public LessonOptaPlaner() {
 	}
 
-	public LessonOptaPlaner(long id, String subject, String teacher, String studentGroup) {
+
+	public LessonOptaPlaner(long id, String subject, Teacher teacher, String studentGroup) {
 		super(id);
 		this.subject = subject;
 		this.teacher = teacher;
 		this.studentGroup = studentGroup;
 	}
 
-	public LessonOptaPlaner(long id, String subject, String teacher, String studentGroup, Timeslot timeslot,
-			Room room) {
+	public LessonOptaPlaner(long id, String subject, Teacher teacher, String studentGroup, Timeslot timeslot, Room room) {
 		this(id, subject, teacher, studentGroup);
 		this.timeslot = timeslot;
 		this.room = room;
@@ -61,8 +61,9 @@ public class LessonOptaPlaner extends AbstractPersistable implements FromInputTo
 		return subject;
 	}
 
-	public String getTeacher() {
-		return teacher;
+	public Teacher getTeacher() {
+
+		return this.teacher;
 	}
 
 	public String getStudentGroup() {
