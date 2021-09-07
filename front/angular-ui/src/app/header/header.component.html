@@ -1,37 +1,5 @@
-<header *ngIf="userService.isAdmin; else prof">
-    <nav class="navbar navbar-expand-lg navbar-dark pt-3 pb-3 bg_styles">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">AI-Planning</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link " aria-current="page" href="#">My account</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " aria-current="page" href="#">Administration</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " aria-current="page" href="#">All planning</a>
-                    </li>
-                </ul>
-                <form class="d-flex">
-                    <ul class="navbar-nav me-5 mb-2 mb-lg-0 ">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">Disconnect</a>
-                        </li>
-
-                    </ul>
-                </form>
-            </div>
-        </div>
-    </nav>
-</header>
-<ng-template #prof>
-
-    <header>
+<ng-template *ngIf="userService.isLoggedIn">
+    <header *ngIf="userService.isAdmin; else prof">
         <nav class="navbar navbar-expand-lg navbar-dark pt-3 pb-3 bg_styles">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">AI-Planning</a>
@@ -42,6 +10,12 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
                             <a class="nav-link " aria-current="page" href="#">My account</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " aria-current="page" href="#">Administration</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " aria-current="page" href="#">All planning</a>
                         </li>
                     </ul>
                     <form class="d-flex">
@@ -56,5 +30,33 @@
             </div>
         </nav>
     </header>
+    <ng-template #prof>
 
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-dark pt-3 pb-3 bg_styles">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">AI-Planning</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link " aria-current="page" href="#">My account</a>
+                            </li>
+                        </ul>
+                        <form class="d-flex">
+                            <ul class="navbar-nav me-5 mb-2 mb-lg-0 ">
+                                <li class="nav-item">
+                                    <a class="nav-link" aria-current="page" href="#">Disconnect</a>
+                                </li>
+
+                            </ul>
+                        </form>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+    </ng-template>
 </ng-template>
