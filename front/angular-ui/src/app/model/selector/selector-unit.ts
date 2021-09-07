@@ -1,4 +1,5 @@
 export class SelectorUnit{
-    key:string='';
+    table:string='';
+    attribute:string='';
     value:string='';
 }
