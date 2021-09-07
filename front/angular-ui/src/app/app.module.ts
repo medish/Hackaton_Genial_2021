@@ -10,6 +10,7 @@ import { HeaderComponent } from './header/header.component';
 import { AComponent } from './a/a.component';
 import { BComponent } from './b/b.component';
 import { TableauContraintesComponent } from './tableau-contraintes/tableau-contraintes.component';
+import { InputConstraintComponent } from './input-constraint/input-constraint.component';
 import { OutputCalendarService } from './services/output-calendar.service';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -22,7 +23,11 @@ import { HttpClientModule } from '@angular/common/http';
     HeaderComponent,
     AComponent,
     BComponent,
+<<<<<<< HEAD
     TableauContraintesComponent
+=======
+    InputConstraintComponent
+>>>>>>> 76e8393e1a200a8b96fe9e3baa927bea1a2da065
   ],
   imports: [
     BrowserModule,
