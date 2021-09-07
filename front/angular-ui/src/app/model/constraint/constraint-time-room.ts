@@ -1,4 +1,3 @@
-import * as internal from "stream";
 import { Constraint } from "./constraint";
 
 export class ConstraintTimeRoom extends Constraint{
