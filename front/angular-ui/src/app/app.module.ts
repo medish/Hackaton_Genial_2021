@@ -23,11 +23,8 @@ import { HttpClientModule } from '@angular/common/http';
     HeaderComponent,
     AComponent,
     BComponent,
-<<<<<<< HEAD
-    TableauContraintesComponent
-=======
+    TableauContraintesComponent,
     InputConstraintComponent
->>>>>>> 76e8393e1a200a8b96fe9e3baa927bea1a2da065
   ],
   imports: [
     BrowserModule,
