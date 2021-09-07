@@ -10,14 +10,23 @@ const CONSTRAINTS: Constraint[] = [
     veut: true,
     jour: ["Lundi"], 
     temps: {
-      temps: []
+      temps: [
+        {debut: 8,
+        fin: 17}
+      ]
     }, 
     salle: "232C", 
     priority: 80, 
     precedence: {
       precedence: "Before",
       strict: false,
-      selectorTarget: {selectorUnits:[]}
+      selectorTarget: {selectorUnits:[
+        { 
+          table:'a',
+          attribute:'b',
+          value:'c'
+        }
+      ]}
     }
   }
 ];
@@ -33,8 +42,9 @@ export class TableauContraintesComponent implements OnInit {
 
   constraints = CONSTRAINTS;
   constructor() { }
-
   ngOnInit(): void {
+console.log(CONSTRAINTS)
+
   }
   
 

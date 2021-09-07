@@ -46,19 +46,19 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>Oui</td>
-            <td>Oui</td>
-            <td>Oui</td>
-            <td>Oui</td>
-            <td>Oui</td>
-            <td>Oui</td>
-            <td>Oui</td>
-            <td>Oui</td>
-            <td>Oui</td>
-            <td>Oui</td>
-            <td>Oui</td>
-            <td>Oui</td>
+        <tr *ngFor="let constraint of constraints; index as i">
+            <td><input type="checkbox" checked="true"/></td>
+            <td>a</td>
+            <td>b</td>
+            <td>c</td>
+            <td>{{constraint.veut ? "veut" : "ne veut pas"}}</td>
+            <td>{{constraint.jour[0]}}</td>
+            <td>{{constraint.temps.temps[0].debut}}</td>
+            <td>{{constraint.salle}}</td>
+            <td>{{constraint.priority}}</td>
+            <td>{{constraint.precedence.precedence}}</td>
+            <td>{{constraint.precedence.selectorTarget.selectorUnits[0].table}}</td>
+            <td>{{constraint.precedence.strict ? "Oui" : "Non"}}</td>
         </tr>
         </tbody>
       </table>
