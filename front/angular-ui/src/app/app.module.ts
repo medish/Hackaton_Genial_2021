@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FullCalendarModule } from '@fullcalendar/angular';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -13,6 +14,16 @@ import { TableauContraintesComponent } from './tableau-contraintes/tableau-contr
 import { InputConstraintComponent } from './input-constraint/input-constraint.component';
 import { OutputCalendarService } from './services/output-calendar.service';
 import { HttpClientModule } from '@angular/common/http';
+import {PlanningManuelGeneratorComponent} from "./planning-manuel-generator/planning-manuel-generator.component";
+import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
+import interactionPlugin from '@fullcalendar/interaction';
+
+
+FullCalendarModule.registerPlugins([ // register FullCalendar plugins
+  dayGridPlugin,
+  interactionPlugin
+]);
+
 
 @NgModule({
   declarations: [
@@ -24,12 +35,14 @@ import { HttpClientModule } from '@angular/common/http';
     AComponent,
     BComponent,
     TableauContraintesComponent,
-    InputConstraintComponent
+    InputConstraintComponent,
+    PlanningManuelGeneratorComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FullCalendarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
