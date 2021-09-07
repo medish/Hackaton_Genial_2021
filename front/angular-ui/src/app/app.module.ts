@@ -10,6 +10,8 @@ import { HeaderComponent } from './header/header.component';
 import { AComponent } from './a/a.component';
 import { BComponent } from './b/b.component';
 import { InputConstraintComponent } from './input-constraint/input-constraint.component';
+import { OutputCalendarService } from './services/output-calendar.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,8 @@ import { InputConstraintComponent } from './input-constraint/input-constraint.co
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
