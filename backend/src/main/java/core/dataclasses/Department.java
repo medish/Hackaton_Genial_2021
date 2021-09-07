@@ -1,4 +1,4 @@
-package com.Backend.dataclasses;
+package core.dataclasses;
 
 public class Department {
 	protected int departmentId;

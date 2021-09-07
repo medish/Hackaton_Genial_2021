@@ -1,4 +1,4 @@
-package com.Backend.dataclasses;
+package core.dataclasses;
 
 public enum RoomType {
 	AMPHI, ROOM, TP, TD
