@@ -1,10 +1,10 @@
-package Services;
+package server.services;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import server.Model.Room;
-import server.Reporitories.RoomRepository;
+import server.models.Room;
+import server.repositories.RoomRepository;
 
 import java.util.List;
 import java.util.Optional;

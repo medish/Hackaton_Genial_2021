@@ -1,9 +1,9 @@
 package server.controllers;
 
-import Services.ProfessorService;
+import server.services.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import server.Model.Professor;
+import server.models.Professor;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
-package server.Reporitories;
+package server.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import server.Model.Professor;
+import server.models.Professor;
 
 public interface ProfessorRepository extends JpaRepository<Professor,Long> {
 }
