@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Room, Class, Teacher, Department, Degree, OutputCalendarService, RoomType } from '../services/output-calendar.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -9,7 +10,7 @@ import { Room, Class, Teacher, Department, Degree, OutputCalendarService, RoomTy
 })
 export class AdminComponent implements OnInit {
 
-  constructor(private outputData: OutputCalendarService) { }
+  constructor(private outputData: OutputCalendarService, private router : Router) { }
 
   rooms : [Room] | undefined
 
@@ -56,6 +57,15 @@ export class AdminComponent implements OnInit {
   getDegrees() {
     this.outputData.fetchAllDegrees()
     .subscribe((data : [Degree]) => this.degrees = {...data})
+  }
+
+  runAuto() {
+    console.log("running auto");
+    this.router.navigate(['/admindashboard']);
+  }
+
+  runManual() {
+    console.log("running manual");
   }
 
   ngAfterViewInit() {
