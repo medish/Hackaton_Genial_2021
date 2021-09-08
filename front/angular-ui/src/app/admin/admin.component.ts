@@ -28,11 +28,11 @@ export class AdminComponent implements OnInit {
 
 
   runAuto() {
-    this.router.navigate(['/admin']);
+    this.router.navigate(['/auto']);
   }
 
   runManual() {
-    console.log("running manual");
+    this.router.navigate(['/manuel']);
   }
 
 }

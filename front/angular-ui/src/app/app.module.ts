@@ -18,7 +18,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
 import interactionPlugin from '@fullcalendar/interaction';
 import { authInterceptorProviders } from './interceptors/auth.interceptor';
 import { FormsModule } from '@angular/forms';
-
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -26,6 +26,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
 ]);
 
 import { MatCardModule } from '@angular/material/card';
+import { PlanningAutoGeneratorComponent } from './planning-auto-generator/planning-auto-generator.component';
 
 @NgModule({
   declarations: [
@@ -38,9 +39,11 @@ import { MatCardModule } from '@angular/material/card';
     BComponent,
     TableauContraintesComponent,
     InputConstraintComponent,
-    PlanningManuelGeneratorComponent
+    PlanningManuelGeneratorComponent,
+    PlanningAutoGeneratorComponent
   ],
   imports: [
+    BrowserAnimationsModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
