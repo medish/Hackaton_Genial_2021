@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import core.dataclasses.Teacher;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.config.solver.SolverConfig;
@@ -83,7 +84,7 @@ public class SolverOptaplaner {
 			stringBuilder.append("|            | "
 					+ cellList.stream()
 							.map(cellLessonList -> String.format("%-10s",
-									cellLessonList.stream().map(LessonOptaPlaner::getTeacher)
+									cellLessonList.stream().map(LessonOptaPlaner::getTeacher).map(Teacher::getName)
 											.collect(Collectors.joining(", "))))
 							.collect(Collectors.joining(" | "))
 					+ " |\n");

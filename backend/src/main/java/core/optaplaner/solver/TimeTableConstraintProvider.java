@@ -19,8 +19,6 @@ package core.optaplaner.solver;
 import java.time.Duration;
 import java.time.LocalTime;
 
-import core.domain.Room;
-import core.domain.Timeslot;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.optaplanner.core.api.score.stream.Constraint;
 import org.optaplanner.core.api.score.stream.ConstraintFactory;
