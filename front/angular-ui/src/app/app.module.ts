@@ -23,8 +23,6 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   interactionPlugin
 ]);
 
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { AdmindashboardComponent } from './admindashboard/admindashboard.component';
 import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
@@ -38,8 +36,7 @@ import { MatCardModule } from '@angular/material/card';
     BComponent,
     TableauContraintesComponent,
     InputConstraintComponent,
-    PlanningManuelGeneratorComponent,
-    AdmindashboardComponent
+    PlanningManuelGeneratorComponent
   ],
   imports: [
     BrowserModule,

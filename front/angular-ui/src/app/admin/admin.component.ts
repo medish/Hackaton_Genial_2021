@@ -28,7 +28,7 @@ export class AdminComponent implements OnInit {
 
 
   runAuto() {
-    this.router.navigate(['/admindashboard']);
+    this.router.navigate(['/admin']);
   }
 
   runManual() {
