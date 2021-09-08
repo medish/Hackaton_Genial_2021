@@ -1,5 +1,4 @@
 <h1>Manuel</h1>
-
 <div class="row">
   <div class="col-2">
 <div id='external-events' class="mt-5 me-5 ms-5">
@@ -22,8 +21,76 @@
   <div class="col-9">
     <full-calendar [options]="options"></full-calendar>
   </div>
+  <div class="modal fade" id="modalManuel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalManuelLabel"> <b>Ajouter un créneau</b></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="" method="post">
+        <div class="modal-body">
+          <label for="annee">
+            Année :
+          </label>
+          <select name="annee" id="annee" class="form-select mt-3 mb-3 ">
+            <option value=""> Année </option>
+            <option value="p1"> Licence 1 </option>
+            <option value="p2">Licence 2</option>
+            <option value="p3">Licence 3</option>
+            <option value="p4">Master 1</option>
+            <option value="p5">Master 2 </option>
+          </select>
+
+          <label for="cursus">
+            Cursus
+          </label>
+          <select name="cursus" id="cursus" class="form-select mt-3 mb-3 ">
+            <option value="">Cursus </option>
+            <option value="p1"> GENIAL  </option>
+            <option value="p2">IMPAIRS </option>
+            <option value="p3"> DATA </option>
+          </select>
+
+            <label for="session-name">
+              nom de la session
+            </label>
+          <select name="session-name" id="session-name" class="form-select mt-3 mb-3 ">
+            <option value="">{{modelData.title}}</option>
+            <option value="p1"> {{modelData.title}} math </option>
+            <option value="p2">{{modelData.title}} info</option>
+            <option value="p3">{{modelData.title}} C++</option>
+            <option value="p4">{{modelData.title}} Java</option>
+            <option value="p5">{{modelData.title}} Anglais </option>
+          </select>
+
+            <label for="salle">Salle / Amphi </label>
+          <select name="salle" id="salle" class="form-select mt-3 mb-3 ">
+            <option value="">Choisir la salle ou l'amphi </option>
+            <option value="p1">Salle 1</option>
+            <option value="p2">Salle 3</option>
+            <option value="p3">Salle 7</option>
+            <option value="p4">Salle 9</option>
+            <option value="p5">Salle 29</option>
+          </select>
+            <label for="prof">Professeur</label>
+            <select name="prof" id="prof" class="form-select mt-3 mb-3 ">
+              <option value="">Choisir le professeur</option>
+              <option value="p1">Prof 2</option>
+              <option value="p2">Prof 3</option>
+              <option value="p3">Prof 7</option>
+              <option value="p4">Prof 9</option>
+              <option value="p5">Prof 1</option>
+            </select>
+            <label for="color-session">Couleur créneau</label>
+            <input type="color" class="form-control mt-3 mb-3" id="color-session">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
-<script>
-
-</script>
-

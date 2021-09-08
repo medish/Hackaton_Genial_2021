@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -17,16 +17,18 @@ import {PlanningManuelGeneratorComponent} from "./planning-manuel-generator/plan
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
 import interactionPlugin from '@fullcalendar/interaction';
 import { authInterceptorProviders } from './interceptors/auth.interceptor';
-import { FormsModule } from '@angular/forms';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+
+import { MatCardModule } from '@angular/material/card';
+import { PlanningAutoGeneratorComponent } from './planning-auto-generator/planning-auto-generator.component';
+
+import { GetFileConstraintsComponent } from './get-file-constraints/get-file-constraints.component';
+import {FormsModule} from "@angular/forms";
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
   interactionPlugin
 ]);
-
-import { MatCardModule } from '@angular/material/card';
-import { PlanningAutoGeneratorComponent } from './planning-auto-generator/planning-auto-generator.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,8 @@ import { PlanningAutoGeneratorComponent } from './planning-auto-generator/planni
     TableauContraintesComponent,
     InputConstraintComponent,
     PlanningManuelGeneratorComponent,
-    PlanningAutoGeneratorComponent
+    PlanningAutoGeneratorComponent,
+    GetFileConstraintsComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -49,9 +52,10 @@ import { PlanningAutoGeneratorComponent } from './planning-auto-generator/planni
     HttpClientModule,
     FullCalendarModule,
     FormsModule,
-    MatCardModule
+    MatCardModule,
+    CollapseModule.forRoot()
   ],
-  providers: [authInterceptorProviders],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

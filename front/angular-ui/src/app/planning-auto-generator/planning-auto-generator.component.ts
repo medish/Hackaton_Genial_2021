@@ -3,6 +3,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin, {Draggable} from '@fullcalendar/interaction';
 
+
 @Component({
   selector: 'app-planning-auto-generator',
   templateUrl: './planning-auto-generator.component.html',
@@ -10,9 +11,12 @@ import interactionPlugin, {Draggable} from '@fullcalendar/interaction';
 })
 export class PlanningAutoGeneratorComponent implements OnInit {
   options: any;
-
   constructor() {
   }
+  isCollapsedconstraints = true;
+  isCollapsedArray = true;
+  message = 'expanded';
+
 
   ngOnInit(): void {
     var self = this;

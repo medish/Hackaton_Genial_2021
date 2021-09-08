@@ -1,38 +1,62 @@
-<div class="container">
-  <h1 class="mt-5">Auto</h1>
-  <div class="float-end">
-      <form action="" method="post">
-        <button type="submit" class="btn btn-lg btn-primary me-5">Exporter</button>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-          <label class="form-check-label" for="inlineRadio1">PDF</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-          <label class="form-check-label" for="inlineRadio2">ICS</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
-          <label class="form-check-label" for="inlineRadio3">JPEG</label>
-        </div>
+<h1 class="mt-5 text-center">Auto</h1>
 
-      </form>
-    </div>
-  <br>
+<div class="m-5">
+
+  <div class="">
+    <button type="button" class="btn btn-primary" (click)="isCollapsedconstraints = !isCollapsedconstraints"
+            [attr.aria-expanded]="!isCollapsedconstraints" aria-controls="collapseEvent">Add constraints
+    </button>
+  </div>
+  <hr>
+  <div id="collapseEvent" [isAnimated]="true" [collapse]="isCollapsedconstraints">
+    <app-get-file-constraints class="m-5"></app-get-file-constraints>
+  </div>
+
+  <div class="">
+    <button type="button" class="btn btn-primary" (click)="isCollapsedArray = !isCollapsedArray"
+            [attr.aria-expanded]="!isCollapsedArray" aria-controls="collapseEventArray">View active contraints
+    </button>
+  </div>
+  <hr>
+  <div id="collapseEventArray" [isAnimated]="true" [collapse]="isCollapsedArray">
+    <tableau-contraintes class="m-5"></tableau-contraintes>
+  </div>
+
 </div>
+
+
+<div class="float-end">
+  <form action="" method="post" id="export">
+    <button type="submit" class="btn btn-lg btn-primary me-5">Exporter</button>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+      <label class="form-check-label" for="inlineRadio1">PDF</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+      <label class="form-check-label" for="inlineRadio2">ICS</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+      <label class="form-check-label" for="inlineRadio3">JPEG</label>
+    </div>
+  </form>
+</div>
+<br>
+
 <div class="mt-5 m-5">
   <full-calendar [options]="options"></full-calendar>
 </div>
 <div class="container">
   <div class='my-legend'>
-    <div class='legend-title'>Légende </div>
+    <div class='legend-title'>Légende</div>
     <div class='legend-scale'>
       <ul class='legend-labels'>
-        <li><span style='background:green;'></span>Lorem ipsun </li>
-        <li><span style='background:red;'></span>Lorem Ipsun </li>
+        <li><span style='background:green;'></span>Lorem ipsun</li>
+        <li><span style='background:red;'></span>Lorem Ipsun</li>
         <li><span style='background:yellow;'></span>Lorem ipsun</li>
         <li><span style='background:#FB8072;'></span>Lorem Ipsun</li>
-        <li><span style='background:#80B1D3;'></span>Lorem Ipsun </li>
+        <li><span style='background:#80B1D3;'></span>Lorem Ipsun</li>
       </ul>
     </div>
   </div>
@@ -45,6 +69,7 @@
     font-weight: bold;
     font-size: 90%;
   }
+
   .my-legend .legend-scale ul {
     margin: 0;
     margin-bottom: 5px;
@@ -52,6 +77,7 @@
     float: left;
     list-style: none;
   }
+
   .my-legend .legend-scale ul li {
     font-size: 80%;
     list-style: none;
@@ -59,6 +85,7 @@
     line-height: 18px;
     margin-bottom: 2px;
   }
+
   .my-legend ul.legend-labels li span {
     display: block;
     float: left;
@@ -68,12 +95,15 @@
     margin-left: 0;
     border: 1px solid #999;
   }
+
   .my-legend .legend-source {
     font-size: 70%;
     color: #999;
     clear: both;
   }
+
   .my-legend a {
     color: #777;
   }
 </style>
+

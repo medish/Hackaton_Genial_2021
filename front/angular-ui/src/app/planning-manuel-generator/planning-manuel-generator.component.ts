@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Modal} from 'bootstrap';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
+import interactionPlugin, {Draggable} from '@fullcalendar/interaction';
 
 @Component({
   selector: 'app-planning-manuel-generator',
@@ -11,7 +12,10 @@ import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 export class PlanningManuelGeneratorComponent implements OnInit {
   options: any;
 
-  constructor() { }
+  constructor() {
+  }
+
+  modelData:{title:string} = {title:''};
 
   ngOnInit() {
     let draggableEl = document.getElementById('external-events');
@@ -20,7 +24,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     // @ts-ignore
     new Draggable(draggableEl, {
       itemSelector: '.fc-event',
-      eventData: function(eventEl: any) {
+      eventData: function (eventEl: any) {
         console.log(eventEl);
         return {
           title: eventEl.innerText
@@ -36,23 +40,27 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       dayHeaderFormat: {
         weekday: 'long'
       },
-      headerToolbar :false,
+      headerToolbar: false,
       droppable: true, // this allows things to be dropped onto the calendar
       //eventColor: '#17a2b8',
       allDaySlot: false,
       weekNumbers: false,
       slotMinTime: "8:00:00",
       slotMaxTime: "20:00:00",
-      firstDay:1,
-      eventClick: function (info: any) {
+      firstDay: 1,
+      eventClick:  (info)=>{
         console.log(info);
         console.log(info.event.startStr)
         console.log(info.event.endStr);
         const day = new Date(info.event.startStr).getDay();
-        //info.event.eventColor="#000000";
-        //window.location.href = "/login"
+        var myModal = new Modal(document.getElementById("modalManuel"), {
+          keyboard: false
+        });
+        this.modelData = {title:info.event.title}
+        myModal.show();
+
       },
-      eventAdd: function( addInfo:any){
+      eventAdd: function (addInfo) {
         alert("jjjrj")
         console.log("jdks")
       }
