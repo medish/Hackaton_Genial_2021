@@ -39,8 +39,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
 				teacherRoomStability(constraintFactory), teacherTimeEfficiency(constraintFactory),
 				teacherTimeJustAfterTwoLessonConflict(constraintFactory),
 				teacherLessonRoomTimePreferencesConflict(constraintFactory),
-				teacherLessonRoomPreferencesConflict(constraintFactory)
-				};
+				teacherLessonRoomPreferencesConflict(constraintFactory) };
 	}
 
 	Constraint roomConflict(ConstraintFactory constraintFactory) {
@@ -67,12 +66,14 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
 	Constraint teacherTimeEfficiency(ConstraintFactory constraintFactory) {
 		// A teacher prefers to teach sequential lessons and dislikes gaps between
 		// lessons.
-		return constraintFactory.from(LessonOptaPlaner.class).join(LessonOptaPlaner.class, Joiners.equal(LessonOptaPlaner::getTeacher),
-				Joiners.equal((lesson) -> lesson.getTimeslot().getDayOfWeek())).filter((lesson1, lesson2) -> {
-			Duration between = Duration.between(lesson1.getTimeslot().getEndTime(),
-					lesson2.getTimeslot().getStartTime());
-			return !between.isNegative() && between.compareTo(Duration.ofMinutes(30)) <= 0;
-		}).reward("Teacher time efficiency", HardSoftScore.ONE_SOFT);
+		return constraintFactory.from(LessonOptaPlaner.class)
+				.join(LessonOptaPlaner.class, Joiners.equal(LessonOptaPlaner::getTeacher),
+						Joiners.equal((lesson) -> lesson.getTimeslot().getDayOfWeek()))
+				.filter((lesson1, lesson2) -> {
+					Duration between = Duration.between(lesson1.getTimeslot().getEndTime(),
+							lesson2.getTimeslot().getStartTime());
+					return !between.isNegative() && between.compareTo(Duration.ofMinutes(30)) <= 0;
+				}).reward("Teacher time efficiency", HardSoftScore.ONE_SOFT);
 	}
 
 	Constraint teacherRoomStability(ConstraintFactory constraintFactory) {
@@ -92,19 +93,18 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
 
 	Constraint teacherTimeJustAfterTwoLessonConflict(ConstraintFactory constraintFactory) {
 		// A teacher prefer to teach lesson French just after lesson Chemistry
-		return constraintFactory.from(LessonOptaPlaner.class)
-				.filter(lesson -> lesson.getSubject().equals("Chemistry"))
+		return constraintFactory.from(LessonOptaPlaner.class).filter(lesson -> lesson.getSubject().equals("Chemistry"))
 				.join(LessonOptaPlaner.class)
-				//Date Fin de lesson 1 = Date Debon de lesson 2
+				// Date Fin de lesson 1 = Date Debon de lesson 2
 				.filter((lesson, lesson2) -> lesson2.getSubject().equals("French"))
-				.filter((lesson1, lesson2) -> lesson1.getTimeslot().getEndTime()==lesson2.getTimeslot().getStartTime())
+				.filter((lesson1,
+						lesson2) -> lesson1.getTimeslot().getEndTime() == lesson2.getTimeslot().getStartTime())
 				.penalize("Teacher can't teach lesson 1 before lesson 2", HardSoftScore.ONE_SOFT);
 	}
 
-	 Constraint teacherLessonRoomTimePreferencesConflict(ConstraintFactory constraintFactory) {
-		 // Teacher Turing does not want to teach Math in room C at 8H30
-		return constraintFactory.from(LessonOptaPlaner.class)
-				.filter(lesson -> lesson.getSubject().equals("Math"))
+	Constraint teacherLessonRoomTimePreferencesConflict(ConstraintFactory constraintFactory) {
+		// Teacher Turing does not want to teach Math in room C at 8H30
+		return constraintFactory.from(LessonOptaPlaner.class).filter(lesson -> lesson.getSubject().equals("Math"))
 				.filter((lesson) -> lesson.getTeacher().getName().equals("Turing"))
 				.filter((lesson) -> lesson.getTimeslot().getStartTime().equals(LocalTime.of(8, 30)))
 				.filter((lesson) -> lesson.getRoom().getName().equals("Room C"))
@@ -113,8 +113,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
 
 	Constraint teacherLessonRoomPreferencesConflict(ConstraintFactory constraintFactory) {
 		// Teacher M. Curie does not want to teach French in Room A
-		return constraintFactory.from(LessonOptaPlaner.class)
-				.filter(lesson -> lesson.getSubject().equals("French"))
+		return constraintFactory.from(LessonOptaPlaner.class).filter(lesson -> lesson.getSubject().equals("French"))
 				.filter((lesson) -> lesson.getTeacher().getName().equals("M. Curie"))
 				.filter((lesson) -> lesson.getRoom().getName().equals("Room A"))
 				.penalize("Teacher M. Curie does not want to teach French in Room A", HardSoftScore.ONE_SOFT);

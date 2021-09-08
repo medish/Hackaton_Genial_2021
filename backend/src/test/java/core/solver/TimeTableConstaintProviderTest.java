@@ -22,10 +22,12 @@ import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+
+import org.apache.commons.io.IOUtils;
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import core.dataclasses.Room;
 import core.dataclasses.Teacher;
@@ -33,11 +35,6 @@ import core.optaplaner.SolverOptaplaner;
 import core.optaplaner.domain.LessonOptaPlaner;
 import core.optaplaner.domain.TimeTableOptaPlaner;
 import core.output.Timeslot;
-import org.apache.commons.io.IOUtils;
-import org.junit.jupiter.api.Test;
-import org.optaplanner.core.api.score.stream.Joiners;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class TimeTableConstaintProviderTest {
 
@@ -109,68 +106,7 @@ public class TimeTableConstaintProviderTest {
 		lessonList.add(new LessonOptaPlaner(id++, "English", cruz, "10th grade"));
 		lessonList.add(new LessonOptaPlaner(id++, "Spanish", cruz, "10th grade"));
 
-		List<Teacher> teacherList = List.of(
-				curie, cruz, turing, jones, darwin
-		);
+		List<Teacher> teacherList = List.of(curie, cruz, turing, jones, darwin);
 		return new TimeTableOptaPlaner(timeslotList, roomList, lessonList, teacherList);
-	}
-
-	private static String printTimetable(TimeTableOptaPlaner timeTable) {
-		StringBuilder stringBuilder =new StringBuilder();
-		List<Room> roomList = timeTable.getRoomList();
-		List<LessonOptaPlaner> lessonList = timeTable.getLessonList();
-		Map<Timeslot, Map<Room, List<LessonOptaPlaner>>> lessonMap = lessonList.stream()
-				.filter(lesson -> lesson.getTimeslot() != null && lesson.getRoom() != null)
-				.collect(Collectors.groupingBy(LessonOptaPlaner::getTimeslot, Collectors.groupingBy(LessonOptaPlaner::getRoom)));
-		stringBuilder.append("|            | " + roomList.stream().map(room -> String.format("%-10s", room.getName()))
-				.collect(Collectors.joining(" | ")) + " |\n");
-		stringBuilder.append("|" + "------------|".repeat(roomList.size() + 1)+"\n");
-		for (Timeslot timeslot : timeTable.getTimeslotList()) {
-			List<List<LessonOptaPlaner>> cellList = roomList.stream().map(room -> {
-				Map<Room, List<LessonOptaPlaner>> byRoomMap = lessonMap.get(timeslot);
-				if (byRoomMap == null) {
-					return Collections.<LessonOptaPlaner>emptyList();
-				}
-				List<LessonOptaPlaner> cellLessonList = byRoomMap.get(room);
-				if (cellLessonList == null) {
-					return Collections.<LessonOptaPlaner>emptyList();
-				}
-				return cellLessonList;
-			}).collect(Collectors.toList());
-
-			stringBuilder.append("| "
-					+ String.format(
-							"%-10s", timeslot.getDayOfWeek().toString().substring(0, 3) + " " + timeslot.getStartTime())
-					+ " | "
-					+ cellList.stream()
-							.map(cellLessonList -> String.format("%-10s",
-									cellLessonList.stream().map(LessonOptaPlaner::getSubject).collect(Collectors.joining(", "))))
-							.collect(Collectors.joining(" | "))
-					+ " |\n");
-			stringBuilder.append("|            | " + cellList.stream()
-					.map(cellLessonList -> String.format("%-10s",
-							cellLessonList.stream().map(LessonOptaPlaner::getTeacher).map(Teacher::getName).collect(Collectors.joining(", "))))
-					.collect(Collectors.joining(" | ")) + " |\n");
-			stringBuilder.append("|            | "
-					+ cellList.stream()
-							.map(cellLessonList -> String.format("%-10s",
-									cellLessonList.stream().map(LessonOptaPlaner::getStudentGroup)
-											.collect(Collectors.joining(", "))))
-							.collect(Collectors.joining(" | "))
-					+ " |\n");
-			stringBuilder.append("|" + "------------|".repeat(roomList.size() + 1)+"\n");
-		}
-		List<LessonOptaPlaner> unassignedLessons = lessonList.stream()
-				.filter(lesson -> lesson.getTimeslot() == null || lesson.getRoom() == null)
-				.collect(Collectors.toList());
-		if (!unassignedLessons.isEmpty()) {
-			stringBuilder.append("");
-			stringBuilder.append("Unassigned lessons");
-			for (LessonOptaPlaner lesson : unassignedLessons) {
-				stringBuilder.append(
-						"  " + lesson.getSubject() + " - " + lesson.getTeacher() + " - " + lesson.getStudentGroup()+"\n");
-			}
-		}
-		return stringBuilder.toString();
 	}
 }
