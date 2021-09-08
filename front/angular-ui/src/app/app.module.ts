@@ -17,7 +17,6 @@ import { HttpClientModule } from '@angular/common/http';
 import {PlanningManuelGeneratorComponent} from "./planning-manuel-generator/planning-manuel-generator.component";
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
 import interactionPlugin from '@fullcalendar/interaction';
-import { PlanningAutoGeneratorComponent } from './planning-auto-generator/planning-auto-generator.component';
 
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
@@ -41,7 +40,7 @@ import { MatCardModule } from '@angular/material/card';
     TableauContraintesComponent,
     InputConstraintComponent,
     PlanningManuelGeneratorComponent,
-    PlanningAutoGeneratorComponent
+    AdmindashboardComponent
   ],
   imports: [
     BrowserModule,
