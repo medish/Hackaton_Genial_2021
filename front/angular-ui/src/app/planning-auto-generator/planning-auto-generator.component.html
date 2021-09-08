@@ -1,27 +1,30 @@
 <div class="container">
   <h1 class="mt-5">Auto</h1>
   <div class="float-end">
-      <form action="" method="post">
-        <button type="submit" class="btn btn-lg btn-primary me-5">Exporter</button>
+    <button type="button" class="btn-lg btn-primary me-5" id="PDFexport">PDF</button>
+    <!--
+      <form action="" method="post" name="exportform">
+        <button type="submit" class="btn btn-lg btn-primary me-5" id="export">Exporter</button>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-          <label class="form-check-label" for="inlineRadio1">PDF</label>
+          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="pdf" value="option1">
+          <label class="form-check-label" for="pdf">PDF</label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-          <label class="form-check-label" for="inlineRadio2">ICS</label>
+          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="ics" value="option2">
+          <label class="form-check-label" for="ics">ICS</label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
-          <label class="form-check-label" for="inlineRadio3">JPEG</label>
+          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="jpeg" value="option3">
+          <label class="form-check-label" for="jpeg">JPEG</label>
         </div>
 
       </form>
+      -->
     </div>
   <br>
 </div>
 <div class="mt-5 m-5">
-  <full-calendar [options]="options"></full-calendar>
+  <full-calendar [options]="options" id="calendar"></full-calendar>
 </div>
 <div class="container">
   <div class='my-legend'>

@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin, {Draggable} from '@fullcalendar/interaction';
+import {jsPDF} from 'jspdf';
+import html2canvas from "html2canvas";
 
 @Component({
   selector: 'app-planning-auto-generator',
@@ -68,6 +70,17 @@ export class PlanningAutoGeneratorComponent implements OnInit {
       ]
 
     };
+    function exportToPdf() {
+      console.log("start exporting to pdf........");
+      var w = document.getElementById("calendar").offsetWidth;
+      var h = document.getElementById("calendar").offsetHeight;
+      html2canvas(document.getElementById("calendar")).then(function (canvas) {
+        var img = canvas.toDataURL("image/calendar");
+        var doc = new jsPDF('l', 'px', [w, h]);
+        doc.addImage(img, 'JPEG', 0, 0, w, h);
+        doc.save("calendrier.pdf");
+      })
+    }
+    document.getElementById("PDFexport").addEventListener("click", exportToPdf);
   }
-
 }
