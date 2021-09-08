@@ -1,0 +1,42 @@
+|            | Room A     | Room B     | Room C     |
+|------------|------------|------------|------------|
+| MON 08:30  |            | English    | Spanish    |
+|            |            | I. Jones   | P. Cruz    |
+|            |            | 9th grade  | 10th grade |
+|------------|------------|------------|------------|
+| MON 09:30  |            | History    | Spanish    |
+|            |            | I. Jones   | P. Cruz    |
+|            |            | 10th grade | 9th grade  |
+|------------|------------|------------|------------|
+| MON 10:30  |            | English    | English    |
+|            |            | I. Jones   | P. Cruz    |
+|            |            | 9th grade  | 10th grade |
+|------------|------------|------------|------------|
+| MON 13:30  | Geography  |            | Physics    |
+|            | C. Darwin  |            | M. Curie   |
+|            | 10th grade |            | 9th grade  |
+|------------|------------|------------|------------|
+| MON 14:30  | Biology    |            | Chemistry  |
+|            | C. Darwin  |            | M. Curie   |
+|            | 9th grade  |            | 10th grade |
+|------------|------------|------------|------------|
+| TUE 08:30  | Math       | History    |            |
+|            | A. Turing  | I. Jones   |            |
+|            | 10th grade | 9th grade  |            |
+|------------|------------|------------|------------|
+| TUE 09:30  | Math       |            | French     |
+|            | A. Turing  |            | M. Curie   |
+|            | 9th grade  |            | 10th grade |
+|------------|------------|------------|------------|
+| TUE 10:30  | Math       |            | Chemistry  |
+|            | A. Turing  |            | M. Curie   |
+|            | 10th grade |            | 9th grade  |
+|------------|------------|------------|------------|
+| TUE 13:30  | Math       |            | Physics    |
+|            | A. Turing  |            | M. Curie   |
+|            | 9th grade  |            | 10th grade |
+|------------|------------|------------|------------|
+| TUE 14:30  | Math       |            | Spanish    |
+|            | A. Turing  |            | P. Cruz    |
+|            | 10th grade |            | 9th grade  |
+|------------|------------|------------|------------|
