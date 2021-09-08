@@ -28,6 +28,7 @@ import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import core.dataclasses.Room;
 import core.output.TimeTable;
 import core.output.Timeslot;
+import core.dataclasses.Teacher;
 
 @PlanningSolution
 public class TimeTableOptaPlaner implements FromOptaplanerToOutput<TimeTable> {
@@ -41,16 +42,19 @@ public class TimeTableOptaPlaner implements FromOptaplanerToOutput<TimeTable> {
 	@PlanningEntityCollectionProperty
 	private List<LessonOptaPlaner> lessonList;
 
+
+	private List<Teacher> teacherList;
 	@PlanningScore
 	private HardSoftScore score;
 
 	public TimeTableOptaPlaner() {
 	}
 
-	public TimeTableOptaPlaner(List<Timeslot> timeslotList, List<Room> roomList, List<LessonOptaPlaner> lessonList) {
+	public TimeTableOptaPlaner(List<Timeslot> timeslotList, List<Room> roomList, List<LessonOptaPlaner> lessonList, List<Teacher> teacherList) {
 		this.timeslotList = timeslotList;
 		this.roomList = roomList;
 		this.lessonList = lessonList;
+		this.teacherList = teacherList;
 	}
 
 	public List<Timeslot> getTimeslotList() {
@@ -65,6 +69,9 @@ public class TimeTableOptaPlaner implements FromOptaplanerToOutput<TimeTable> {
 		return lessonList;
 	}
 
+	public List<Teacher> getTeacherList() {
+		return teacherList;
+	}
 	public HardSoftScore getScore() {
 		return score;
 	}

@@ -52,4 +52,11 @@ public class Timeslot implements Output {
 		return endTime;
 	}
 
+	public boolean compareTimeSlot(Timeslot timeslot) {
+		if (this.dayOfWeek.compareTo(timeslot.getDayOfWeek()) == 0) return true;
+			else if (this.startTime.compareTo(timeslot.getStartTime()) == 0) return true;
+			else if (this.endTime.compareTo(timeslot.getEndTime()) == 0) return true;
+
+			return false;
+	}
 }
