@@ -8,6 +8,6 @@ export class ConstraintService {
   constructor() { }
 
   parseConstraints(constraints:string){
-    console.log(constraints);
+    let lines = constraints.split('\n');
   }
 }
