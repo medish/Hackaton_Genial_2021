@@ -3,10 +3,11 @@ package server.controllers;
 import Services.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import server.Model.Professor;
 
 import java.util.List;
 
-public class ProfessorController<T> {
+public class ProfessorController {
     private final ProfessorService professorService;
 
     @Autowired
@@ -14,7 +15,7 @@ public class ProfessorController<T> {
         this.professorService = professorService;
     }
     @GetMapping("/professors")
-    public List<T> getProfessors(){
+    public List<Professor> getProfessors(){
     return professorService.getProfessors();
     }
 }

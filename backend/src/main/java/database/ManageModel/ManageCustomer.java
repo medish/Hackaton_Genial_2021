@@ -1,6 +1,6 @@
 package database.ManageModel;
 
-import database.Model.Customer;
+import server.Model.Customer;
 import database.persistence.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;

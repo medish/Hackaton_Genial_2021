@@ -1,4 +1,4 @@
-package database.Model;
+package server.Model;
 
 import javax.persistence.*;
 import java.util.List;
