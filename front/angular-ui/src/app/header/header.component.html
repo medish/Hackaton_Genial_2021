@@ -1,4 +1,4 @@
-<header *ngIf="userService.isLoggedIn && userService.isAdmin; else prof">
+<header *ngIf="authService.isLoggedIn() && authService.getUser()?.roles?.includes('ADMIN'); else prof">
     <nav class="navbar navbar-expand-lg navbar-dark pt-3 pb-3 bg_styles">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">AI-Planning</a>
@@ -20,7 +20,7 @@
                 <form class="d-flex">
                     <ul class="navbar-nav me-5 mb-2 mb-lg-0 ">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">Disconnect</a>
+                            <span (click)="logout()" class="nav-link button" aria-current="page">Disconnect</span>
                         </li>
 
                     </ul>
@@ -31,7 +31,7 @@
 </header>
 <ng-template #prof>
 
-    <header *ngIf="userService.isLoggedIn">
+    <header *ngIf="authService.isLoggedIn()">
         <nav class="navbar navbar-expand-lg navbar-dark pt-3 pb-3 bg_styles">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">AI-Planning</a>

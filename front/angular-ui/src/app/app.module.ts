@@ -17,6 +17,8 @@ import { HttpClientModule } from '@angular/common/http';
 import {PlanningManuelGeneratorComponent} from "./planning-manuel-generator/planning-manuel-generator.component";
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
 import interactionPlugin from '@fullcalendar/interaction';
+import { authInterceptorProviders } from './interceptors/auth.interceptor';
+import { FormsModule } from '@angular/forms';
 
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
@@ -42,9 +44,10 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FullCalendarModule
+    FullCalendarModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [authInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

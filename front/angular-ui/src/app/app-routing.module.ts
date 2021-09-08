@@ -7,12 +7,15 @@ import {ProfComponent} from "./prof/prof.component";
 import {PlanningManuelGeneratorComponent} from "./planning-manuel-generator/planning-manuel-generator.component";
 
 import {TableauContraintesComponent} from './tableau-contraintes/tableau-contraintes.component';
-const routes: Routes = [{path:'login',component:LoginComponent},
-  {path:'admin',component:AdminComponent},
-  {path:'prof',component:ProfComponent},
-  {path:'manuel',component:PlanningManuelGeneratorComponent},
-  {path:'tableau',component:TableauContraintesComponent},
-  {path:'',redirectTo:'/login',pathMatch:'full'}];
+import { AuthGuard } from './services/auth-guard.service';
+const routes: Routes = [
+  {path:'login',component:LoginComponent},
+  {path:'admin',component:AdminComponent,canActivate: [AuthGuard]},
+  {path:'prof',component:ProfComponent,canActivate: [AuthGuard]},
+  {path:'manuel',component:PlanningManuelGeneratorComponent,canActivate: [AuthGuard]},
+  {path:'tableau',component:TableauContraintesComponent,canActivate: [AuthGuard]},
+  {path:'',redirectTo:'/admin',pathMatch:'full'}
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
