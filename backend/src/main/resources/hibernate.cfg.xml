@@ -24,6 +24,10 @@
         <mapping class="database.Model.Room"/>
         <mapping class="database.Model.Day"/>
         <mapping class="database.Model.Degree"/>
+        <mapping class="database.Model.Course"/>
+        <mapping class="database.Model.Output"/>
+        <mapping class="database.Model.TimeConstraint"/>
+        <mapping class="database.Model.PrecedenceConstraint"/>
 
     </session-factory>
 </hibernate-configuration>
