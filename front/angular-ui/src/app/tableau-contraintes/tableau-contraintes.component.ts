@@ -1,36 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Constraint } from '../model/constraint/constraint';
-
-
-const CONSTRAINTS: Constraint[] = [
-  {
-    selector:{
-      selectorUnits:[]
-    }, 
-    veut: true,
-    jour: ["Lundi"], 
-    temps: {
-      temps: [
-        {debut: 8,
-        fin: 17}
-      ]
-    }, 
-    salle: "232C", 
-    priority: 80, 
-    precedence: {
-      precedence: "Before",
-      strict: false,
-      selectorTarget: {selectorUnits:[
-        { 
-          table:'a',
-          attribute:'b',
-          value:'c'
-        }
-      ]}
-    }
-  }
-];
-
+import { ConstraintPrecedence } from '../model/constraint/constraint-precedence';
+import { ConstraintTimeRoom } from '../model/constraint/constraint-time-room';
+import { DataInterfaceService } from '../services/data-interface.service';
 @Component({
   selector: 'tableau-contraintes',
   templateUrl: './tableau-contraintes.component.html',
@@ -40,11 +12,22 @@ const CONSTRAINTS: Constraint[] = [
 
 export class TableauContraintesComponent implements OnInit {
 
-  constraints = CONSTRAINTS;
-  constructor() { }
+  constraints: Constraint[] = [];
+  constructor(private dataInterface : DataInterfaceService) { }
   ngOnInit(): void {
-console.log(CONSTRAINTS)
+    this.dataInterface.fetchPrecedenceConstraints(this.onPrecedenceConstraintsReceived);
+    this.dataInterface.fetchTimeConstraints(this.onTimeRoomConstraintsReceived)
+  }
 
+  onPrecedenceConstraintsReceived(constraints : [ConstraintPrecedence]) {
+    
+  }
+
+  onTimeRoomConstraintsReceived(constraints : [ConstraintTimeRoom]) {
+    for(let constraint of constraints) {
+      let genericConstraint = constraint as Constraint;
+      this.constraints.push(genericConstraint);
+    }
   }
   
 
