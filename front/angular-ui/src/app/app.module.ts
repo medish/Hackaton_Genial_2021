@@ -16,11 +16,14 @@ import { HttpClientModule } from '@angular/common/http';
 import {PlanningManuelGeneratorComponent} from "./planning-manuel-generator/planning-manuel-generator.component";
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
 import interactionPlugin from '@fullcalendar/interaction';
+<<<<<<< HEAD
 import { authInterceptorProviders } from './interceptors/auth.interceptor';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 import { MatCardModule } from '@angular/material/card';
 import { PlanningAutoGeneratorComponent } from './planning-auto-generator/planning-auto-generator.component';
+=======
+>>>>>>> Réparation des problèmes d'import
 
 import { GetFileConstraintsComponent } from './get-file-constraints/get-file-constraints.component';
 import {FormsModule} from "@angular/forms";
