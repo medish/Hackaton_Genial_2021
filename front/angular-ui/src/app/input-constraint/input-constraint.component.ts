@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ConstraintTimeRoom } from '../model/constraint/constraint-time-room';
 import { ConstraintService } from '../services/constraint/constraint.service';
+import { DataInterfaceService } from '../services/data-interface.service';
 
 @Component({
   selector: 'app-input-constraint',
@@ -8,12 +10,18 @@ import { ConstraintService } from '../services/constraint/constraint.service';
 })
 export class InputConstraintComponent implements OnInit {
 
-  constructor(public constraintService:ConstraintService) { }
+  constructor(private constraintService: ConstraintService, private dataInterface: DataInterfaceService) { }
 
   ngOnInit(): void {
+    this.dataInterface.fetchTimeConstraints(this.onTimeConstraintsReceived);
   }
 
   currentFileName:string='';
+
+  onTimeConstraintsReceived(constraints: [ConstraintTimeRoom]) {
+    // handle constraints
+    console.log(constraints);
+  }
 
   onFileSelected(event:any){
     let fileReader = new FileReader();
@@ -27,4 +35,8 @@ export class InputConstraintComponent implements OnInit {
       fileReader.readAsText(event.target.files[0]);
     }
   }
+
+  //parseConstraints<Type>(constraints: [Constraint]) {
+
+  //}
 }

@@ -12,7 +12,6 @@ import { AComponent } from './a/a.component';
 import { BComponent } from './b/b.component';
 import { TableauContraintesComponent } from './tableau-contraintes/tableau-contraintes.component';
 import { InputConstraintComponent } from './input-constraint/input-constraint.component';
-import { OutputCalendarService } from './services/output-calendar.service';
 import { HttpClientModule } from '@angular/common/http';
 import {PlanningManuelGeneratorComponent} from "./planning-manuel-generator/planning-manuel-generator.component";
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
