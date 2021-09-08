@@ -5,7 +5,6 @@ import { LoginComponent } from './login/login.component';
 import {AdminComponent} from "./admin/admin.component";
 import {ProfComponent} from "./prof/prof.component";
 import {PlanningManuelGeneratorComponent} from "./planning-manuel-generator/planning-manuel-generator.component";
-
 import {TableauContraintesComponent} from './tableau-contraintes/tableau-contraintes.component';
 import { AuthGuard } from './services/auth-guard.service';
 const routes: Routes = [
