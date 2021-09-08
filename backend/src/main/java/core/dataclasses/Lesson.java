@@ -1,10 +1,10 @@
 package core.dataclasses;
 
-public class Lesson  {
+public class Lesson implements Input {
 	protected int lessonId;
 	protected double duration;
 	protected RoomType roomType;
-	
+
 	public Lesson(int lessonId, double duration, RoomType roomType) {
 		this.lessonId = lessonId;
 		this.duration = duration;
@@ -34,6 +34,4 @@ public class Lesson  {
 	public void setRoomType(RoomType roomType) {
 		this.roomType = roomType;
 	}
-	
-	
 }

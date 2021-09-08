@@ -14,36 +14,27 @@
  * limitations under the License.
  */
 
-package core.domain;
+package core.output;
 
 import java.util.List;
 
-import org.optaplanner.core.api.domain.solution.PlanningEntityCollectionProperty;
-import org.optaplanner.core.api.domain.solution.PlanningScore;
-import org.optaplanner.core.api.domain.solution.PlanningSolution;
-import org.optaplanner.core.api.domain.solution.ProblemFactCollectionProperty;
-import org.optaplanner.core.api.domain.valuerange.ValueRangeProvider;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 
-@PlanningSolution
-public class TimeTable {
+import core.dataclasses.Room;
+import core.optaplaner.domain.LessonOptaPlaner;
 
-	@ProblemFactCollectionProperty
-	@ValueRangeProvider(id = "timeslotRange")
+public class TimeTable implements Output {
+
 	private List<Timeslot> timeslotList;
-	@ProblemFactCollectionProperty
-	@ValueRangeProvider(id = "roomRange")
 	private List<Room> roomList;
-	@PlanningEntityCollectionProperty
-	private List<Lesson> lessonList;
+	private List<LessonOptaPlaner> lessonList;
 
-	@PlanningScore
 	private HardSoftScore score;
 
 	public TimeTable() {
 	}
 
-	public TimeTable(List<Timeslot> timeslotList, List<Room> roomList, List<Lesson> lessonList) {
+	public TimeTable(List<Timeslot> timeslotList, List<Room> roomList, List<LessonOptaPlaner> lessonList) {
 		this.timeslotList = timeslotList;
 		this.roomList = roomList;
 		this.lessonList = lessonList;
@@ -57,7 +48,7 @@ public class TimeTable {
 		return roomList;
 	}
 
-	public List<Lesson> getLessonList() {
+	public List<LessonOptaPlaner> getLessonList() {
 		return lessonList;
 	}
 

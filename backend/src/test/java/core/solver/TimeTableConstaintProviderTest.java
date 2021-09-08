@@ -16,31 +16,24 @@
 
 package core.solver;
 
-import static java.util.stream.Collectors.groupingBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.time.DayOfWeek;
-import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
-import org.optaplanner.core.api.solver.Solver;
-import org.optaplanner.core.api.solver.SolverFactory;
-import org.optaplanner.core.config.solver.SolverConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import core.domain.Lesson;
-import core.domain.Room;
-import core.domain.TimeTable;
-import core.domain.Timeslot;
+import core.dataclasses.Room;
+import core.optaplaner.SolverOptaplaner;
+import core.optaplaner.domain.LessonOptaPlaner;
+import core.optaplaner.domain.TimeTableOptaPlaner;
+import core.output.Timeslot;
 
 public class TimeTableConstaintProviderTest {
 
@@ -48,23 +41,18 @@ public class TimeTableConstaintProviderTest {
 
 	@Test
 	void test() throws IOException {
-		SolverFactory<TimeTable> solverFactory = SolverFactory
-				.create(new SolverConfig().withSolutionClass(TimeTable.class).withEntityClasses(Lesson.class)
-						.withConstraintProviderClass(TimeTableConstraintProvider.class)
-						.withTerminationSpentLimit(Duration.ofSeconds(10)));
-
 		// Load the problem
-		TimeTable problem = generateDemoData();
+		TimeTableOptaPlaner problem = generateDemoData();
 
 		// Solve the problem
-		Solver<TimeTable> solver = solverFactory.buildSolver();
-		TimeTable solution = solver.solve(problem);
+		TimeTableOptaPlaner solution = SolverOptaplaner.solve(problem);
 
 		// Visualize the solution
-		assertEquals(IOUtils.toString(TimeTableConstaintProviderTest.class.getResourceAsStream("/res.txt"), "UTF-8"), printTimetable(solution));
+		assertEquals(IOUtils.toString(TimeTableConstaintProviderTest.class.getResourceAsStream("/res.txt"), "UTF-8"),
+				SolverOptaplaner.printTimetable(solution));
 	}
 
-	public static TimeTable generateDemoData() {
+	public static TimeTableOptaPlaner generateDemoData() {
 		List<Timeslot> timeslotList = new ArrayList<>(10);
 		timeslotList.add(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(8, 30), LocalTime.of(9, 30)));
 		timeslotList.add(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(9, 30), LocalTime.of(10, 30)));
@@ -83,90 +71,30 @@ public class TimeTableConstaintProviderTest {
 		roomList.add(new Room("Room B"));
 		roomList.add(new Room("Room C"));
 
-		List<Lesson> lessonList = new ArrayList<>();
+		List<LessonOptaPlaner> lessonList = new ArrayList<>();
 		long id = 0;
-		lessonList.add(new Lesson(id++, "Math", "A. Turing", "9th grade"));
-		lessonList.add(new Lesson(id++, "Math", "A. Turing", "9th grade"));
-		lessonList.add(new Lesson(id++, "Physics", "M. Curie", "9th grade"));
-		lessonList.add(new Lesson(id++, "Chemistry", "M. Curie", "9th grade"));
-		lessonList.add(new Lesson(id++, "Biology", "C. Darwin", "9th grade"));
-		lessonList.add(new Lesson(id++, "History", "I. Jones", "9th grade"));
-		lessonList.add(new Lesson(id++, "English", "I. Jones", "9th grade"));
-		lessonList.add(new Lesson(id++, "English", "I. Jones", "9th grade"));
-		lessonList.add(new Lesson(id++, "Spanish", "P. Cruz", "9th grade"));
-		lessonList.add(new Lesson(id++, "Spanish", "P. Cruz", "9th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "Math", "A. Turing", "9th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "Math", "A. Turing", "9th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "Physics", "M. Curie", "9th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "Chemistry", "M. Curie", "9th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "Biology", "C. Darwin", "9th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "History", "I. Jones", "9th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "English", "I. Jones", "9th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "English", "I. Jones", "9th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "Spanish", "P. Cruz", "9th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "Spanish", "P. Cruz", "9th grade"));
 
-		lessonList.add(new Lesson(id++, "Math", "A. Turing", "10th grade"));
-		lessonList.add(new Lesson(id++, "Math", "A. Turing", "10th grade"));
-		lessonList.add(new Lesson(id++, "Math", "A. Turing", "10th grade"));
-		lessonList.add(new Lesson(id++, "Physics", "M. Curie", "10th grade"));
-		lessonList.add(new Lesson(id++, "Chemistry", "M. Curie", "10th grade"));
-		lessonList.add(new Lesson(id++, "French", "M. Curie", "10th grade"));
-		lessonList.add(new Lesson(id++, "Geography", "C. Darwin", "10th grade"));
-		lessonList.add(new Lesson(id++, "History", "I. Jones", "10th grade"));
-		lessonList.add(new Lesson(id++, "English", "P. Cruz", "10th grade"));
-		lessonList.add(new Lesson(id++, "Spanish", "P. Cruz", "10th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "Math", "A. Turing", "10th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "Math", "A. Turing", "10th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "Math", "A. Turing", "10th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "Physics", "M. Curie", "10th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "Chemistry", "M. Curie", "10th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "French", "M. Curie", "10th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "Geography", "C. Darwin", "10th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "History", "I. Jones", "10th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "English", "P. Cruz", "10th grade"));
+		lessonList.add(new LessonOptaPlaner(id++, "Spanish", "P. Cruz", "10th grade"));
 
-		return new TimeTable(timeslotList, roomList, lessonList);
+		return new TimeTableOptaPlaner(timeslotList, roomList, lessonList);
 	}
-
-	private static String printTimetable(TimeTable timeTable) {
-		StringBuilder stringBuilder =new StringBuilder();
-		List<Room> roomList = timeTable.getRoomList();
-		List<Lesson> lessonList = timeTable.getLessonList();
-		Map<Timeslot, Map<Room, List<Lesson>>> lessonMap = lessonList.stream()
-				.filter(lesson -> lesson.getTimeslot() != null && lesson.getRoom() != null)
-				.collect(groupingBy(Lesson::getTimeslot, groupingBy(Lesson::getRoom)));
-		stringBuilder.append("|            | " + roomList.stream().map(room -> String.format("%-10s", room.getName()))
-				.collect(Collectors.joining(" | ")) + " |\n");
-		stringBuilder.append("|" + "------------|".repeat(roomList.size() + 1)+"\n");
-		for (Timeslot timeslot : timeTable.getTimeslotList()) {
-			List<List<Lesson>> cellList = roomList.stream().map(room -> {
-				Map<Room, List<Lesson>> byRoomMap = lessonMap.get(timeslot);
-				if (byRoomMap == null) {
-					return Collections.<Lesson>emptyList();
-				}
-				List<Lesson> cellLessonList = byRoomMap.get(room);
-				if (cellLessonList == null) {
-					return Collections.<Lesson>emptyList();
-				}
-				return cellLessonList;
-			}).collect(Collectors.toList());
-
-			stringBuilder.append("| "
-					+ String.format(
-							"%-10s", timeslot.getDayOfWeek().toString().substring(0, 3) + " " + timeslot.getStartTime())
-					+ " | "
-					+ cellList.stream()
-							.map(cellLessonList -> String.format("%-10s",
-									cellLessonList.stream().map(Lesson::getSubject).collect(Collectors.joining(", "))))
-							.collect(Collectors.joining(" | "))
-					+ " |\n");
-			stringBuilder.append("|            | " + cellList.stream()
-					.map(cellLessonList -> String.format("%-10s",
-							cellLessonList.stream().map(Lesson::getTeacher).collect(Collectors.joining(", "))))
-					.collect(Collectors.joining(" | ")) + " |\n");
-			stringBuilder.append("|            | "
-					+ cellList.stream()
-							.map(cellLessonList -> String.format("%-10s",
-									cellLessonList.stream().map(Lesson::getStudentGroup)
-											.collect(Collectors.joining(", "))))
-							.collect(Collectors.joining(" | "))
-					+ " |\n");
-			stringBuilder.append("|" + "------------|".repeat(roomList.size() + 1)+"\n");
-		}
-		List<Lesson> unassignedLessons = lessonList.stream()
-				.filter(lesson -> lesson.getTimeslot() == null || lesson.getRoom() == null)
-				.collect(Collectors.toList());
-		if (!unassignedLessons.isEmpty()) {
-			stringBuilder.append("");
-			stringBuilder.append("Unassigned lessons");
-			for (Lesson lesson : unassignedLessons) {
-				stringBuilder.append(
-						"  " + lesson.getSubject() + " - " + lesson.getTeacher() + " - " + lesson.getStudentGroup()+"\n");
-			}
-		}
-		return stringBuilder.toString();
-	}
-
 }

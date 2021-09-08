@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
-package core.domain;
+package core.optaplaner.domain;
 
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
-import org.optaplanner.core.api.domain.lookup.PlanningId;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
 
+import core.dataclasses.Lesson;
+import core.dataclasses.Room;
+import core.output.Timeslot;
+
 @PlanningEntity
-public class Lesson extends AbstractPersistable {
+public class LessonOptaPlaner extends AbstractPersistable implements FromInputToOptaPlaner<Lesson> {
 
 	private String subject;
 	private String teacher;
@@ -32,17 +35,18 @@ public class Lesson extends AbstractPersistable {
 	@PlanningVariable(valueRangeProviderRefs = "roomRange")
 	private Room room;
 
-	public Lesson() {
+	public LessonOptaPlaner() {
 	}
 
-	public Lesson(long id, String subject, String teacher, String studentGroup) {
+	public LessonOptaPlaner(long id, String subject, String teacher, String studentGroup) {
 		super(id);
 		this.subject = subject;
 		this.teacher = teacher;
 		this.studentGroup = studentGroup;
 	}
 
-	public Lesson(long id, String subject, String teacher, String studentGroup, Timeslot timeslot, Room room) {
+	public LessonOptaPlaner(long id, String subject, String teacher, String studentGroup, Timeslot timeslot,
+			Room room) {
 		this(id, subject, teacher, studentGroup);
 		this.timeslot = timeslot;
 		this.room = room;
@@ -81,4 +85,9 @@ public class Lesson extends AbstractPersistable {
 		this.room = room;
 	}
 
+	@Override
+	public Lesson fromInput() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

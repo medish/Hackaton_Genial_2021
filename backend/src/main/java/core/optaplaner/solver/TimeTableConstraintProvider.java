@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package core.solver;
+package core.optaplaner.solver;
 
 import java.time.Duration;
 
@@ -24,7 +24,7 @@ import org.optaplanner.core.api.score.stream.ConstraintFactory;
 import org.optaplanner.core.api.score.stream.ConstraintProvider;
 import org.optaplanner.core.api.score.stream.Joiners;
 
-import core.domain.Lesson;
+import core.optaplaner.domain.LessonOptaPlaner;
 
 public class TimeTableConstraintProvider implements ConstraintProvider {
 
@@ -43,11 +43,11 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
 		// A room can accommodate at most one lesson at the same time.
 		return constraintFactory
 				// Select each pair of 2 different lessons ...
-				.fromUniquePair(Lesson.class,
+				.fromUniquePair(LessonOptaPlaner.class,
 						// ... in the same timeslot ...
-						Joiners.equal(Lesson::getTimeslot),
+						Joiners.equal(LessonOptaPlaner::getTimeslot),
 						// ... in the same room ...
-						Joiners.equal(Lesson::getRoom))
+						Joiners.equal(LessonOptaPlaner::getRoom))
 				// ... and penalize each pair with a hard weight.
 				.penalize("Room conflict", HardSoftScore.ONE_HARD);
 	}
@@ -55,21 +55,22 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
 	Constraint teacherConflict(ConstraintFactory constraintFactory) {
 		// A teacher can teach at most one lesson at the same time.
 		return constraintFactory
-				.fromUniquePair(Lesson.class, Joiners.equal(Lesson::getTimeslot), Joiners.equal(Lesson::getTeacher))
+				.fromUniquePair(LessonOptaPlaner.class, Joiners.equal(LessonOptaPlaner::getTimeslot),
+						Joiners.equal(LessonOptaPlaner::getTeacher))
 				.penalize("Teacher conflict", HardSoftScore.ONE_HARD);
 	}
 
 	Constraint studentGroupConflict(ConstraintFactory constraintFactory) {
 		// A student can attend at most one lesson at the same time.
 		return constraintFactory
-				.fromUniquePair(Lesson.class, Joiners.equal(Lesson::getTimeslot),
-						Joiners.equal(Lesson::getStudentGroup))
+				.fromUniquePair(LessonOptaPlaner.class, Joiners.equal(LessonOptaPlaner::getTimeslot),
+						Joiners.equal(LessonOptaPlaner::getStudentGroup))
 				.penalize("Student group conflict", HardSoftScore.ONE_HARD);
 	}
 
 	Constraint teacherRoomStability(ConstraintFactory constraintFactory) {
 		// A teacher prefers to teach in a single room.
-		return constraintFactory.fromUniquePair(Lesson.class, Joiners.equal(Lesson::getTeacher))
+		return constraintFactory.fromUniquePair(LessonOptaPlaner.class, Joiners.equal(LessonOptaPlaner::getTeacher))
 				.filter((lesson1, lesson2) -> lesson1.getRoom() != lesson2.getRoom())
 				.penalize("Teacher room stability", HardSoftScore.ONE_SOFT);
 	}
@@ -77,8 +78,10 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
 	Constraint teacherTimeEfficiency(ConstraintFactory constraintFactory) {
 		// A teacher prefers to teach sequential lessons and dislikes gaps between
 		// lessons.
-		return constraintFactory.from(Lesson.class).join(Lesson.class, Joiners.equal(Lesson::getTeacher),
-				Joiners.equal((lesson) -> lesson.getTimeslot().getDayOfWeek())).filter((lesson1, lesson2) -> {
+		return constraintFactory.from(LessonOptaPlaner.class)
+				.join(LessonOptaPlaner.class, Joiners.equal(LessonOptaPlaner::getTeacher),
+						Joiners.equal((lesson) -> lesson.getTimeslot().getDayOfWeek()))
+				.filter((lesson1, lesson2) -> {
 					Duration between = Duration.between(lesson1.getTimeslot().getEndTime(),
 							lesson2.getTimeslot().getStartTime());
 					return !between.isNegative() && between.compareTo(Duration.ofMinutes(30)) <= 0;
@@ -87,8 +90,10 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
 
 	Constraint studentGroupSubjectVariety(ConstraintFactory constraintFactory) {
 		// A student group dislikes sequential lessons on the same subject.
-		return constraintFactory.from(Lesson.class).join(Lesson.class, Joiners.equal(Lesson::getSubject),
-				Joiners.equal(Lesson::getStudentGroup), Joiners.equal((lesson) -> lesson.getTimeslot().getDayOfWeek()))
+		return constraintFactory.from(LessonOptaPlaner.class)
+				.join(LessonOptaPlaner.class, Joiners.equal(LessonOptaPlaner::getSubject),
+						Joiners.equal(LessonOptaPlaner::getStudentGroup),
+						Joiners.equal((lesson) -> lesson.getTimeslot().getDayOfWeek()))
 				.filter((lesson1, lesson2) -> {
 					Duration between = Duration.between(lesson1.getTimeslot().getEndTime(),
 							lesson2.getTimeslot().getStartTime());

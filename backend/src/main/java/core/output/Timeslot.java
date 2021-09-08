@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package core.domain;
+package core.output;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
-public class Timeslot {
+public class Timeslot implements Output {
 
 	private DayOfWeek dayOfWeek;
 	private LocalTime startTime;

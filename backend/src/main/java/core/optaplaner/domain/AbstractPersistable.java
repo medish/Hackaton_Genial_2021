@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package core.domain;
+package core.optaplaner.domain;
 
 import org.optaplanner.core.api.domain.lookup.PlanningId;
 
