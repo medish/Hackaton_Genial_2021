@@ -16,8 +16,6 @@
 
 package core.optaplaner;
 
-import static java.util.stream.Collectors.groupingBy;
-
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Collections;
@@ -31,6 +29,7 @@ import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.config.solver.SolverConfig;
 
 import core.dataclasses.Room;
+import core.dataclasses.Teacher;
 import core.optaplaner.domain.LessonOptaPlaner;
 import core.optaplaner.domain.TimeTableOptaPlaner;
 import core.optaplaner.solver.TimeTableConstraintProvider;
@@ -53,8 +52,8 @@ public class SolverOptaplaner {
 		List<Room> roomList = timeTable.getRoomList();
 		List<LessonOptaPlaner> lessonList = timeTable.getLessonList();
 		Map<Timeslot, Map<Room, List<LessonOptaPlaner>>> lessonMap = lessonList.stream()
-				.filter(lesson -> lesson.getTimeslot() != null && lesson.getRoom() != null)
-				.collect(groupingBy(LessonOptaPlaner::getTimeslot, groupingBy(LessonOptaPlaner::getRoom)));
+				.filter(lesson -> lesson.getTimeslot() != null && lesson.getRoom() != null).collect(Collectors
+						.groupingBy(LessonOptaPlaner::getTimeslot, Collectors.groupingBy(LessonOptaPlaner::getRoom)));
 		stringBuilder.append("|            | " + roomList.stream().map(room -> String.format("%-10s", room.getName()))
 				.collect(Collectors.joining(" | ")) + " |\n");
 		stringBuilder.append("|" + "------------|".repeat(roomList.size() + 1) + "\n");
