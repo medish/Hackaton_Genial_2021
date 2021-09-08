@@ -2,11 +2,12 @@ package Services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import server.Model.Professor;
 import server.Reporitories.ProfessorRepository;
 
 import java.util.List;
 @Service
-public class ProfessorService<T>{
+public class ProfessorService{
     @Autowired
     private final ProfessorRepository professorRepository;
 
@@ -16,7 +17,7 @@ public class ProfessorService<T>{
 
 /**Returns all Professors in a List format **/
 
-    public List<T> getProfessors(){
+    public List<Professor> getProfessors(){
         return professorRepository.findAll();
     }
 }

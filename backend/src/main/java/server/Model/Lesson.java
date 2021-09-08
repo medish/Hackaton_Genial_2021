@@ -1,4 +1,4 @@
-package database.Model;
+package server.Model;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,7 +11,9 @@ import java.util.List;
 public class Lesson {
 
     @Id
+    @Column (name="lesson_id")
     private String id;
+
     private Date duration;
     private int group_size;
     private int course_id;
@@ -26,6 +28,10 @@ public class Lesson {
             inverseJoinColumns = @JoinColumn(name = "professor_id")
     )
     private List<Professor> professors = new ArrayList<>();
+
+    @OneToOne(mappedBy = "lesson", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private Output output;
 
     public Lesson(String id, Date duration, int group_size, int course_id, int room_type_id, List<Professor> professors)
     {

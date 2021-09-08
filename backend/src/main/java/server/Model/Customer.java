@@ -1,36 +1,40 @@
-package database.Model;
+package server.Model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 
 @Entity
-
-@Table(name = "constraint")
-public class Constraint {
+@Table(name = "Customer")
+public class Customer {
 
     @Id
+    @Column(name = "id")
     private String id;
+
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "firstName", nullable = false)
     private String firstName;
 
-    @Column(unique = true)
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
+    @Column(name = "is_admin", columnDefinition = "boolean default false")
     private boolean is_admin;
 
-    public Constraint()
-    {
-
-    }
-
-    public Constraint(String id, String name, String firstName, String email)
+    public Customer(String id, String name, String firstName, String email, boolean is_admin)
     {
         this.id = id;
         this.name = name;
         this.firstName = firstName;
         this.email = email;
+        this.is_admin = is_admin;
+    }
+
+    public Customer()
+    {
+
     }
 
     /*---------------------------------------------------------------*/

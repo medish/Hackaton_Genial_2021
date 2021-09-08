@@ -1,6 +1,7 @@
-package database.Model;
+package server.Model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 
@@ -14,6 +15,9 @@ public class Room {
     @ManyToOne
     @JoinColumn(name = "room_type_id", nullable = false)
     private RoomType roomType;
+
+    @OneToMany(mappedBy = "room", targetEntity = Output.class)
+    private List<Output> outputs;
 
     public Room(Integer capacity, RoomType type)
     {
