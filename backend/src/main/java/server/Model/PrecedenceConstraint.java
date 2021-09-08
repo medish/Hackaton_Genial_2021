@@ -13,7 +13,7 @@ public class PrecedenceConstraint {
 
     private String selector;
     private boolean wants;
-    private String when;
+    private String whenConstraint;
     private boolean strict;
     private String target;
     private int priority;
@@ -50,12 +50,12 @@ public class PrecedenceConstraint {
 
     public String getWhen()
     {
-        return when;
+        return whenConstraint;
     }
 
     public void setWhen(String when)
     {
-        this.when = when;
+        this.whenConstraint = when;
     }
 
     public boolean isStrict()
@@ -95,12 +95,12 @@ public class PrecedenceConstraint {
 
     public PrecedenceConstraint(
             String id, String selector, boolean wants,
-            String when, boolean strict, String target, int priority
+            String whenConstraint, boolean strict, String target, int priority
     ) {
         this.id = id;
         this.selector = selector;
         this.wants = wants;
-        this.when = when;
+        this.whenConstraint = whenConstraint;
         this.strict = strict;
         this.target = target;
         this.priority = priority;
