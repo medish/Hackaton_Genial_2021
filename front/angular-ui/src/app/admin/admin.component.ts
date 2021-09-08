@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+<<<<<<< HEAD
 import { Room, Class, Teacher, Department, Degree, RoomType } from '../model/datastore/datamodel';
+=======
+import { Observable } from 'rxjs';
+import { Room, Class, Teacher, Department, Degree, OutputCalendarService, RoomType } from '../services/output-calendar.service';
+>>>>>>> Fusion avec la branche courante
 import { Router } from '@angular/router';
 
 @Component({
@@ -35,4 +40,19 @@ export class AdminComponent implements OnInit {
     this.router.navigate(['/manuel']);
   }
 
+<<<<<<< HEAD
+=======
+  runAuto() {
+    console.log("running auto");
+    this.router.navigate(['/admindashboard']);
+  }
+
+  runManual() {
+    console.log("running manual");
+  }
+
+  ngAfterViewInit() {
+    console.log("rooms: " + this.rooms);
+  }
+>>>>>>> Fusion avec la branche courante
 }
