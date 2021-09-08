@@ -42,7 +42,6 @@ public class TimeTableOptaPlaner implements FromOptaplanerToOutput<TimeTable> {
 	@PlanningEntityCollectionProperty
 	private List<LessonOptaPlaner> lessonList;
 
-
 	private List<Teacher> teacherList;
 	@PlanningScore
 	private HardSoftScore score;
@@ -78,7 +77,7 @@ public class TimeTableOptaPlaner implements FromOptaplanerToOutput<TimeTable> {
 
 	@Override
 	public TimeTable toOutput() {
-		// TODO Auto-generated method stub
-		return null;
+		TimeTable timetable = new TimeTable(timeslotList, roomList, lessonList);
+		return timetable;
 	}
 }
