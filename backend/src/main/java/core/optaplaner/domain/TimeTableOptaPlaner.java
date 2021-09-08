@@ -1,19 +1,3 @@
-/*
- * Copyright 2020 Red Hat, Inc. and/or its affiliates.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package core.optaplaner.domain;
 
 import java.util.List;
@@ -28,10 +12,9 @@ import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import core.dataclasses.Room;
 import core.output.TimeTable;
 import core.output.Timeslot;
-import core.dataclasses.Teacher;
 
 @PlanningSolution
-public class TimeTableOptaPlaner implements FromOptaplanerToOutput<TimeTable> {
+public class TimeTableOptaPlaner implements FromOptaplanerToOutput<TimeTable>, FromInputToOptaPlaner<TimeTable> {
 
 	@ProblemFactCollectionProperty
 	@ValueRangeProvider(id = "timeslotRange")
@@ -42,18 +25,16 @@ public class TimeTableOptaPlaner implements FromOptaplanerToOutput<TimeTable> {
 	@PlanningEntityCollectionProperty
 	private List<LessonOptaPlaner> lessonList;
 
-	private List<Teacher> teacherList;
 	@PlanningScore
 	private HardSoftScore score;
 
 	public TimeTableOptaPlaner() {
 	}
 
-	public TimeTableOptaPlaner(List<Timeslot> timeslotList, List<Room> roomList, List<LessonOptaPlaner> lessonList, List<Teacher> teacherList) {
+	public TimeTableOptaPlaner(List<Timeslot> timeslotList, List<Room> roomList, List<LessonOptaPlaner> lessonList) {
 		this.timeslotList = timeslotList;
 		this.roomList = roomList;
 		this.lessonList = lessonList;
-		this.teacherList = teacherList;
 	}
 
 	public List<Timeslot> getTimeslotList() {
@@ -68,9 +49,6 @@ public class TimeTableOptaPlaner implements FromOptaplanerToOutput<TimeTable> {
 		return lessonList;
 	}
 
-	public List<Teacher> getTeacherList() {
-		return teacherList;
-	}
 	public HardSoftScore getScore() {
 		return score;
 	}
@@ -79,5 +57,11 @@ public class TimeTableOptaPlaner implements FromOptaplanerToOutput<TimeTable> {
 	public TimeTable toOutput() {
 		TimeTable timetable = new TimeTable(timeslotList, roomList, lessonList);
 		return timetable;
+	}
+
+	public static TimeTableOptaPlaner fromInput(TimeTable timeTable) {
+		TimeTableOptaPlaner timeTableOptaPlaner = new TimeTableOptaPlaner(timeTable.getTimeslotList(),
+				timeTable.getRoomList(), timeTable.getLessonList());
+		return timeTableOptaPlaner;
 	}
 }
