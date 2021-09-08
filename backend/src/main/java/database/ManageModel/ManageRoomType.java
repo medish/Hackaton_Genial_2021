@@ -1,6 +1,6 @@
 package database.ManageModel;
 
-import database.Model.RoomType;
+import server.Model.RoomType;
 import database.persistence.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;

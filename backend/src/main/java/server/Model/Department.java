@@ -1,4 +1,4 @@
-package database.Model;
+package server.Model;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,12 +14,14 @@ public class Department {
     @Column(unique = true, name = "name", nullable = false)
     private String name;
 
-    //@OneToMany(mappedBy = "department", targetEntity = RoomId.class)
     @ElementCollection(targetClass = RoomId.class)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "RoomID", joinColumns = @JoinColumn(name="department"))
     @Column(name = "Room")
     private List<Room> rooms;
+
+    @OneToMany(mappedBy = "department", targetEntity = TimeConstraint.class)
+    private List<TimeConstraint> timeConstraints;
 
     public Department(String id, String name)
     {

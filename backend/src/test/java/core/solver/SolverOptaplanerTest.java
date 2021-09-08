@@ -1,19 +1,3 @@
-/*
- * Copyright 2021 Red Hat, Inc. and/or its affiliates.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package core.solver;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,11 +18,12 @@ import core.dataclasses.Teacher;
 import core.optaplaner.SolverOptaplaner;
 import core.optaplaner.domain.LessonOptaPlaner;
 import core.optaplaner.domain.TimeTableOptaPlaner;
+import core.output.TimeTable;
 import core.output.Timeslot;
 
-public class TimeTableConstaintProviderTest {
+public class SolverOptaplanerTest {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(TimeTableConstaintProviderTest.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SolverOptaplanerTest.class);
 
 	@Test
 	void test() throws IOException {
@@ -46,11 +31,11 @@ public class TimeTableConstaintProviderTest {
 		TimeTableOptaPlaner problem = generateDemoData();
 
 		// Solve the problem
-		TimeTableOptaPlaner solution = SolverOptaplaner.solve(problem);
+		TimeTable solution = new SolverOptaplaner().solve(problem.toOutput());
 
 		// Visualize the solution
-		assertEquals(IOUtils.toString(TimeTableConstaintProviderTest.class.getResourceAsStream("/res.txt"), "UTF-8"),
-				SolverOptaplaner.printTimetable(solution));
+		assertEquals(IOUtils.toString(SolverOptaplanerTest.class.getResourceAsStream("/res.txt"), "UTF-8"),
+				solution.toString());
 	}
 
 	public static TimeTableOptaPlaner generateDemoData() {
@@ -106,7 +91,6 @@ public class TimeTableConstaintProviderTest {
 		lessonList.add(new LessonOptaPlaner(id++, "English", cruz, "10th grade"));
 		lessonList.add(new LessonOptaPlaner(id++, "Spanish", cruz, "10th grade"));
 
-		List<Teacher> teacherList = List.of(curie, cruz, turing, jones, darwin);
-		return new TimeTableOptaPlaner(timeslotList, roomList, lessonList, teacherList);
+		return new TimeTableOptaPlaner(timeslotList, roomList, lessonList);
 	}
 }
