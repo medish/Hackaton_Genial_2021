@@ -44,7 +44,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       slotMinTime: "8:00:00",
       slotMaxTime: "20:00:00",
       firstDay:1,
-      eventClick: function (info) {
+      eventClick: function (info: any) {
         console.log(info);
         console.log(info.event.startStr)
         console.log(info.event.endStr);
@@ -52,7 +52,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
         //info.event.eventColor="#000000";
         //window.location.href = "/login"
       },
-      eventAdd: function( addInfo ){
+      eventAdd: function( addInfo:any){
         alert("jjjrj")
         console.log("jdks")
       }

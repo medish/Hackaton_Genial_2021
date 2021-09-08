@@ -12,12 +12,10 @@ import { AComponent } from './a/a.component';
 import { BComponent } from './b/b.component';
 import { TableauContraintesComponent } from './tableau-contraintes/tableau-contraintes.component';
 import { InputConstraintComponent } from './input-constraint/input-constraint.component';
-import { OutputCalendarService } from './services/output-calendar.service';
 import { HttpClientModule } from '@angular/common/http';
 import {PlanningManuelGeneratorComponent} from "./planning-manuel-generator/planning-manuel-generator.component";
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
 import interactionPlugin from '@fullcalendar/interaction';
-import { PlanningAutoGeneratorComponent } from './planning-auto-generator/planning-auto-generator.component';
 
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
@@ -25,6 +23,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   interactionPlugin
 ]);
 
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -37,14 +36,14 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     BComponent,
     TableauContraintesComponent,
     InputConstraintComponent,
-    PlanningManuelGeneratorComponent,
-    PlanningAutoGeneratorComponent
+    PlanningManuelGeneratorComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FullCalendarModule
+    FullCalendarModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
