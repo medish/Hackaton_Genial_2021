@@ -1,30 +1,46 @@
 {
     "classes": [{
             "id": 17,
-            "name": "Langages à Objets Avancés"
+            "name": "Langages à Objets Avancés",
+            "duration": 120,
+            "size": 100,
+            "courseId": 1
         },
         {
             "id": 18,
-            "name": "Programmation Objets Avancés"
+            "name": "Programmation Objets Avancés",
+            "duration": 120,
+            "size": 70,
+            "courseId": 2
         }
     ],
+    "courseDegrees": [{
+        "courseId": 1,
+        "degreeId": 2
+    },
+    {
+        "courseId": 1,
+        "degreeId": 2
+    }],
     "teachers": [{
             "id": 471,
             "department_id": 2,
             "email": "peter.habermehl@irif.fr",
             "firstName": "Peter",
-            "lastName": "Habermehl",
-            "is_admin": false
+            "lastName": "Habermehl"
         },
         {
             "id": 472,
             "department_id": 2,
             "email": "klimann@irif.fr",
             "firstName": "Ines",
-            "lastName": "Klimann",
-            "is_admin": true
+            "lastName": "Klimann"
         }
     ],
+    "ClassTeachers": [{
+        "userId": 471,
+        "classId": 17
+    }],
     "rooms": [{
             "number": "5A",
             "departmentId": "2",
@@ -33,11 +49,62 @@
         },
         {
             "number": "5B",
-            "departmentId": "2",
+            "departmentId": "1",
             "capacity": "75",
+            "typeId": "1"
+        },
+        {
+            "number": "201",
+            "departmentId": "1",
+            "capacity": "30",
             "typeId": "1"
         }
     ],
+    "degrees": [{
+        "id": 1,
+        "name": "Master GENIAL M1"
+    },
+    {
+        "id": 2,
+        "name": "Master GENIAL M2"
+    },
+    {
+        "id": 3,
+        "name": "Master DATA M1"
+    },
+    {
+        "id": 4,
+        "name": "Master IMPAIR M1",
+        "departmentId": "1"
+    },
+    {
+        "id": 5,
+        "name": "Master IMPAIR M2",
+        "departmentId": "1"
+    },
+    {
+        "id": 6,
+        "name": "Licence 1 Informatique",
+        "departmentId": "1"
+    },
+    {
+        "id": 7,
+        "name": "Licence 2 Informatique",
+        "departmentId": "1"
+    },
+    {
+        "id": 7,
+        "name": "Licence 3 Informatique",
+        "departmentId": "1"
+    }],
+    "departments": [{
+        "id": 1,
+        "name": "Informatique"
+    },
+    {
+        "id": 2,
+        "name": "Biologie"
+    }],
     "a_b": {
         "test": "am"
     },
