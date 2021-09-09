@@ -1,7 +1,9 @@
 package server.models;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -25,12 +27,17 @@ public class Course implements Input {
     private String name;
 
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinTable(name = "course_degree", joinColumns = @JoinColumn(name = "course_id"), inverseJoinColumns = @JoinColumn(name = "degree_id"))
-
-    private List<Degree> degrees = new ArrayList<>();
+    @JoinTable(name = "course_degree",
+            joinColumns = @JoinColumn(name = "course_id",referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "degree_id",referencedColumnName = "id")
+    )
+    private Set<Degree> degrees = new HashSet<>();
 
     @OneToMany(mappedBy = "course", targetEntity = Lesson.class)
     private List<Lesson> lessons;
+
+    @Column(name = "color")
+    private String color;
 
     public int getId() {
         return id;
@@ -48,16 +55,28 @@ public class Course implements Input {
         this.name = name;
     }
 
-    public Course(int id, String name) {
+    public Course(int id, String name, String color)
+    {
         this.id = id;
         this.name = name;
+        this.color = color;
     }
 
-    public List<Degree> getDegrees() {
+    public Set<Degree> getDegrees() {
         return degrees;
     }
 
-    public void setDegrees(List<Degree> degrees) {
+    public void setDegrees(Set<Degree> degrees) {
         this.degrees = degrees;
+    }
+
+    public String getColor()
+    {
+        return this.color;
+    }
+
+    public void setColor(String color)
+    {
+        this.color = color;
     }
 }

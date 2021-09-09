@@ -3,7 +3,9 @@ package server.models;
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "Planning")
@@ -56,6 +58,7 @@ public class Planning {
     {
         return createdAt;
     }
+
 
     public String getName()
     {

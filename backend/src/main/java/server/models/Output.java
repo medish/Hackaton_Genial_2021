@@ -6,15 +6,16 @@ import javax.persistence.*;
 @Table(name = "Output")
 public class Output {
 
-    private int hour_begin ;
-
     @Id
     @Column (name = "lesson_id")
     private String id;
 
     @ManyToOne
-    @JoinColumn(name = "output_day_id", nullable = false)
-    private Day day;
+    @JoinColumns({
+            @JoinColumn(name = "output_day_id", nullable = false, referencedColumnName =  "day_id"),
+            @JoinColumn(name = "output_hour", nullable = false, referencedColumnName =  "hour")
+    })
+    private Date date;
 
     @ManyToOne
     @JoinColumns({
@@ -32,22 +33,16 @@ public class Output {
     @JoinColumn(name = "planning_id", nullable = false)
     private Planning planning;
 
-    public Output(int hour_begin, Day day, Room room, Lesson lesson)
+    public Output(Date date, Room room, Lesson lesson)
     {
-        this.hour_begin = hour_begin;
-        this.day = day;
+        this.date = date;
         this.room = room;
         this.lesson = lesson;
     }
 
-    public int getHourBegin()
+    public Date getDate()
     {
-        return hour_begin;
-    }
-
-    public Day getDay()
-    {
-        return day;
+        return date;
     }
 
     public Room getRoom()
@@ -55,14 +50,9 @@ public class Output {
         return room;
     }
 
-    public void setHourBegin(int hour_begin)
+    public void setDate(Date date)
     {
-        this.hour_begin = hour_begin;
-    }
-
-    public void setDay(Day day)
-    {
-        this.day = day;
+        this.date = date;
     }
 
     public void setRoom(Room room)
@@ -80,19 +70,9 @@ public class Output {
         return lesson;
     }
 
-    public int getHour_begin()
-    {
-        return hour_begin;
-    }
-
     public String getId()
     {
         return id;
-    }
-
-    public void setHour_begin(int hour_begin)
-    {
-        this.hour_begin = hour_begin;
     }
 
     public void setId(String id)

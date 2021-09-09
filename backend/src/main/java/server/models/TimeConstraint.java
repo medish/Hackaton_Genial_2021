@@ -1,11 +1,6 @@
 package server.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 
@@ -20,28 +15,31 @@ public class TimeConstraint implements Input {
     private boolean wants;
 
     @ManyToOne
-    @JoinColumn(name = "time_constraint_day_id", nullable = false)
-    private Day day;
+    @JoinColumns({
+            @JoinColumn(name = "date_day", nullable = false, referencedColumnName =  "day_id"),
+            @JoinColumn(name = "date_hour", nullable = false, referencedColumnName =  "hour")
+    })
+    private Date date;
 
     @ManyToOne
-    @JoinColumn(name = "time_constraint_department", nullable = false)
-    private Department department;
+    @JoinColumns({
+            @JoinColumn(name = "department_id", nullable = false),
+            @JoinColumn(name = "room_id", nullable = false)
+    })
+    private Room room;
 
-    private int hour_begin;
     private int priority;
 
     public TimeConstraint() {
 
     }
 
-    public TimeConstraint(String id, String selector, boolean wants, Day day, int hour_begin, Department department,
-            int priority) {
+    public TimeConstraint(String id, String selector, boolean wants, Day day, int hour_begin, Department department, int priority) {
         this.id = id;
         this.selector = selector;
         this.wants = wants;
-        this.day = day;
-        this.hour_begin = hour_begin;
-        this.department = department;
+        this.date = date;
+        this.room = room;
         this.priority = priority;
     }
 
@@ -69,28 +67,12 @@ public class TimeConstraint implements Input {
         this.wants = wants;
     }
 
-    public Day getDayId() {
-        return day;
+    public Date getDateId() {
+        return date;
     }
 
-    public void setDayId(Day day) {
-        this.day = day;
-    }
-
-    public int getHour_begin() {
-        return hour_begin;
-    }
-
-    public void setHour_begin(int hour_begin) {
-        this.hour_begin = hour_begin;
-    }
-
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
+    public void setDateId(Date date) {
+        this.date = date;
     }
 
     public int getPriority() {
@@ -100,4 +82,21 @@ public class TimeConstraint implements Input {
     public void setPriority(int priority) {
         this.priority = priority;
     }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
 }

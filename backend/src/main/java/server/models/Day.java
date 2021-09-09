@@ -19,12 +19,6 @@ public class Day implements Input {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "day", targetEntity = Output.class)
-    private List<Output> outputs;
-
-    @OneToMany(mappedBy = "day", targetEntity = TimeConstraint.class)
-    private List<TimeConstraint> timeConstraints;
-
     public Day(String id, String name) {
         this.id = id;
         this.name = name;
