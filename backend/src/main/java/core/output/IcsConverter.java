@@ -37,12 +37,11 @@ public class IcsConverter {
         VEvent event = new VEvent();
 
         // set up the start and end datetime of event
-        Timeslot ts = lesson.getTimeslot();
         LocalDateTime firstDayOfweek = LocalDateTime.now().with(DayOfWeek.MONDAY);
-        LocalDateTime startDateTime = firstDayOfweek.with(TemporalAdjusters.nextOrSame(ts.getDayOfWeek()))
-                .with(ts.getStartTime());
-        LocalDateTime endDateTime = firstDayOfweek.now().with(TemporalAdjusters.nextOrSame(ts.getDayOfWeek()))
-                .with(ts.getEndTime());
+        LocalDateTime startDateTime = firstDayOfweek.with(TemporalAdjusters.nextOrSame(lesson.getDayOfWeek()))
+                .with(lesson.getStartTime());
+        LocalDateTime endDateTime = LocalDateTime.now().with(TemporalAdjusters.nextOrSame(lesson.getDayOfWeek()))
+                .with(lesson.getEndTime());
         // System.out.println(startDateTime);
         // System.out.println(endDateTime);
         event.setDateStart(Date.from(startDateTime.atZone(ZoneId.systemDefault()).toInstant()));

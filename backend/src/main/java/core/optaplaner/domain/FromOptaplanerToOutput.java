@@ -4,5 +4,5 @@ import core.output.Output;
 
 public interface FromOptaplanerToOutput<T extends Output> {
 
-	T toOutput();
+    T toOutput();
 }
