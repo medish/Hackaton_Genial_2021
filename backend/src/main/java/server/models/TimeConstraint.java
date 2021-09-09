@@ -1,6 +1,14 @@
 package server.models;
 
-import javax.persistence.*;
+import java.time.DayOfWeek;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 
@@ -15,17 +23,13 @@ public class TimeConstraint implements Input {
     private boolean wants;
 
     @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "date_day", nullable = false, referencedColumnName =  "day_id"),
-            @JoinColumn(name = "date_hour", nullable = false, referencedColumnName =  "hour")
-    })
+    @JoinColumns({ @JoinColumn(name = "date_day", nullable = false, referencedColumnName = "day"),
+            @JoinColumn(name = "date_hour", nullable = false, referencedColumnName = "hour") })
     private Date date;
 
     @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "department_id", nullable = false),
-            @JoinColumn(name = "room_id", nullable = false)
-    })
+    @JoinColumns({ @JoinColumn(name = "department_id", nullable = false),
+            @JoinColumn(name = "room_id", nullable = false) })
     private Room room;
 
     private int priority;
@@ -34,7 +38,8 @@ public class TimeConstraint implements Input {
 
     }
 
-    public TimeConstraint(String id, String selector, boolean wants, Day day, int hour_begin, Department department, int priority) {
+    public TimeConstraint(String id, String selector, boolean wants, DayOfWeek day, int hour_begin,
+            Department department, int priority) {
         this.id = id;
         this.selector = selector;
         this.wants = wants;

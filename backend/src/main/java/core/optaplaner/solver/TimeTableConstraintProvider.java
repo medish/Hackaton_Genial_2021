@@ -42,7 +42,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
     public Constraint teacherConflict(ConstraintFactory constraintFactory) {
         // A teacher can teach at most one lesson at the same time.
         return constraintFactory
-                .fromUniquePair(LessonOptaPlaner.class, Joiners.equal(LessonOptaPlaner::getTeacher),
+                .fromUniquePair(LessonOptaPlaner.class, Joiners.equal(lesson -> lesson.getTeacher().getName()),
                         Joiners.filtering((lesson1, lesson2) -> lesson1.isCollide(lesson2)))
                 .penalize("Teacher conflict", HardSoftScore.ONE_HARD);
     }
@@ -50,9 +50,8 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
     public Constraint teacherTimeEfficiency(ConstraintFactory constraintFactory) {
         // A teacher prefers to teach sequential lessons and dislikes gaps between
         // lessons.
-        return constraintFactory.from(LessonOptaPlaner.class)
-                .join(LessonOptaPlaner.class, Joiners.equal(LessonOptaPlaner::getTeacher),
-                        Joiners.equal((lesson) -> lesson.getTimeslot().getDayOfWeek()))
+        return constraintFactory.from(LessonOptaPlaner.class).join(LessonOptaPlaner.class,
+                Joiners.equal(LessonOptaPlaner::getTeacher), Joiners.equal(LessonOptaPlaner::getDay))
                 .filter((lesson1, lesson2) -> {
                     Duration between = Duration.between(lesson1.getEndTime(), lesson2.getEndTime());
                     return !between.isNegative() && between.compareTo(Duration.ofMinutes(30)) <= 0;
@@ -69,7 +68,8 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
     public Constraint studentGroupConflict(ConstraintFactory constraintFactory) {
         // A student can attend at most one lesson at the same time.
         return constraintFactory
-                .fromUniquePair(LessonOptaPlaner.class, Joiners.equal(LessonOptaPlaner::getStudentGroup),
+                .fromUniquePair(LessonOptaPlaner.class,
+                        Joiners.equal(lesson -> lesson.getSubject().getDegrees().iterator().next().getName()),
                         Joiners.filtering((lesson1, lesson2) -> lesson1.isCollide(lesson2)))
                 .penalize("Student group conflict", HardSoftScore.ONE_HARD);
     }
@@ -78,9 +78,8 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
         // A teacher prefer to teach French just after Chemistry
         return constraintFactory.from(LessonOptaPlaner.class).filter(lesson -> lesson.getSubject().equals("Chemistry"))
                 .join(LessonOptaPlaner.class).filter((lesson, lesson2) -> lesson2.getSubject().equals("French"))
-                .filter((lesson1, lesson2) -> lesson1.getTimeslot().getStartTime()
-                        .isAfter(lesson2.getTimeslot().getStartTime())
-                        || lesson1.getTimeslot().getDayOfWeek().compareTo(lesson2.getTimeslot().getDayOfWeek()) >= 0)
+                .filter((lesson1, lesson2) -> lesson1.getDate().getHour().isAfter(lesson2.getDate().getHour())
+                        || lesson1.getDate().getDay().compareTo(lesson2.getDate().getDay()) >= 0)
                 .penalize("Teacher can't teach lesson 1 before lesson 2", HardSoftScore.ONE_SOFT);
     }
 
@@ -106,11 +105,9 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
         return constraintFactory.from(LessonOptaPlaner.class)
                 .filter(lessonOptaPlaner -> lessonOptaPlaner.getSubject().equals("Math")).join(LessonOptaPlaner.class)
                 .filter((lessonOptaPlaner, lessonOptaPlaner2) -> lessonOptaPlaner2.getSubject().equals("French"))
-                .filter((lessonOptaPlaner,
-                        lessonOptaPlaner2) -> lessonOptaPlaner.getTimeslot().getStartTime()
-                                .isAfter(lessonOptaPlaner2.getTimeslot().getStartTime())
-                                || lessonOptaPlaner.getTimeslot().getDayOfWeek()
-                                        .compareTo(lessonOptaPlaner2.getTimeslot().getDayOfWeek()) >= 0)
+                .filter((lessonOptaPlaner, lessonOptaPlaner2) -> lessonOptaPlaner.getDate().getHour()
+                        .isAfter(lessonOptaPlaner2.getDate().getHour())
+                        || lessonOptaPlaner.getDate().getDay().compareTo(lessonOptaPlaner2.getDate().getDay()) >= 0)
                 .penalize("Lesson Math must be before french", HardSoftScore.ONE_SOFT);
     }
 }

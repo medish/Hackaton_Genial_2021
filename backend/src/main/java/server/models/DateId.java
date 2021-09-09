@@ -1,37 +1,48 @@
 package server.models;
 
-import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Time;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+
+import core.output.Output;
 
 @Embeddable
-public class DateId implements Serializable {
+public class DateId implements Serializable, Output, Input {
 
-    @OneToOne
-    @JoinColumn(name = "day_id", nullable = false)
-    private Day day;
+    private static final long serialVersionUID = 1L;
+
+    @Column(name = "day", nullable = false)
+    private DayOfWeek day;
 
     @Column(name = "hour", nullable = false)
-    private Time hour;
+    private LocalTime hour;
 
-    public DateId(Time hour, Day day) {
+    public DateId(DayOfWeek day, LocalTime hour) {
         this.hour = hour;
         this.day = day;
     }
 
-    public Time getHour() {
+    public LocalTime getHour() {
         return hour;
     }
 
-    public void setHour(Time hour) {
+    public void setHour(LocalTime hour) {
         this.hour = hour;
     }
 
-    public Day getDay() {
+    public DayOfWeek getDay() {
         return day;
     }
 
-    public void setDay(Day day) {
+    public void setDay(DayOfWeek day) {
         this.day = day;
+    }
+
+    @Override
+    public String toString() {
+        return day + " " + hour;
     }
 }

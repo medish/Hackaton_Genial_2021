@@ -10,7 +10,7 @@ import biweekly.Biweekly;
 import biweekly.ICalendar;
 import biweekly.component.VEvent;
 import biweekly.property.Summary;
-import core.optaplaner.domain.LessonOptaPlaner;
+import server.models.Output;
 
 public class IcsConverter {
 
@@ -19,11 +19,11 @@ public class IcsConverter {
         System.out.println("=====converting");
         // System.out.println(output.getLessonList().size());
         // System.out.println(output.getRoomList().size());
-        // System.out.println(output.getTimeslotList().size());
+        // System.out.println(output.getDateList().size());
 
         ICalendar ical = new ICalendar();
 
-        for (LessonOptaPlaner lesson : output.getLessonList()) {
+        for (Output lesson : output.getLessonList()) {
             VEvent event = createEvent(lesson);
             ical.addEvent(event);
         }
@@ -33,14 +33,14 @@ public class IcsConverter {
 
     }
 
-    public static VEvent createEvent(LessonOptaPlaner lesson) {
+    public static VEvent createEvent(Output lesson) {
         VEvent event = new VEvent();
 
         // set up the start and end datetime of event
         LocalDateTime firstDayOfweek = LocalDateTime.now().with(DayOfWeek.MONDAY);
-        LocalDateTime startDateTime = firstDayOfweek.with(TemporalAdjusters.nextOrSame(lesson.getDayOfWeek()))
+        LocalDateTime startDateTime = firstDayOfweek.with(TemporalAdjusters.nextOrSame(lesson.getDay()))
                 .with(lesson.getStartTime());
-        LocalDateTime endDateTime = LocalDateTime.now().with(TemporalAdjusters.nextOrSame(lesson.getDayOfWeek()))
+        LocalDateTime endDateTime = LocalDateTime.now().with(TemporalAdjusters.nextOrSame(lesson.getDay()))
                 .with(lesson.getEndTime());
         // System.out.println(startDateTime);
         // System.out.println(endDateTime);
@@ -51,13 +51,13 @@ public class IcsConverter {
         // System.out.println("Room: " + location);
         event.setLocation(location);
 
-        String studentgroup = lesson.getStudentGroup();
+        String studentgroup = lesson.getDegrees().iterator().next().getName();
         // System.out.println(studentgroup);
         event.setDescription(studentgroup);
 
-        String teacher = lesson.getTeacher().getName();
+        String teacher = lesson.getProfessors().iterator().next().getName();
         // System.out.println(teacher);
-        String subject = lesson.getSubject() + " | " + teacher;
+        String subject = lesson.getCourse() + " | " + teacher;
         Summary summary = event.setSummary(subject);
 
         // System.out.println(subject);

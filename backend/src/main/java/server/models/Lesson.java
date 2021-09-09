@@ -1,7 +1,6 @@
 package server.models;
 
-import java.sql.Time;
-import java.util.Date;
+import java.time.Duration;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -22,7 +21,7 @@ public class Lesson implements Input {
     @Column(name = "lesson_id")
     private String id;
 
-    private Time duration;
+    private Duration duration;
     private int group_size;
 
     @ManyToOne
@@ -37,7 +36,7 @@ public class Lesson implements Input {
     @JoinTable(name = "lesson_professor", joinColumns = @JoinColumn(name = "lesson_id"), inverseJoinColumns = @JoinColumn(name = "professor_id"))
     private Set<Professor> professors;
 
-    public Lesson(String id, Time duration, int group_size, Course course, RoomType room_type,
+    public Lesson(String id, Duration duration, int group_size, Course course, RoomType room_type,
             Set<Professor> professors) {
         this.id = id;
         this.duration = duration;
@@ -55,7 +54,7 @@ public class Lesson implements Input {
         return id;
     }
 
-    public Date getDuration() {
+    public Duration getDuration() {
         return duration;
     }
 
@@ -83,7 +82,7 @@ public class Lesson implements Input {
         this.id = id;
     }
 
-    public void setDuration(Time duration) {
+    public void setDuration(Duration duration) {
         this.duration = duration;
     }
 
@@ -102,4 +101,13 @@ public class Lesson implements Input {
     public void setProfessors(Set<Professor> professors) {
         this.professors = professors;
     }
+
+    public Set<Degree> getDegrees() {
+        return course.getDegrees();
+    }
+
+    public void setDegrees(Set<Degree> degrees) {
+        course.setDegrees(degrees);
+    }
+
 }

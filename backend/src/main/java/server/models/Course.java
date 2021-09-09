@@ -1,6 +1,6 @@
 package server.models;
 
-import java.util.ArrayList;
+import java.awt.Color;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,17 +27,21 @@ public class Course implements Input {
     private String name;
 
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinTable(name = "course_degree",
-            joinColumns = @JoinColumn(name = "course_id",referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "degree_id",referencedColumnName = "id")
-    )
+    @JoinTable(name = "course_degree", joinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "degree_id", referencedColumnName = "id"))
     private Set<Degree> degrees = new HashSet<>();
 
     @OneToMany(mappedBy = "course", targetEntity = Lesson.class)
     private List<Lesson> lessons;
 
     @Column(name = "color")
-    private String color;
+    private Color color;
+
+    public Course(int id, String name, Set<Degree> degrees, Color color) {
+        this.id = id;
+        this.name = name;
+        this.degrees = degrees;
+        this.color = color;
+    }
 
     public int getId() {
         return id;
@@ -55,13 +59,6 @@ public class Course implements Input {
         this.name = name;
     }
 
-    public Course(int id, String name, String color)
-    {
-        this.id = id;
-        this.name = name;
-        this.color = color;
-    }
-
     public Set<Degree> getDegrees() {
         return degrees;
     }
@@ -70,13 +67,11 @@ public class Course implements Input {
         this.degrees = degrees;
     }
 
-    public String getColor()
-    {
+    public Color getColor() {
         return this.color;
     }
 
-    public void setColor(String color)
-    {
+    public void setColor(Color color) {
         this.color = color;
     }
 }

@@ -1,11 +1,13 @@
 package server.models;
 
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.util.List;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.List;
 
 @Entity
 @Table(name = "Date")
@@ -30,5 +32,26 @@ public class Date {
 
     public void setDateId(DateId dateId) {
         this.dateId = dateId;
+    }
+
+    public LocalTime getHour() {
+        return dateId.getHour();
+    }
+
+    public void setHour(LocalTime hour) {
+        dateId.setHour(hour);
+    }
+
+    public DayOfWeek getDay() {
+        return dateId.getDay();
+    }
+
+    public void setDay(DayOfWeek day) {
+        dateId.setDay(day);
+    }
+
+    @Override
+    public String toString() {
+        return dateId.toString();
     }
 }
