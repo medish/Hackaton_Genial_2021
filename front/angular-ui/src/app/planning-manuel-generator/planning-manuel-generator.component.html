@@ -18,9 +18,11 @@
   </div>
 </div>
   </div>
+
   <div class="col-9">
-    <full-calendar [options]="options"></full-calendar>
+    <full-calendar  #calendar [options]="options" id="calendar"></full-calendar>
   </div>
+
   <div class="modal fade" id="modalManuel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -86,8 +88,9 @@
             <input type="color" class="form-control mt-3 mb-3" id="color-session">
         </div>
         <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="deleteEvent(id_event_clicked)">Supprimer cet evenement</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-          <button type="submit" class="btn btn-primary">Enregistrer</button>
+          <button type="submit"  class="btn btn-primary">Enregistrer</button>
         </div>
         </form>
       </div>
