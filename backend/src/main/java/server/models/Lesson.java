@@ -1,5 +1,7 @@
 package server.models;
 
+import core.output.Timeslot;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -107,5 +109,11 @@ public class Lesson implements Input {
 
     public void setProfessors(List<Professor> professors) {
         this.professors = professors;
+    }
+
+    public void setRoom(Room room) {
+    }
+
+    public void setTimeslot(Timeslot timeslot1) {
     }
 }

@@ -41,6 +41,10 @@ public class Professor implements Serializable {
         this.lessons = lessons;
     }
 
+    public Professor() {
+
+    }
+
     public List<Lesson> getLessons() {
         return lessons;
     }
