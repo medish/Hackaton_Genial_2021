@@ -16,19 +16,19 @@
         <property name="show_sql">true</property> <!-- Show SQL in console -->
         <property name="format_sql">true</property> <!-- Show SQL formatted -->
 
-        <mapping class="server.Model.Customer"/>
-        <mapping class="server.Model.Lesson"/>
-        <mapping class="server.Model.Professor"/>
-        <mapping class="server.Model.RoomType"/>
-        <mapping class="server.Model.Department"/>
-        <mapping class="server.Model.Room"/>
-        <mapping class="server.Model.Day"/>
-        <mapping class="server.Model.Degree"/>
-        <mapping class="server.Model.Course"/>
-        <mapping class="server.Model.Output"/>
-        <mapping class="server.Model.TimeConstraint"/>
-        <mapping class="server.Model.PrecedenceConstraint"/>
-        <mapping class="server.Model.Planning"/>
+        <mapping class="server.models.Customer"/>
+        <mapping class="server.models.Lesson"/>
+        <mapping class="server.models.Professor"/>
+        <mapping class="server.models.RoomType"/>
+        <mapping class="server.models.Department"/>
+        <mapping class="server.models.Room"/>
+        <mapping class="server.models.Day"/>
+        <mapping class="server.models.Degree"/>
+        <mapping class="server.models.Course"/>
+        <mapping class="server.models.Output"/>
+        <mapping class="server.models.TimeConstraint"/>
+        <mapping class="server.models.PrecedenceConstraint"/>
+        <mapping class="server.models.Planning"/>
 
     </session-factory>
 </hibernate-configuration>
