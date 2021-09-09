@@ -31,10 +31,10 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
         return constraintFactory
                 // Select each pair of 2 different lessons ...
                 .fromUniquePair(LessonOptaPlaner.class,
-                        // ... in the same timeslot ...
-                        Joiners.equal(LessonOptaPlaner::getTimeslot),
                         // ... in the same room ...
-                        Joiners.equal(LessonOptaPlaner::getRoom))
+                        Joiners.equal(LessonOptaPlaner::getRoom),
+                        // ... in the same timeslot ...
+                        Joiners.filtering((lesson1, lesson2) -> lesson1.isCollide(lesson2)))
                 // ... and penalize each pair with a hard weight.
                 .penalize("Room conflict", HardSoftScore.ONE_HARD);
     }
@@ -42,8 +42,8 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
     Constraint teacherConflict(ConstraintFactory constraintFactory) {
         // A teacher can teach at most one lesson at the same time.
         return constraintFactory
-                .fromUniquePair(LessonOptaPlaner.class, Joiners.equal(LessonOptaPlaner::getTimeslot),
-                        Joiners.equal(LessonOptaPlaner::getTeacher))
+                .fromUniquePair(LessonOptaPlaner.class, Joiners.equal(LessonOptaPlaner::getTeacher),
+                        Joiners.filtering((lesson1, lesson2) -> lesson1.isCollide(lesson2)))
                 .penalize("Teacher conflict", HardSoftScore.ONE_HARD);
     }
 
@@ -54,8 +54,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                 .join(LessonOptaPlaner.class, Joiners.equal(LessonOptaPlaner::getTeacher),
                         Joiners.equal((lesson) -> lesson.getTimeslot().getDayOfWeek()))
                 .filter((lesson1, lesson2) -> {
-                    Duration between = Duration.between(lesson1.getTimeslot().getEndTime(),
-                            lesson2.getTimeslot().getStartTime());
+                    Duration between = Duration.between(lesson1.getEndTime(), lesson2.getEndTime());
                     return !between.isNegative() && between.compareTo(Duration.ofMinutes(30)) <= 0;
                 }).reward("Teacher time efficiency", HardSoftScore.ONE_SOFT);
     }
@@ -70,8 +69,8 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
     Constraint studentGroupConflict(ConstraintFactory constraintFactory) {
         // A student can attend at most one lesson at the same time.
         return constraintFactory
-                .fromUniquePair(LessonOptaPlaner.class, Joiners.equal(LessonOptaPlaner::getTimeslot),
-                        Joiners.equal(LessonOptaPlaner::getStudentGroup))
+                .fromUniquePair(LessonOptaPlaner.class, Joiners.equal(LessonOptaPlaner::getStudentGroup),
+                        Joiners.filtering((lesson1, lesson2) -> lesson1.isCollide(lesson2)))
                 .penalize("Student group conflict", HardSoftScore.ONE_HARD);
     }
 
@@ -81,8 +80,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                 .join(LessonOptaPlaner.class)
                 // Date Fin de lesson 1 = Date Debon de lesson 2
                 .filter((lesson, lesson2) -> lesson2.getSubject().equals("French"))
-                .filter((lesson1,
-                        lesson2) -> lesson1.getTimeslot().getEndTime() == lesson2.getTimeslot().getStartTime())
+                .filter((lesson1, lesson2) -> lesson1.getEndTime() == lesson2.getStartTime())
                 .penalize("Teacher can't teach lesson 1 before lesson 2", HardSoftScore.ONE_SOFT);
     }
 
@@ -90,7 +88,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
         // Teacher Turing does not want to teach Math in room C at 8H30
         return constraintFactory.from(LessonOptaPlaner.class).filter(lesson -> lesson.getSubject().equals("Math"))
                 .filter((lesson) -> lesson.getTeacher().getName().equals("Turing"))
-                .filter((lesson) -> lesson.getTimeslot().getStartTime().equals(LocalTime.of(8, 30)))
+                .filter((lesson) -> lesson.getStartTime().equals(LocalTime.of(8, 30)))
                 .filter((lesson) -> lesson.getRoom().getNumber().equals("Room C"))
                 .penalize("Teacher Turing does not want to teach Math in room C at 8H30", HardSoftScore.ONE_SOFT);
     }

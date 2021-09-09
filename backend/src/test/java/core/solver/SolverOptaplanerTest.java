@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.time.DayOfWeek;
+import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,17 +39,17 @@ public class SolverOptaplanerTest {
 
     public void generateDemoData() {
         List<Timeslot> timeslotList = new ArrayList<>(10);
-        timeslotList.add(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(8, 30), LocalTime.of(9, 30)));
-        timeslotList.add(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(9, 30), LocalTime.of(10, 30)));
-        timeslotList.add(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(10, 30), LocalTime.of(11, 30)));
-        timeslotList.add(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(13, 30), LocalTime.of(14, 30)));
-        timeslotList.add(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(14, 30), LocalTime.of(15, 30)));
+        timeslotList.add(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(8, 30)));
+        timeslotList.add(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(9, 30)));
+        timeslotList.add(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(10, 30)));
+        timeslotList.add(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(13, 30)));
+        timeslotList.add(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(14, 30)));
 
-        timeslotList.add(new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(8, 30), LocalTime.of(9, 30)));
-        timeslotList.add(new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(9, 30), LocalTime.of(10, 30)));
-        timeslotList.add(new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(10, 30), LocalTime.of(11, 30)));
-        timeslotList.add(new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(13, 30), LocalTime.of(14, 30)));
-        timeslotList.add(new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(14, 30), LocalTime.of(15, 30)));
+        timeslotList.add(new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(8, 30)));
+        timeslotList.add(new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(9, 30)));
+        timeslotList.add(new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(10, 30)));
+        timeslotList.add(new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(13, 30)));
+        timeslotList.add(new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(14, 30)));
 
         Department ufrInfo = new Department("info", "UFR d'informatique");
         RoomType td = new RoomType("TD");
@@ -67,26 +68,26 @@ public class SolverOptaplanerTest {
         Professor jones = new Professor("I. Jones", "Jones", "Jeanne", "jeanne@u-paris.fr", false);
         Professor cruz = new Professor("P. Cruz", "Cruz", "Jeanne", "jeanne@u-paris.fr", false);
 
-        lessonList.add(new LessonOptaPlaner(id++, "Math", turing, "9th grade"));
-        lessonList.add(new LessonOptaPlaner(id++, "Math", turing, "9th grade"));
-        lessonList.add(new LessonOptaPlaner(id++, "Physics", curie, "9th grade"));
-        lessonList.add(new LessonOptaPlaner(id++, "Chemistry", curie, "9th grade"));
-        lessonList.add(new LessonOptaPlaner(id++, "Biology", darwin, "9th grade"));
-        lessonList.add(new LessonOptaPlaner(id++, "History", jones, "9th grade"));
-        lessonList.add(new LessonOptaPlaner(id++, "English", jones, "9th grade"));
-        lessonList.add(new LessonOptaPlaner(id++, "English", jones, "9th grade"));
-        lessonList.add(new LessonOptaPlaner(id++, "Spanish", cruz, "9th grade"));
-        lessonList.add(new LessonOptaPlaner(id++, "Spanish", cruz, "9th grade"));
-        lessonList.add(new LessonOptaPlaner(id++, "Math", turing, "10th grade"));
-        lessonList.add(new LessonOptaPlaner(id++, "Math", turing, "10th grade"));
-        lessonList.add(new LessonOptaPlaner(id++, "Math", turing, "10th grade"));
-        lessonList.add(new LessonOptaPlaner(id++, "Physics", curie, "10th grade"));
-        lessonList.add(new LessonOptaPlaner(id++, "Chemistry", curie, "10th grade"));
-        lessonList.add(new LessonOptaPlaner(id++, "French", curie, "10th grade"));
-        lessonList.add(new LessonOptaPlaner(id++, "Geography", darwin, "10th grade"));
-        lessonList.add(new LessonOptaPlaner(id++, "History", jones, "10th grade"));
-        lessonList.add(new LessonOptaPlaner(id++, "English", cruz, "10th grade"));
-        lessonList.add(new LessonOptaPlaner(id++, "Spanish", cruz, "10th grade"));
+        lessonList.add(new LessonOptaPlaner(id++, "Math", turing, "9th grade", Duration.ofMinutes(60)));
+        lessonList.add(new LessonOptaPlaner(id++, "Math", turing, "9th grade", Duration.ofMinutes(60)));
+        lessonList.add(new LessonOptaPlaner(id++, "Physics", curie, "9th grade", Duration.ofMinutes(60)));
+        lessonList.add(new LessonOptaPlaner(id++, "Chemistry", curie, "9th grade", Duration.ofMinutes(60)));
+        lessonList.add(new LessonOptaPlaner(id++, "Biology", darwin, "9th grade", Duration.ofMinutes(60)));
+        lessonList.add(new LessonOptaPlaner(id++, "History", jones, "9th grade", Duration.ofMinutes(60)));
+        lessonList.add(new LessonOptaPlaner(id++, "English", jones, "9th grade", Duration.ofMinutes(60)));
+        lessonList.add(new LessonOptaPlaner(id++, "English", jones, "9th grade", Duration.ofMinutes(120)));
+        lessonList.add(new LessonOptaPlaner(id++, "Spanish", cruz, "9th grade", Duration.ofMinutes(120)));
+        lessonList.add(new LessonOptaPlaner(id++, "Spanish", cruz, "9th grade", Duration.ofMinutes(120)));
+        lessonList.add(new LessonOptaPlaner(id++, "Math", turing, "10th grade", Duration.ofMinutes(120)));
+        lessonList.add(new LessonOptaPlaner(id++, "Math", turing, "10th grade", Duration.ofMinutes(60)));
+        lessonList.add(new LessonOptaPlaner(id++, "Math", turing, "10th grade", Duration.ofMinutes(60)));
+        lessonList.add(new LessonOptaPlaner(id++, "Physics", curie, "10th grade", Duration.ofMinutes(60)));
+        lessonList.add(new LessonOptaPlaner(id++, "Chemistry", curie, "10th grade", Duration.ofMinutes(60)));
+        lessonList.add(new LessonOptaPlaner(id++, "French", curie, "10th grade", Duration.ofMinutes(60)));
+        lessonList.add(new LessonOptaPlaner(id++, "Geography", darwin, "10th grade", Duration.ofMinutes(60)));
+        lessonList.add(new LessonOptaPlaner(id++, "History", jones, "10th grade", Duration.ofMinutes(60)));
+        lessonList.add(new LessonOptaPlaner(id++, "English", cruz, "10th grade", Duration.ofMinutes(60)));
+        lessonList.add(new LessonOptaPlaner(id++, "Spanish", cruz, "10th grade", Duration.ofMinutes(60)));
 
         problem = new TimeTableOptaPlaner(timeslotList, roomList, lessonList);
     }
