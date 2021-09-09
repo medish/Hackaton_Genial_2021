@@ -102,7 +102,6 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   onClassesReceived(classes : [Class], context : this) {
     for(let classItem of classes) {
       context.classes.push(classItem);
-      console.log("class name: " + classItem.name);
     }
   }
 
