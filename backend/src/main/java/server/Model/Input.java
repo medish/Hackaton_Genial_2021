@@ -1,4 +1,4 @@
-package core.dataclasses;
+package server.Model;
 
 public interface Input {
 

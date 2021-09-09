@@ -1,6 +1,6 @@
 package core.optaplaner.domain;
 
-import core.dataclasses.Input;
+import server.Model.Input;
 
 public interface FromInputToOptaPlaner<T extends Input> {
 

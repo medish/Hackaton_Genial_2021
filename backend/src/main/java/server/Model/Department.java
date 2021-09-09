@@ -1,12 +1,22 @@
 package server.Model;
 
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
 
 @Table(name = "department")
-public class Department {
+public class Department implements Input {
 
     @Id
     private String id;
@@ -16,46 +26,39 @@ public class Department {
 
     @ElementCollection(targetClass = RoomId.class)
     @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "RoomID", joinColumns = @JoinColumn(name="department"))
+    @CollectionTable(name = "RoomID", joinColumns = @JoinColumn(name = "department"))
     @Column(name = "Room")
     private List<Room> rooms;
 
     @OneToMany(mappedBy = "department", targetEntity = TimeConstraint.class)
     private List<TimeConstraint> timeConstraints;
 
-    public Department(String id, String name)
-    {
+    public Department(String id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
 
-    public void setId(String id)
-    {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public List<Room> getRooms()
-    {
+    public List<Room> getRooms() {
         return rooms;
     }
 
-    public void setRooms(List<Room> rooms)
-    {
+    public void setRooms(List<Room> rooms) {
         this.rooms = rooms;
     }
 }

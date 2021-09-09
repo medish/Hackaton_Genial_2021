@@ -1,17 +1,27 @@
 package server.Model;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Entity
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 
+@Entity
 @Table(name = "Lesson")
-public class Lesson {
+public class Lesson implements Input {
 
     @Id
-    @Column (name="lesson_id")
+    @Column(name = "lesson_id")
     private String id;
 
     private Date duration;
@@ -25,22 +35,16 @@ public class Lesson {
     @JoinColumn(name = "room_type_id", nullable = false)
     private RoomType room_type;
 
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
-    @JoinTable(name = "lesson_professor",
-            joinColumns = @JoinColumn(name = "lesson_id"),
-            inverseJoinColumns = @JoinColumn(name = "professor_id")
-    )
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(name = "lesson_professor", joinColumns = @JoinColumn(name = "lesson_id"), inverseJoinColumns = @JoinColumn(name = "professor_id"))
     private List<Professor> professors = new ArrayList<>();
 
     @OneToOne(mappedBy = "lesson", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Output output;
 
-    public Lesson(String id, Date duration, int group_size, Course course, RoomType room_type, List<Professor> professors)
-    {
+    public Lesson(String id, Date duration, int group_size, Course course, RoomType room_type,
+            List<Professor> professors) {
         this.id = id;
         this.duration = duration;
         this.group_size = group_size;
@@ -53,33 +57,27 @@ public class Lesson {
     /*-------------------------Getter-------------------------------*/
     /*---------------------------------------------------------------*/
 
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
 
-    public Date getDuration()
-    {
+    public Date getDuration() {
         return duration;
     }
 
-    public int getGroupSize()
-    {
+    public int getGroupSize() {
         return group_size;
     }
 
-    public Course getCourse()
-    {
+    public Course getCourse() {
         return course;
     }
 
-    public RoomType getRoomType()
-    {
+    public RoomType getRoomType() {
         return room_type;
     }
 
-    public List<Professor> getProfessors()
-    {
+    public List<Professor> getProfessors() {
         return professors;
     }
 
@@ -87,33 +85,27 @@ public class Lesson {
     /*-------------------------Setter-------------------------------*/
     /*---------------------------------------------------------------*/
 
-    public void setId(String id)
-    {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public void setDuration(Date duration)
-    {
+    public void setDuration(Date duration) {
         this.duration = duration;
     }
 
-    public void setGroup_size(int group_size)
-    {
+    public void setGroup_size(int group_size) {
         this.group_size = group_size;
     }
 
-    public void setCourse_id(Course course)
-    {
+    public void setCourse_id(Course course) {
         this.course = course;
     }
 
-    public void setRoom_type_id(RoomType room_type)
-    {
+    public void setRoom_type_id(RoomType room_type) {
         this.room_type = room_type;
     }
 
-    public void setProfessors(List<Professor> professors)
-    {
+    public void setProfessors(List<Professor> professors) {
         this.professors = professors;
     }
 }
