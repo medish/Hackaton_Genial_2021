@@ -125,7 +125,10 @@ public class LessonOptaPlaner extends AbstractPersistable implements FromInputTo
     }
 
     public static LessonOptaPlaner fromInput(Lesson lesson) {
-        // TODO Auto-generated method stub
-        return null;
+    	LessonOptaPlaner lessonOptaPlaner = new LessonOptaPlaner();
+    	lessonOptaPlaner.subject = lesson.getCourse().getName();
+    	lessonOptaPlaner.teacher = lesson.getProfessors().iterator().next();
+    	lessonOptaPlaner.studentGroup = lesson.getCourse().getDegrees().iterator().next().toString();
+        return lessonOptaPlaner;
     }
 }
