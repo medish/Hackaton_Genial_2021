@@ -1,4 +1,4 @@
-package server.Model;
+package server.models;
 
 public interface Input {
 

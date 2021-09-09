@@ -1,12 +1,16 @@
 package server.controllers;
 
-import Services.ProfessorService;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import server.services.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import server.Model.Professor;
+import server.models.Professor;
 
 import java.util.List;
 
+@RestController
+@RequestMapping("professors")
 public class ProfessorController {
     private final ProfessorService professorService;
 
@@ -15,9 +19,11 @@ public class ProfessorController {
         this.professorService = professorService;
     }
 
-    @GetMapping("/professors")
-    public List<Professor> getProfessors()
-    {
-        return professorService.getProfessors();
+    @GetMapping()
+    public List<Professor> getAll() {
+        return professorService.getAll();
+
     }
+
+
 }

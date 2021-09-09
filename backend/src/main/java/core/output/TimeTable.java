@@ -8,9 +8,9 @@ import java.util.stream.Collectors;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 
 import core.optaplaner.domain.LessonOptaPlaner;
-import server.Model.Input;
-import server.Model.Professor;
-import server.Model.Room;
+import server.models.Input;
+import server.models.Professor;
+import server.models.Room;
 
 public class TimeTable implements Output, Input {
 

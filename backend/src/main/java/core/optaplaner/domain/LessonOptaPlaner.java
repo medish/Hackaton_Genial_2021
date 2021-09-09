@@ -4,9 +4,9 @@ import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
 
 import core.output.Timeslot;
-import server.Model.Lesson;
-import server.Model.Professor;
-import server.Model.Room;
+import server.models.Lesson;
+import server.models.Professor;
+import server.models.Room;
 
 @PlanningEntity
 public class LessonOptaPlaner extends AbstractPersistable implements FromInputToOptaPlaner<Lesson> {

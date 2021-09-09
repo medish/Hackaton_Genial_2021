@@ -11,7 +11,7 @@ import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 
 import core.output.TimeTable;
 import core.output.Timeslot;
-import server.Model.Room;
+import server.models.Room;
 
 @PlanningSolution
 public class TimeTableOptaPlaner implements FromOptaplanerToOutput<TimeTable>, FromInputToOptaPlaner<TimeTable> {

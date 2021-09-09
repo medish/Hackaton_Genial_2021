@@ -20,10 +20,10 @@ import core.optaplaner.domain.LessonOptaPlaner;
 import core.optaplaner.domain.TimeTableOptaPlaner;
 import core.output.TimeTable;
 import core.output.Timeslot;
-import server.Model.Department;
-import server.Model.Professor;
-import server.Model.Room;
-import server.Model.RoomType;
+import server.models.Department;
+import server.models.Professor;
+import server.models.Room;
+import server.models.RoomType;
 
 public class SolverOptaplanerTest {
 
