@@ -1,11 +1,14 @@
 package server.Model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 
 @Table(name = "PrecedenceConstraint")
-public class PrecedenceConstraint {
+public class PrecedenceConstraint implements Input {
 
     @Id
     @GeneratedValue
@@ -18,85 +21,68 @@ public class PrecedenceConstraint {
     private String target;
     private int priority;
 
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
 
-    public void setId(String id)
-    {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getSelector()
-    {
+    public String getSelector() {
         return selector;
     }
 
-    public void setSelector(String selector)
-    {
+    public void setSelector(String selector) {
         this.selector = selector;
     }
 
-    public boolean isWants()
-    {
+    public boolean isWants() {
         return wants;
     }
 
-    public void setWants(boolean wants)
-    {
+    public void setWants(boolean wants) {
         this.wants = wants;
     }
 
-    public String getWhen()
-    {
+    public String getWhen() {
         return whenConstraint;
     }
 
-    public void setWhen(String when)
-    {
+    public void setWhen(String when) {
         this.whenConstraint = when;
     }
 
-    public boolean isStrict()
-    {
+    public boolean isStrict() {
         return strict;
     }
 
-    public void setStrict(boolean strict)
-    {
+    public void setStrict(boolean strict) {
         this.strict = strict;
     }
 
-    public String getTarget()
-    {
+    public String getTarget() {
         return target;
     }
 
-    public void setTarget(String target)
-    {
+    public void setTarget(String target) {
         this.target = target;
     }
 
-    public int getPriority()
-    {
+    public int getPriority() {
         return priority;
     }
 
-    public void setPriority(int priority)
-    {
+    public void setPriority(int priority) {
         this.priority = priority;
     }
 
-    public PrecedenceConstraint()
-    {
+    public PrecedenceConstraint() {
 
     }
 
-    public PrecedenceConstraint(
-            String id, String selector, boolean wants,
-            String whenConstraint, boolean strict, String target, int priority
-    ) {
+    public PrecedenceConstraint(String id, String selector, boolean wants, String whenConstraint, boolean strict,
+            String target, int priority) {
         this.id = id;
         this.selector = selector;
         this.wants = wants;

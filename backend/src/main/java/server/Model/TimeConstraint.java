@@ -1,11 +1,16 @@
 package server.Model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 
 @Table(name = "TimeConstraint")
-public class TimeConstraint {
+public class TimeConstraint implements Input {
 
     @Id
     @GeneratedValue
@@ -25,14 +30,12 @@ public class TimeConstraint {
     private int hour_begin;
     private int priority;
 
-    public TimeConstraint()
-    {
+    public TimeConstraint() {
 
     }
 
-    public TimeConstraint(String id, String selector, boolean wants,
-                          Day day, int hour_begin, Department department, int priority
-    ) {
+    public TimeConstraint(String id, String selector, boolean wants, Day day, int hour_begin, Department department,
+            int priority) {
         this.id = id;
         this.selector = selector;
         this.wants = wants;
