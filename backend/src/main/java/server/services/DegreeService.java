@@ -10,13 +10,8 @@ import java.util.Optional;
 
 @Service
 public class DegreeService{
-    private final DegreeRepository repository;
-
     @Autowired
-    public DegreeService(DegreeRepository repository) {
-        this.repository = repository;
-    }
-
+    private DegreeRepository repository;
 
     /**
      * Gets all degrees.

@@ -23,10 +23,11 @@ public class Planning {
     )
     private List<Output> outputs = new ArrayList<>();
 
-    public Planning(String id, Output output, Date createdAt)
+    public Planning(String id, List<Output> outputs, Date createdAt)
     {
         this.id = id;
         this.createdAt = createdAt;
+        this.outputs = outputs;
     }
 
     public Planning(String id)
@@ -34,9 +35,10 @@ public class Planning {
         this.id = id;
     }
 
-    public Planning(String id, Output output)
+    public Planning(String id, List<Output> outputs)
     {
         this.id = id;
+        this.outputs = outputs;
     }
 
     public String getId()

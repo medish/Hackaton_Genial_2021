@@ -10,19 +10,15 @@ import java.util.Optional;
 
 @Service
 public class PrecedenceConstraintService {
-    private final PrecedenceConstraintRepository constraintRepository;
-
     @Autowired
-    public PrecedenceConstraintService(PrecedenceConstraintRepository constraintRepository){
-        this.constraintRepository = constraintRepository;
-    }
-
+    private PrecedenceConstraintRepository repository;
+    
     /**
      * Get all precedence constraints
      * @return List of precedence constraints {@link PrecedenceConstraint}
      */
     public List<PrecedenceConstraint> getAll(){
-        return constraintRepository.findAll();
+        return repository.findAll();
     }
 
     /**
@@ -31,7 +27,7 @@ public class PrecedenceConstraintService {
      * @return {@link PrecedenceConstraint}
      */
     public Optional<PrecedenceConstraint> getById(String id){
-        return constraintRepository.findById(id);
+        return repository.findById(id);
     }
 
     /**
@@ -39,7 +35,7 @@ public class PrecedenceConstraintService {
      * @param constraint {@link PrecedenceConstraint}
      */
     public void insert(PrecedenceConstraint constraint){
-        constraintRepository.saveAndFlush(constraint);
+        repository.saveAndFlush(constraint);
     }
 
     /**
@@ -47,7 +43,7 @@ public class PrecedenceConstraintService {
      * @param constraints {@link PrecedenceConstraint}
      */
     public void insert(List<PrecedenceConstraint> constraints){
-        constraintRepository.saveAllAndFlush(constraints);
+        repository.saveAllAndFlush(constraints);
     }
 
     /**
@@ -55,7 +51,7 @@ public class PrecedenceConstraintService {
      * @param id Precedence constraint ID
      */
     public void delete(String id){
-        constraintRepository.deleteById(id);
+        repository.deleteById(id);
     }
 
     /**
@@ -63,7 +59,7 @@ public class PrecedenceConstraintService {
      * @param ids List of ids.
      */
     public void delete(List<String> ids){
-        constraintRepository.deleteAllById(ids);
+        repository.deleteAllById(ids);
     }
 
     /**
@@ -72,7 +68,7 @@ public class PrecedenceConstraintService {
      * @return The new record of {@link PrecedenceConstraint}
      */
     public PrecedenceConstraint update(PrecedenceConstraint constraint){
-        return constraintRepository.saveAndFlush(constraint);
+        return repository.saveAndFlush(constraint);
     }
 
 
