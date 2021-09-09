@@ -26,6 +26,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   teachers: Teacher[] = [];
   degrees: Degree[] = [];
   courseDegrees: CourseDegree[] = [];
+  selectedDegree: number;
   that = this;
   id_event_clicked: string="";
   calendarApi :any;
@@ -136,7 +137,6 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   classChangeHandler(classId : number) {
     const selectedClass = this.classes.find(elem => elem.id = classId);
     const teachersForClass = selectedClass!!.teachers
-    this.selectedClassTeachers = teachersForClass;
     const teachersId = teachersForClass.map(teacher => teacher.id);
     for(let teacher of this.teachers) {
       if(!(teachersId.includes(teacher.id))) {
