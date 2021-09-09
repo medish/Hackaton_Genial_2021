@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import {identity, Observable, throwError } from 'rxjs';
 import { ConstraintPrecedence } from '../model/constraint/constraint-precedence';
 import { ConstraintTimeRoom } from '../model/constraint/constraint-time-room';
-import { Room, Class, RoomType, Teacher, Department, Degree, Identity, Output } from '../model/datastore/datamodel'
+import { Room, Class, RoomType, Teacher, Department, Degree, Identity, Output, CourseDegree } from '../model/datastore/datamodel'
 import { catchError, retry } from 'rxjs/operators';
 
 @Injectable({
@@ -51,6 +51,11 @@ export class DataInterfaceService {
     return this.http.post(this.url + "/constraints/delete-precedence", constraintId).pipe(
       catchError(this.handleError)
     ).subscribe()
+  }
+
+  fetchCourseDegrees(callback: (courseDegrees: [CourseDegree], context: any) => any, context: any) {
+    return this.http.get<[CourseDegree]>(this.url + "/coursedegrees")
+    .subscribe(data => callback(data, context)); 
   }
 
   fetchAllRooms(callback: (rooms: [Room], context: any) => any, context : any) {

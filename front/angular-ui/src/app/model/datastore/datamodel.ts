@@ -15,8 +15,9 @@ export interface Class {
 };
 
 export interface CourseDegree {
-    
-}
+    course_id: number,
+    degree_id: number
+};
 
 export interface Course {
     id: number,
