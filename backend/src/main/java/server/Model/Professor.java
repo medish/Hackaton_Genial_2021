@@ -10,10 +10,12 @@ import java.util.List;
 public class Professor implements Serializable {
 
     @Id
+    @Column(name = "customer_id")
     private String id;
 
     @OneToOne
-    @JoinColumn(name = "customer_id", referencedColumnName =  "id")
+    @MapsId
+    @JoinColumn(name = "customer_id")
     private Customer customer_id;
 
     @ManyToMany(mappedBy = "professors")

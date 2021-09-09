@@ -1,6 +1,7 @@
 package server.Model;
 
 import javax.persistence.*;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,7 +15,7 @@ public class Lesson {
     @Column (name="lesson_id")
     private String id;
 
-    private Date duration;
+    private Time duration;
     private int group_size;
 
     @ManyToOne
@@ -35,11 +36,8 @@ public class Lesson {
     )
     private List<Professor> professors = new ArrayList<>();
 
-    @OneToOne(mappedBy = "lesson", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private Output output;
 
-    public Lesson(String id, Date duration, int group_size, Course course, RoomType room_type, List<Professor> professors)
+    public Lesson(String id, Time duration, int group_size, Course course, RoomType room_type, List<Professor> professors)
     {
         this.id = id;
         this.duration = duration;
@@ -92,7 +90,7 @@ public class Lesson {
         this.id = id;
     }
 
-    public void setDuration(Date duration)
+    public void setDuration(Time duration)
     {
         this.duration = duration;
     }

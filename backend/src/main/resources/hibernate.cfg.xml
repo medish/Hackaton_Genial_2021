@@ -28,6 +28,7 @@
         <mapping class="server.Model.Output"/>
         <mapping class="server.Model.TimeConstraint"/>
         <mapping class="server.Model.PrecedenceConstraint"/>
+        <mapping class="server.Model.Planning"/>
 
     </session-factory>
 </hibernate-configuration>

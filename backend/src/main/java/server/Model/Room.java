@@ -19,6 +19,12 @@ public class Room {
     @OneToMany(mappedBy = "room", targetEntity = Output.class)
     private List<Output> outputs;
 
+    public Room(RoomId roomId, Integer capacity, RoomType roomType) {
+        this.roomId = roomId;
+        this.capacity = capacity;
+        this.roomType = roomType;
+    }
+
     public Room(Integer capacity, RoomType type)
     {
         this.capacity = capacity;
