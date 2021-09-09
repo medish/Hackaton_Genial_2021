@@ -1,5 +1,5 @@
 export class SelectorUnit{
-    enseignant:string='';
-    enseignement:string='';
-    cursus:string='';
+    table:string='';
+    attribute:string='';
+    value:string='';
 }
