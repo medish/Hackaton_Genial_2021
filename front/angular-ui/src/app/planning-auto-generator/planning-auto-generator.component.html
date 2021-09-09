@@ -22,7 +22,8 @@
 
     </div>
     <div class="float-end">
-        <button type="button" class="btn-lg btn-primary me-5" id="PDFexport">PDF</button>
+      <app-pdf-export></app-pdf-export>
+    </div>
         <!--
         <form action="" method="post" name="exportform">
             <button type="submit" class="btn btn-lg btn-primary me-5" id="export">Exporter</button>
@@ -38,10 +39,9 @@
                 <input class="form-check-input" type="radio" name="inlineRadioOptions" id="jpeg" value="option3">
                 <label class="form-check-label" for="jpeg">JPEG</label>
             </div>
-            
+
         </form>
     -->
-    </div>
 </div>
 <br>
 
@@ -70,7 +70,7 @@
         font-weight: bold;
         font-size: 90%;
     }
-    
+
     .my-legend .legend-scale ul {
         margin: 0;
         margin-bottom: 5px;
@@ -78,7 +78,7 @@
         float: left;
         list-style: none;
     }
-    
+
     .my-legend .legend-scale ul li {
         font-size: 80%;
         list-style: none;
@@ -86,7 +86,7 @@
         line-height: 18px;
         margin-bottom: 2px;
     }
-    
+
     .my-legend ul.legend-labels li span {
         display: block;
         float: left;
@@ -96,13 +96,13 @@
         margin-left: 0;
         border: 1px solid #999;
     }
-    
+
     .my-legend .legend-source {
         font-size: 70%;
         color: #999;
         clear: both;
     }
-    
+
     .my-legend a {
         color: #777;
     }
