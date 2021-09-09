@@ -19,9 +19,4 @@ public class RoomController {
     public List<Room> getRooms(){
         return roomService.getAll();
     }
-
-    @GetMapping("/rooms{id}")
-    public  Optional getRoomsById(Long id){
-        return roomService.getRoomsById(id);
-    }
 }
