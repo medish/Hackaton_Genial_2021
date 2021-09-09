@@ -41,6 +41,19 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     event.remove()
   }
 
+  getAllEvents(){
+    return this.calendarComponent.getApi().getEvents();
+  }
+  prepareVerification(){
+    let arrayEvents= this.getAllEvents();
+    console.warn(arrayEvents)
+    for(let i =0;i<arrayEvents.length;i++){
+      console.warn(arrayEvents[i]["id"])
+      alert(arrayEvents[i]["id"])
+    }
+  }
+
+
   ngOnInit() {
     let draggableEl = document.getElementById('external-events');
     this.roomsForm = this.fb.group({
@@ -67,9 +80,13 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       itemSelector: '.fc-event',
       eventData: function (eventEl: any) {
         console.warn("From draggable Manuel")
+        let eventInitialColors={td:"#0d6efd",cours:"#dc3545",tp:"#ffc107"}
+        let target_color= eventEl.innerText.toLowerCase()
+
         return {
           title: eventEl.innerText,
-          id:Math.random()
+          id:Math.random(),
+          color:eventInitialColors[target_color]
         };
       }
     });
@@ -114,7 +131,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   }
 
   degreeChangeHandler() {
-    
+
   }
 
   onClassesReceived(classes : [Class], context : this) {
