@@ -1,12 +1,17 @@
 package server.models;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "Professor")
@@ -23,9 +28,8 @@ public class Professor implements Serializable {
     @JoinColumn(name = "customer_id")
     private Customer customer_id;
 
-
     @ManyToMany(mappedBy = "professors")
-    private Set<Lesson> lessons ;
+    private Set<Lesson> lessons;
 
     /*---------------------------------------------------------------*/
     /*-------------------------Getter-------------------------------*/
@@ -41,12 +45,8 @@ public class Professor implements Serializable {
         this.lessons = lessons;
     }
 
-    protected Professor() {
-
-    }
-
     public Set<Lesson> getLessons() {
-       return lessons;
+        return lessons;
     }
 
     /*---------------------------------------------------------------*/

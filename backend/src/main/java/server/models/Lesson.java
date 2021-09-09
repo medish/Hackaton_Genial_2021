@@ -1,10 +1,7 @@
 package server.models;
 
-import core.output.Timeslot;
 import java.sql.Time;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -40,9 +37,8 @@ public class Lesson implements Input {
     @JoinTable(name = "lesson_professor", joinColumns = @JoinColumn(name = "lesson_id"), inverseJoinColumns = @JoinColumn(name = "professor_id"))
     private Set<Professor> professors;
 
-
-    public Lesson(String id, Time duration, int group_size, Course course, RoomType room_type, Set<Professor> professors)
-    {
+    public Lesson(String id, Time duration, int group_size, Course course, RoomType room_type,
+            Set<Professor> professors) {
         this.id = id;
         this.duration = duration;
         this.group_size = group_size;
@@ -87,8 +83,7 @@ public class Lesson implements Input {
         this.id = id;
     }
 
-    public void setDuration(Time duration)
-    {
+    public void setDuration(Time duration) {
         this.duration = duration;
     }
 
@@ -106,8 +101,5 @@ public class Lesson implements Input {
 
     public void setProfessors(Set<Professor> professors) {
         this.professors = professors;
-    }
-
-    public void setTimeslot(Timeslot timeslot1) {
     }
 }

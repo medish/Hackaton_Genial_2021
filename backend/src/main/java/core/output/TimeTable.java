@@ -5,11 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.optaplanner.core.api.domain.solution.PlanningEntityCollectionProperty;
-import org.optaplanner.core.api.domain.solution.PlanningScore;
-import org.optaplanner.core.api.domain.solution.PlanningSolution;
-import org.optaplanner.core.api.domain.solution.ProblemFactCollectionProperty;
-import org.optaplanner.core.api.domain.valuerange.ValueRangeProvider;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 
 import core.optaplaner.domain.LessonOptaPlaner;
@@ -17,21 +12,12 @@ import server.models.Input;
 import server.models.Professor;
 import server.models.Room;
 
-@PlanningSolution
 public class TimeTable implements Output, Input {
 
-    @ProblemFactCollectionProperty
-    @ValueRangeProvider(id = "timeslotRange")
     private List<Timeslot> timeslotList;
-
-    @ProblemFactCollectionProperty
-    @ValueRangeProvider(id = "roomRange")
     private List<Room> roomList;
-
-    @PlanningEntityCollectionProperty
     private List<LessonOptaPlaner> lessonList;
 
-    @PlanningScore
     private HardSoftScore score;
 
     public TimeTable() {

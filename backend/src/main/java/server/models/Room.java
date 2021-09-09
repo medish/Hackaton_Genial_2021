@@ -16,7 +16,6 @@ public class Room implements Input {
     @EmbeddedId
     private RoomId roomId;
     private Integer capacity;
-    private String name;
 
     @ManyToOne
     @JoinColumn(name = "room_type_id", nullable = false)
@@ -31,13 +30,6 @@ public class Room implements Input {
         this.roomType = type;
     }
 
-    public Room() {
-
-    }
-
-    public  Room(String name) {
-        this.name = name;
-    }
     public Room(RoomId roomId, Integer capacity, RoomType roomType) {
         this.roomId = roomId;
         this.capacity = capacity;
@@ -66,9 +58,5 @@ public class Room implements Input {
 
     public void setDepartment(Department department) {
         roomId.setDepartment(department);
-    }
-
-    public Object getName() {
-        return  this.name;
     }
 }
