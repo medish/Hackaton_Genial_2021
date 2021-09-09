@@ -14,23 +14,33 @@
             "courseId": 2
         }
     ],
+    "courseDegrees": [{
+        "courseId": 1,
+        "degreeId": 2
+    },
+    {
+        "courseId": 1,
+        "degreeId": 2
+    }],
     "teachers": [{
             "id": 471,
             "department_id": 2,
             "email": "peter.habermehl@irif.fr",
             "firstName": "Peter",
-            "lastName": "Habermehl",
-            "is_admin": false
+            "lastName": "Habermehl"
         },
         {
             "id": 472,
             "department_id": 2,
             "email": "klimann@irif.fr",
             "firstName": "Ines",
-            "lastName": "Klimann",
-            "is_admin": true
+            "lastName": "Klimann"
         }
     ],
+    "ClassTeachers": [{
+        "userId": 471,
+        "classId": 17
+    }],
     "rooms": [{
             "number": "5A",
             "departmentId": "2",
@@ -52,18 +62,15 @@
     ],
     "degrees": [{
         "id": 1,
-        "name": "Master GENIAL M1",
-        "departmentId": "1"
+        "name": "Master GENIAL M1"
     },
     {
         "id": 2,
-        "name": "Master GENIAL M2",
-        "departmentId": "1"
+        "name": "Master GENIAL M2"
     },
     {
         "id": 3,
-        "name": "Master DATA M1",
-        "departmentId": "1"
+        "name": "Master DATA M1"
     },
     {
         "id": 4,

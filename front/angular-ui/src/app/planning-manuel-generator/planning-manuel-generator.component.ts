@@ -3,7 +3,9 @@ import {Modal} from 'bootstrap';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin, {Draggable} from '@fullcalendar/interaction';
-
+import { DataInterfaceService } from '../services/data-interface.service';
+import { Class, Room, Degree, Teacher} from '../model/datastore/datamodel';
+import { FormBuilder, FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-planning-manuel-generator',
   templateUrl: './planning-manuel-generator.component.html',
@@ -11,15 +13,40 @@ import interactionPlugin, {Draggable} from '@fullcalendar/interaction';
 })
 export class PlanningManuelGeneratorComponent implements OnInit {
   options: any;
+  roomsForm: FormGroup;
+  classForm: FormGroup;
+  teacherForm: FormGroup;
+  degreeForm: FormGroup;
+  roomsList: Room[] = [];
+  classes: Class[] = [];
+  teachers: Teacher[] = [];
+  degrees: Degree[] = [];
+  that = this;
 
-  constructor() {
+  constructor(private dataService : DataInterfaceService, private fb : FormBuilder) {
   }
 
   modelData:{title:string} = {title:''};
 
   ngOnInit() {
     let draggableEl = document.getElementById('external-events');
-    var self = this;
+    this.roomsForm = this.fb.group({
+      roomControl: ['Choisir la salle ou l\'amphi']
+    })
+    this.classForm = this.fb.group({
+      classControl: ['Choisir la classe concernée']
+    })
+    this.teacherForm = this.fb.group({
+      teacherControl: ['Choisir le professeur']
+    })
+    this.degreeForm = this.fb.group({
+      degreeControl: ['Choose a degree']
+    });
+    let that = this;
+    this.dataService.fetchAllRooms(this.onRoomsReceived, that);
+    this.dataService.fetchAllClasses(this.onClassesReceived, that);
+    this.dataService.fetchAllTeachers(this.onTeachersReceived, that);
+    this.dataService.fetchAllDegrees(this.onDegreesReceived, that);
 
     // @ts-ignore
     new Draggable(draggableEl, {
@@ -66,5 +93,35 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       }
 
     };
+  }
+
+  degreeChangeHandler() {
+    
+  }
+
+  onClassesReceived(classes : [Class], context : this) {
+    for(let classItem of classes) {
+      context.classes.push(classItem);
+      console.log("class name: " + classItem.name);
+    }
+  }
+
+  onRoomsReceived(roomsReceived : [Room], context : this) {
+    for(let room of roomsReceived) {
+      context.roomsList.push(room);
+    }
+
+  }
+
+  onTeachersReceived(teachers: [Teacher], context: this) {
+    for(let teacher of teachers) {
+      context.teachers.push(teacher);
+    }
+  }
+
+  onDegreesReceived(degrees : [Degree], context: this) {
+    for(let degree of degrees) {
+      context.degrees.push(degree);
+    }
   }
 }
