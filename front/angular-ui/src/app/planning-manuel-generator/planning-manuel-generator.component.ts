@@ -8,7 +8,6 @@ import { Class, Room, Degree, Teacher, CourseDegree} from '../model/datastore/da
 import { FormBuilder, FormGroup } from '@angular/forms';
 import {FullCalendarComponent} from "@fullcalendar/angular";
 
-
 @Component({
   selector: 'app-planning-manuel-generator',
   templateUrl: './planning-manuel-generator.component.html',
@@ -78,7 +77,6 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     this.dataService.fetchAllDegrees(this.onDegreesReceived, that);
 
     var self = this;
-
     // @ts-ignore
     new Draggable(draggableEl, {
       itemSelector: '.fc-event',

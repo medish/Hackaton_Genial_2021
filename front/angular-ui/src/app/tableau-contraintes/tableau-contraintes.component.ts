@@ -49,11 +49,11 @@ const CONSTRAINTS_PRECEDENCE:ConstraintPrecedence[]=[
 export class TableauContraintesComponent implements OnInit {
   
   @Input("constraintsTimeRoom") constraintsTimeRoom = CONSTRAINTS_TIME_AND_ROOM;
-  @Input("constraintPrecedence") constraintPrecedence = CONSTRAINTS_PRECEDENCE
+  @Input("constraintPrecedence") constraintPrecedence = CONSTRAINTS_PRECEDENCE;
   constructor(private serv:DataInterfaceService) { }
   ngOnInit(): void {
+    console.log(CONSTRAINTS_PRECEDENCE);
     
   }
-  
 
 }
