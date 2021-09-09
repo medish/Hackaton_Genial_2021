@@ -1,6 +1,5 @@
 import { splitAtColon } from '@angular/compiler/src/util';
 import { Injectable } from '@angular/core';
-import { TurnedIn } from '@material-ui/icons';
 import { ConstraintPrecedence } from 'src/app/model/constraint/constraint-precedence';
 import { ConstraintTimeRoom } from 'src/app/model/constraint/constraint-time-room';
 import { Selector } from 'src/app/model/selector/selector';
@@ -39,6 +38,7 @@ export class ConstraintService {
         priority:parseInt(lineSplitted[6])
       })
     }
+    console.log(result);
     return result;
   }
   
@@ -75,6 +75,7 @@ export class ConstraintService {
         selectorTarget:this.parseSelector(lineSplitted[4])
       })
     }
+    console.log(result);
     return result;
   }
   
