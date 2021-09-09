@@ -41,7 +41,7 @@ public class Professor implements Serializable {
         this.lessons = lessons;
     }
 
-    public Professor() {
+    protected Professor() {
 
     }
 

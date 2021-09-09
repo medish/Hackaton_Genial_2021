@@ -108,9 +108,6 @@ public class Lesson implements Input {
         this.professors = professors;
     }
 
-    public void setRoom(Room room) {
-    }
-
     public void setTimeslot(Timeslot timeslot1) {
     }
 }
