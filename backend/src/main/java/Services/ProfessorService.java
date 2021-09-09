@@ -15,8 +15,6 @@ public class ProfessorService{
         this.professorRepository = professorRepository;
     }
 
-/**Returns all Professors in a List format **/
-
     public List<Professor> getProfessors(){
         return professorRepository.findAll();
     }
