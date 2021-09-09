@@ -21,6 +21,7 @@ import biweekly.property.Summary;
 import biweekly.util.Duration;
 import biweekly.util.Frequency;
 import biweekly.util.Recurrence;
+import org.apache.tomcat.jni.Local;
 
 public class icsConverter {
 
@@ -48,8 +49,9 @@ public class icsConverter {
 
         // set up the start and end datetime of event
         Timeslot ts = lesson.getTimeslot();
-        LocalDateTime startDateTime = LocalDateTime.now().with(TemporalAdjusters.previousOrSame(ts.getDayOfWeek())).with(ts.getStartTime());
-        LocalDateTime endDateTime = LocalDateTime.now().with(TemporalAdjusters.previousOrSame(ts.getDayOfWeek())).with(ts.getEndTime());
+        LocalDateTime firstDayOfweek = LocalDateTime.now().with(DayOfWeek.MONDAY);
+        LocalDateTime startDateTime = firstDayOfweek.with(TemporalAdjusters.nextOrSame(ts.getDayOfWeek())).with(ts.getStartTime());
+        LocalDateTime endDateTime = firstDayOfweek.now().with(TemporalAdjusters.nextOrSame(ts.getDayOfWeek())).with(ts.getEndTime());
         //System.out.println(startDateTime);
         //System.out.println(endDateTime);
         event.setDateStart(Date.from(startDateTime.atZone(ZoneId.systemDefault()).toInstant()));
@@ -61,7 +63,7 @@ public class icsConverter {
 
 
         String studentgroup = lesson.getStudentGroup();
-        System.out.println(studentgroup);
+        //System.out.println(studentgroup);
         event.setDescription(studentgroup);
 
 
