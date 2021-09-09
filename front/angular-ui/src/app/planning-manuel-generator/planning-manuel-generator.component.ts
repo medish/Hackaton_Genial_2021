@@ -6,7 +6,9 @@ import interactionPlugin, {Draggable} from '@fullcalendar/interaction';
 import { DataInterfaceService } from '../services/data-interface.service';
 import { Class, Room, Degree, Teacher, CourseDegree} from '../model/datastore/datamodel';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { FullCalendarComponent } from '@fullcalendar/angular';
+import {FullCalendarComponent} from "@fullcalendar/angular";
+
+
 @Component({
   selector: 'app-planning-manuel-generator',
   templateUrl: './planning-manuel-generator.component.html',
@@ -25,9 +27,8 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   degrees: Degree[] = [];
   courseDegrees: CourseDegree[] = [];
   that = this;
-  id_event_clicked: any;
-  selectedDegree = -1;
-  selectedClassTeachers: Teacher[] = [];
+  id_event_clicked: string="";
+  calendarApi :any;
 
   constructor(private dataService : DataInterfaceService, private fb : FormBuilder) {
   }
@@ -41,6 +42,19 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     let event = calendarApi.getEventById(id_event_clicked);
     event.remove()
   }
+
+  getAllEvents(){
+    return this.calendarComponent.getApi().getEvents();
+  }
+  prepareVerification(){
+    let arrayEvents= this.getAllEvents();
+    console.warn(arrayEvents)
+    for(let i =0;i<arrayEvents.length;i++){
+      console.warn(arrayEvents[i]["id"])
+      alert(arrayEvents[i]["id"])
+    }
+  }
+
 
   ngOnInit() {
     let draggableEl = document.getElementById('external-events');
@@ -62,14 +76,20 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     this.dataService.fetchAllTeachers(this.onTeachersReceived, that);
     this.dataService.fetchAllDegrees(this.onDegreesReceived, that);
 
+    var self = this;
+
     // @ts-ignore
     new Draggable(draggableEl, {
       itemSelector: '.fc-event',
       eventData: function (eventEl: any) {
         console.warn("From draggable Manuel")
+        let eventInitialColors={td:"#0d6efd",cours:"#dc3545",tp:"#ffc107"}
+        let target_color= eventEl.innerText.toLowerCase()
+
         return {
           title: eventEl.innerText,
-          id:Math.random()
+          id:Math.random(),
+          color:eventInitialColors[target_color]
         };
       }
     });
