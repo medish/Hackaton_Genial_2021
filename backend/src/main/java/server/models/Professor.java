@@ -2,7 +2,9 @@ package server.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -23,23 +25,23 @@ public class Professor implements Serializable {
 
 
     @ManyToMany(mappedBy = "professors")
-    private List<Lesson> lessons = new ArrayList<>();
+    private Set<Lesson> lessons ;
 
     /*---------------------------------------------------------------*/
     /*-------------------------Getter-------------------------------*/
     /*---------------------------------------------------------------*/
 
     public Professor(String id, String name, String firstName, String email, boolean is_admin) {
-        this(id, name, firstName, email, is_admin, new ArrayList<>());
+        this(id, name, firstName, email, is_admin, new HashSet<>());
     }
 
-    public Professor(String id, String name, String firstName, String email, boolean is_admin, List<Lesson> lessons) {
+    public Professor(String id, String name, String firstName, String email, boolean is_admin, Set<Lesson> lessons) {
         this.customer_id = new Customer(id, name, firstName, email, is_admin);
         this.id = id;
         this.lessons = lessons;
     }
 
-    public List<Lesson> getLessons() {
+    public Set<Lesson> getLessons() {
         return lessons;
     }
 
@@ -47,7 +49,7 @@ public class Professor implements Serializable {
     /*-------------------------Setter--------------------------------*/
     /*---------------------------------------------------------------*/
 
-    public void setLessons(List<Lesson> lessons) {
+    public void setLessons(Set<Lesson> lessons) {
         this.lessons = lessons;
     }
 

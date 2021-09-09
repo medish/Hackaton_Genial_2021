@@ -30,8 +30,6 @@ public class Department implements Input {
     @Column(name = "Room")
     private List<Room> rooms;
 
-    @OneToMany(mappedBy = "department", targetEntity = TimeConstraint.class)
-    private List<TimeConstraint> timeConstraints;
 
     public Department(String id, String name) {
         this.id = id;

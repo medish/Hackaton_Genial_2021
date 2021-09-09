@@ -1,7 +1,9 @@
 package server.models;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,7 +23,7 @@ public class Degree implements Input {
     private String name;
 
     @ManyToMany(mappedBy = "degrees")
-    private List<Course> degrees = new ArrayList<>();
+    private Set<Course> courses = new HashSet<>();
 
     public String getId() {
         return id;
@@ -44,11 +46,13 @@ public class Degree implements Input {
         this.name = name;
     }
 
-    public void setPosts(List<Course> posts) {
-        this.degrees = posts;
+    public void setCourses(Set<Course> courses)
+    {
+        this.courses = courses;
     }
 
-    public List<Course> getPosts() {
-        return degrees;
+    public Set<Course> getCourses()
+    {
+        return courses;
     }
 }

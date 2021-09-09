@@ -4,6 +4,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -36,10 +37,10 @@ public class Lesson implements Input {
 
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "lesson_professor", joinColumns = @JoinColumn(name = "lesson_id"), inverseJoinColumns = @JoinColumn(name = "professor_id"))
-    private List<Professor> professors = new ArrayList<>();
+    private Set<Professor> professors;
 
 
-    public Lesson(String id, Time duration, int group_size, Course course, RoomType room_type, List<Professor> professors)
+    public Lesson(String id, Time duration, int group_size, Course course, RoomType room_type, Set<Professor> professors)
     {
         this.id = id;
         this.duration = duration;
@@ -73,7 +74,7 @@ public class Lesson implements Input {
         return room_type;
     }
 
-    public List<Professor> getProfessors() {
+    public Set<Professor> getProfessors() {
         return professors;
     }
 
@@ -102,7 +103,7 @@ public class Lesson implements Input {
         this.room_type = room_type;
     }
 
-    public void setProfessors(List<Professor> professors) {
+    public void setProfessors(Set<Professor> professors) {
         this.professors = professors;
     }
 }
