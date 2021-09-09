@@ -14,9 +14,6 @@ public class Day {
     @Column(unique = true, nullable = false)
     private String name;
 
-    /*@OneToMany(mappedBy = "day", targetEntity = Date.class)
-    private List<Date> dates;*/
-
     public Day(String id, String name)
     {
         this.id = id;

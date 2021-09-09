@@ -2,7 +2,9 @@ package server.Model;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 
@@ -22,12 +24,12 @@ public class Course {
             CascadeType.PERSIST,
             CascadeType.MERGE
     })
-    @JoinTable(name = "course_degree",
-            joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "degree_id")
-    )
 
-    private List<Degree> degrees = new ArrayList<>();
+    @JoinTable(name = "course_degree",
+            joinColumns = @JoinColumn(name = "course_id",referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "degree_id",referencedColumnName = "id")
+    )
+    private Set<Degree> degrees = new HashSet<>();
 
     public int getId()
     {
@@ -66,12 +68,12 @@ public class Course {
         this.color = color;
     }
 
-    public List<Degree> getDegrees()
+    public Set<Degree> getDegrees()
     {
         return degrees;
     }
 
-    public void setDegrees(List<Degree> degrees)
+    public void setDegrees(Set<Degree> degrees)
     {
         this.degrees = degrees;
     }

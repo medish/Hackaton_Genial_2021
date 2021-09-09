@@ -5,6 +5,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 
@@ -28,13 +29,13 @@ public class Lesson {
             joinColumns = @JoinColumn(name = "lesson_id"),
             inverseJoinColumns = @JoinColumn(name = "professor_id")
     )
-    private List<Professor> professors;
+    private Set<Professor> professors;
 
     @OneToOne(mappedBy = "lesson", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Output output;
 
-    public Lesson(String id, Time duration, int group_size, int course_id, int room_type_id, List<Professor> professors)
+    public Lesson(String id, Time duration, int group_size, int course_id, int room_type_id, Set<Professor> professors)
     {
         this.id = id;
         this.duration = duration;
@@ -73,7 +74,7 @@ public class Lesson {
         return room_type_id;
     }
 
-    public List<Professor> getProfessors()
+    public Set<Professor> getProfessors()
     {
         return professors;
     }
@@ -107,7 +108,7 @@ public class Lesson {
         this.room_type_id = room_type_id;
     }
 
-    public void setProfessors(List<Professor> professors)
+    public void setProfessors(Set<Professor> professors)
     {
         this.professors = professors;
     }

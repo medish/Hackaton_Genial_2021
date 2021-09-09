@@ -2,7 +2,9 @@ package server.Model;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 
@@ -16,7 +18,7 @@ public class Degree {
     private String name;
 
     @ManyToMany(mappedBy = "degrees")
-    private List<Course> degrees = new ArrayList<>();
+    private Set<Course> courses = new HashSet<>();
 
     public String getId()
     {
@@ -44,13 +46,13 @@ public class Degree {
         this.name = name;
     }
 
-    public void setPosts(List<Course> posts)
+    public void setCourses(Set<Course> courses)
     {
-        this.degrees = posts;
+        this.courses = courses;
     }
 
-    public List<Course> getPosts()
+    public Set<Course> getCourses()
     {
-        return degrees;
+        return courses;
     }
 }

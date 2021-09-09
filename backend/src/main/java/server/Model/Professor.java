@@ -3,7 +3,9 @@ package server.Model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "Professor")
@@ -19,7 +21,7 @@ public class Professor implements Serializable {
     private Customer customer_id;
 
     @ManyToMany(mappedBy = "professors")
-    private List<Lesson> lessons = new ArrayList<>();
+    private Set<Lesson> lessons = new HashSet<>();
 
     public Professor()
     {
@@ -35,7 +37,7 @@ public class Professor implements Serializable {
         return customer_id;
     }
 
-    public List<Lesson> getLessons()
+    public Set<Lesson> getLessons()
     {
         return lessons;
     }
@@ -44,7 +46,7 @@ public class Professor implements Serializable {
     /*-------------------------Setter--------------------------------*/
     /*---------------------------------------------------------------*/
 
-    public void setLessons(List<Lesson> lessons)
+    public void setLessons(Set<Lesson> lessons)
     {
         this.lessons = lessons;
     }

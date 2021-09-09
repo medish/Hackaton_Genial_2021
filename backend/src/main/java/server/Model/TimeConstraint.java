@@ -16,16 +16,18 @@ public class TimeConstraint {
 
     @ManyToOne
     @JoinColumns({
-            @JoinColumn(name = "output_day_id", nullable = false, referencedColumnName =  "day_id"),
-            @JoinColumn(name = "output_hour", nullable = false, referencedColumnName =  "hour")
+            @JoinColumn(name = "date_day", nullable = false, referencedColumnName =  "day_id"),
+            @JoinColumn(name = "date_hour", nullable = false, referencedColumnName =  "hour")
     })
     private Date date;
 
     @ManyToOne
-    @JoinColumn(name = "time_constraint_department", nullable = false)
-    private Department department;
+    @JoinColumns({
+            @JoinColumn(name = "department_id", nullable = false),
+            @JoinColumn(name = "room_id", nullable = false)
+    })
+    private Room room;
 
-    private int hour_begin;
     private int priority;
 
     public TimeConstraint()
@@ -34,14 +36,13 @@ public class TimeConstraint {
     }
 
     public TimeConstraint(String id, String selector, boolean wants,
-                          Date date, int hour_begin, Department department, int priority
+                          Date date, Room room, int priority
     ) {
         this.id = id;
         this.selector = selector;
         this.wants = wants;
         this.date = date;
-        this.hour_begin = hour_begin;
-        this.department = department;
+        this.room = room;
         this.priority = priority;
     }
 
@@ -77,27 +78,27 @@ public class TimeConstraint {
         this.date = date;
     }
 
-    public int getHour_begin() {
-        return hour_begin;
-    }
-
-    public void setHour_begin(int hour_begin) {
-        this.hour_begin = hour_begin;
-    }
-
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
-
     public int getPriority() {
         return priority;
     }
 
     public void setPriority(int priority) {
         this.priority = priority;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
     }
 }
