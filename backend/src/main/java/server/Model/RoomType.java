@@ -17,6 +17,9 @@ public class RoomType {
     @OneToMany(mappedBy = "roomType", targetEntity = Room.class)
     private List<Room> rooms;
 
+    @OneToMany(mappedBy = "room_type", targetEntity = Lesson.class)
+    private List<Lesson> lessons;
+
     public RoomType(int id, String name)
     {
         this.id = id;

@@ -16,8 +16,14 @@ public class Lesson {
 
     private Date duration;
     private int group_size;
-    private int course_id;
-    private int room_type_id;
+
+    @ManyToOne
+    @JoinColumn(name = "course_id", nullable = false)
+    private Course course;
+
+    @ManyToOne
+    @JoinColumn(name = "room_type_id", nullable = false)
+    private RoomType room_type;
 
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
@@ -33,13 +39,13 @@ public class Lesson {
     @PrimaryKeyJoinColumn
     private Output output;
 
-    public Lesson(String id, Date duration, int group_size, int course_id, int room_type_id, List<Professor> professors)
+    public Lesson(String id, Date duration, int group_size, Course course, RoomType room_type, List<Professor> professors)
     {
         this.id = id;
         this.duration = duration;
         this.group_size = group_size;
-        this.course_id = course_id;
-        this.room_type_id = room_type_id;
+        this.course = course;
+        this.room_type = room_type;
         this.professors = professors;
     }
 
@@ -62,14 +68,14 @@ public class Lesson {
         return group_size;
     }
 
-    public int getCourseId()
+    public Course getCourse()
     {
-        return course_id;
+        return course;
     }
 
-    public int getRoomTypeId()
+    public RoomType getRoomType()
     {
-        return room_type_id;
+        return room_type;
     }
 
     public List<Professor> getProfessors()
@@ -96,14 +102,14 @@ public class Lesson {
         this.group_size = group_size;
     }
 
-    public void setCourse_id(int course_id)
+    public void setCourse_id(Course course)
     {
-        this.course_id = course_id;
+        this.course = course;
     }
 
-    public void setRoom_type_id(int room_type_id)
+    public void setRoom_type_id(RoomType room_type)
     {
-        this.room_type_id = room_type_id;
+        this.room_type = room_type;
     }
 
     public void setProfessors(List<Professor> professors)
