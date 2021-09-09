@@ -1,13 +1,18 @@
 package server.models;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 @Entity
 
 @Table(name = "degree")
-public class Degree {
+public class Degree implements Input {
 
     @Id
     private String id;
@@ -18,39 +23,32 @@ public class Degree {
     @ManyToMany(mappedBy = "degrees")
     private List<Course> degrees = new ArrayList<>();
 
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
 
-    public void setId(String id)
-    {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public Degree(String id, String name)
-    {
+    public Degree(String id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public void setPosts(List<Course> posts)
-    {
+    public void setPosts(List<Course> posts) {
         this.degrees = posts;
     }
 
-    public List<Course> getPosts()
-    {
+    public List<Course> getPosts() {
         return degrees;
     }
 }

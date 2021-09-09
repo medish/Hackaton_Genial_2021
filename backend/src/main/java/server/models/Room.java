@@ -1,12 +1,17 @@
 package server.models;
 
-import javax.persistence.*;
 import java.util.List;
 
-@Entity
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
+@Entity
 @Table(name = "room")
-public class Room {
+public class Room implements Input {
 
     @EmbeddedId
     private RoomId roomId;
@@ -19,29 +24,33 @@ public class Room {
     @OneToMany(mappedBy = "room", targetEntity = Output.class)
     private List<Output> outputs;
 
-    public Room(Integer capacity, RoomType type)
-    {
+    public Room(String number, Department department, Integer capacity, RoomType type) {
+        this.roomId = new RoomId(number, department);
         this.capacity = capacity;
         this.roomType = type;
     }
 
-    public Integer getCapacity()
-    {
+    public Integer getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(Integer capacity)
-    {
+    public void setCapacity(Integer capacity) {
         this.capacity = capacity;
     }
 
-    public void setRoomId(RoomId roomId)
-    {
-        this.roomId = roomId;
+    public String getNumber() {
+        return roomId.getNumber();
     }
 
-    public RoomId getRoomId()
-    {
-        return roomId;
+    public void setNumber(String number) {
+        roomId.setNumber(number);
+    }
+
+    public Department getDepartment() {
+        return roomId.getDepartment();
+    }
+
+    public void setDepartment(Department department) {
+        roomId.setDepartment(department);
     }
 }

@@ -22,6 +22,7 @@ public class ProfessorController {
     @GetMapping()
     public List<Professor> getAll() {
         return professorService.getAll();
+
     }
 
 

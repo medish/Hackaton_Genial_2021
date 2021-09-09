@@ -1,12 +1,16 @@
 package server.models;
 
-import javax.persistence.*;
 import java.util.List;
 
-@Entity
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
+@Entity
 @Table(name = "RoomType")
-public class RoomType {
+public class RoomType implements Input {
 
     @Id
     private int id;
@@ -17,14 +21,15 @@ public class RoomType {
     @OneToMany(mappedBy = "roomType", targetEntity = Room.class)
     private List<Room> rooms;
 
-    public RoomType(int id, String name)
-    {
+    @OneToMany(mappedBy = "room_type", targetEntity = Lesson.class)
+    private List<Lesson> lessons;
+
+    public RoomType(int id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public RoomType(String name)
-    {
+    public RoomType(String name) {
         this.name = name;
     }
 
@@ -32,13 +37,11 @@ public class RoomType {
     /*-------------------------Getter-------------------------------*/
     /*---------------------------------------------------------------*/
 
-    public int getId()
-    {
+    public int getId() {
         return id;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
@@ -46,23 +49,19 @@ public class RoomType {
     /*-------------------------Setter-------------------------------*/
     /*---------------------------------------------------------------*/
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public void setId(int id)
-    {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public List<Room> getRooms()
-    {
+    public List<Room> getRooms() {
         return rooms;
     }
 
-    public void setRooms(List<Room> rooms)
-    {
+    public void setRooms(List<Room> rooms) {
         this.rooms = rooms;
     }
 }

@@ -1,4 +1,4 @@
-package core.dataclasses;
+package server.models;
 
 public interface Input {
 
