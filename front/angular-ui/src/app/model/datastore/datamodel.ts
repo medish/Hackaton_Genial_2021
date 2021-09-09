@@ -2,19 +2,33 @@ export interface Room {
     number: number,
     departmentId: number,
     capacity: number,
-    typeId: number
-}
+    type: string
+};
 
 export interface Class {
     id: number,
     duration: Date,
-    size: number
+    group_size: number,
+    course: Course,
+    roomType: RoomType,
+    teachers: Teacher[]
+};
+
+export interface CourseDegree {
+    course_id: number,
+    degree_id: number
+};
+
+export interface Course {
+    id: number,
+    name: string,
+    colour: string
 };
 
 export interface RoomType {
     id: number,
     name: string
-}
+};
 
 export interface Teacher {
     id: number,
@@ -42,7 +56,7 @@ export interface Identity {
 
 export interface Output {
     lesson_id: number,
-    hour_begin: number,
-    day_id: number,
-    room_id: number
+    date: Date,
+    room_id: Room,
+    department_id: Department
 };
