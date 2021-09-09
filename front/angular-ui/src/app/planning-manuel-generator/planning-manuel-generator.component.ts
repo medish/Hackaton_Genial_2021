@@ -3,14 +3,11 @@ import {Modal} from 'bootstrap';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin, {Draggable} from '@fullcalendar/interaction';
-<<<<<<< HEAD
 import { DataInterfaceService } from '../services/data-interface.service';
 import { Class, Room, Degree, Teacher} from '../model/datastore/datamodel';
 import { FormBuilder, FormGroup } from '@angular/forms';
-=======
 import {FullCalendarComponent} from "@fullcalendar/angular";
 
->>>>>>> front
 @Component({
   selector: 'app-planning-manuel-generator',
   templateUrl: './planning-manuel-generator.component.html',
@@ -19,7 +16,6 @@ import {FullCalendarComponent} from "@fullcalendar/angular";
 
 export class PlanningManuelGeneratorComponent implements OnInit {
   options: any;
-<<<<<<< HEAD
   roomsForm: FormGroup;
   classForm: FormGroup;
   teacherForm: FormGroup;
@@ -29,10 +25,8 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   teachers: Teacher[] = [];
   degrees: Degree[] = [];
   that = this;
-=======
   id_event_clicked: string="";
   calendarApi :any;
->>>>>>> front
 
   constructor(private dataService : DataInterfaceService, private fb : FormBuilder) {
   }
@@ -49,7 +43,6 @@ export class PlanningManuelGeneratorComponent implements OnInit {
 
   ngOnInit() {
     let draggableEl = document.getElementById('external-events');
-<<<<<<< HEAD
     this.roomsForm = this.fb.group({
       roomControl: ['Choisir la salle ou l\'amphi']
     })
@@ -68,9 +61,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     this.dataService.fetchAllTeachers(this.onTeachersReceived, that);
     this.dataService.fetchAllDegrees(this.onDegreesReceived, that);
 
-=======
     var self = this;
->>>>>>> front
     // @ts-ignore
     new Draggable(draggableEl, {
       itemSelector: '.fc-event',
