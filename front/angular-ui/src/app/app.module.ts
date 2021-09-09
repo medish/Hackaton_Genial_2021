@@ -17,12 +17,10 @@ import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
 import interactionPlugin from '@fullcalendar/interaction';
 import { authInterceptorProviders } from './interceptors/auth.interceptor';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { PlanningAutoGeneratorComponent } from './planning-auto-generator/planning-auto-generator.component';
-
 import { GetFileConstraintsComponent } from './get-file-constraints/get-file-constraints.component';
-import {FormsModule} from "@angular/forms";
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -50,6 +48,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     HttpClientModule,
     FullCalendarModule,
     FormsModule,
+    ReactiveFormsModule,
     MatCardModule,
     CollapseModule.forRoot()
   ],

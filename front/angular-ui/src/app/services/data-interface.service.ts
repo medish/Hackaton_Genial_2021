@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import {identity, Observable, throwError } from 'rxjs';
 import { ConstraintPrecedence } from '../model/constraint/constraint-precedence';
 import { ConstraintTimeRoom } from '../model/constraint/constraint-time-room';
-import { Room, Class, RoomType, Teacher, Department, Degree, Identity, Output } from '../model/datastore/datamodel'
+import { Room, Class, RoomType, Teacher, Department, Degree, Identity, Output, CourseDegree } from '../model/datastore/datamodel'
 import { catchError, retry } from 'rxjs/operators';
 
 @Injectable({
@@ -53,14 +53,19 @@ export class DataInterfaceService {
     ).subscribe()
   }
 
-  fetchAllRooms(callback: (rooms: [Room]) => any) {
-    return this.http.get<[Room]>(this.url + "/rooms")
-    .subscribe(data => callback(data));
+  fetchCourseDegrees(callback: (courseDegrees: [CourseDegree], context: any) => any, context: any) {
+    return this.http.get<[CourseDegree]>(this.url + "/coursedegrees")
+    .subscribe(data => callback(data, context)); 
   }
 
-  fetchAllClasses(callback: (classes: [Class]) => any) {
-    return this.http.get<[Class]>(this.url + "/class")
-    .subscribe(data => callback(data));
+  fetchAllRooms(callback: (rooms: [Room], context: any) => any, context : any) {
+    return this.http.get<[Room]>(this.url + "/rooms")
+    .subscribe(data => callback(data, context));
+  }
+
+  fetchAllClasses(callback: (classes: [Class], context: any) => any, context: any) {
+    return this.http.get<[Class]>(this.url + "/classes")
+    .subscribe(data => callback(data, context));
   }
 
   fetchAllRoomTypes(callback: (roomTypes: [RoomType]) => any) {
@@ -68,9 +73,9 @@ export class DataInterfaceService {
     .subscribe(data => callback(data));
   }
 
-  fetchAllTeachers(callback: (teachers: [Teacher]) => any) {
+  fetchAllTeachers(callback: (teachers: [Teacher], context: any) => any, context: any) {
     return this.http.get<[Teacher]>(this.url + "/teachers")
-    .subscribe(data => callback(data));
+    .subscribe(data => callback(data, context));
   }
 
   fetchAllDepartments(callback: (departments: [Department]) => any) {
@@ -78,9 +83,9 @@ export class DataInterfaceService {
     .subscribe(data => callback(data));
   }
 
-  fetchAllDegrees(callback: (degrees: [Degree]) => any) {
+  fetchAllDegrees(callback: (degrees: [Degree], context: any) => any, context: any) {
     return this.http.get<[Degree]>(this.url + "/degrees")
-    .subscribe(data => callback(data));
+    .subscribe(data => callback(data, context));
   }
 
   sendDataToCore<Type>(callback: (httpStatusCode: number) => any, data : Type) {
