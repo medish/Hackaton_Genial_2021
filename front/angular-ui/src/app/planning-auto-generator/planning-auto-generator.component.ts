@@ -42,38 +42,38 @@ export class PlanningAutoGeneratorComponent implements OnInit {
       eventTextColor:"black",
       events: [
         {
-          start: '2021-09-08T13:00:00',
-          end: '2021-09-08T14:00:00',
+          daysOfWeek: ['3'],
+          startTime: '13:00:00',
+          endTime: '14:00:00',
           color: "#7bcce4",
           title:"Cours JAva",
           description:"lorem impsum"
         },
         {
-          start: '2021-09-06T10:00:00',
-          end: '2021-09-06T14:00:00',
+          daysOfWeek:[1],
+          startTime: '10:00:00',
+          endTime: '14:00:00',
           color: "red",
           title:"Cours C++",
           description:"lorem impsum"
         },
         {
-          start: '2021-09-10T08:00:00',
-          end: '2021-09-10T11:00:00',
+          daysOfWeek:[4],
+          startTime: '08:00:00',
+          endTime: '11:00:00',
           color: "green",
+          title:"Lorem ipsum"
         },
         {
-          start: '2021-09-10T15:00:00',
-          end: '2021-09-10T17:00:00',
+          daysOfWeek:[5],
+          startTime: '15:00:00',
+          endTime: '17:00:00',
           color: "green"
-        },
-        {
-          start: '2021-09-08T13:00:00',
-          end: '2021-09-08T14:00:00',
-          color: "#7bcce4"
-        },
-
+        }
       ]
 
     };
+
     function exportToPdf() {
       console.log("start exporting to pdf........");
       var w = document.getElementById("calendar").offsetWidth;
