@@ -4,12 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "Professor")
@@ -18,11 +13,14 @@ public class Professor implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @Column(name = "customer_id")
     private String id;
 
     @OneToOne
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    @MapsId
+    @JoinColumn(name = "customer_id")
     private Customer customer_id;
+
 
     @ManyToMany(mappedBy = "professors")
     private List<Lesson> lessons = new ArrayList<>();

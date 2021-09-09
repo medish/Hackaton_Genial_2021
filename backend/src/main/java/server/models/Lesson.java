@@ -1,5 +1,6 @@
 package server.models;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,8 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -24,7 +23,7 @@ public class Lesson implements Input {
     @Column(name = "lesson_id")
     private String id;
 
-    private Date duration;
+    private Time duration;
     private int group_size;
 
     @ManyToOne
@@ -39,12 +38,9 @@ public class Lesson implements Input {
     @JoinTable(name = "lesson_professor", joinColumns = @JoinColumn(name = "lesson_id"), inverseJoinColumns = @JoinColumn(name = "professor_id"))
     private List<Professor> professors = new ArrayList<>();
 
-    @OneToOne(mappedBy = "lesson", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private Output output;
 
-    public Lesson(String id, Date duration, int group_size, Course course, RoomType room_type,
-            List<Professor> professors) {
+    public Lesson(String id, Time duration, int group_size, Course course, RoomType room_type, List<Professor> professors)
+    {
         this.id = id;
         this.duration = duration;
         this.group_size = group_size;
@@ -89,7 +85,8 @@ public class Lesson implements Input {
         this.id = id;
     }
 
-    public void setDuration(Date duration) {
+    public void setDuration(Time duration)
+    {
         this.duration = duration;
     }
 

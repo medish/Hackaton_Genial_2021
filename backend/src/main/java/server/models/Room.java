@@ -30,6 +30,12 @@ public class Room implements Input {
         this.roomType = type;
     }
 
+    public Room(RoomId roomId, Integer capacity, RoomType roomType) {
+        this.roomId = roomId;
+        this.capacity = capacity;
+        this.roomType = roomType;
+    }
+
     public Integer getCapacity() {
         return capacity;
     }
