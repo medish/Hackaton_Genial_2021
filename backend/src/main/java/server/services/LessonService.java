@@ -10,13 +10,8 @@ import java.util.Optional;
 
 @Service
 public class LessonService{
-    private final LessonRepository repository;
-
     @Autowired
-    public LessonService(LessonRepository repository) {
-        this.repository = repository;
-    }
-
+    private LessonRepository repository;
 
     /**
      * Gets all lessons.

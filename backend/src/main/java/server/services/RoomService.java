@@ -13,12 +13,8 @@ import java.util.Optional;
 
 @Service
 public class RoomService {
-    private final RoomRepository roomRepository;
-
     @Autowired
-    public RoomService(RoomRepository roomRepository) {
-        this.roomRepository = roomRepository;
-    }
+    private RoomRepository roomRepository;
 
     /**
      * Get all room records

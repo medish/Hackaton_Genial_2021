@@ -10,12 +10,8 @@ import java.util.Optional;
 
 @Service
 public class DayService{
-    private final DayRepository repository;
-
     @Autowired
-    public DayService(DayRepository repository) {
-        this.repository = repository;
-    }
+    private  DayRepository repository;
 
 
     /**

@@ -10,20 +10,15 @@ import java.util.Optional;
 
 @Service
 public class CustomerService{
-    private final CustomerRepository customerRepository;
-
     @Autowired
-    public CustomerService(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
-    }
-
-
+    private  CustomerRepository repository;
+    
     /**
      * Gets all customers.
      * @return List of customers {@link Customer}
      */
     public List<Customer> getAll(){
-        return customerRepository.findAll();
+        return repository.findAll();
     }
 
     /**
@@ -32,7 +27,7 @@ public class CustomerService{
      * @return {@link Customer}
      */
     public Optional<Customer> getById(String id){
-        return customerRepository.findById(id);
+        return repository.findById(id);
     }
 
     /**
@@ -40,7 +35,7 @@ public class CustomerService{
      * @param customer {@link Customer}
      */
     public void insert(Customer customer){
-        customerRepository.saveAndFlush(customer);
+        repository.saveAndFlush(customer);
     }
 
     /**
@@ -48,7 +43,7 @@ public class CustomerService{
      * @param customers {@link Customer}
      */
     public void insert(List<Customer> customers){
-        customerRepository.saveAllAndFlush(customers);
+        repository.saveAllAndFlush(customers);
     }
 
     /**
@@ -56,7 +51,7 @@ public class CustomerService{
      * @param id Customer's ID
      */
     public void delete(String id){
-        customerRepository.deleteById(id);
+        repository.deleteById(id);
     }
 
     /**
@@ -64,7 +59,7 @@ public class CustomerService{
      * @param ids List of IDs.
      */
     public void delete(List<String> ids){
-        customerRepository.deleteAllById(ids);
+        repository.deleteAllById(ids);
     }
 
     /**
@@ -73,7 +68,7 @@ public class CustomerService{
      * @return The new record of {@link Customer}
      */
     public Customer update(Customer customer){
-        return customerRepository.saveAndFlush(customer);
+        return repository.saveAndFlush(customer);
     }
 
 
