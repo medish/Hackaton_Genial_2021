@@ -4,6 +4,8 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin, {Draggable} from '@fullcalendar/interaction';
 import {jsPDF} from 'jspdf';
 import html2canvas from "html2canvas";
+import { ConstraintPrecedence } from '../model/constraint/constraint-precedence';
+import { ConstraintTimeRoom } from '../model/constraint/constraint-time-room';
 
 
 @Component({
@@ -15,8 +17,6 @@ export class PlanningAutoGeneratorComponent implements OnInit {
   options: any;
   constructor() {
   }
-  isCollapsedconstraints = true;
-  isCollapsedArray = true;
   message = 'expanded';
 
 
@@ -87,4 +87,6 @@ export class PlanningAutoGeneratorComponent implements OnInit {
     }
     document.getElementById("PDFexport").addEventListener("click", exportToPdf);
   }
+
+
 }

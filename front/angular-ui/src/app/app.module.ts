@@ -23,6 +23,7 @@ import { PlanningAutoGeneratorComponent } from './planning-auto-generator/planni
 
 import { GetFileConstraintsComponent } from './get-file-constraints/get-file-constraints.component';
 import {FormsModule} from "@angular/forms";
+import { ConstraintsComponent } from './constraints/constraints.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -41,7 +42,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     TableauContraintesComponent,
     PlanningManuelGeneratorComponent,
     PlanningAutoGeneratorComponent,
-    GetFileConstraintsComponent
+    GetFileConstraintsComponent,
+    ConstraintsComponent
   ],
   imports: [
     BrowserAnimationsModule,

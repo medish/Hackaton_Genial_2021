@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ConstraintPrecedence } from '../model/constraint/constraint-precedence';
 import { ConstraintTimeRoom } from '../model/constraint/constraint-time-room';
 
@@ -39,12 +39,11 @@ const CONSTRAINTS_PRECEDENCE:ConstraintPrecedence[]=[
 
 export class TableauContraintesComponent implements OnInit {
 
-  constraintsTimeRoom = CONSTRAINTS_TIME_AND_ROOM;
-  constraintPrecedence = CONSTRAINTS_PRECEDENCE
+  @Input('constraintsTimeRoom')constraintsTimeRoom = CONSTRAINTS_TIME_AND_ROOM;
+  @Input('constraintPrecedence')constraintPrecedence = CONSTRAINTS_PRECEDENCE
   constructor() { }
   ngOnInit(): void {
     
   }
-  
 
 }
