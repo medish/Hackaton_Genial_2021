@@ -23,10 +23,14 @@ public class Output {
     })
     private Room room;
 
-    @OneToOne
+    @ManyToOne
     @MapsId
     @JoinColumn(name="lesson_id")
     private Lesson lesson;
+
+    @ManyToOne
+    @JoinColumn(name = "planning_id", nullable = false)
+    private Planning planning;
 
     public Output(int hour_begin, Day day, Room room, Lesson lesson)
     {
@@ -74,5 +78,25 @@ public class Output {
     public Lesson getLesson()
     {
         return lesson;
+    }
+
+    public int getHour_begin()
+    {
+        return hour_begin;
+    }
+
+    public String getId()
+    {
+        return id;
+    }
+
+    public void setHour_begin(int hour_begin)
+    {
+        this.hour_begin = hour_begin;
+    }
+
+    public void setId(String id)
+    {
+        this.id = id;
     }
 }

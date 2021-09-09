@@ -38,6 +38,11 @@ public class Room implements Input {
     public  Room(String name) {
         this.name = name;
     }
+    public Room(RoomId roomId, Integer capacity, RoomType roomType) {
+        this.roomId = roomId;
+        this.capacity = capacity;
+        this.roomType = roomType;
+    }
 
     public Integer getCapacity() {
         return capacity;
