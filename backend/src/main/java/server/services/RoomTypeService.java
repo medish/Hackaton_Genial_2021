@@ -10,12 +10,8 @@ import java.util.Optional;
 
 @Service
 public class RoomTypeService{
-    private final RoomTypeRepository repository;
-
     @Autowired
-    public RoomTypeService(RoomTypeRepository repository) {
-        this.repository = repository;
-    }
+    private  RoomTypeRepository repository;
 
 
     /**

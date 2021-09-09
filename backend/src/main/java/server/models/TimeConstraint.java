@@ -98,4 +98,5 @@ public class TimeConstraint implements Input {
     public void setRoom(Room room) {
         this.room = room;
     }
+
 }
