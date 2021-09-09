@@ -1,38 +1,38 @@
 <div id="div-tableau-contraintes">
-      <table class="table table-hover">
+    <table class="table table-hover">
         <col>
         <colgroup span="3"></colgroup>
         <thead class="thead-dark">
-        <tr>
-          <th rowspan="2" colspan="1">Active</th>
-          <th colspan="3">Selector</th>
-          <th scope="col" rowspan="2">Choix</th>
-          <th scope="colgroup" colspan="2">Date</th>
-          <th scope="col" rowspan="2">Salle</th>
-          <th scope="col" rowspan="2">Priorité</th>
-        </tr>
-        <tr>
-            <th scope="col">Enseignant</th>
-            <th scope="col">Enseignement</th>
-            <th scope="col">Cursus</th>
-            <th scope="col">Jour</th>
-            <th scope="col">Temps</th>
+            <tr>
+                <th rowspan="2" colspan="1">Active</th>
+                <th colspan="3">Selector</th>
+                <th scope="col" rowspan="2">Choix</th>
+                <th scope="colgroup" colspan="2">Date</th>
+                <th scope="col" rowspan="2">Salle</th>
+                <th scope="col" rowspan="2">Priorité</th>
+            </tr>
+            <tr>
+                <th scope="col">Enseignant</th>
+                <th scope="col">Enseignement</th>
+                <th scope="col">Cursus</th>
+                <th scope="col">Jour</th>
+                <th scope="col">Temps</th>
 
-        </tr>
+            </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let constraint of constraints; index as i">
-            <td><input type="checkbox" checked="true"/></td>
-            <td>a</td>
-            <td>b</td>
-            <td>c</td>
-            <td>{{constraint.veut ? "veut" : "ne veut pas"}}</td>
-            <td>{{constraint.jour[0]}}</td>
-            <td>{{constraint.temps.temps[0].debut}}</td>
-            <td>{{constraint.salle}}</td>
-            <td>{{constraint.priority}}</td>
-        </tr>
+            <tr *ngFor="let constraint of constraintsTimeRoom; index as i">
+                <td><input type="checkbox" checked="true" /></td>
+                <td>a</td>
+                <td>b</td>
+                <td>c</td>
+                <td>{{constraint.veut ? "veut" : "ne veut pas"}}</td>
+                <td>{{constraint.day}}</td>
+                <td>{{constraint.hourBegin}}</td>
+                <td>{{constraint.room.selectorUnits[0].value}}</td>
+                <td>{{constraint.priority}}</td>
+            </tr>
         </tbody>
-      </table>
-  
+    </table>
+
 </div>
