@@ -10,19 +10,20 @@ import server.models.Professor;
 import server.models.Room;
 
 import java.time.DayOfWeek;
+import java.time.Duration;
 import java.time.LocalTime;
 
 public class TimeTableConstraintProviderTest {
     private static final Room ROOM = new Room("Room1");
     private static final Room ROOM2 = new Room("Room2");
 
-    private static final Timeslot TIMESLOT1 = new Timeslot(DayOfWeek.MONDAY, LocalTime.of(9,0), LocalTime.NOON);
-    private static final Timeslot TIMESLOT2 = new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(9,0), LocalTime.NOON);
+    private static final Timeslot TIMESLOT1 = new Timeslot(DayOfWeek.MONDAY, LocalTime.of(9,0));
+    private static final Timeslot TIMESLOT2 = new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(9,0));
 
-    private static final Timeslot TIMESLOT3 = new Timeslot(DayOfWeek.MONDAY, LocalTime.NOON);
-    private static final Timeslot TIMESLOT4 = new Timeslot(DayOfWeek.TUESDAY, LocalTime.NOON);
-    private static final Timeslot TIMESLOT5 = new Timeslot(DayOfWeek.TUESDAY, LocalTime.NOON.plusHours(1));
-    private static final Timeslot TIMESLOT6 = new Timeslot(DayOfWeek.TUESDAY, LocalTime.NOON.plusHours(3));
+    private static final Timeslot TIMESLOT3 = new Timeslot(DayOfWeek.MONDAY, LocalTime.of(7,0));
+    private static final Timeslot TIMESLOT4 = new Timeslot(DayOfWeek.MONDAY,LocalTime.of(8,0));
+    private static final Timeslot TIMESLOT5 = new Timeslot(DayOfWeek.MONDAY, LocalTime.of(9,0));
+    private static final Timeslot TIMESLOT6 = new Timeslot(DayOfWeek.MONDAY, LocalTime.of(10,0));
 
     ConstraintVerifier<TimeTableConstraintProvider, TimeTable> constraintVerifier = ConstraintVerifier.build(
             new TimeTableConstraintProvider(), TimeTable.class, LessonOptaPlaner.class);
@@ -34,9 +35,9 @@ public class TimeTableConstraintProviderTest {
         Professor darwin = new Professor("3", "Darwin", "Jeanne", "jeanne@u-paris.fr", false);
 
 
-        LessonOptaPlaner firstLesson = new LessonOptaPlaner(1, "Subject1", turing, "Group1");
-        LessonOptaPlaner conflictingLesson = new LessonOptaPlaner(2, "Subject2", curie, "Group2");
-        LessonOptaPlaner nonConflictingLesson = new LessonOptaPlaner(3, "Subject3", darwin, "Group3");
+        LessonOptaPlaner firstLesson = new LessonOptaPlaner(1, "Subject1", turing, "Group1", Duration.ofMinutes(60));
+        LessonOptaPlaner conflictingLesson = new LessonOptaPlaner(2, "Subject2", curie, "Group2", Duration.ofMinutes(60));
+        LessonOptaPlaner nonConflictingLesson = new LessonOptaPlaner(3, "Subject3", darwin, "Group3",Duration.ofMinutes(60));
 
         firstLesson.setRoom(ROOM);
         firstLesson.setTimeslot(TIMESLOT1);
@@ -57,10 +58,10 @@ public class TimeTableConstraintProviderTest {
         Professor turing = new Professor("1", "Turing", "Jean", "jean@u-paris.fr", false);
         Professor curie = new Professor("2", "Curie", "Jeanne", "jeanne@u-paris.fr", false);
 
-        LessonOptaPlaner firstLesson = new LessonOptaPlaner(1, "Subject1", turing, "Group1", TIMESLOT1, ROOM);
-        LessonOptaPlaner conflictingLesson = new LessonOptaPlaner(2, "Subject2", turing, "Group2", TIMESLOT1, ROOM2);
+        LessonOptaPlaner firstLesson = new LessonOptaPlaner(1, "Subject1", turing, "Group1", TIMESLOT1, Duration.ofMinutes(60),ROOM);
+        LessonOptaPlaner conflictingLesson = new LessonOptaPlaner(2, "Subject2", turing, "Group2", TIMESLOT1, Duration.ofMinutes(60),ROOM2);
 
-        LessonOptaPlaner nonConflictingLesson = new LessonOptaPlaner(3, "Subject3", curie, "Group3", TIMESLOT2, ROOM);
+        LessonOptaPlaner nonConflictingLesson = new LessonOptaPlaner(3, "Subject3", curie, "Group3", TIMESLOT2, Duration.ofMinutes(60),ROOM);
 
         constraintVerifier.verifyThat(TimeTableConstraintProvider::teacherConflict)
                 .given(firstLesson, conflictingLesson, nonConflictingLesson)
@@ -73,14 +74,14 @@ public class TimeTableConstraintProviderTest {
         // lessons.
         Professor turing = new Professor("1", "Turing", "Jean", "jean@u-paris.fr", false);
 
-        LessonOptaPlaner firstLesson = new LessonOptaPlaner(1, "Subject1", turing, "Group1", TIMESLOT3, ROOM);
-        LessonOptaPlaner secondLesson = new LessonOptaPlaner(2, "Subject2", turing, "Group2", TIMESLOT4, ROOM);
-        LessonOptaPlaner thirdLesson = new LessonOptaPlaner(3, "Subject3", turing, "Group3", TIMESLOT5, ROOM);
-        LessonOptaPlaner lastLesson = new LessonOptaPlaner(4, "Subject4", turing, "Group4", TIMESLOT6, ROOM);
+        LessonOptaPlaner firstLesson = new LessonOptaPlaner(1, "Subject1", turing, "Group1", TIMESLOT3, Duration.ofMinutes(60), ROOM);
+        LessonOptaPlaner secondLesson = new LessonOptaPlaner(2, "Subject2", turing, "Group2", TIMESLOT4, Duration.ofMinutes(60), ROOM);
+        LessonOptaPlaner thirdLesson = new LessonOptaPlaner(3, "Subject3", turing, "Group3", TIMESLOT5, Duration.ofMinutes(60), ROOM);
+        LessonOptaPlaner lastLesson = new LessonOptaPlaner(4, "Subject4", turing, "Group4", TIMESLOT6, Duration.ofMinutes(60), ROOM);
 
         constraintVerifier.verifyThat(TimeTableConstraintProvider::teacherTimeEfficiency)
                 .given(firstLesson, secondLesson, thirdLesson, lastLesson)
-                .rewardsWith(1);
+                .rewardsWith(4);
     }
 
 
