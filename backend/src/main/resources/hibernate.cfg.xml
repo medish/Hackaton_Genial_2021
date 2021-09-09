@@ -22,6 +22,7 @@
         <mapping class="server.Model.RoomType"/>
         <mapping class="server.Model.Department"/>
         <mapping class="server.Model.Room"/>
+        <mapping class="server.Model.Date"/>
         <mapping class="server.Model.Day"/>
         <mapping class="server.Model.Degree"/>
         <mapping class="server.Model.Course"/>

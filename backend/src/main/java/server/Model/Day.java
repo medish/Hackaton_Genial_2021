@@ -14,11 +14,8 @@ public class Day {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "day", targetEntity = Output.class)
-    private List<Output> outputs;
-
-    @OneToMany(mappedBy = "day", targetEntity = TimeConstraint.class)
-    private List<TimeConstraint> timeConstraints;
+    /*@OneToMany(mappedBy = "day", targetEntity = Date.class)
+    private List<Date> dates;*/
 
     public Day(String id, String name)
     {

@@ -15,8 +15,11 @@ public class TimeConstraint {
     private boolean wants;
 
     @ManyToOne
-    @JoinColumn(name = "time_constraint_day_id", nullable = false)
-    private Day day;
+    @JoinColumns({
+            @JoinColumn(name = "output_day_id", nullable = false, referencedColumnName =  "day_id"),
+            @JoinColumn(name = "output_hour", nullable = false, referencedColumnName =  "hour")
+    })
+    private Date date;
 
     @ManyToOne
     @JoinColumn(name = "time_constraint_department", nullable = false)
@@ -31,12 +34,12 @@ public class TimeConstraint {
     }
 
     public TimeConstraint(String id, String selector, boolean wants,
-                          Day day, int hour_begin, Department department, int priority
+                          Date date, int hour_begin, Department department, int priority
     ) {
         this.id = id;
         this.selector = selector;
         this.wants = wants;
-        this.day = day;
+        this.date = date;
         this.hour_begin = hour_begin;
         this.department = department;
         this.priority = priority;
@@ -66,12 +69,12 @@ public class TimeConstraint {
         this.wants = wants;
     }
 
-    public Day getDayId() {
-        return day;
+    public Date getDateId() {
+        return date;
     }
 
-    public void setDayId(Day day) {
-        this.day = day;
+    public void setDateId(Date date) {
+        this.date = date;
     }
 
     public int getHour_begin() {

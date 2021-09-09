@@ -15,6 +15,9 @@ public class Course {
     @Column(unique = true)
     private String name;
 
+    @Column(name = "color")
+    private String color;
+
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
@@ -46,10 +49,21 @@ public class Course {
         this.name = name;
     }
 
-    public Course(int id, String name)
+    public String getColor()
+    {
+        return this.color;
+    }
+
+    public void setColor(String color)
+    {
+        this.color = color;
+    }
+
+    public Course(int id, String name, String color)
     {
         this.id = id;
         this.name = name;
+        this.color = color;
     }
 
     public List<Degree> getDegrees()

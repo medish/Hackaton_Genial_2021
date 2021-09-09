@@ -10,9 +10,11 @@ import java.util.List;
 public class Professor implements Serializable {
 
     @Id
+    @Column (name = "customer_id")
     private String id;
 
     @OneToOne
+    @MapsId
     @JoinColumn(name = "customer_id", referencedColumnName =  "id")
     private Customer customer_id;
 
