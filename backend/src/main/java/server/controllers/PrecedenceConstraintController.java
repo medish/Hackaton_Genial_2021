@@ -28,7 +28,4 @@ public class PrecedenceConstraintController {
     public void deleteAll(@RequestBody List<String> ids){
         service.delete(ids);
     }
-
-
-
 }

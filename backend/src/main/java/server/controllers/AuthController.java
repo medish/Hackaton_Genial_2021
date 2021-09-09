@@ -13,8 +13,4 @@ public class AuthController {
     public boolean checkAuth(@RequestParam("username")String username, @RequestParam("password") String password){
         return true;
     }
-
-
-
-
 }

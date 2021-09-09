@@ -26,5 +26,4 @@ public class ProfessorController {
     public Optional<Professor> getById(@PathVariable String id) {
         return this.service.getById(id);
     }
-
 }
