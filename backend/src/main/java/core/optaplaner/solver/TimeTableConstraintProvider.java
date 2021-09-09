@@ -13,18 +13,20 @@ import core.optaplaner.domain.LessonOptaPlaner;
 
 public class TimeTableConstraintProvider implements ConstraintProvider {
 
-    @Override
-    public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
-        return new Constraint[] {
-                // Hard constraints
-                roomConflict(constraintFactory), teacherConflict(constraintFactory),
-                studentGroupConflict(constraintFactory),
-                // Soft constraints
-                teacherRoomStability(constraintFactory), teacherTimeEfficiency(constraintFactory),
-                teacherTimeJustAfterTwoLessonConflict(constraintFactory),
-                teacherLessonRoomTimePreferencesConflict(constraintFactory),
-                teacherLessonRoomPreferencesConflict(constraintFactory) };
-    }
+	@Override
+	public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
+		return new Constraint[] {
+				// Hard constraints
+				roomConflict(constraintFactory), teacherConflict(constraintFactory),
+				studentGroupConflict(constraintFactory),
+				// Soft constraints
+				teacherRoomStability(constraintFactory), teacherTimeEfficiency(constraintFactory),
+				teacherTimeJustAfterTwoLessonConflict(constraintFactory),
+				teacherLessonRoomTimePreferencesConflict(constraintFactory),
+				teacherLessonRoomPreferencesConflict(constraintFactory),
+				//techLessonBefore(constraintFactory)
+		};
+	}
 
     Constraint roomConflict(ConstraintFactory constraintFactory) {
         // A room can accommodate at most one lesson at the same time.
@@ -75,16 +77,18 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                 .penalize("Student group conflict", HardSoftScore.ONE_HARD);
     }
 
-    Constraint teacherTimeJustAfterTwoLessonConflict(ConstraintFactory constraintFactory) {
-        // A teacher prefer to teach lesson French just after lesson Chemistry
-        return constraintFactory.from(LessonOptaPlaner.class).filter(lesson -> lesson.getSubject().equals("Chemistry"))
-                .join(LessonOptaPlaner.class)
-                // Date Fin de lesson 1 = Date Debon de lesson 2
-                .filter((lesson, lesson2) -> lesson2.getSubject().equals("French"))
-                .filter((lesson1,
-                        lesson2) -> lesson1.getTimeslot().getEndTime() == lesson2.getTimeslot().getStartTime())
-                .penalize("Teacher can't teach lesson 1 before lesson 2", HardSoftScore.ONE_SOFT);
-    }
+	Constraint teacherTimeJustAfterTwoLessonConflict(ConstraintFactory constraintFactory) {
+		// A teacher prefer to teach French just after Chemistry
+		return constraintFactory.from(LessonOptaPlaner.class)
+				.filter(lesson -> lesson.getSubject().equals("Chemistry"))
+				.join(LessonOptaPlaner.class)
+				.filter((lesson, lesson2) -> lesson2.getSubject().equals("French"))
+				.filter((lesson1,
+						lesson2) -> lesson1.getTimeslot().getStartTime().isAfter(lesson2.getTimeslot().getStartTime())
+						|| lesson1.getTimeslot().getDayOfWeek().compareTo(lesson2.getTimeslot().getDayOfWeek()) >=0
+				)
+				.penalize("Teacher can't teach lesson 1 before lesson 2", HardSoftScore.ONE_SOFT);
+	}
 
     Constraint teacherLessonRoomTimePreferencesConflict(ConstraintFactory constraintFactory) {
         // Teacher Turing does not want to teach Math in room C at 8H30
@@ -95,12 +99,24 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                 .penalize("Teacher Turing does not want to teach Math in room C at 8H30", HardSoftScore.ONE_SOFT);
     }
 
-    Constraint teacherLessonRoomPreferencesConflict(ConstraintFactory constraintFactory) {
-        // Teacher M. Curie does not want to teach French in Room A
-        return constraintFactory.from(LessonOptaPlaner.class).filter(lesson -> lesson.getSubject().equals("French"))
-                .filter((lesson) -> lesson.getTeacher().getName().equals("M. Curie"))
-                .filter((lesson) -> lesson.getRoom().getNumber().equals("Room A"))
-                .penalize("Teacher M. Curie does not want to teach French in Room A", HardSoftScore.ONE_SOFT);
-    }
+	Constraint teacherLessonRoomPreferencesConflict(ConstraintFactory constraintFactory) {
+		// Teacher M. Curie does not want to teach French in Room A
+		return constraintFactory.from(LessonOptaPlaner.class).filter(lesson -> lesson.getSubject().equals("French"))
+				.filter((lesson) -> lesson.getTeacher().getName().equals("M. Curie"))
+				.filter((lesson) -> lesson.getRoom().getName().equals("Room A"))
+				.penalize("Teacher M. Curie does not want to teach French in Room A", HardSoftScore.ONE_SOFT);
+	}
+
+	Constraint techLessonBefore(ConstraintFactory constraintFactory) {
+		// Lesson Math before french ( Math -> francais )
+		return  constraintFactory.from(LessonOptaPlaner.class)
+				.filter(lessonOptaPlaner -> lessonOptaPlaner.getSubject().equals("Math"))
+				.join(LessonOptaPlaner.class)
+				.filter((lessonOptaPlaner, lessonOptaPlaner2) -> lessonOptaPlaner2.getSubject().equals("French"))
+				.filter((lessonOptaPlaner, lessonOptaPlaner2)
+						-> lessonOptaPlaner.getTimeslot().getStartTime().isAfter(lessonOptaPlaner2.getTimeslot().getStartTime())
+						|| lessonOptaPlaner.getTimeslot().getDayOfWeek().compareTo(lessonOptaPlaner2.getTimeslot().getDayOfWeek()) >=0)
+				.penalize("Lesson Math must be before french", HardSoftScore.ONE_SOFT);
+	}
 
 }
