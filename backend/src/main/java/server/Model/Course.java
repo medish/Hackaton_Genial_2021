@@ -26,6 +26,9 @@ public class Course {
 
     private List<Degree> degrees = new ArrayList<>();
 
+    @OneToMany(mappedBy = "course", targetEntity = Lesson.class)
+    private List<Lesson> lessons;
+
     public int getId()
     {
         return id;

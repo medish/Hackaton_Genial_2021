@@ -14,8 +14,10 @@ public class ProfessorController {
     public ProfessorController(ProfessorService professorService) {
         this.professorService = professorService;
     }
+
     @GetMapping("/professors")
-    public List<Professor> getProfessors(){
-    return professorService.getProfessors();
+    public List<Professor> getProfessors()
+    {
+        return professorService.getProfessors();
     }
 }
