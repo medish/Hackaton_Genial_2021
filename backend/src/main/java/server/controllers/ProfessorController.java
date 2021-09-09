@@ -1,5 +1,6 @@
 package server.controllers;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import server.services.ProfessorService;
@@ -8,22 +9,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import server.models.Professor;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("professors")
+@RequestMapping(value = ControllerRoutes.PROFESSOR)
 public class ProfessorController {
-    private final ProfessorService professorService;
-
     @Autowired
-    public ProfessorController(ProfessorService professorService) {
-        this.professorService = professorService;
-    }
+    private ProfessorService service;
 
     @GetMapping()
     public List<Professor> getAll() {
-        return professorService.getAll();
-
+        return service.getAll();
     }
 
+    @GetMapping(value = "/{id]")
+    public Optional<Professor> getById(@PathVariable String id) {
+        return this.service.getById(id);
+    }
 
 }
