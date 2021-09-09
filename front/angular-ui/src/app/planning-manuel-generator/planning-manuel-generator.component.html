@@ -36,18 +36,18 @@
             Degree
           </label>
           <form [formGroup]="degreeForm">
-            <select formControlName="degreeControl" (change)="degreeChangeHandler" id="degree" class="form-select mt-3 mb-3 ">
+            <select formControlName="degreeControl" (change)="degreeChangeHandler($event.target.value)" id="degree" class="form-select mt-3 mb-3 ">
               <option [value]="">Choose a degree</option>
-              <option [value]="degree" *ngFor="let degree of degrees">{{degree.name}}</option>
+              <option *ngFor="let degree of degrees" [value]="degree.id">{{degree.name}}</option>
             </select>
           </form>
             <label for="session-name">
               Classe
             </label>
           <form [formGroup]="classForm">
-            <select formControlName="classControl" id="class" class="form-select mt-3 mb-3 ">
+            <select formControlName="classControl" (change)="classChangeHandler($event.target.value)" id="class" class="form-select mt-3 mb-3 ">
               <option [value]="">Choisir la classe concernée</option>
-              <option [value]="class" *ngFor="let class of classes">{{class.name}}</option>
+              <option *ngFor="let class of classes" [value]="class.id" >{{class.name}}</option>
             </select>
           </form>
           <label for="salle">Salle / Amphi </label>

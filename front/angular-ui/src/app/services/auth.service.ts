@@ -22,7 +22,6 @@ export class AuthService implements OnInit{
   ngOnInit(){
   }
   isLoggedIn():boolean{
-    console.log('is logged in',this.tokenService.getUser())
     let currentUser = this.tokenService.getUser();
     return currentUser!=null && currentUser!=undefined;
   };
