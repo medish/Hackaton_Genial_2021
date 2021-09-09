@@ -22,13 +22,14 @@
         </thead>
         <tbody>
         <tr *ngFor="let constraint of constraints; index as i">
-            <td><input type="checkbox" checked="true"/></td>
-            <td>a</td>
-            <td>b</td>
-            <td>c</td>
+            <td><input type="checkbox" [ngModel]="constraint.active" checked={{constraint.active}} id={{i}} (click)="setActive($event)"/></td>
+            <td>{{constraint.selector.selectorUnits[i].enseignant}}</td>
+            <td>{{constraint.selector.selectorUnits[i].enseignement}}</td>
+            <td>{{constraint.selector.selectorUnits[i].cursus}}</td>
             <td>{{constraint.veut ? "veut" : "ne veut pas"}}</td>
-            <td>{{constraint.jour[0]}}</td>
-            <td>{{constraint.temps.temps[0].debut}}</td>
+            
+            <td><ng-container *ngFor="let jour of constraint.jour; index as j">{{(j === constraint.jour.length - 1) ? jour : jour + ", "}}</ng-container></td>
+            <td>{{constraint.temps.temps[i].debut}} - {{constraint.temps.temps[i].fin}}</td>
             <td>{{constraint.salle}}</td>
             <td>{{constraint.priority}}</td>
         </tr>

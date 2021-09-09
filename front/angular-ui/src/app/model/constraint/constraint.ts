@@ -3,6 +3,7 @@ import { Temps } from "../temps/temps";
 import { ConstraintPrecedence } from "./constraint-precedence";
 
 export class Constraint{
+    active:boolean = true;
     selector:Selector={
         selectorUnits:[]
     };

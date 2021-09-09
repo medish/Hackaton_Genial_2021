@@ -2,13 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { Constraint } from '../model/constraint/constraint';
 
 
-const CONSTRAINTS: Constraint[] = [
+let CONSTRAINTS: Constraint[] = [
   {
+    active: true,
     selector:{
-      selectorUnits:[]
+      selectorUnits:[
+        {
+          enseignant:'a',
+          enseignement:'b',
+          cursus:'c',
+        }
+      ]
     }, 
     veut: true,
-    jour: ["Lundi"], 
+    jour: ["Lundi", "Mardi", "Mercredi"], 
     temps: {
       temps: [
         {debut: 8,
@@ -22,9 +29,9 @@ const CONSTRAINTS: Constraint[] = [
       strict: false,
       selectorTarget: {selectorUnits:[
         { 
-          table:'a',
-          attribute:'b',
-          value:'c'
+          enseignant:'d',
+          enseignement:'e',
+          cursus:'f'
         }
       ]}
     }
@@ -39,12 +46,15 @@ const CONSTRAINTS: Constraint[] = [
 
 
 export class TableauContraintesComponent implements OnInit {
-
+  
   constraints = CONSTRAINTS;
+  setActive(newValue) {
+    const constraintIndex = parseInt(newValue.currentTarget.id);
+    const constraintActive =  this.constraints[constraintIndex].active;
+    this.constraints[constraintIndex].active = !constraintActive;
+  }
   constructor() { }
   ngOnInit(): void {
-console.log(CONSTRAINTS)
-
   }
   
 
