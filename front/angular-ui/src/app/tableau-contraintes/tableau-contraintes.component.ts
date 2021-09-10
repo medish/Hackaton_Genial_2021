@@ -6,6 +6,7 @@ import { DataInterfaceService } from '../services/data-interface.service';
 
 let CONSTRAINTS_TIME_AND_ROOM: ConstraintTimeRoom[] = [
   {
+    id:1,
     selector:{
         selectorUnits:[
           {table:'a',
@@ -27,6 +28,7 @@ let CONSTRAINTS_TIME_AND_ROOM: ConstraintTimeRoom[] = [
 ];
 const CONSTRAINTS_PRECEDENCE:ConstraintPrecedence[]=[
   {
+    id:2,
     selector:{
       selectorUnits:[{table:'ens',attribute:'name',value:'zielonka'}]
     },
@@ -49,9 +51,11 @@ const CONSTRAINTS_PRECEDENCE:ConstraintPrecedence[]=[
 export class TableauContraintesComponent implements OnInit, OnChanges {
   
 
-  deleteConstraint(id_constraint_clicked){
+  deleteConstraint(id_constraint_clicked,index,type){
     let constraint = document.getElementById(id_constraint_clicked);
     constraint.innerHTML = "";
+    if(type=='TR')this.serv.deleteTimeConstraints(this.constraintsTimeRoom[index].id)
+    else if(type=='P')this.serv.deletePrecedenceConstraints(this.constraintPrecedence[index].id);
   }
 
 

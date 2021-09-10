@@ -34,7 +34,7 @@
                     <ng-container *ngFor="let room of constraint.room.selectorUnits; index as r">{{(r === constraint?.room?.selectorUnits?.length - 1) ? room?.value : room?.value + ", "}}</ng-container>
                 </td>
                 <td>{{constraint?.priority}}</td>
-                <td><button type="button" class="btn btn-danger" (click)="deleteConstraint('constraintTimeRoom' + i)"><i class="bi bi-trash-fill"></i></button></td>
+                <td><button type="button" class="btn btn-danger" (click)="deleteConstraint('constraintTimeRoom' + i,i,'TR')"><i class="bi bi-trash-fill"></i></button></td>
             </tr>
         </tbody>
     </table>
@@ -69,7 +69,7 @@
                 <td>{{constraint?.strict ? "Oui" : "Non"}}</td>
                 <td>{{constraint?.selectorTarget?.selectorUnits[i]?.attribute}}</td>
                 <td>{{constraint?.selectorTarget?.selectorUnits[i]?.value}}</td>
-                <td><button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="deleteConstraint('constraintPrecedence' + i)"><i class="bi bi-trash-fill"></i></button></td>
+                <td><button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="deleteConstraint('constraintPrecedence' + i,i,'P')"><i class="bi bi-trash-fill"></i></button></td>
             </tr>
         </tbody>
     </table>

@@ -1,6 +1,7 @@
 import { Selector } from "../selector/selector";
 
 export class ConstraintPrecedence{
+    id:number;
     selector:Selector={
         selectorUnits:[]
     };

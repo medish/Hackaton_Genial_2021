@@ -24,12 +24,13 @@ export class ConstraintService {
   parseConstraintsTimeAndRoom(constraints:string):ConstraintTimeRoom[]{
     let lines = constraints.split('\n');
     let result:ConstraintTimeRoom[]=[];
-    let lineSplitted = []
+    let lineSplitted = [];
     for(let line of lines){
       if(line.length>0){
         lineSplitted = line.split(CSV_SEPARATOR);
         if(!this.verifySplittedLineConstraintsTimeRoom(lineSplitted))return null;
         result.push({
+          id:Math.random(),
           selector: this.parseSelector(lineSplitted[0]),
           veut:lineSplitted[1].toLowerCase()=='true',
           room:this.parseSelector(lineSplitted[0]),
@@ -71,6 +72,7 @@ export class ConstraintService {
       lineSplitted = line.split(CSV_SEPARATOR);
       if(!this.verifySplittedLinePrecedence(lineSplitted))return null;
       result.push({
+        id:Math.random(),
         selector:this.parseSelector(lineSplitted[0]),
         veut:lineSplitted[1]=='true',
         priority:parseInt(lineSplitted[5]),
