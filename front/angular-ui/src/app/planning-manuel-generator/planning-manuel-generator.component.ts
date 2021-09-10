@@ -190,8 +190,8 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     }
   }
 
-  classChangeHandler(classId : number) {
-    const selectedClass = this.classes.find(elem => elem.id = classId);
+  classChangeHandler(className : string) {
+    const selectedClass = this.classes.find(elem => elem.course.name === className);
     const teachersForClass = selectedClass!!.professors
     const teachersId = teachersForClass.map(professor => professor.id);
     let color_ = selectedClass!!.course.color;
@@ -205,6 +205,12 @@ export class PlanningManuelGeneratorComponent implements OnInit {
         this.professors = this.professors.filter(t => t.id != professor.id);
       }
     }
+  }
+
+  teacherChangeHandler(teacherName: string) {
+    let calendarApi = this.calendarComponent.getApi();
+    let event = calendarApi.getEventById(this.id_event_clicked);
+    event?.setExtendedProp("prof", teacherName);
   }
 
   onClassesReceived(classes : [Lesson], context : this) {
