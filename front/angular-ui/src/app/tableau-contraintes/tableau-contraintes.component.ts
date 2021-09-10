@@ -59,7 +59,8 @@ export class TableauContraintesComponent implements OnInit, OnChanges {
   @Input("constraintPrecedence") constraintPrecedence = CONSTRAINTS_PRECEDENCE;
   constructor(private serv:DataInterfaceService) { }
   ngOnInit(): void {
-    console.log(CONSTRAINTS_PRECEDENCE);
+    this.serv.fetchPrecedenceConstraints((data)=>{this.constraintPrecedence = data})
+    this.serv.fetchTimeConstraints((data)=>{this.constraintsTimeRoom=data})
     
   }
 
