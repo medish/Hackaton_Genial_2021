@@ -147,7 +147,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
             if(pc.isStrict()) {
                 merged = merged.filter((lesson1, lesson2) ->
                         lesson1.isBeforeInDay(lesson2)
-                                && lesson1.getEndTime().isBefore(lesson2.getStartTime()));
+                                && lesson1.getEndTime().equals(lesson2.getStartTime()));
             }else{
                 merged = merged.filter((lesson1, lesson2) -> lesson1.isBeforeInDay(lesson2));
             }
@@ -159,7 +159,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
             if(pc.isStrict()) {
                 merged = merged.filter((lesson1, lesson2) ->
                         lesson1.isBeforeInDay(lesson2)
-                                && lesson1.getStartTime().isAfter(lesson2.getStartTime()));
+                                && lesson1.getStartTime().equals(lesson2.getEndTime()));
             }else {
                 merged = merged.filter((lesson1, lesson2) -> lesson1.isAfterInDay(lesson2));
             }
