@@ -1,0 +1,21 @@
+<div class="m-5">
+
+    <div class="">
+        <button type="button" class="btn btn-primary" (click)="isCollapsedconstraints = !isCollapsedconstraints" [attr.aria-expanded]="!isCollapsedconstraints" aria-controls="collapseEvent">Add constraints
+        </button>
+    </div>
+    <hr>
+    <div id="collapseEvent" [isAnimated]="true" [collapse]="isCollapsedconstraints">
+        <app-get-file-constraints (onAddConstraintPrecedence)="updatePrecedenceConstraints($event)" (onAddConstraintTimeRoom)="updateTimeAndRoomsConstraints($event)" class="m-5"></app-get-file-constraints>
+    </div>
+
+    <div class="">
+        <button type="button" class="btn btn-primary" (click)="isCollapsedArray = !isCollapsedArray" [attr.aria-expanded]="!isCollapsedArray" aria-controls="collapseEventArray">View active contraints
+        </button>
+    </div>
+    <hr>
+    <div id="collapseEventArray" [isAnimated]="true" [collapse]="isCollapsedArray">
+        <tableau-contraintes [constraintsTimeRoom]="timeAndRoomConstraints" [constraintPrecedence]="precedenceConstraints" class="m-5"></tableau-contraintes>
+    </div>
+
+</div>

@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ConstraintPrecedence } from '../model/constraint/constraint-precedence';
+import { ConstraintTimeRoom } from '../model/constraint/constraint-time-room';
 import { ConstraintService } from '../services/constraint/constraint.service';
 
 @Component({
@@ -9,18 +11,24 @@ import { ConstraintService } from '../services/constraint/constraint.service';
 export class GetFileConstraintsComponent implements OnInit {
 
   constructor(public constraintService:ConstraintService) { }
-
+  @Output('onAddConstraintTimeRoom')onAddConstraintTimeRoom = new EventEmitter<ConstraintTimeRoom[]>()
+  @Output('onAddConstraintPrecedence')onAddConstraintPrecedence = new EventEmitter<ConstraintPrecedence[]>();
   ngOnInit(): void {
   }
   currentFileNameTimeAndRoom='';
   currentFileNamePrecedence='';
-  currentConstraintsTimeAndRoom=[];
-  currentConstraintsPrecedence=[];
-
+  errorMessageTimeAndRoom='';
+  errorMessagePrecedence='';
   onFileSelectedTimeAndRoom(event:any){
     let fileReader = new FileReader();
     fileReader.onload = (e) => {
-      this.currentConstraintsTimeAndRoom = this.constraintService.parseConstraintsTimeAndRoom(fileReader.result?.toString());
+      let result = this.constraintService.parseConstraintsTimeAndRoom(fileReader.result?.toString());
+      this.errorMessageTimeAndRoom = ''
+      if(result){
+        this.onAddConstraintTimeRoom.emit(result);
+      }else{
+        this.errorMessageTimeAndRoom = 'Error on upload of time and rooms constraints file'
+      }
     }
     if(event?.target?.files?.length > 0){
       this.currentFileNameTimeAndRoom = event.target.files[0].name;
@@ -31,7 +39,13 @@ export class GetFileConstraintsComponent implements OnInit {
   onFileSelectedPrecedence(event:any){
     let fileReader = new FileReader();
     fileReader.onload = (e) => {
-      this.currentConstraintsPrecedence = this.constraintService.parseConstraintsPrecedence(fileReader.result?.toString());
+      let result = this.constraintService.parseConstraintsPrecedence(fileReader.result?.toString());
+      this.errorMessagePrecedence = ''
+      if(result){
+        this.onAddConstraintPrecedence.emit(result);
+      }else{
+        this.errorMessagePrecedence = 'Error on upload of precedence constraints file';
+      }
     }
     if(event?.target?.files?.length > 0){
       this.currentFileNamePrecedence = event.target.files[0].name

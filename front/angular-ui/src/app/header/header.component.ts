@@ -23,5 +23,9 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/admin']);
   }
 
+  allPlannings(){
+    this.router.navigate(['/all-plannings'])
+  }
+
 
 }

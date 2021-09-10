@@ -1,0 +1,9 @@
+<div class="container">
+    <h1>All plannings</h1>
+    <div *ngIf="plannings" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <ng-container *ngFor="let plan of plannings">
+            <app-card-planning [planning]="plan"></app-card-planning>
+        </ng-container>
+
+    </div>
+</div>

@@ -14,7 +14,7 @@
                         <p class="nav-link " aria-current="page" (click)="home()">Administration</p>
                     </li>
                     <li *ngIf="authService.getUser()?.roles?.includes('ADMIN')" class="nav-item">
-                        <p class="nav-link " aria-current="page" (click)="home()">All plannings</p>
+                        <p class="nav-link " aria-current="page" (click)="allPlannings()">All plannings</p>
                     </li>
                 </ul>
                 <form class="d-flex">
