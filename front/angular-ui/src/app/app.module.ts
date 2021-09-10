@@ -8,8 +8,6 @@ import { LoginComponent } from './login/login.component';
 import { AdminComponent } from './admin/admin.component';
 import { ProfComponent } from './prof/prof.component';
 import { HeaderComponent } from './header/header.component';
-import { AComponent } from './a/a.component';
-import { BComponent } from './b/b.component';
 import { TableauContraintesComponent } from './tableau-contraintes/tableau-contraintes.component';
 import { HttpClientModule } from '@angular/common/http';
 import {PlanningManuelGeneratorComponent} from "./planning-manuel-generator/planning-manuel-generator.component";
@@ -20,7 +18,10 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PlanningAutoGeneratorComponent } from './planning-auto-generator/planning-auto-generator.component';
 import { GetFileConstraintsComponent } from './get-file-constraints/get-file-constraints.component';
+import { ConstraintsComponent } from './constraints/constraints.component';
 import { PdfExportComponent } from './pdf-export/pdf-export.component';
+import { AllPlanningsComponent } from './all-plannings/all-plannings.component';
+import { CardPlanningComponent } from './all-plannings/card-planning/card-planning.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -34,13 +35,14 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     AdminComponent,
     ProfComponent,
     HeaderComponent,
-    AComponent,
-    BComponent,
-    TableauContraintesComponent,
+      TableauContraintesComponent,
     PlanningManuelGeneratorComponent,
     PlanningAutoGeneratorComponent,
     GetFileConstraintsComponent,
-    PdfExportComponent
+    ConstraintsComponent,
+    PdfExportComponent,
+    AllPlanningsComponent,
+    CardPlanningComponent
   ],
   imports: [
     BrowserAnimationsModule,

@@ -1,28 +1,44 @@
 {
-    "classes": [{
+    "lessons": [{
             "id": 17,
             "name": "Langages à Objets Avancés",
             "duration": 120,
             "size": 100,
-            "courseId": 1
+            "course": {
+                "id": 1,
+                "name":"Master GENIAL M1",
+                "colour": "#dc3545"
+            },
+            "teachers": [{
+                "id": 471,
+                "departmentId": 2,
+                "email": "peter.habermehl@irif.fr",
+                "firstName": "Peter",
+                "lastName": "Habermehl",
+                "is_admin": false
+            }]
         },
         {
             "id": 18,
             "name": "Programmation Objets Avancés",
             "duration": 120,
             "size": 70,
-            "courseId": 2
+            "course": {
+                "id": 2,
+                "name":"Master GENIAL M2",
+                "colour": "#dc3545"
+            },
+            "teachers": [{
+                "id": 471,
+                "departmentId": 2,
+                "email": "peter.habermehl@irif.fr",
+                "firstName": "Peter",
+                "lastName": "Habermehl",
+                "is_admin": false
+            }]
         }
     ],
-    "courseDegrees": [{
-        "courseId": 1,
-        "degreeId": 2
-    },
-    {
-        "courseId": 1,
-        "degreeId": 2
-    }],
-    "teachers": [{
+    "professors": [{
             "id": 471,
             "department_id": 2,
             "email": "peter.habermehl@irif.fr",
@@ -61,50 +77,52 @@
         }
     ],
     "degrees": [{
-        "id": 1,
-        "name": "Master GENIAL M1"
-    },
-    {
-        "id": 2,
-        "name": "Master GENIAL M2"
-    },
-    {
-        "id": 3,
-        "name": "Master DATA M1"
-    },
-    {
-        "id": 4,
-        "name": "Master IMPAIR M1",
-        "departmentId": "1"
-    },
-    {
-        "id": 5,
-        "name": "Master IMPAIR M2",
-        "departmentId": "1"
-    },
-    {
-        "id": 6,
-        "name": "Licence 1 Informatique",
-        "departmentId": "1"
-    },
-    {
-        "id": 7,
-        "name": "Licence 2 Informatique",
-        "departmentId": "1"
-    },
-    {
-        "id": 7,
-        "name": "Licence 3 Informatique",
-        "departmentId": "1"
-    }],
+            "id": 1,
+            "name": "Master GENIAL M1"
+        },
+        {
+            "id": 2,
+            "name": "Master GENIAL M2"
+        },
+        {
+            "id": 3,
+            "name": "Master DATA M1"
+        },
+        {
+            "id": 4,
+            "name": "Master IMPAIR M1",
+            "departmentId": "1"
+        },
+        {
+            "id": 5,
+            "name": "Master IMPAIR M2",
+            "departmentId": "1"
+        },
+        {
+            "id": 6,
+            "name": "Licence 1 Informatique",
+            "departmentId": "1"
+        },
+        {
+            "id": 7,
+            "name": "Licence 2 Informatique",
+            "departmentId": "1"
+        },
+        {
+            "id": 7,
+            "name": "Licence 3 Informatique",
+            "departmentId": "1"
+        }
+    ],
     "departments": [{
-        "id": 1,
-        "name": "Informatique"
-    },
-    {
-        "id": 2,
-        "name": "Biologie"
-    }],
+            "id": 1,
+            "name": "Informatique"
+        },
+        {
+            "id": 2,
+            "name": "Biologie"
+        }
+    ],
     "a_b": {
         "test": "am"
     },
@@ -114,5 +132,10 @@
         "surname": "surname",
         "roles": ["ADMIN"],
         "username": "username"
-    }
+    },
+    "planning": [{
+        "name": "planning1",
+        "id": "1",
+        "elements": [{ "lesson_id": "lesson_id_1", "day": 2, "hour": "10:30" }]
+    }]
 }
