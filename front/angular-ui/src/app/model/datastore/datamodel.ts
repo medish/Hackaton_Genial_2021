@@ -1,14 +1,21 @@
 export interface Room {
-    number: number,
-    departmentId: number,
+    number: string,
+    department: Department,
     capacity: number,
-    type: string
+    roomType: RoomType
 };
-
+export interface OurDate{
+    dateId:{
+        day:string,
+        hour:string
+    }
+    hour:string,
+    day:string
+}
 export interface Lesson {
-    id: number,
+    id: string,
     duration: string,
-    group_size: number,
+    groupSize: number,
     course: Course,
     roomType: RoomType,
     professors: Professor[]
@@ -28,11 +35,11 @@ export interface RoomType {
 };
 
 export interface Professor {
-    id: number,
+    id: string,
     name: string,
     firstName: string,
     email: string,
-    is_admin: boolean,
+    isAdmin: boolean,
 };
 
 export interface Department {
@@ -41,7 +48,7 @@ export interface Department {
 };
 
 export interface Degree {
-    id: number,
+    id: string,
     name: string
 };
 

@@ -1,14 +1,12 @@
 {
-    "lessons": [
-        {
+    "lessons": [{
             "id": 17,
             "duration": 120,
             "group_size": 100,
             "course": {
                 "id": 1,
                 "name": "Programmation Composants Mobiles",
-                "degrees": [
-                    {
+                "degrees": [{
                         "id": 1,
                         "name": "Master GENIAL M1"
                     },
@@ -27,15 +25,13 @@
                 "id": 1,
                 "name": "cours"
             },
-            "professors": [
-                {
-                    "id": 471,
-                    "email": "peter.habermehl@irif.fr",
-                    "firstName": "Peter",
-                    "name": "Habermehl",
-                    "is_admin": false
-                }
-            ]
+            "professors": [{
+                "id": 471,
+                "email": "peter.habermehl@irif.fr",
+                "firstName": "Peter",
+                "name": "Habermehl",
+                "is_admin": false
+            }]
         },
         {
             "id": 19,
@@ -44,8 +40,7 @@
             "course": {
                 "id": 1,
                 "name": "Programmation Composants Mobiles",
-                "degrees": [
-                    {
+                "degrees": [{
                         "id": 1,
                         "name": "Master GENIAL M1"
                     },
@@ -64,15 +59,13 @@
                 "id": 2,
                 "name": "td"
             },
-            "professors": [
-                {
-                    "id": 471,
-                    "email": "peter.habermehl@irif.fr",
-                    "firstName": "Peter",
-                    "name": "Habermehl",
-                    "is_admin": false
-                }
-            ]
+            "professors": [{
+                "id": 471,
+                "email": "peter.habermehl@irif.fr",
+                "firstName": "Peter",
+                "name": "Habermehl",
+                "is_admin": false
+            }]
         },
         {
             "id": 18,
@@ -81,8 +74,7 @@
             "course": {
                 "id": 1,
                 "name": "Informatique Embarquée",
-                "degrees": [
-                    {
+                "degrees": [{
                         "id": 1,
                         "name": "Master GENIAL M1"
                     },
@@ -101,19 +93,16 @@
                 "id": 1,
                 "name": "cours"
             },
-            "professors": [
-                {
-                    "id": 471,
-                    "email": "peter.habermehl@irif.fr",
-                    "firstName": "Peter",
-                    "name": "Habermehl",
-                    "is_admin": false
-                }
-            ]
+            "professors": [{
+                "id": 471,
+                "email": "peter.habermehl@irif.fr",
+                "firstName": "Peter",
+                "name": "Habermehl",
+                "is_admin": false
+            }]
         }
     ],
-    "rooms": [
-        {
+    "rooms": [{
             "number": "5A",
             "departmentId": "2",
             "capacity": "100",
@@ -132,8 +121,7 @@
             "typeId": "1"
         }
     ],
-    "degrees": [
-        {
+    "degrees": [{
             "id": 1,
             "name": "Master GENIAL M1"
         },
@@ -171,8 +159,7 @@
             "departmentId": "1"
         }
     ],
-    "professors": [
-        {
+    "professors": [{
             "id": 471,
             "email": "peter.habermehl@irif.fr",
             "firstName": "Peter",
@@ -187,8 +174,7 @@
             "is_admin": true
         }
     ],
-    "departments": [
-        {
+    "departments": [{
             "id": 1,
             "name": "Informatique"
         },
@@ -209,17 +195,13 @@
         ],
         "username": "username"
     },
-    "planning": [
-        {
-            "name": "planning1",
-            "id": "1",
-            "elements": [
-                {
-                    "lesson_id": "lesson_id_1",
-                    "day": 2,
-                    "hour": "10:30"
-                }
-            ]
-        }
-    ]
+    "planning": [{
+        "name": "planning1",
+        "id": "1",
+        "elements": [{
+            "lesson_id": "lesson_id_1",
+            "day": 2,
+            "hour": "10:30"
+        }]
+    }]
 }

@@ -6,13 +6,14 @@ import { ConstraintTimeRoom } from '../model/constraint/constraint-time-room';
 import { Room, Lesson, RoomType, Professor, Department, Degree, Identity, Output } from '../model/datastore/datamodel'
 import { catchError, retry } from 'rxjs/operators';
 import { Planning } from '../model/planning/planning';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataInterfaceService {
 
-  url = "http://localhost:3000"
+  url = environment.baseUrl
 
   constructor(private http : HttpClient) { }
 
@@ -91,11 +92,15 @@ export class DataInterfaceService {
     );
   }
 
-  verifyConstraints(constraints: [Output], callback: (violatedConstraints: number) => any) {
-    return this.http.post<number>(this.url + "/constraints/verify", constraints)
+  verifyConstraints(constraints: [Output], callback: (violatedConstraints: any) => any) {
+    return this.http.post<number>(this.url + "/planning/verify", constraints)
     .pipe(catchError(this.handleError)).subscribe(data => callback(data));
   }
 
+  generatePlanning(callback:(any)=>any){
+    return this.http.get<any>(this.url + "/planning/auto")
+    .pipe(catchError(this.handleError)).subscribe(data=>callback(data));
+  }
   fetchAllPlannings(callback: (plannings:[Planning],context:any)=>any, context:any){
     return this.http.get<[Planning]>(this.url+'/planning').subscribe(data=>callback(data,context))
   }

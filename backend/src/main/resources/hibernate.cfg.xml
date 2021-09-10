@@ -1,0 +1,33 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+
+        <property name="connection.url">jdbc:postgresql://localhost/app_calendar</property> <!-- BD Mane -->
+        <property name="connection.driver_class">org.postgresql.Driver</property> <!-- DB Driver -->
+        <property name="connection.username">postgres</property> <!-- DB User -->
+        <property name="connection.password">root</property> <!-- DB Password -->
+
+        <property name="dialect">org.hibernate.dialect.PostgreSQL82Dialect</property> <!-- DB Dialect -->
+        <property name="hbm2ddl.auto">update</property> <!-- create / create-drop / update -->
+
+        <property name="show_sql">true</property> <!-- Show SQL in console -->
+        <property name="format_sql">true</property> <!-- Show SQL formatted -->
+        <mapping class="server.models.Customer"/>
+        <mapping class="server.models.Lesson"/>
+        <mapping class="server.models.Professor"/>
+        <mapping class="server.models.RoomType"/>
+        <mapping class="server.models.Department"/>
+        <mapping class="server.models.Room"/>
+        <mapping class="server.models.Date"/>
+        <mapping class="server.models.Degree"/>
+        <mapping class="server.models.Course"/>
+        <mapping class="server.models.Output"/>
+        <mapping class="server.models.TimeConstraint"/>
+        <mapping class="server.models.PrecedenceConstraint"/>
+        <mapping class="server.models.Planning"/>
+
+    </session-factory>
+</hibernate-configuration>

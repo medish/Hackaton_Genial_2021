@@ -48,8 +48,8 @@ export class ConstraintService {
     selector=>selector?.match(/^([a-zA-Z]+:[a-zA-Z]+:[a-zA-Z0-9]+,)*([a-zA-Z]+:[a-zA-Z]+:[a-zA-Z0-9]+)$/g),
     want=>want?.match(/^(true|false)$/g),
     dayOfWeek=>dayOfWeek?.match(/^[1-7]$/g),
-    hour=>hour?.match(/^[0-2]\d:[0-5]\d$/g),
-    hour=>hour?.match(/^[0-2]\d:[0-5]\d$/g),
+    hour=>hour?.match(/^[0-2]\d:[0-5]\d:[0-5]\d$/g),
+    hour=>hour?.match(/^[0-2]\d:[0-5]\d:[0-5]\d$/g),
     roomSelector=>roomSelector?.match(/^(room:[a-zA-Z]+:[a-zA-Z0-9]+,)*(room:[a-zA-Z]+:[a-zA-Z0-9]+)$/g),
     priority=>priority?.match(/^0*(?:[1-9][0-9]?|100)$/)
   ]

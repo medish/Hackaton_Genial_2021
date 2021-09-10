@@ -1,5 +1,10 @@
+import { Lesson, OurDate, Room } from "../datastore/datamodel";
+
 export class Output{
-    lesson_id:string;
+    id:string;
+    date:OurDate;
+    room:Room;
+    lesson:Lesson;
     day:number;
-    hour:string;
+    endTime:string;
 }

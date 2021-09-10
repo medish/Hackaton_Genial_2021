@@ -27,7 +27,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   classes: Lesson[] = [];
   professors: Professor[] = [];
   degrees: Degree[] = [];
-  selectedDegree: number;
+  selectedDegree: string;
   that = this;
   id_event_clicked: string="";
   calendarApi :any;
@@ -50,6 +50,10 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   }
 
 
+  getIdLesson(){
+    // todo V
+    return 0
+  }
   /**
    * Get current Planning
    */
@@ -65,7 +69,6 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       "elements":{}
     }
 
-    console.warn(arrayEvents)
     for (let i = 0; i < arrayEvents.length; i++) {
       let dateStartStr = new Date(arrayEvents[i].startStr)
 
@@ -85,15 +88,17 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       let dayNumber = dateStartStr.getDay()
 
       arrayPrepared.push({
-            "lesson_id":uniqid(),
+            "lesson_id":this.getIdLesson(),
             "hour":startTime,
+             "endTime":endTime,
             "day":dayNumber
           }
       )
     }
 
     planningJson.elements=arrayPrepared;
-
+    console.warn(planningJson)
+    console.warn(arrayEvents)
     return JSON.stringify(planningJson);
   }
 
@@ -118,7 +123,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       eventData: function (eventEl: any) {
         let eventInitialColors={td:"#0d6efd",cours:"#dc3545",tp:"#ffc107"}
         let target_color= eventEl.innerText.toLowerCase()
-
+        console.log("from draggable")
         return {
           title: eventEl.innerText,
           id:uniqid(),
@@ -143,6 +148,11 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       slotMinTime: "8:00:00",
       slotMaxTime: "20:00:00",
       firstDay: 1,
+      eventDragStart : function (info ) {
+        console.log(info);
+        //todo  call new json planning
+        //todo call api
+      },
       eventClick:  (info)=>{
         this.prepareVerification()
         const day = new Date(info.event.startStr).getDay();
@@ -204,7 +214,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     this.roomsList = [];
     this.professors = [];
   }
-  degreeChangeHandler(degreeId: number) {
+  degreeChangeHandler(degreeId: string) {
     this.selectedDegree = degreeId;
     for(let classItem of this.classes) {
       const degreesForCourse = classItem.course.degrees;
@@ -239,6 +249,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   }
 
   onClassesReceived(classes : [Lesson], context : this) {
+    console.log('classes',classes)
     for(let classItem of classes) {
       let currentRoomType = classItem.roomType.name.toLowerCase();
       if(context.modelData.title.toLowerCase() === currentRoomType) {
@@ -261,8 +272,10 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   }
 
   onDegreesReceived(degrees : [Degree], context: this) {
+    console.log('degrees',degrees)
     for(let degree of degrees) {
       context.degrees.push(degree);
     }
   }
+
 }

@@ -9,6 +9,6 @@ export class ConstraintTimeRoom {
     priority:number=0; // This attribute should be between 0 and 100 
     room:Selector={selectorUnits:[]};
     day:number=1;
-    hourBegin:string='08:00';
-    hourEnd:string='12:00';
+    hourBegin:string='08:00:00';
+    hourEnd:string='12:00:00';
 }
