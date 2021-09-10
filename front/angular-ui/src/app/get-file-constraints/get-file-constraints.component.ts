@@ -16,7 +16,9 @@ export class GetFileConstraintsComponent implements OnInit {
   ngOnInit(): void {
   }
   currentFileNameTimeAndRoom='';
+  currentTimeAndRoom:ConstraintTimeRoom[]=[];
   currentFileNamePrecedence='';
+  currentPrecedence:ConstraintPrecedence[]=[];
   errorMessageTimeAndRoom='';
   errorMessagePrecedence='';
   onFileSelectedTimeAndRoom(event:any){
@@ -24,10 +26,11 @@ export class GetFileConstraintsComponent implements OnInit {
     fileReader.onload = (e) => {
       let result = this.constraintService.parseConstraintsTimeAndRoom(fileReader.result?.toString());
       this.errorMessageTimeAndRoom = ''
-      if(result){
-        this.onAddConstraintTimeRoom.emit(result);
+      if(!result){
+        console.log("error")
+        this.errorMessageTimeAndRoom = 'Syntax error'
       }else{
-        this.errorMessageTimeAndRoom = 'Error on upload of time and rooms constraints file'
+        this.currentTimeAndRoom = result;
       }
     }
     if(event?.target?.files?.length > 0){
@@ -35,21 +38,35 @@ export class GetFileConstraintsComponent implements OnInit {
       fileReader.readAsText(event.target.files[0]);
     }
   }
-
+  sendFileSelectedTimeAndRoom(){
+    console.log('Appel')
+    if(this.currentTimeAndRoom?.length>0){
+      console.log(this.currentTimeAndRoom)
+      this.onAddConstraintTimeRoom.emit(this.currentTimeAndRoom);
+    }
+  }
   onFileSelectedPrecedence(event:any){
     let fileReader = new FileReader();
     fileReader.onload = (e) => {
       let result = this.constraintService.parseConstraintsPrecedence(fileReader.result?.toString());
       this.errorMessagePrecedence = ''
-      if(result){
-        this.onAddConstraintPrecedence.emit(result);
+      if(!result){
+        this.errorMessagePrecedence = 'Syntax error';
       }else{
-        this.errorMessagePrecedence = 'Error on upload of precedence constraints file';
+        this.currentPrecedence = result;
       }
     }
     if(event?.target?.files?.length > 0){
       this.currentFileNamePrecedence = event.target.files[0].name
       fileReader.readAsText(event.target.files[0]);
+    }
+  }
+
+  sendFileSelectedPrecedence(){
+    console.log('Appel')
+    if(this.currentPrecedence?.length>0){
+      console.log(this.currentPrecedence)
+      this.onAddConstraintPrecedence.emit(this.currentPrecedence);
     }
   }
 }

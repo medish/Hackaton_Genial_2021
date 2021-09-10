@@ -1,15 +1,20 @@
 <form action="">
     <div class="form-group">
         <label for="timing_constraints" class="mb-3 control-label"> Contraintes de temps </label>
-        <input name="timing_constraints" id="timing_constraints" type="file" (change)="onFileSelectedTimeAndRoom($event)" placeholder="" class="form-control">
+        <div class="row">
+            <input name="timing_constraints" id="timing_constraints" type="file" (change)="onFileSelectedTimeAndRoom($event)" placeholder="" class="form-control">
+            <button class="btn btn-lg text-white" (click)="sendFileSelectedTimeAndRoom()">Valider</button>
+            <p>{{errorMessageTimeAndRoom}}</p>
+        </div>
     </div>
 
     <div class="form-group">
         <label for="ordering_constraints" class="mb-3 mt-5 control-label">Contraintes d'ordre</label>
-        <input name="ordering_constraints" id="ordering_constraints" type="file" (change)="onFileSelectedPrecedence($event)" class="form-control">
-    </div>
-    <div class="text-center m-5">
-        <button type="submit" class="btn btn-lg text-white" style="background-color: #8d448b">Envoyer mes contraintes</button>
+        <div class="row">
+            <input name="ordering_constraints" id="ordering_constraints" type="file" (change)="onFileSelectedPrecedence($event)" class="form-control">
+            <button class="btn btn-lg text-white" (click)="sendFileSelectedPrecedence()">Valider</button>
+            <p>{{errorMessagePrecedence}}</p>
+        </div>
     </div>
 
 </form>
