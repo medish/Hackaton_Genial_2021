@@ -40,8 +40,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
 
   deleteEvent(id_event_clicked:string){
     let calendarApi = this.calendarComponent.getApi();
-    let event = calendarApi.getEventById(id_event_clicked);
-    event.remove()
+    calendarApi.getEventById(id_event_clicked)?.remove();
   }
 
   getAllEvents(){
@@ -120,15 +119,21 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     let calendarApi = this.calendarComponent.getApi();
     let event = calendarApi.getEventById(this.id_event_clicked);
     event?.setExtendedProp("room", roomNum);
-    console.log("room number: " + event?.extendedProps["room"]);
   }
 
   onModalReady() {
-    this.classes = [];
+    this.clearExistingData();
     this.dataService.fetchAllRooms(this.onRoomsReceived, this);
     this.dataService.fetchAllClasses(this.onClassesReceived, this);
     this.dataService.fetchAllTeachers(this.onTeachersReceived, this);
     this.dataService.fetchAllDegrees(this.onDegreesReceived, this);
+  }
+
+  clearExistingData() {
+    this.degrees = [];
+    this.classes = [];
+    this.roomsList = [];
+    this.professors = [];
   }
   degreeChangeHandler(degreeId: number) {
     this.selectedDegree = degreeId;
@@ -150,6 +155,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     let event = calendarApi.getEventById(this.id_event_clicked);
     event?.setProp("backgroundColor", color_);
     event?.setProp("title", selectedClass?.course.name);
+    event?.setExtendedProp("duration", selectedClass?.duration);
     for(let professor of this.professors) {
       if(!(teachersId.includes(professor.id))) {
         this.professors = this.professors.filter(t => t.id != professor.id);
@@ -167,6 +173,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   }
 
   onRoomsReceived(roomsReceived : [Room], context : this) {
+
     for(let room of roomsReceived) {
       context.roomsList.push(room);
     }
