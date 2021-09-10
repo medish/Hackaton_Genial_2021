@@ -6,7 +6,7 @@
             "size": 100,
             "course": {
                 "id": 1,
-                "name":"Master GENIAL M1",
+                "name": "Master GENIAL M1",
                 "colour": "#dc3545"
             },
             "teachers": [{
@@ -25,7 +25,7 @@
             "size": 70,
             "course": {
                 "id": 2,
-                "name":"Master GENIAL M2",
+                "name": "Master GENIAL M2",
                 "colour": "#dc3545"
             },
             "teachers": [{
@@ -133,9 +133,9 @@
         "roles": ["ADMIN"],
         "username": "username"
     },
-    "planning": [{
+    "planning": {
         "name": "planning1",
         "id": "1",
         "elements": [{ "lesson_id": "lesson_id_1", "day": 2, "hour": "10:30" }]
-    }]
+    }
 }
