@@ -28,34 +28,19 @@ public class Professor implements Serializable {
     @JoinColumn(name = "customer_id")
     private Customer customer_id;
 
-    @ManyToMany(mappedBy = "professors")
-    private Set<Lesson> lessons;
-
     /*---------------------------------------------------------------*/
     /*-------------------------Getter-------------------------------*/
     /*---------------------------------------------------------------*/
 
     public Professor(String id, String name, String firstName, String email, boolean is_admin) {
-        this(id, name, firstName, email, is_admin, new HashSet<>());
-    }
-
-    public Professor(String id, String name, String firstName, String email, boolean is_admin, Set<Lesson> lessons) {
         this.customer_id = new Customer(id, name, firstName, email, is_admin);
-        this.id = id;
-        this.lessons = lessons;
+        this.id = id;    
     }
 
-    public Set<Lesson> getLessons() {
-        return lessons;
-    }
 
     /*---------------------------------------------------------------*/
     /*-------------------------Setter--------------------------------*/
     /*---------------------------------------------------------------*/
-
-    public void setLessons(Set<Lesson> lessons) {
-        this.lessons = lessons;
-    }
 
     public String getId() {
         return customer_id.getId();
