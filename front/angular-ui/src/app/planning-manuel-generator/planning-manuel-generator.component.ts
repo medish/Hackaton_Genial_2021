@@ -4,7 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin, {Draggable} from '@fullcalendar/interaction';
 import { DataInterfaceService } from '../services/data-interface.service';
-import { Class, Room, Degree, Teacher} from '../model/datastore/datamodel';
+import { Class, Room, Degree, Teacher, CourseDegree} from '../model/datastore/datamodel';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import {FullCalendarComponent} from "@fullcalendar/angular";
 
@@ -24,6 +24,8 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   classes: Class[] = [];
   teachers: Teacher[] = [];
   degrees: Degree[] = [];
+  courseDegrees: CourseDegree[] = [];
+  selectedDegree: number;
   that = this;
   id_event_clicked: string="";
   calendarApi :any;
@@ -40,6 +42,19 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     let event = calendarApi.getEventById(id_event_clicked);
     event.remove()
   }
+
+  getAllEvents(){
+    return this.calendarComponent.getApi().getEvents();
+  }
+  prepareVerification(){
+    let arrayEvents= this.getAllEvents();
+    console.warn(arrayEvents)
+    for(let i =0;i<arrayEvents.length;i++){
+      console.warn(arrayEvents[i]["id"])
+      alert(arrayEvents[i]["id"])
+    }
+  }
+
 
   ngOnInit() {
     let draggableEl = document.getElementById('external-events');
@@ -67,9 +82,13 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       itemSelector: '.fc-event',
       eventData: function (eventEl: any) {
         console.warn("From draggable Manuel")
+        let eventInitialColors={td:"#0d6efd",cours:"#dc3545",tp:"#ffc107"}
+        let target_color= eventEl.innerText.toLowerCase()
+
         return {
           title: eventEl.innerText,
-          id:Math.random()
+          id:Math.random(),
+          color:eventInitialColors[target_color]
         };
       }
     });
@@ -91,18 +110,13 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       slotMaxTime: "20:00:00",
       firstDay: 1,
       eventClick:  (info)=>{
-        console.log(info.event.startStr)
-        console.log(info.event.endStr);
         const day = new Date(info.event.startStr).getDay();
         var myModal = new Modal(document.getElementById("modalManuel"), {
           keyboard: false
         });
-
-        // modify the id_event_clicked
+        //TODO: modify the id_event_clicked
         this.id_event_clicked=info.event.id;
-        console.warn("Yeahhhh "+this.id_event_clicked)
-
-        this.modelData = {title:info.event.title}
+        this.modelData = {title:info.event.title};
         myModal.show();
       },
       eventAdd: function (addInfo) {
@@ -113,13 +127,40 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     };
   }
 
-  degreeChangeHandler() {
-    
+  degreeChangeHandler(degreeId: number) {
+    this.selectedDegree = degreeId;
+    this.dataService.fetchAllClasses(this.onClassesReceived, this);
+  }
+
+  classChangeHandler(classId : number) {
+    const selectedClass = this.classes.find(elem => elem.id = classId);
+    const teachersForClass = selectedClass!!.teachers
+    const teachersId = teachersForClass.map(teacher => teacher.id);
+    for(let teacher of this.teachers) {
+      if(!(teachersId.includes(teacher.id))) {
+        this.teachers = this.teachers.filter(t => t.id != teacher.id);
+      }
+    }
+  }
+
+  onCourseDegreeReceived(courseDegrees : [CourseDegree], context: this) {
+    for(let courseDegree of courseDegrees) {
+      context.courseDegrees.push(courseDegree);
+    }
   }
 
   onClassesReceived(classes : [Class], context : this) {
-    for(let classItem of classes) {
-      context.classes.push(classItem);
+    if(context.selectedDegree != -1) {
+      context.classes = [];
+      for(let classItem of classes) {
+        if(classItem.course.id == context.selectedDegree) {
+          context.classes.push(classItem);
+        }
+      }
+    } else {
+      for(let classItem of classes) {
+        context.classes.push(classItem);
+      }
     }
   }
 
@@ -127,7 +168,6 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     for(let room of roomsReceived) {
       context.roomsList.push(room);
     }
-
   }
 
   onTeachersReceived(teachers: [Teacher], context: this) {

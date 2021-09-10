@@ -4,14 +4,38 @@
             "name": "Langages à Objets Avancés",
             "duration": 120,
             "size": 100,
-            "courseId": 1
+            "course": {
+                "id": 1,
+                "name":"Master GENIAL M1",
+                "colour": "#dc3545"
+            },
+            "teachers": [{
+                "id": 471,
+                "departmentId": 2,
+                "email": "peter.habermehl@irif.fr",
+                "firstName": "Peter",
+                "lastName": "Habermehl",
+                "is_admin": false
+            }]
         },
         {
             "id": 18,
             "name": "Programmation Objets Avancés",
             "duration": 120,
             "size": 70,
-            "courseId": 2
+            "course": {
+                "id": 2,
+                "name":"Master GENIAL M2",
+                "colour": "#dc3545"
+            },
+            "teachers": [{
+                "id": 471,
+                "departmentId": 2,
+                "email": "peter.habermehl@irif.fr",
+                "firstName": "Peter",
+                "lastName": "Habermehl",
+                "is_admin": false
+            }]
         }
     ],
     "professors": [{
