@@ -35,6 +35,9 @@ public class Planning {
         this.id = id;
     }
 
+    public Planning() {
+    }
+
     public Planning(String id, List<Output> outputs)
     {
         this.id = id;

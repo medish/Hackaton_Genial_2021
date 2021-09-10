@@ -1,5 +1,7 @@
 package server.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
 import javax.persistence.Column;
@@ -18,6 +20,7 @@ public class RoomType implements IInput {
     @Column(name = "name", unique = true)
     private String name;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "roomType", targetEntity = Room.class)
     private List<Room> rooms;
 
@@ -27,6 +30,10 @@ public class RoomType implements IInput {
     public RoomType(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public RoomType()
+    {
     }
 
     public RoomType(String name) {

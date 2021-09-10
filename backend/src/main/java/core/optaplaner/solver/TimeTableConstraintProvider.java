@@ -3,6 +3,7 @@ package core.optaplaner.solver;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.Arrays;
+import java.util.Optional;
 
 import core.selector.SelectorUnit;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
@@ -15,6 +16,7 @@ import core.optaplaner.domain.LessonOptaPlaner;
 import org.optaplanner.core.api.score.stream.bi.BiConstraintStream;
 import org.optaplanner.core.api.score.stream.uni.UniConstraintStream;
 import server.models.PrecedenceConstraint;
+import server.models.Professor;
 import server.models.TimeConstraint;
 
 public class TimeTableConstraintProvider implements ConstraintProvider {
@@ -49,7 +51,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
     public Constraint teacherConflict(ConstraintFactory constraintFactory) {
         // A teacher can teach at most one lesson at the same time.
         return constraintFactory
-                .fromUniquePair(LessonOptaPlaner.class, Joiners.equal(lesson -> lesson.getTeacher().getName()),
+                .fromUniquePair(LessonOptaPlaner.class, Joiners.equal(lesson -> Optional.ofNullable(lesson.getTeacher()).map(Professor::getName).orElse(null)),
                         Joiners.filtering((lesson1, lesson2) -> lesson1.isCollide(lesson2)))
                 .penalize("Teacher conflict", HardSoftScore.ONE_HARD);
     }

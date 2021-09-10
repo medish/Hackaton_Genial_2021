@@ -36,6 +36,11 @@ public class Lesson implements IInput {
     @JoinTable(name = "lesson_professor", joinColumns = @JoinColumn(name = "lesson_id"), inverseJoinColumns = @JoinColumn(name = "professor_id"))
     private Set<Professor> professors;
 
+    public Lesson()
+    {
+
+    }
+
     public Lesson(String id, Duration duration, int group_size, Course course, RoomType room_type,
             Set<Professor> professors) {
         this.id = id;

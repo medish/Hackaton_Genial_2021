@@ -20,6 +20,9 @@ public class Date {
         this.dateId = dateId;
     }
 
+    public Date() {
+    }
+
     @OneToMany(mappedBy = "date", targetEntity = Output.class)
     private List<Output> outputs;
 

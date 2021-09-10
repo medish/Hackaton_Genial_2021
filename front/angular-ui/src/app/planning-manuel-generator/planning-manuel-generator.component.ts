@@ -164,6 +164,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   }
 
   onClassesReceived(classes : [Lesson], context : this) {
+    console.log('classes',classes)
     for(let classItem of classes) {
       let currentRoomType = classItem.roomType.name.toLowerCase();
       if(context.modelData.title.toLowerCase() === currentRoomType) {
@@ -186,6 +187,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   }
 
   onDegreesReceived(degrees : [Degree], context: this) {
+    console.log('degrees',degrees)
     for(let degree of degrees) {
       context.degrees.push(degree);
     }
