@@ -1,22 +1,23 @@
 package server.services;
 
+import java.util.List;
+
+import org.optaplanner.core.api.score.ScoreExplanation;
+import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import core.SolverTimeTable;
 import core.optaplaner.SolverOptaplaner;
 import core.optaplaner.domain.TimeTableOptaPlaner;
 import core.output.TimeTable;
 import core.planning.DateList;
-import org.optaplanner.core.api.score.ScoreExplanation;
-import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Service;
-import server.models.*;
-import server.services.LessonService;
-import server.services.PlanningService;
-import server.services.RoomService;
-import server.services.TimeConstraintService;
-
-import java.util.List;
+import server.models.Date;
+import server.models.Output;
+import server.models.Planning;
+import server.models.PrecedenceConstraint;
+import server.models.Room;
+import server.models.TimeConstraint;
 
 @Service
 public class PlanningSolver {
@@ -36,10 +37,13 @@ public class PlanningSolver {
 
     /**
      * Solves planning
+     * 
      * @return {@link Planning}
      */
     public Planning solve() {
         // Constraints Time + precedence
+        List<TimeConstraint> timeConstraints = timeConstraintService.getAll();
+        List<PrecedenceConstraint> precedenceConstraints = precedenceConstraintService.getAll();
         // Lessons
         List<Output> outputList = TimeTable.buildListOutput(lessonService.getAll());
         // Rooms
@@ -47,24 +51,26 @@ public class PlanningSolver {
 
         TimeTable timeTable = new TimeTable(dateList, roomList, outputList);
 
-        // TODO add constraints as argument to solve.
-        List<Output> resolvedOutput = solver.solve(timeTable).getOutputList();
+        List<Output> resolvedOutput = solver.solve(timeTable, timeConstraints, precedenceConstraints).getOutputList();
 
         return new Planning("0", resolvedOutput);
     }
 
     /**
      * Checks a planning for a given output list.
+     * 
      * @param outputList Output list {@link Output}
      * @return {@link ScoreExplanation}
      */
-    public ScoreExplanation<TimeTableOptaPlaner, HardSoftScore> checkPlanning(List<Output> outputList){
+    public ScoreExplanation<TimeTableOptaPlaner, HardSoftScore> checkPlanning(List<Output> outputList) {
+        // Constraints Time + precedence
+        List<TimeConstraint> timeConstraints = timeConstraintService.getAll();
+        List<PrecedenceConstraint> precedenceConstraints = precedenceConstraintService.getAll();
         // Rooms
         List<Room> roomList = roomService.getAll();
 
         TimeTable timeTable = new TimeTable(dateList, roomList, outputList);
 
-        // TODO add constraints as argument to verify.
-        return solver.verify(timeTable);
+        return solver.verify(timeTable, timeConstraints, precedenceConstraints);
     }
 }
