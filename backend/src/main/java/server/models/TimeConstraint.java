@@ -23,9 +23,14 @@ public class TimeConstraint implements IInput {
     private boolean wants;
 
     @ManyToOne
-    @JoinColumns({ @JoinColumn(name = "date_day", nullable = false, referencedColumnName = "day"),
-            @JoinColumn(name = "date_hour", nullable = false, referencedColumnName = "hour") })
-    private Date date;
+    @JoinColumns({ @JoinColumn(name = "date_begin_day", nullable = false, referencedColumnName = "day"),
+            @JoinColumn(name = "date_begin_hour", nullable = false, referencedColumnName = "hour") })
+    private Date date_begin;
+
+    @ManyToOne
+    @JoinColumns({ @JoinColumn(name = "date_end_day", nullable = false, referencedColumnName = "day"),
+            @JoinColumn(name = "date_end_hour", nullable = false, referencedColumnName = "hour") })
+    private Date date_end;
 
     @ManyToOne
     @JoinColumns({ @JoinColumn(name = "department_id", nullable = false),
@@ -38,11 +43,12 @@ public class TimeConstraint implements IInput {
 
     }
 
-    public TimeConstraint(String id, String selector, boolean wants, Date date, Room room, int priority) {
+    public TimeConstraint(String id, String selector, boolean wants, Date date_begin, Date date_end, Room room, int priority) {
         this.id = id;
         this.selector = selector;
         this.wants = wants;
-        this.date = date;
+        this.date_begin = date_begin;
+        this.date_end = date_end;
         this.room = room;
         this.priority = priority;
     }
@@ -71,14 +77,6 @@ public class TimeConstraint implements IInput {
         this.wants = wants;
     }
 
-    public Date getDateId() {
-        return date;
-    }
-
-    public void setDateId(Date date) {
-        this.date = date;
-    }
-
     public int getPriority() {
         return priority;
     }
@@ -87,12 +85,20 @@ public class TimeConstraint implements IInput {
         this.priority = priority;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getDateBegin() {
+        return date_begin;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDateBegin(Date date_begin) {
+        this.date_begin = date_begin;
+    }
+
+    public Date getDateEnd() {
+        return date_end;
+    }
+
+    public void setDateEnd(Date date_end) {
+        this.date_end = date_end;
     }
 
     public Room getRoom() {

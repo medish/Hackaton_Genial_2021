@@ -23,8 +23,11 @@ public class Date {
     @OneToMany(mappedBy = "date", targetEntity = Output.class)
     private List<Output> outputs;
 
-    @OneToMany(mappedBy = "date", targetEntity = TimeConstraint.class)
-    private List<TimeConstraint> timeConstraints;
+    @OneToMany(mappedBy = "date_begin", targetEntity = TimeConstraint.class)
+    private List<TimeConstraint> timeConstraintsBegin;
+
+    @OneToMany(mappedBy = "date_end", targetEntity = TimeConstraint.class)
+    private List<TimeConstraint> timeConstraintsEnd;
 
     public DateId getDateId() {
         return dateId;
