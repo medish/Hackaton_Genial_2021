@@ -8,6 +8,7 @@ import { Lesson, Room, Degree, Professor} from '../model/datastore/datamodel';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import {FullCalendarComponent} from "@fullcalendar/angular";
 import uniqid from 'uniqid';
+import {createEvents} from 'ics';
 
 @Component({
   selector: 'app-planning-manuel-generator',
@@ -157,6 +158,30 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       },
 
     };
+  }
+
+  exportToICS() {
+    let allEvents = this.getAllEvents();
+    let events = [];
+    for (let i = 0; i < allEvents.length; i++) {
+      let event = allEvents[i];
+      let start = [
+        event.start.getFullYear(),
+        event.start.getMonth()+1,
+        event.start.getDate(),
+        event.start.getHours(),
+        event.start.getMinutes()];
+      events.push({
+        start : start,
+        duration : {hours : 3, minutes : 20},
+        title : event.title
+      });
+    }
+    const {error, value} = createEvents(events);
+    if (error)
+      console.log(error);
+    else
+      console.log(value);
   }
 
   roomChangeHandler(roomNum: number) {
