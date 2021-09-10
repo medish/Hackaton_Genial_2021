@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import {identity, Observable, throwError } from 'rxjs';
 import { ConstraintPrecedence } from '../model/constraint/constraint-precedence';
 import { ConstraintTimeRoom } from '../model/constraint/constraint-time-room';
-import { Room, Class, RoomType, Teacher, Department, Degree, Identity, Output } from '../model/datastore/datamodel'
+import { Room, Lesson, RoomType, Professor, Department, Degree, Identity, Output } from '../model/datastore/datamodel'
 import { catchError, retry } from 'rxjs/operators';
 import { Planning } from '../model/planning/planning';
 import { environment } from 'src/environments/environment';
@@ -61,8 +61,8 @@ export class DataInterfaceService {
     .subscribe(data => callback(data, context));
   }
 
-  fetchAllClasses(callback: (classes: [Class], context: any) => any, context: any) {
-    return this.http.get<[Class]>(this.url + "/lessons")
+  fetchAllClasses(callback: (classes: [Lesson], context: any) => any, context: any) {
+    return this.http.get<[Lesson]>(this.url + "/lessons")
     .subscribe(data => callback(data, context));
   }
 
@@ -71,8 +71,8 @@ export class DataInterfaceService {
     .subscribe(data => callback(data));
   }
 
-  fetchAllTeachers(callback: (teachers: [Teacher], context: any) => any, context: any) {
-    return this.http.get<[Teacher]>(this.url + "/professors")
+  fetchAllTeachers(callback: (teachers: [Professor], context: any) => any, context: any) {
+    return this.http.get<[Professor]>(this.url + "/professors")
     .subscribe(data => callback(data, context));
   }
 
