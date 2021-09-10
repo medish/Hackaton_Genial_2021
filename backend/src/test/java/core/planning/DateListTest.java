@@ -1,5 +1,6 @@
-package core.output;
+package core.planning;
 
+import core.planning.DateList;
 import org.junit.jupiter.api.Test;
 import server.models.Date;
 import static org.junit.jupiter.api.Assertions.assertEquals;

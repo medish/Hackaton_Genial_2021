@@ -1,4 +1,4 @@
-package core.output;
+package core.planning;
 
 import server.models.Date;
 import server.models.DateId;

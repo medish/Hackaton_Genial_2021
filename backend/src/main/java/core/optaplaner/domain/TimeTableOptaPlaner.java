@@ -67,7 +67,7 @@ public class TimeTableOptaPlaner implements FromOptaplanerToOutput<TimeTable>, F
 
     public static TimeTableOptaPlaner fromInput(TimeTable timeTable) {
         TimeTableOptaPlaner timeTableOptaPlaner = new TimeTableOptaPlaner(timeTable.getDateList(),
-                timeTable.getRoomList(), timeTable.getLessonList().stream()
+                timeTable.getRoomList(), timeTable.getOutputList().stream()
                         .map((output) -> LessonOptaPlaner.fromInput(output)).collect(Collectors.toList()));
         return timeTableOptaPlaner;
     }
