@@ -26,7 +26,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   classes: Lesson[] = [];
   professors: Professor[] = [];
   degrees: Degree[] = [];
-  selectedDegree: number;
+  selectedDegree: string;
   that = this;
   id_event_clicked: string="";
   calendarApi :any;
@@ -189,7 +189,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     this.roomsList = [];
     this.professors = [];
   }
-  degreeChangeHandler(degreeId: number) {
+  degreeChangeHandler(degreeId: string) {
     this.selectedDegree = degreeId;
     for(let classItem of this.classes) {
       const degreesForCourse = classItem.course.degrees;

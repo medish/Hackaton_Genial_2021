@@ -4,6 +4,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin, {Draggable} from '@fullcalendar/interaction';
 import {FullCalendarComponent} from "@fullcalendar/angular";
 import uniqid from 'uniqid';
+import { DataInterfaceService } from '../services/data-interface.service';
 
 @Component({
   selector: 'app-planning-auto-generator',
@@ -12,7 +13,7 @@ import uniqid from 'uniqid';
 })
 export class PlanningAutoGeneratorComponent implements OnInit {
   options: any;
-  constructor() {
+  constructor(private back:DataInterfaceService) {
   }
   @ViewChild('calendar') calendarComponent: FullCalendarComponent;
 
@@ -99,6 +100,13 @@ export class PlanningAutoGeneratorComponent implements OnInit {
       ]
 
     };
+  }
+
+  generatePlanning(){
+    this.back.generatePlanning(planning=>{
+      //COCOU Mouhammed
+      console.log(planning);
+    })
   }
 
 
