@@ -8,10 +8,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <p class="nav-link " aria-current="page" (click)="home()">My account</p>
+                        <p class="nav-link " aria-current="page" (click)="manual()">Manual</p>
                     </li>
                     <li *ngIf="authService.getUser()?.roles?.includes('ADMIN')" class="nav-item">
-                        <p class="nav-link " aria-current="page" (click)="home()">Administration</p>
+                        <p class="nav-link " aria-current="page" (click)="auto()">Auto</p>
                     </li>
                     <li *ngIf="authService.getUser()?.roles?.includes('ADMIN')" class="nav-item">
                         <p class="nav-link " aria-current="page" (click)="allPlannings()">All plannings</p>
