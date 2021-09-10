@@ -102,6 +102,12 @@ public class SelectorUnit {
         return null;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "SelectorUnit{"
+                + table + ':'
+                + attribute + ':'
+                + value+
+                '}';
+    }
 }
