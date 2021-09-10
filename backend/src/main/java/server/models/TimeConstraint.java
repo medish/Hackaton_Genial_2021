@@ -38,7 +38,7 @@ public class TimeConstraint implements IInput {
 
     }
 
-    public TimeConstraint(String id, String selector, boolean wants, Date date, Department department, Room room, int priority) {
+    public TimeConstraint(String id, String selector, boolean wants, Date date, Room room, int priority) {
         this.id = id;
         this.selector = selector;
         this.wants = wants;
