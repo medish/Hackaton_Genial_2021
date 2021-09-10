@@ -1,9 +1,16 @@
 <div class="m-5">
     <h1 class="mt-5">Auto</h1>
     <app-constraints></app-constraints>
-    <div class="float-end">
+
+    <div>
+      <div class="float-start">
+          <button class="btn btn-success">Generer un nouveau planning</button>
+      </div>
+      <div class="float-end">
         <app-pdf-export></app-pdf-export>
+      </div>
     </div>
+
 </div>
 <br>
 
@@ -32,7 +39,7 @@
         font-weight: bold;
         font-size: 90%;
     }
-    
+
     .my-legend .legend-scale ul {
         margin: 0;
         margin-bottom: 5px;
@@ -40,7 +47,7 @@
         float: left;
         list-style: none;
     }
-    
+
     .my-legend .legend-scale ul li {
         font-size: 80%;
         list-style: none;
@@ -48,7 +55,7 @@
         line-height: 18px;
         margin-bottom: 2px;
     }
-    
+
     .my-legend ul.legend-labels li span {
         display: block;
         float: left;
@@ -58,13 +65,13 @@
         margin-left: 0;
         border: 1px solid #999;
     }
-    
+
     .my-legend .legend-source {
         font-size: 70%;
         color: #999;
         clear: both;
     }
-    
+
     .my-legend a {
         color: #777;
     }

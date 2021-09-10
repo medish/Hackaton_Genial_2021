@@ -7,6 +7,7 @@ import { DataInterfaceService } from '../services/data-interface.service';
 import { Lesson, Room, Degree, Professor} from '../model/datastore/datamodel';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import {FullCalendarComponent} from "@fullcalendar/angular";
+import uniqid from 'uniqid';
 
 @Component({
   selector: 'app-planning-manuel-generator',
@@ -48,6 +49,59 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   }
 
 
+  getIdLesson(){
+    // todo V
+    return 0
+  }
+  /**
+   * Get current Planning
+   */
+  prepareVerification() {
+
+    let arrayEvents = this.getAllEvents();
+    let constraintName = (<HTMLInputElement>document.getElementById('planning-name')).value;
+
+    let arrayPrepared = [];
+    let planningJson ={
+      "id":uniqid(),
+      "name":constraintName,
+      "elements":{}
+    }
+
+    for (let i = 0; i < arrayEvents.length; i++) {
+      let dateStartStr = new Date(arrayEvents[i].startStr)
+
+      var userTimezoneOffset = dateStartStr.getTimezoneOffset() * 60000;
+      dateStartStr = new Date(dateStartStr.getTime() + userTimezoneOffset);
+      let startTime=dateStartStr.getHours()+":"+dateStartStr.getMinutes()+":"+dateStartStr.getSeconds();
+      let dateEndStr=new Date( new Date(arrayEvents[i].endStr).getTime() + userTimezoneOffset)
+      let endTime="";
+      if(!isNaN(dateEndStr.getTime())){
+        endTime = dateEndStr.getHours()+":"+dateEndStr.getMinutes()+":"+dateEndStr.getSeconds();
+      }else{
+        let defaulthour=dateStartStr.getHours()+1;
+        endTime = defaulthour+":"+dateStartStr.getMinutes()+":"+dateStartStr.getSeconds();
+      }
+      console.warn(dateEndStr.toLocaleDateString())
+      console.warn(endTime);
+      let dayNumber = dateStartStr.getDay()
+
+      arrayPrepared.push({
+            "lesson_id":this.getIdLesson(),
+            "hour":startTime,
+             "endTime":endTime,
+            "day":dayNumber
+          }
+      )
+    }
+
+    planningJson.elements=arrayPrepared;
+    console.warn(planningJson)
+    console.warn(arrayEvents)
+    return JSON.stringify(planningJson);
+  }
+
+
 
   ngOnInit() {
     let draggableEl = document.getElementById('external-events');
@@ -68,11 +122,11 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       eventData: function (eventEl: any) {
         let eventInitialColors={td:"#0d6efd",cours:"#dc3545",tp:"#ffc107"}
         let target_color= eventEl.innerText.toLowerCase()
-        
+        console.log("from draggable")
         return {
           title: eventEl.innerText,
-          id: Math.random(),
-          color: eventInitialColors[target_color]
+          id:uniqid(),
+          color:eventInitialColors[target_color]
         };
       }
     });
@@ -93,7 +147,13 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       slotMinTime: "8:00:00",
       slotMaxTime: "20:00:00",
       firstDay: 1,
+      eventDragStart : function (info ) {
+        console.log(info);
+        //todo  call new json planning
+        //todo call api
+      },
       eventClick:  (info)=>{
+        this.prepareVerification()
         const day = new Date(info.event.startStr).getDay();
         var myModal = new Modal(document.getElementById("modalManuel"), {
           keyboard: false
@@ -105,12 +165,6 @@ export class PlanningManuelGeneratorComponent implements OnInit {
         this.currentEvent = this.modelData.title;
         myModal.show();
       },
-      eventAdd: function (addInfo) {
-        var myModal = new Modal(document.getElementById("modalManuel"), {
-          keyboard: false
-        });
-        myModal.show();
-      }
 
     };
   }
@@ -146,8 +200,8 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     }
   }
 
-  classChangeHandler(classId : number) {
-    const selectedClass = this.classes.find(elem => elem.id = classId);
+  classChangeHandler(className : string) {
+    const selectedClass = this.classes.find(elem => elem.course.name === className);
     const teachersForClass = selectedClass!!.professors
     const teachersId = teachersForClass.map(professor => professor.id);
     let color_ = selectedClass!!.course.color;
@@ -161,6 +215,12 @@ export class PlanningManuelGeneratorComponent implements OnInit {
         this.professors = this.professors.filter(t => t.id != professor.id);
       }
     }
+  }
+
+  teacherChangeHandler(teacherName: string) {
+    let calendarApi = this.calendarComponent.getApi();
+    let event = calendarApi.getEventById(this.id_event_clicked);
+    event?.setExtendedProp("prof", teacherName);
   }
 
   onClassesReceived(classes : [Lesson], context : this) {
@@ -192,4 +252,5 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       context.degrees.push(degree);
     }
   }
+
 }
