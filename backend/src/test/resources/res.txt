@@ -1,42 +1,42 @@
 |            | Room A     | Room B     | Room C     |
 |------------|------------|------------|------------|
-| MON 08:30  | Math       |            | Spanish    |
-|            | Turing     |            | P. Cruz    |
-|            | 10th grade |            | 9th grade  |
+| MON 08:30  |            | Math       | Chemistry  |
+|            |            | Turing     | Curie      |
+|            |            | 9th grade  | 10th grade |
 |------------|------------|------------|------------|
-| MON 09:30  | Math       |            | Chemistry  |
-|            | Turing     |            | M. Curie   |
-|            | 10th grade |            | 9th grade  |
-|------------|------------|------------|------------|
-| MON 10:30  | Math       |            | Physics    |
-|            | Turing     |            | M. Curie   |
-|            | 9th grade  |            | 10th grade |
-|------------|------------|------------|------------|
-| MON 13:30  | Math       | History    |            |
-|            | Turing     | I. Jones   |            |
+| MON 09:30  | Spanish    | Math       |            |
+|            | Cruz       | Turing     |            |
 |            | 10th grade | 9th grade  |            |
 |------------|------------|------------|------------|
-| MON 14:30  | Math       |            | French     |
-|            | Turing     |            | M. Curie   |
+| MON 10:30  | Spanish    |            | Geography  |
+|            | Cruz       |            | Darwin     |
 |            | 9th grade  |            | 10th grade |
 |------------|------------|------------|------------|
-| TUE 08:30  |            | History    | Physics    |
-|            |            | I. Jones   | M. Curie   |
-|            |            | 10th grade | 9th grade  |
+| MON 13:30  | History    | Math       |            |
+|            | Jones      | Turing     |            |
+|            | 9th grade  | 10th grade |            |
 |------------|------------|------------|------------|
-| TUE 09:30  |            | English    | Chemistry  |
-|            |            | I. Jones   | M. Curie   |
-|            |            | 9th grade  | 10th grade |
+| MON 14:30  | English    | Math       |            |
+|            | Jones      | Turing     |            |
+|            | 9th grade  | 10th grade |            |
 |------------|------------|------------|------------|
-| TUE 10:30  |            | English    | English    |
-|            |            | I. Jones   | P. Cruz    |
-|            |            | 9th grade  | 10th grade |
+| TUE 08:30  | Biology    | Math       |            |
+|            | Darwin     | Turing     |            |
+|            | 9th grade  | 10th grade |            |
 |------------|------------|------------|------------|
-| TUE 13:30  | Biology    |            | Spanish    |
-|            | C. Darwin  |            | P. Cruz    |
+| TUE 09:30  | Spanish    |            | Physics    |
+|            | Cruz       |            | Curie      |
 |            | 9th grade  |            | 10th grade |
 |------------|------------|------------|------------|
-| TUE 14:30  | Geography  |            | Spanish    |
-|            | C. Darwin  |            | P. Cruz    |
+| TUE 10:30  | English    |            | Physics    |
+|            | Cruz       |            | Curie      |
 |            | 10th grade |            | 9th grade  |
+|------------|------------|------------|------------|
+| TUE 13:30  | History    |            | Chemistry  |
+|            | Jones      |            | Curie      |
+|            | 10th grade |            | 9th grade  |
+|------------|------------|------------|------------|
+| TUE 14:30  | English    |            | French     |
+|            | Jones      |            | Curie      |
+|            | 9th grade  |            | 10th grade |
 |------------|------------|------------|------------|

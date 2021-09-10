@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @Entity
 
 @Table(name = "department")
-public class Department implements Input {
+public class Department implements IInput {
 
     @Id
     private String id;

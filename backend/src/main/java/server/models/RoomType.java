@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "RoomType")
-public class RoomType implements Input {
+public class RoomType implements IInput {
 
     @Id
     private int id;
