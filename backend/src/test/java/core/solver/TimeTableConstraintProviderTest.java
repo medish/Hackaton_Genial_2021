@@ -4,23 +4,20 @@ import java.awt.Color;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalTime;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
+import core.selector.SelectorUnit;
+import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Test;
 import org.optaplanner.test.api.score.stream.ConstraintVerifier;
 
 import core.optaplaner.domain.LessonOptaPlaner;
 import core.optaplaner.domain.TimeTableOptaPlaner;
 import core.optaplaner.solver.TimeTableConstraintProvider;
-import server.models.Course;
-import server.models.Date;
-import server.models.DateId;
-import server.models.Degree;
-import server.models.Department;
-import server.models.Professor;
-import server.models.Room;
-import server.models.RoomId;
-import server.models.RoomType;
+import server.models.*;
 
 public class TimeTableConstraintProviderTest {
     private static final Room ROOM = new Room(new RoomId("Room1", new Department("Info", "UFR d'info")), 25,

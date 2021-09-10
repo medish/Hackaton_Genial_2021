@@ -1,6 +1,7 @@
 package server.models;
 
 import java.time.DayOfWeek;
+import java.time.LocalTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -38,6 +39,17 @@ public class TimeConstraint implements IInput {
     private Room room;
 
     private int priority;
+
+    private LocalTime start_time;
+    private LocalTime end_time;
+
+    public LocalTime getStart_time() {
+        return this.start_time;
+    }
+
+    public LocalTime getEnd_time() {
+        return this.end_time;
+    }
 
     public TimeConstraint() {
 
@@ -108,5 +120,10 @@ public class TimeConstraint implements IInput {
     public void setRoom(Room room) {
         this.room = room;
     }
+
+    public Boolean getWants() {
+        return this.wants;
+    }
+
 
 }
