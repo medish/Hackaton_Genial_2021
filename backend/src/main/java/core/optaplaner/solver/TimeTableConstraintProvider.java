@@ -121,8 +121,8 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
 
 
   Constraint PrecedenceConstraint(ConstraintFactory constraintFactory, PrecedenceConstraint pc) {
-        SelectorUnit [] firstSelectors = Arrays.stream(Arrays.stream(pc.getSelector().split(",")).map(SelectorUnit::builder).toArray();
-        SelectorUnit [] secondSelector = Arrays.stream(Arrays.stream(pc.getSelector().split(",")).map(SelectorUnit::builder).toArray();
+        SelectorUnit [] firstSelectors = Arrays.stream(pc.getSelector().split(",")).map(SelectorUnit::builder).toArray(SelectorUnit[]::new);
+        SelectorUnit [] secondSelector = Arrays.stream(pc.getSelector().split(",")).map(SelectorUnit::builder).toArray(SelectorUnit[]::new);
 
         UniConstraintStream<LessonOptaPlaner> firstPart = constraintFactory.from(LessonOptaPlaner.class);
 
@@ -245,5 +245,6 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
     Constraint TimeConstraint(ConstraintFactory constraintFactory, TimeConstraint tc) {
         SelectorUnit firstSelector = SelectorUnit.builder(tc.getSelector());
         UniConstraintStream<LessonOptaPlaner> firstPart = constraintFactory.from(LessonOptaPlaner.class);
-
+        return null;
+    }
 }
