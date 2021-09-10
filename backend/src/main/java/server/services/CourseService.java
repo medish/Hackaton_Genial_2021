@@ -10,19 +10,15 @@ import java.util.Optional;
 
 @Service
 public class CourseService {
-    private final CourseRepository courseRepository;
-
     @Autowired
-    public CourseService(CourseRepository courseRepository){
-        this.courseRepository = courseRepository;
-    }
-
+    private CourseRepository repository;
+    
     /**
      * Gets all courses.
      * @return List of courses {@link Course}
      */
     public List<Course> getAll(){
-        return courseRepository.findAll();
+        return repository.findAll();
     }
 
     /**
@@ -31,7 +27,7 @@ public class CourseService {
      * @return {@link Course}
      */
     public Optional<Course> getById(Integer id){
-        return courseRepository.findById(id);
+        return repository.findById(id);
     }
 
     /**
@@ -39,7 +35,7 @@ public class CourseService {
      * @param course {@link Course}
      */
     public void insert(Course course){
-        courseRepository.saveAndFlush(course);
+        repository.saveAndFlush(course);
     }
 
     /**
@@ -47,7 +43,7 @@ public class CourseService {
      * @param courses {@link Course}
      */
     public void insert(List<Course> courses){
-        courseRepository.saveAllAndFlush(courses);
+        repository.saveAllAndFlush(courses);
     }
 
     /**
@@ -55,7 +51,7 @@ public class CourseService {
      * @param id Course's ID
      */
     public void delete(Integer id){
-        courseRepository.deleteById(id);
+        repository.deleteById(id);
     }
 
     /**
@@ -63,7 +59,7 @@ public class CourseService {
      * @param ids List of IDs.
      */
     public void delete(List<Integer> ids){
-        courseRepository.deleteAllById(ids);
+        repository.deleteAllById(ids);
     }
 
     /**
@@ -72,7 +68,7 @@ public class CourseService {
      * @return The new record of {@link Course}
      */
     public Course update(Course course){
-        return courseRepository.saveAndFlush(course);
+        return repository.saveAndFlush(course);
     }
 
 }

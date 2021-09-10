@@ -8,7 +8,7 @@ import javax.persistence.Table;
 @Entity
 
 @Table(name = "PrecedenceConstraint")
-public class PrecedenceConstraint implements Input {
+public class PrecedenceConstraint implements IInput {
 
     @Id
     @GeneratedValue

@@ -2,8 +2,8 @@ package server.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import server.models.Day;
+import server.models.Planning;
 
 @Repository
-public interface DayRepository extends JpaRepository<Day, String> {
+public interface PlanningRepository extends JpaRepository<Planning, String> {
 }

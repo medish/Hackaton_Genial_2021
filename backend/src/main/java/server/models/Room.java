@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "room")
-public class Room implements Input {
+public class Room implements IInput {
 
     @EmbeddedId
     private RoomId roomId;

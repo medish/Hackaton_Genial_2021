@@ -10,13 +10,8 @@ import java.util.Optional;
 
 @Service
 public class OutputService{
-    private final OutputRepository repository;
-
     @Autowired
-    public OutputService(OutputRepository repository) {
-        this.repository = repository;
-    }
-
+    private OutputRepository repository;
 
     /**
      * Gets all outputs.

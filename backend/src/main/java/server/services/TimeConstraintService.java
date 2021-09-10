@@ -11,19 +11,15 @@ import java.util.Optional;
 
 @Service
 public class TimeConstraintService {
-    private final TimeConstraintRepository constraintRepository;
-
     @Autowired
-    public TimeConstraintService(TimeConstraintRepository constraintRepository){
-        this.constraintRepository = constraintRepository;
-    }
+    private TimeConstraintRepository repository;
 
     /**
      * Get all time constraints
      * @return List of time constraints {@link TimeConstraint}
      */
     public List<TimeConstraint> getAll(){
-        return constraintRepository.findAll();
+        return repository.findAll();
     }
 
     /**
@@ -32,7 +28,7 @@ public class TimeConstraintService {
      * @return {@link TimeConstraint}
      */
     public Optional<TimeConstraint> getById(String id){
-        return constraintRepository.findById(id);
+        return repository.findById(id);
     }
 
     /**
@@ -40,7 +36,7 @@ public class TimeConstraintService {
      * @param constraint {@link TimeConstraint}
      */
     public void insert(TimeConstraint constraint){
-        constraintRepository.saveAndFlush(constraint);
+        repository.saveAndFlush(constraint);
     }
 
     /**
@@ -48,7 +44,7 @@ public class TimeConstraintService {
      * @param constraints {@link TimeConstraint}
      */
     public void insert(List<TimeConstraint> constraints){
-        constraintRepository.saveAllAndFlush(constraints);
+        repository.saveAllAndFlush(constraints);
     }
 
     /**
@@ -56,7 +52,7 @@ public class TimeConstraintService {
      * @param id Time constraint ID
      */
     public void delete(String id){
-        constraintRepository.deleteById(id);
+        repository.deleteById(id);
     }
 
     /**
@@ -64,7 +60,7 @@ public class TimeConstraintService {
      * @param ids List of ids.
      */
     public void delete(List<String> ids){
-        constraintRepository.deleteAllById(ids);
+        repository.deleteAllById(ids);
     }
 
     /**
@@ -73,7 +69,7 @@ public class TimeConstraintService {
      * @return The new record of {@link TimeConstraint}
      */
     public TimeConstraint update(TimeConstraint constraint){
-        return constraintRepository.saveAndFlush(constraint);
+        return repository.saveAndFlush(constraint);
     }
 
 

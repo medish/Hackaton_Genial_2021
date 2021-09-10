@@ -10,20 +10,16 @@ import java.util.Optional;
 
 @Service
 public class ProfessorService{
-    private final ProfessorRepository professorRepository;
 
     @Autowired
-    public ProfessorService(ProfessorRepository professorRepository) {
-        this.professorRepository = professorRepository;
-    }
-
-
+    private ProfessorRepository repository;
+    
     /**
      * Gets all professors.
      * @return List of professors {@link Professor}
      */
     public List<Professor> getAll(){
-        return professorRepository.findAll();
+        return repository.findAll();
     }
 
     /**
@@ -32,7 +28,7 @@ public class ProfessorService{
      * @return {@link Professor}
      */
     public Optional<Professor> getById(String id){
-        return professorRepository.findById(id);
+        return repository.findById(id);
     }
 
     /**
@@ -40,7 +36,7 @@ public class ProfessorService{
      * @param professor {@link Professor}
      */
     public void insert(Professor professor){
-        professorRepository.saveAndFlush(professor);
+        repository.saveAndFlush(professor);
     }
 
     /**
@@ -48,7 +44,7 @@ public class ProfessorService{
      * @param professors {@link Professor}
      */
     public void insert(List<Professor> professors){
-        professorRepository.saveAllAndFlush(professors);
+        repository.saveAllAndFlush(professors);
     }
 
     /**
@@ -56,7 +52,7 @@ public class ProfessorService{
      * @param id Professor's ID
      */
     public void delete(String id){
-        professorRepository.deleteById(id);
+        repository.deleteById(id);
     }
 
     /**
@@ -64,7 +60,7 @@ public class ProfessorService{
      * @param ids List of IDs.
      */
     public void delete(List<String> ids){
-        professorRepository.deleteAllById(ids);
+        repository.deleteAllById(ids);
     }
 
     /**
@@ -73,7 +69,7 @@ public class ProfessorService{
      * @return The new record of {@link Professor}
      */
     public Professor update(Professor professor){
-        return professorRepository.saveAndFlush(professor);
+        return repository.saveAndFlush(professor);
     }
 
 
