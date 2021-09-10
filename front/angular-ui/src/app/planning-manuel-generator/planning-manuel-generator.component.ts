@@ -70,6 +70,10 @@ export class PlanningManuelGeneratorComponent implements OnInit {
 
     for (let i = 0; i < arrayEvents.length; i++) {
       let dateStartStr = new Date(arrayEvents[i].startStr)
+      let id_lesson = arrayEvents[i].extendedProps.id_lesson
+      if(id_lesson==undefined) {
+        continue
+      }
 
       var userTimezoneOffset = dateStartStr.getTimezoneOffset() * 60000;
       dateStartStr = new Date(dateStartStr.getTime() + userTimezoneOffset);
@@ -87,7 +91,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       let dayNumber = dateStartStr.getDay()
 
       arrayPrepared.push({
-            "lesson_id":this.getIdLesson(),
+            "lesson_id":id_lesson,
             "hour":startTime,
              "endTime":endTime,
             "day":dayNumber
@@ -202,6 +206,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
 
   classChangeHandler(className : string) {
     const selectedClass = this.classes.find(elem => elem.course.name === className);
+    //selectedClass.id
     const teachersForClass = selectedClass!!.professors
     const teachersId = teachersForClass.map(professor => professor.id);
     let color_ = selectedClass!!.course.color;
@@ -210,6 +215,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     event?.setProp("backgroundColor", color_);
     event?.setProp("title", selectedClass?.course.name);
     event?.setExtendedProp("duration", selectedClass?.duration);
+    event?.setExtendedProp("id_lesson", selectedClass?.id);
     for(let professor of this.professors) {
       if(!(teachersId.includes(professor.id))) {
         this.professors = this.professors.filter(t => t.id != professor.id);
@@ -252,5 +258,4 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       context.degrees.push(degree);
     }
   }
-
 }
