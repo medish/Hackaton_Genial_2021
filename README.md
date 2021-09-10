@@ -21,7 +21,8 @@ Prérequis :
   -Node.js installé : node version 14.17, npm version 6.14
   
 Dans le dossier front/angular-ui faire :
-  -`npm i`
-  - `npm install -g @angular/cli`
+`npm i`
+`npm install -g @angular/cli`
+
 Pour lancer le projet angular :
-  -`ng serve`
+`ng serve`
