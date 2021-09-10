@@ -108,8 +108,8 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                 .penalize("Teacher M. Curie does not want to teach French in Room A", HardSoftScore.ONE_SOFT);
     }
 
-
     public Constraint techLessonBefore(ConstraintFactory constraintFactory) {
+
         // Lesson Math before french ( Math -> francais )
         return constraintFactory.from(LessonOptaPlaner.class)
                 .filter(lessonOptaPlaner -> lessonOptaPlaner.getSubject().equals("Math")).join(LessonOptaPlaner.class)
