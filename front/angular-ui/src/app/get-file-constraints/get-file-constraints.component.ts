@@ -23,7 +23,7 @@ export class GetFileConstraintsComponent implements OnInit {
       this.currentConstraintsTimeAndRoom = this.constraintService.parseConstraintsTimeAndRoom(fileReader.result?.toString());
     }
     if(event?.target?.files?.length > 0){
-      this.currentFileNameTimeAndRoom = event.target.files[0].name
+      this.currentFileNameTimeAndRoom = event.target.files[0].name;
       fileReader.readAsText(event.target.files[0]);
     }
   }

@@ -8,8 +8,6 @@ import { LoginComponent } from './login/login.component';
 import { AdminComponent } from './admin/admin.component';
 import { ProfComponent } from './prof/prof.component';
 import { HeaderComponent } from './header/header.component';
-import { AComponent } from './a/a.component';
-import { BComponent } from './b/b.component';
 import { TableauContraintesComponent } from './tableau-contraintes/tableau-contraintes.component';
 import { HttpClientModule } from '@angular/common/http';
 import {PlanningManuelGeneratorComponent} from "./planning-manuel-generator/planning-manuel-generator.component";
@@ -34,9 +32,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     AdminComponent,
     ProfComponent,
     HeaderComponent,
-    AComponent,
-    BComponent,
-    TableauContraintesComponent,
+      TableauContraintesComponent,
     PlanningManuelGeneratorComponent,
     PlanningAutoGeneratorComponent,
     GetFileConstraintsComponent,
