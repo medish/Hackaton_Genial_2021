@@ -237,14 +237,16 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     this.professors = [];
   }
   degreeChangeHandler(degreeId: string) {
-    this.selectedDegree = degreeId;
+    console.log('degreeiD',degreeId)
+    /*this.selectedDegree = degreeId;
     for(let classItem of this.classes) {
       const degreesForCourse = classItem.course.degrees;
       const degreesId = degreesForCourse.map(degree => degree.id);
       if(!(degreesId.includes(degreeId))) {
         this.classes = this.classes.filter(c => c.id != degreeId);
       }
-    }
+    }*/
+
   }
 
   classChangeHandler(className : string) {
@@ -272,11 +274,9 @@ export class PlanningManuelGeneratorComponent implements OnInit {
 
   onClassesReceived(classes : [Lesson], context : this) {
     console.log('classes',classes)
+
     for(let classItem of classes) {
-      let currentRoomType = classItem.roomType.name.toLowerCase();
-      if(context.modelData.title.toLowerCase() === currentRoomType) {
-        context.classes.push(classItem);
-      }
+      context.classes.push(classItem)
     }
   }
 

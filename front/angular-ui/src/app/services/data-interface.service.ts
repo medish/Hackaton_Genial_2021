@@ -92,7 +92,7 @@ export class DataInterfaceService {
     );
   }
 
-  verifyConstraints(constraints: [Output], callback: (violatedConstraints: any) => any) {
+  verifyConstraints(constraints: Planning, callback: (violatedConstraints: any) => any) {
     return this.http.post<number>(this.url + "/planning/verify", constraints)
     .pipe(catchError(this.handleError)).subscribe(data => callback(data));
   }
