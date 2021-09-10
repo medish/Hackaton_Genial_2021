@@ -59,4 +59,8 @@ public class Room implements IInput {
     public void setDepartment(Department department) {
         roomId.setDepartment(department);
     }
+
+    public RoomType getRoomType(){
+        return this.roomType;
+    }
 }
