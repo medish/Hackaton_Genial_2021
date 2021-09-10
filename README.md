@@ -24,6 +24,9 @@ spring.datasource.password=root
 Exécuter le serveur avec le main situé dans :
 Hackaton_Genial_2021\backend\src\main\java\server\MainServer.java
 
+Une fois le serveur lancé, une documentation générée par Swagger est disponible à l'adresse suivante : 
+http://localhost:8080/swagger-ui.html
+
 Frontend Installation du projet Angular
 
 Prérequis :
