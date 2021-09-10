@@ -1,63 +1,119 @@
 {
-    "lessons": [{
+    "lessons": [
+        {
             "id": 17,
-            "name": "Langages à Objets Avancés",
             "duration": 120,
-            "size": 100,
+            "group_size": 100,
             "course": {
                 "id": 1,
-                "name":"Master GENIAL M1",
-                "colour": "#dc3545"
+                "name": "Programmation Composants Mobiles",
+                "degrees": [
+                    {
+                        "id": 1,
+                        "name": "Master GENIAL M1"
+                    },
+                    {
+                        "id": 2,
+                        "name": "Master GENIAL M2"
+                    },
+                    {
+                        "id": 3,
+                        "name": "Master DATA M1"
+                    }
+                ],
+                "color": "#008080"
             },
-            "teachers": [{
-                "id": 471,
-                "departmentId": 2,
-                "email": "peter.habermehl@irif.fr",
-                "firstName": "Peter",
-                "lastName": "Habermehl",
-                "is_admin": false
-            }]
+            "roomType": {
+                "id": 1,
+                "name": "cours"
+            },
+            "professors": [
+                {
+                    "id": 471,
+                    "email": "peter.habermehl@irif.fr",
+                    "firstName": "Peter",
+                    "name": "Habermehl",
+                    "is_admin": false
+                }
+            ]
+        },
+        {
+            "id": 19,
+            "duration": 60,
+            "group_size": 30,
+            "course": {
+                "id": 1,
+                "name": "Programmation Composants Mobiles",
+                "degrees": [
+                    {
+                        "id": 1,
+                        "name": "Master GENIAL M1"
+                    },
+                    {
+                        "id": 2,
+                        "name": "Master GENIAL M2"
+                    },
+                    {
+                        "id": 3,
+                        "name": "Master DATA M1"
+                    }
+                ],
+                "color": "#008080"
+            },
+            "roomType": {
+                "id": 2,
+                "name": "td"
+            },
+            "professors": [
+                {
+                    "id": 471,
+                    "email": "peter.habermehl@irif.fr",
+                    "firstName": "Peter",
+                    "name": "Habermehl",
+                    "is_admin": false
+                }
+            ]
         },
         {
             "id": 18,
-            "name": "Programmation Objets Avancés",
-            "duration": 120,
-            "size": 70,
+            "duration": 100,
+            "group_size": 70,
             "course": {
-                "id": 2,
-                "name":"Master GENIAL M2",
-                "colour": "#dc3545"
+                "id": 1,
+                "name": "Informatique Embarquée",
+                "degrees": [
+                    {
+                        "id": 1,
+                        "name": "Master GENIAL M1"
+                    },
+                    {
+                        "id": 2,
+                        "name": "Master GENIAL M2"
+                    },
+                    {
+                        "id": 3,
+                        "name": "Master DATA M1"
+                    }
+                ],
+                "color": "#008080"
             },
-            "teachers": [{
-                "id": 471,
-                "departmentId": 2,
-                "email": "peter.habermehl@irif.fr",
-                "firstName": "Peter",
-                "lastName": "Habermehl",
-                "is_admin": false
-            }]
+            "roomType": {
+                "id": 1,
+                "name": "cours"
+            },
+            "professors": [
+                {
+                    "id": 471,
+                    "email": "peter.habermehl@irif.fr",
+                    "firstName": "Peter",
+                    "name": "Habermehl",
+                    "is_admin": false
+                }
+            ]
         }
     ],
-    "professors": [{
-            "id": 471,
-            "department_id": 2,
-            "email": "peter.habermehl@irif.fr",
-            "firstName": "Peter",
-            "lastName": "Habermehl"
-        },
+    "rooms": [
         {
-            "id": 472,
-            "department_id": 2,
-            "email": "klimann@irif.fr",
-            "firstName": "Ines",
-            "lastName": "Klimann"
-        }
-    ],
-    "ClassTeachers": [{
-        "userId": 471,
-        "classId": 17
-    }],
-    "rooms": [{
             "number": "5A",
             "departmentId": "2",
             "capacity": "100",
@@ -76,7 +132,8 @@
             "typeId": "1"
         }
     ],
-    "degrees": [{
+    "degrees": [
+        {
             "id": 1,
             "name": "Master GENIAL M1"
         },
@@ -114,7 +171,24 @@
             "departmentId": "1"
         }
     ],
-    "departments": [{
+    "professors": [
+        {
+            "id": 471,
+            "email": "peter.habermehl@irif.fr",
+            "firstName": "Peter",
+            "name": "Habermehl",
+            "is_admin": false
+        },
+        {
+            "id": 472,
+            "email": "klimann@irif.fr",
+            "firstName": "Ines",
+            "name": "Klimann",
+            "is_admin": true
+        }
+    ],
+    "departments": [
+        {
             "id": 1,
             "name": "Informatique"
         },
@@ -130,12 +204,22 @@
         "accessToken": "token_example",
         "name": "name",
         "surname": "surname",
-        "roles": ["ADMIN"],
+        "roles": [
+            "ADMIN"
+        ],
         "username": "username"
     },
-    "planning": [{
-        "name": "planning1",
-        "id": "1",
-        "elements": [{ "lesson_id": "lesson_id_1", "day": 2, "hour": "10:30" }]
-    }]
+    "planning": [
+        {
+            "name": "planning1",
+            "id": "1",
+            "elements": [
+                {
+                    "lesson_id": "lesson_id_1",
+                    "day": 2,
+                    "hour": "10:30"
+                }
+            ]
+        }
+    ]
 }

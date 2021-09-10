@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Room, Class, Teacher, Department, Degree, RoomType } from '../model/datastore/datamodel';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,18 +9,6 @@ import { Router } from '@angular/router';
 export class AdminComponent implements OnInit {
 
   constructor(private router : Router) { }
-
-  rooms : [Room] | undefined
-
-  classes : [Class] | undefined
-
-  roomTypes : [RoomType] | undefined
-
-  teachers : [Teacher] | undefined
-
-  departments : [Department] | undefined
-
-  degrees : [Degree] | undefined
 
   ngOnInit(): void {    
   }

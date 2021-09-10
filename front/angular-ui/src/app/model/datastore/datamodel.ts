@@ -5,38 +5,34 @@ export interface Room {
     type: string
 };
 
-export interface Class {
+export interface Lesson {
     id: number,
-    duration: Date,
+    duration: string,
     group_size: number,
     course: Course,
     roomType: RoomType,
-    teachers: Teacher[]
-};
-
-export interface CourseDegree {
-    course_id: number,
-    degree_id: number
+    professors: Professor[]
 };
 
 export interface Course {
     id: number,
     name: string,
-    colour: string
+    degrees: Degree[],
+    color: string
 };
+
 
 export interface RoomType {
     id: number,
     name: string
 };
 
-export interface Teacher {
+export interface Professor {
     id: number,
-    departmentId: number,
+    name: string,
     firstName: string,
-    lastName: string,
     email: string,
-    is_admin: boolean
+    is_admin: boolean,
 };
 
 export interface Department {
@@ -55,8 +51,7 @@ export interface Identity {
 };
 
 export interface Output {
-    lesson_id: number,
-    date: Date,
-    room_id: Room,
-    department_id: Department
+    date: string,
+    room: Room,
+    lesson: Lesson
 };
