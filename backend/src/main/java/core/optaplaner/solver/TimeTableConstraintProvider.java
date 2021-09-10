@@ -15,6 +15,7 @@ import org.optaplanner.core.api.score.stream.Joiners;
 import core.optaplaner.domain.LessonOptaPlaner;
 import org.optaplanner.core.api.score.stream.bi.BiConstraintStream;
 import org.optaplanner.core.api.score.stream.uni.UniConstraintStream;
+import server.models.Date;
 import server.models.PrecedenceConstraint;
 import server.models.Professor;
 import server.models.TimeConstraint;
@@ -130,8 +131,6 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
 
         UniConstraintStream<LessonOptaPlaner> firstPart = constraintFactory.from(LessonOptaPlaner.class);
 
-
-
         //filter with first selectors
 
         for (SelectorUnit selector : firstSelectors){
@@ -168,8 +167,6 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
             }
 
         }
-
-
 
         //filter with second selector
         BiConstraintStream<LessonOptaPlaner, LessonOptaPlaner> merged = firstPart.join(LessonOptaPlaner.class);
@@ -234,7 +231,6 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
             }
         }
 
-
         String displayedMsg = null;
         // verify the type of constraint -> give positive or negative score to the constraint evaluation
         if (pc.isWants()) {//True
@@ -247,9 +243,57 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
     }
 
     Constraint TimeConstraint(ConstraintFactory constraintFactory, TimeConstraint tc) {
-        SelectorUnit firstSelector = SelectorUnit.builder(tc.getSelector());
+
+        SelectorUnit [] firstSelectors = Arrays.stream(tc.getSelector().split(",")).map(SelectorUnit::builder).toArray(SelectorUnit[]::new);
+
         UniConstraintStream<LessonOptaPlaner> firstPart = constraintFactory.from(LessonOptaPlaner.class);
 
-        return null;
+        for (SelectorUnit selector : firstSelectors){
+            if (selector.getTable() == "teacher") {
+
+                if (selector.getAttribute() == "id") {
+                    firstPart = firstPart.filter(lesson -> lesson.getTeacher().getId().equals(selector.getValue()));
+                }
+                if (selector.getAttribute() == "name") {
+                    firstPart = firstPart.filter(lesson -> lesson.getTeacher().getName().equals(selector.getValue()));
+                }
+            }
+
+            if (selector.getTable() == "lesson") {
+                if (selector.getAttribute() == "id") {
+                    firstPart = firstPart.filter(lesson -> lesson.getId().equals(selector.getValue()));
+                }
+                if (selector.getAttribute() == "subject") {
+                    firstPart = firstPart.filter(lesson -> lesson.getSubject().equals(selector.getValue()));
+                }
+            }
+
+            if (selector.getTable() == "room") {
+                if (selector.getAttribute() == "number") {
+                    firstPart = firstPart.filter(lesson -> lesson.getRoom().getNumber().equals(selector.getValue()));
+                }
+                if (selector.getAttribute() == "roomType_id") {
+                    firstPart = firstPart.filter(lesson -> lesson.getRoom().getRoomType().getName().equals(selector.getValue()));
+                }
+            }
+        }
+
+        LocalTime start_at = tc.getStart_time();
+        if (start_at != null) {
+            firstPart = firstPart.filter(lesson -> lesson.getStartTime().equals(start_at));
+        }
+
+        String message = null;
+
+        Boolean wants = tc.getWants();
+
+        if (wants) {
+            message = firstSelectors.toString() + " is " + "at" + tc.getStart_time();
+
+            return firstPart.reward(message, HardSoftScore.ofSoft(tc.getPriority()));
+        }
+        message = firstSelectors.toString() + " is not" + "at"  + tc.getStart_time();
+
+        return firstPart.penalize(message, HardSoftScore.ofSoft(tc.getPriority()));
     }
 }

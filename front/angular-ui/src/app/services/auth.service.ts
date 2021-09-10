@@ -30,7 +30,7 @@ export class AuthService implements OnInit{
       username,
       password
     }, httpOptions).toPromise().then(data=>{this.isLoggedIn=true});**/
-    return this.http.get(environment.baseUrl + 'signin?username='+username+"&password="+password, httpOptions).toPromise();
+    return this.http.get(environment.baseUrl + '/signin?username='+username+"&password="+password, httpOptions).toPromise();
   }
   logout(){
     this.tokenService.signOut();
