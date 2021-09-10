@@ -26,36 +26,40 @@ export class ConstraintService {
     let result:ConstraintTimeRoom[]=[];
     let lineSplitted = []
     for(let line of lines){
-      lineSplitted = line.split(CSV_SEPARATOR);
-      if(!this.verifySplittedLineConstraintsTimeRoom(lineSplitted))return null;
-      result.push({
-        selector: this.parseSelector(lineSplitted[0]),
-        veut:lineSplitted[1].toLowerCase()=='true',
-        room:this.parseSelector(lineSplitted[0]),
-        day:parseInt(lineSplitted[2]),
-        hourBegin:lineSplitted[3],
-        hourEnd:lineSplitted[4],
-        priority:parseInt(lineSplitted[6])
-      })
+      if(line.length>0){
+        lineSplitted = line.split(CSV_SEPARATOR);
+        if(!this.verifySplittedLineConstraintsTimeRoom(lineSplitted))return null;
+        result.push({
+          selector: this.parseSelector(lineSplitted[0]),
+          veut:lineSplitted[1].toLowerCase()=='true',
+          room:this.parseSelector(lineSplitted[0]),
+          day:parseInt(lineSplitted[2]),
+          hourBegin:lineSplitted[3],
+          hourEnd:lineSplitted[4],
+          priority:parseInt(lineSplitted[6])
+        })          
+      }
     }
-    console.log(result);
     return result;
   }
   
   predicatesTimeAndRoomEntry: ((string)=>boolean)[] = [
-    selector=>selector?.match(/^([a-zA-Z]+:[a-zA-Z]+:[a-zA-Z][a-zA-Z0-9]*,)*([a-zA-Z]+:[a-zA-Z]+:[a-zA-Z][a-zA-Z0-9]*)$/g),
+    selector=>selector?.match(/^([a-zA-Z]+:[a-zA-Z]+:[a-zA-Z0-9]+,)*([a-zA-Z]+:[a-zA-Z]+:[a-zA-Z0-9]+)$/g),
     want=>want?.match(/^(true|false)$/g),
     dayOfWeek=>dayOfWeek?.match(/^[1-7]$/g),
-    hour=>hour?.match(/^[0-2]\d:$[0-5]\d/g),
-    hour=>hour?.match(/^[0-2]\d:$[0-5]\d/g),
-    roomSelector=>roomSelector?.match(/^(room:[a-zA-Z]+:[a-zA-Z][a-zA-Z0-9]*,)*(room:[a-zA-Z]+:[a-zA-Z][a-zA-Z0-9]*)$/g),
+    hour=>hour?.match(/^[0-2]\d:[0-5]\d$/g),
+    hour=>hour?.match(/^[0-2]\d:[0-5]\d$/g),
+    roomSelector=>roomSelector?.match(/^(room:[a-zA-Z]+:[a-zA-Z0-9]+,)*(room:[a-zA-Z]+:[a-zA-Z0-9]+)$/g),
     priority=>priority?.match(/^0*(?:[1-9][0-9]?|100)$/)
   ]
   
   verifySplittedLineConstraintsTimeRoom(splittedLine:string[]){
     if(!splittedLine)return false;
     if(splittedLine.length != 7)return false;
-    for(let i=0; i<splittedLine.length;i++)if(!this.predicatesTimeAndRoomEntry[i](splittedLine[i]))return false;
+    for(let i=0; i<splittedLine.length;i++){
+      if(!this.predicatesTimeAndRoomEntry[i](splittedLine[i]))return false;
+      console.log('Passage')
+    }
     return true;
   }
   
@@ -75,7 +79,6 @@ export class ConstraintService {
         selectorTarget:this.parseSelector(lineSplitted[4])
       })
     }
-    console.log(result);
     return result;
   }
   

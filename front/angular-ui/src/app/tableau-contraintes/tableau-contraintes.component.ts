@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ConstraintPrecedence } from '../model/constraint/constraint-precedence';
 import { ConstraintTimeRoom } from '../model/constraint/constraint-time-room';
 import { DataInterfaceService } from '../services/data-interface.service';
@@ -46,7 +46,7 @@ const CONSTRAINTS_PRECEDENCE:ConstraintPrecedence[]=[
 })
 
 
-export class TableauContraintesComponent implements OnInit {
+export class TableauContraintesComponent implements OnInit, OnChanges {
   
 
   deleteConstraint(id_constraint_clicked){
@@ -63,4 +63,7 @@ export class TableauContraintesComponent implements OnInit {
     
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    console.log(changes);
+  }
 }
