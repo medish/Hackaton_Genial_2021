@@ -1,5 +1,7 @@
 package server.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.awt.Color;
 import java.util.HashSet;
 import java.util.List;
@@ -30,6 +32,7 @@ public class Course implements IInput {
     @JoinTable(name = "course_degree", joinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "degree_id", referencedColumnName = "id"))
     private Set<Degree> degrees = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "course", targetEntity = Lesson.class)
     private List<Lesson> lessons;
 
@@ -41,6 +44,11 @@ public class Course implements IInput {
         this.name = name;
         this.degrees = degrees;
         this.color = color;
+    }
+
+    public Course()
+    {
+
     }
 
     public int getId() {

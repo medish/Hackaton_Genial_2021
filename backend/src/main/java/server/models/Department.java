@@ -36,6 +36,9 @@ public class Department implements IInput {
         this.name = name;
     }
 
+    public Department() {
+    }
+
     public String getId() {
         return id;
     }

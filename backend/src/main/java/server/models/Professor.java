@@ -42,6 +42,9 @@ public class Professor implements Serializable {
     /*-------------------------Setter--------------------------------*/
     /*---------------------------------------------------------------*/
 
+    public Professor() {
+    }
+
     public String getId() {
         return customer_id.getId();
     }

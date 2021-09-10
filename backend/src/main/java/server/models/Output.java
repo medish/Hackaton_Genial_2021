@@ -18,6 +18,9 @@ import javax.persistence.Table;
 @Table(name = "Output")
 public class Output {
 
+    public Output() {
+    }
+
     @Id
     @Column(name = "lesson_id")
     private String id;
