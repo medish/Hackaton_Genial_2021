@@ -118,7 +118,7 @@ public class SolverOptaplanerTest {
 
     @Test
     void solveTest() throws IOException {
-        TimeTable solution = solverTimeTable.solve(problem.toOutput());
+        TimeTable solution = solverTimeTable.solve(problem.toOutput(), List.of(), List.of());
 
         assertEquals(IOUtils.toString(SolverOptaplanerTest.class.getResourceAsStream("/res.txt"), "UTF-8"),
                 solution.toString());
@@ -127,7 +127,7 @@ public class SolverOptaplanerTest {
     @Test
     void verifyTest() throws IOException {
         ScoreExplanation<TimeTableOptaPlaner, HardSoftScore> verify = solverTimeTable
-                .verify(solverTimeTable.solve(problem.toOutput()));
+                .verify(solverTimeTable.solve(problem.toOutput(), List.of(), List.of()), List.of(), List.of());
 
         assertEquals(
                 """
