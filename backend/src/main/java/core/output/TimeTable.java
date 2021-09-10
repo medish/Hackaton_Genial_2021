@@ -9,20 +9,21 @@ import server.models.Course;
 import server.models.Date;
 import server.models.DateId;
 import server.models.Degree;
-import server.models.Input;
+import server.models.IInput;
+import server.models.Output;
 import server.models.Professor;
 import server.models.Room;
 
-public class TimeTable implements Output, Input {
+public class TimeTable implements IOutput, IInput {
 
     private List<Date> timeslotList;
     private List<Room> roomList;
-    private List<server.models.Output> lessonList;
+    private List<Output> lessonList;
 
     public TimeTable() {
     }
 
-    public TimeTable(List<Date> timeslotList, List<Room> roomList, List<server.models.Output> lessonList) {
+    public TimeTable(List<Date> timeslotList, List<Room> roomList, List<Output> lessonList) {
         this.timeslotList = timeslotList;
         this.roomList = roomList;
         this.lessonList = lessonList;
@@ -36,7 +37,7 @@ public class TimeTable implements Output, Input {
         return roomList;
     }
 
-    public List<server.models.Output> getLessonList() {
+    public List<Output> getLessonList() {
         return lessonList;
     }
 
@@ -44,22 +45,21 @@ public class TimeTable implements Output, Input {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        Map<DateId, Map<Room, List<server.models.Output>>> lessonMap = lessonList.stream()
-                .filter(lesson -> lesson.getDate().getDateId() != null && lesson.getRoom() != null)
-                .collect(Collectors.groupingBy((lesson) -> lesson.getDate().getDateId(),
-                        Collectors.groupingBy(server.models.Output::getRoom)));
+        Map<DateId, Map<Room, List<Output>>> lessonMap = lessonList.stream()
+                .filter(lesson -> lesson.getDate().getDateId() != null && lesson.getRoom() != null).collect(Collectors
+                        .groupingBy((lesson) -> lesson.getDate().getDateId(), Collectors.groupingBy(Output::getRoom)));
         stringBuilder.append("|            | " + roomList.stream().map(room -> String.format("%-10s", room.getNumber()))
                 .collect(Collectors.joining(" | ")) + " |\n");
         stringBuilder.append("|" + "------------|".repeat(roomList.size() + 1) + "\n");
         for (Date timeslot : timeslotList) {
-            List<List<server.models.Output>> cellList = roomList.stream().map(room -> {
-                Map<Room, List<server.models.Output>> byRoomMap = lessonMap.get(timeslot.getDateId());
+            List<List<Output>> cellList = roomList.stream().map(room -> {
+                Map<Room, List<Output>> byRoomMap = lessonMap.get(timeslot.getDateId());
                 if (byRoomMap == null) {
-                    return Collections.<server.models.Output>emptyList();
+                    return Collections.<Output>emptyList();
                 }
-                List<server.models.Output> cellLessonList = byRoomMap.get(room);
+                List<Output> cellLessonList = byRoomMap.get(room);
                 if (cellLessonList == null) {
-                    return Collections.<server.models.Output>emptyList();
+                    return Collections.<Output>emptyList();
                 }
                 return cellLessonList;
             }).collect(Collectors.toList());
@@ -69,7 +69,7 @@ public class TimeTable implements Output, Input {
                     + " | "
                     + cellList.stream()
                             .map(cellLessonList -> String.format("%-10s",
-                                    cellLessonList.stream().map(server.models.Output::getCourse).map(Course::getName)
+                                    cellLessonList.stream().map(Output::getCourse).map(Course::getName)
                                             .collect(Collectors.joining(", "))))
                             .collect(Collectors.joining(" | "))
                     + " |\n");
@@ -85,13 +85,13 @@ public class TimeTable implements Output, Input {
                     .collect(Collectors.joining(" | ")) + " |\n");
             stringBuilder.append("|" + "------------|".repeat(roomList.size() + 1) + "\n");
         }
-        List<server.models.Output> unassignedLessons = lessonList.stream()
+        List<Output> unassignedLessons = lessonList.stream()
                 .filter(lesson -> lesson.getDate().getDateId() == null || lesson.getRoom() == null)
                 .collect(Collectors.toList());
         if (!unassignedLessons.isEmpty()) {
             stringBuilder.append("");
             stringBuilder.append("Unassigned lessons");
-            for (server.models.Output lesson : unassignedLessons) {
+            for (Output lesson : unassignedLessons) {
                 stringBuilder
                         .append("  " + lesson.getCourse().getName() + " - " + lesson.getProfessors().iterator().next()
                                 + " - " + lesson.getCourse().getDegrees().iterator().next() + "\n");

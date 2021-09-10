@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Entity
 
 @Table(name = "TimeConstraint")
-public class TimeConstraint implements Input {
+public class TimeConstraint implements IInput {
 
     @Id
     @GeneratedValue

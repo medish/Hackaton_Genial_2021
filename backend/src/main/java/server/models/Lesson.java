@@ -15,7 +15,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Lesson")
-public class Lesson implements Input {
+public class Lesson implements IInput {
 
     @Id
     @Column(name = "lesson_id")

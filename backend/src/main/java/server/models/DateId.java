@@ -7,10 +7,10 @@ import java.time.LocalTime;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
-import core.output.Output;
+import core.output.IOutput;
 
 @Embeddable
-public class DateId implements Serializable, Output, Input {
+public class DateId implements Serializable, IOutput, IInput {
 
     private static final long serialVersionUID = 1L;
 

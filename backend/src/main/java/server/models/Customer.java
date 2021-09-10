@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Customer")
-public class Customer implements Input {
+public class Customer implements IInput {
 
     @Id
     @Column(name = "id")

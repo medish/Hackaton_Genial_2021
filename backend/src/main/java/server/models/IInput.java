@@ -1,5 +1,5 @@
 package server.models;
 
-public interface Input {
+public interface IInput {
 
 }
