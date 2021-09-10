@@ -23,7 +23,7 @@ public class IcsConverter {
 
         ICalendar ical = new ICalendar();
 
-        for (Output lesson : output.getLessonList()) {
+        for (Output lesson : output.getOutputList()) {
             VEvent event = createEvent(lesson);
             ical.addEvent(event);
         }
