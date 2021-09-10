@@ -23,16 +23,18 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let constraint of constraintsTimeRoom; index as i"  [id]="'constraintTimeRoom' + i">
+            <tr *ngFor="let constraint of constraintsTimeRoom; index as i" [id]="'constraintTimeRoom' + i">
                 <td>{{i + 1}}</td>
-                <td>{{constraint.selector.selectorUnits[i].attribute}}</td>
-                <td>{{constraint.selector.selectorUnits[i].value}}</td>
-                <td>{{constraint.veut ? "veut" : "ne veut pas"}}</td>
-                <td>{{constraint.day}}</td>
-                <td>{{constraint.hourBegin}} - {{constraint.hourEnd}}</td>
-                <td><ng-container *ngFor="let room of constraint.room.selectorUnits; index as r">{{(r === constraint.room.selectorUnits.length - 1) ? room.value : room.value + ", "}}</ng-container></td>
-                <td>{{constraint.priority}}</td>
-                <td><button type="button" class="btn btn-danger" (click)="deleteConstraint('constraintTimeRoom' + i)"><i class="bi bi-trash-fill"></i></button></td>
+                <td>{{constraint?.selector?.selectorUnits[0]?.attribute}}</td>
+                <td>{{constraint?.selector?.selectorUnits[0]?.value}}</td>
+                <td>{{constraint?.veut ? "veut" : "ne veut pas"}}</td>
+                <td>{{constraint?.day}}</td>
+                <td>{{constraint?.hourBegin}} - {{constraint?.hourEnd}}</td>
+                <td>
+                    <ng-container *ngFor="let room of constraint.room.selectorUnits; index as r">{{(r === constraint?.room?.selectorUnits?.length - 1) ? room?.value : room?.value + ", "}}</ng-container>
+                </td>
+                <td>{{constraint?.priority}}</td>
+                <td><button type="button" class="btn btn-danger" (click)="deleteConstraint('constraintTimeRoom' + i,i,'TR')"><i class="bi bi-trash-fill"></i></button></td>
             </tr>
         </tbody>
     </table>
@@ -59,15 +61,15 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let constraint of constraintPrecedence; index as i"  [id]="'constraintPrecedence' + i">
+            <tr *ngFor="let constraint of constraintPrecedence; index as i" [id]="'constraintPrecedence' + i">
                 <td>{{i + 1}}</td>
-                <td>{{constraint.selector.selectorUnits[i].attribute}}</td>
-                <td>{{constraint.selector.selectorUnits[i].value}}</td>
-                <td>{{constraint.precedence === "before" ? "Avant" : (constraint.precedence === "after") ? "Après" : "Au même temps"}}</td>
-                <td>{{constraint.strict ? "Oui" : "Non"}}</td>
-                <td>{{constraint.selectorTarget.selectorUnits[i].attribute}}</td>
-                <td>{{constraint.selectorTarget.selectorUnits[i].value}}</td>
-                <td><button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="deleteConstraint('constraintPrecedence' + i)"><i class="bi bi-trash-fill"></i></button></td>
+                <td>{{constraint?.selector?.selectorUnits[0]?.attribute}}</td>
+                <td>{{constraint?.selector?.selectorUnits[0]?.value}}</td>
+                <td>{{constraint?.precedence === "before" ? "Avant" : (constraint?.precedence === "after") ? "Après" : "Au même temps"}}</td>
+                <td>{{constraint?.strict ? "Oui" : "Non"}}</td>
+                <td>{{constraint?.selectorTarget?.selectorUnits[i]?.attribute}}</td>
+                <td>{{constraint?.selectorTarget?.selectorUnits[i]?.value}}</td>
+                <td><button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="deleteConstraint('constraintPrecedence' + i,i,'P')"><i class="bi bi-trash-fill"></i></button></td>
             </tr>
         </tbody>
     </table>

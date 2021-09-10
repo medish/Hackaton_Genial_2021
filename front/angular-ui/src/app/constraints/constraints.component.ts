@@ -17,11 +17,13 @@ export class ConstraintsComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  
   updatePrecedenceConstraints(constraints:ConstraintPrecedence[]){
-    this.precedenceConstraints=constraints;
+    if(!constraints)return;
+    this.precedenceConstraints=this.precedenceConstraints.concat(constraints);
   }
   updateTimeAndRoomsConstraints(constraints:ConstraintTimeRoom[]){
-    this.timeAndRoomConstraints=constraints;
+    if(!constraints)return;
+    this.timeAndRoomConstraints=this.timeAndRoomConstraints.concat(constraints);
   }
-
 }

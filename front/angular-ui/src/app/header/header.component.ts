@@ -27,5 +27,12 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/all-plannings'])
   }
 
+  manual(){
+    this.router.navigate(['/manuel'])
+  }
+
+  auto(){
+    this.router.navigate(['/auto'])
+  }
 
 }
