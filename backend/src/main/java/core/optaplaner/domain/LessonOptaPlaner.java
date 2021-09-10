@@ -3,43 +3,42 @@ package core.optaplaner.domain;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalTime;
+import java.util.Set;
 
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
 
-import core.output.Timeslot;
+import server.models.Course;
+import server.models.Date;
 import server.models.Lesson;
+import server.models.Output;
 import server.models.Professor;
 import server.models.Room;
 
 @PlanningEntity
 public class LessonOptaPlaner extends AbstractPersistable implements FromInputToOptaPlaner<Lesson> {
 
+    private Course subject;
+    private Professor teacher;
     private Duration duration;
 
-    private String subject;
-    private Professor teacher;
-    private String studentGroup;
-
     @PlanningVariable(valueRangeProviderRefs = "timeslotRange")
-    private Timeslot timeslot;
+    private Date timeslot;
     @PlanningVariable(valueRangeProviderRefs = "roomRange")
     private Room room;
 
     public LessonOptaPlaner() {
     }
 
-    public LessonOptaPlaner(long id, String subject, Professor teacher, String studentGroup, Duration duration) {
+    public LessonOptaPlaner(long id, Course subject, Professor teacher, Duration duration) {
         super(id);
         this.subject = subject;
         this.teacher = teacher;
-        this.studentGroup = studentGroup;
         this.duration = duration;
     }
 
-    public LessonOptaPlaner(long id, String subject, Professor teacher, String studentGroup, Timeslot timeslot,
-            Duration duration, Room room) {
-        this(id, subject, teacher, studentGroup, duration);
+    public LessonOptaPlaner(long id, Course subject, Professor teacher, Duration duration, Date timeslot, Room room) {
+        this(id, subject, teacher, duration);
         this.timeslot = timeslot;
         this.room = room;
     }
@@ -49,7 +48,7 @@ public class LessonOptaPlaner extends AbstractPersistable implements FromInputTo
         return subject + "(" + id + ")";
     }
 
-    public String getSubject() {
+    public Course getSubject() {
         return subject;
     }
 
@@ -57,15 +56,11 @@ public class LessonOptaPlaner extends AbstractPersistable implements FromInputTo
         return this.teacher;
     }
 
-    public String getStudentGroup() {
-        return studentGroup;
-    }
-
-    public Timeslot getTimeslot() {
+    public Date getDate() {
         return timeslot;
     }
 
-    public void setTimeslot(Timeslot timeslot) {
+    public void setDate(Date timeslot) {
         this.timeslot = timeslot;
     }
 
@@ -78,24 +73,24 @@ public class LessonOptaPlaner extends AbstractPersistable implements FromInputTo
     }
 
     public boolean isBeforeInWeek(LessonOptaPlaner lesson) {
-        return getDayOfWeek().compareTo(lesson.getDayOfWeek()) < 0;
+        return getDay().compareTo(lesson.getDay()) < 0;
     }
 
     public boolean isCollideInWeek(LessonOptaPlaner lesson) {
-        return getDayOfWeek().compareTo(lesson.getDayOfWeek()) == 0;
+        return getDay().compareTo(lesson.getDay()) == 0;
     }
 
     public boolean isAfterInWeek(LessonOptaPlaner lesson) {
-        return getDayOfWeek().compareTo(lesson.getDayOfWeek()) > 0;
+        return getDay().compareTo(lesson.getDay()) > 0;
     }
 
     public boolean isBeforeInDay(LessonOptaPlaner lesson) {
-        return getDayOfWeek().compareTo(lesson.getDayOfWeek()) != 0
+        return getDay().compareTo(lesson.getDay()) != 0
                 || (getStartTime().plus(duration).isBefore(lesson.getStartTime()));
     }
 
     public boolean isCollide(LessonOptaPlaner lesson) {
-        if (getDayOfWeek().compareTo(lesson.getDayOfWeek()) != 0) {
+        if (getDay().compareTo(lesson.getDay()) != 0) {
             return false;
         }
         if (!getStartTime().isBefore(lesson.getStartTime()) && getStartTime().isBefore(lesson.getEndTime())) {
@@ -108,24 +103,35 @@ public class LessonOptaPlaner extends AbstractPersistable implements FromInputTo
     }
 
     public boolean isAfterInDay(LessonOptaPlaner lesson) {
-        return getDayOfWeek().compareTo(lesson.getDayOfWeek()) != 0
+        return getDay().compareTo(lesson.getDay()) != 0
                 || (lesson.getStartTime().plus(duration).isAfter(getStartTime()));
     }
 
-    public DayOfWeek getDayOfWeek() {
-        return timeslot.getDayOfWeek();
+    public DayOfWeek getDay() {
+        return timeslot.getDay();
     }
 
     public LocalTime getStartTime() {
-        return timeslot.getStartTime();
+        return timeslot.getHour();
     }
 
     public LocalTime getEndTime() {
-        return timeslot.getStartTime().plus(duration);
+        return timeslot.getHour().plus(duration);
     }
 
     public static LessonOptaPlaner fromInput(Lesson lesson) {
-        // TODO Auto-generated method stub
-        return null;
+        LessonOptaPlaner lessonOptaPlaner = new LessonOptaPlaner(Integer.parseInt(lesson.getId()), lesson.getCourse(),
+                lesson.getProfessors().iterator().next(), lesson.getDuration());
+        return lessonOptaPlaner;
+    }
+
+    public static LessonOptaPlaner fromInput(Output output) {
+        LessonOptaPlaner lessonOptaPlaner = new LessonOptaPlaner(Integer.parseInt(output.getId()), output.getCourse(),
+                output.getProfessors().iterator().next(), output.getDuration(), output.getDate(), output.getRoom());
+        return lessonOptaPlaner;
+    }
+
+    public Output toOutput() {
+        return new Output(timeslot, room, new Lesson(id + "", duration, 0, subject, null, Set.of(teacher)));
     }
 }

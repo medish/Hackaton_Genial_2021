@@ -22,7 +22,6 @@
         <mapping class="server.models.Department"/>
         <mapping class="server.models.Room"/>
         <mapping class="server.models.Date"/>
-        <mapping class="server.models.Day"/>
         <mapping class="server.models.Degree"/>
         <mapping class="server.models.Course"/>
         <mapping class="server.models.Output"/>
