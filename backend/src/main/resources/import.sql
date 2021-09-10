@@ -104,7 +104,47 @@ INSERT INTO customer (id,name,first_name,email,is_admin) VALUES ('admin','Admin'
 INSERT INTO customer (id,name,first_name,email,is_admin) VALUES ('prof1','Pierre','Dupont','dupont@u-paris.fr',false);
 INSERT INTO customer (id,name,first_name,email,is_admin) VALUES ('prof2','Jean','Dupond','dupond@u-paris.fr',false);
 INSERT INTO customer (id,name,first_name,email,is_admin) VALUES ('prof3','Philippe','Loiseau','loiseau@u-paris.fr',false);
+INSERT INTO customer (id,name,first_name,email,is_admin) VALUES ('prof4','Henri','Duval','duval@u-paris.fr',false);
+INSERT INTO customer (id,name,first_name,email,is_admin) VALUES ('prof5','Cloé','Vignac','vignac@u-paris.fr',false);
+INSERT INTO customer (id,name,first_name,email,is_admin) VALUES ('prof6','Laura','Delarue','larue@u-paris.fr',false);
+INSERT INTO customer (id,name,first_name,email,is_admin) VALUES ('prof7','Emmanuel','Macron','macron@u-paris.fr',false);
+
 
 INSERT INTO professor(customer_id) VALUES ('prof1');
 INSERT INTO professor(customer_id) VALUES ('prof2');
 INSERT INTO professor(customer_id) VALUES ('prof3');
+INSERT INTO professor(customer_id) VALUES ('prof4');
+INSERT INTO professor(customer_id) VALUES ('prof5');
+INSERT INTO professor(customer_id) VALUES ('prof6');
+INSERT INTO professor(customer_id) VALUES ('prof7');
+
+
+INSERT INTO lesson (lesson_id,duration,group_size,course_id,room_type_id) VALUES ('Cours Algorithmique',7200000000000,80,1,1);
+INSERT INTO lesson (lesson_id,duration,group_size,course_id,room_type_id) VALUES ('TD Algorithmique G1',7200000000000,25,1,2);
+INSERT INTO lesson (lesson_id,duration,group_size,course_id,room_type_id) VALUES ('TD Algorithmique G2',7200000000000,30,1,2);
+INSERT INTO lesson (lesson_id,duration,group_size,course_id,room_type_id) VALUES ('TD Algorithmique G3',7200000000000,25,1,2);
+INSERT INTO lesson (lesson_id,duration,group_size,course_id,room_type_id) VALUES ('Cours Base de données avancées',7200000000000,80,2,1);
+INSERT INTO lesson (lesson_id,duration,group_size,course_id,room_type_id) VALUES ('TD Base de données avancées G1',7200000000000,25,2,2);
+INSERT INTO lesson (lesson_id,duration,group_size,course_id,room_type_id) VALUES ('TD Base de données avancées G2',7200000000000,30,2,2);
+INSERT INTO lesson (lesson_id,duration,group_size,course_id,room_type_id) VALUES ('TD Base de données avancées G3',7200000000000,25,2,2);
+INSERT INTO lesson (lesson_id,duration,group_size,course_id,room_type_id) VALUES ('Cours Génie logiciel',7200000000000,80,3,1);
+INSERT INTO lesson (lesson_id,duration,group_size,course_id,room_type_id) VALUES ('TD Génie logiciel',7200000000000,80,3,2);
+INSERT INTO lesson (lesson_id,duration,group_size,course_id,room_type_id) VALUES ('Cours Droit de l informatique',7200000000000,80,4,1);
+INSERT INTO lesson (lesson_id,duration,group_size,course_id,room_type_id) VALUES ('Anglais M1 G1',7200000000000,20,5,2);
+INSERT INTO lesson (lesson_id,duration,group_size,course_id,room_type_id) VALUES ('Anglais M1 G2',7200000000000,20,5,2);
+
+INSERT INTO lesson_professor (lesson_id,professor_id) VALUES ('Cours Algorithmique','prof1');
+INSERT INTO lesson_professor (lesson_id,professor_id) VALUES ('TD Algorithmique G1','prof2');
+INSERT INTO lesson_professor (lesson_id,professor_id) VALUES ('TD Algorithmique G2','prof1');
+INSERT INTO lesson_professor (lesson_id,professor_id) VALUES ('TD Algorithmique G3','prof3')
+INSERT INTO lesson_professor (lesson_id,professor_id) VALUES ('Cours Base de données avancées','prof2');
+INSERT INTO lesson_professor (lesson_id,professor_id) VALUES ('TD Base de données avancées G1','prof1');
+INSERT INTO lesson_professor (lesson_id,professor_id) VALUES ('TD Base de données avancées G2','prof2');
+INSERT INTO lesson_professor (lesson_id,professor_id) VALUES ('TD Base de données avancées G3','prof3');
+INSERT INTO lesson_professor (lesson_id,professor_id) VALUES ('Cours Génie logiciel','prof4');
+INSERT INTO lesson_professor (lesson_id,professor_id) VALUES ('TD Génie logiciel','prof4');
+INSERT INTO lesson_professor (lesson_id,professor_id) VALUES ('Cours Droit de l informatique','prof5');
+INSERT INTO lesson_professor (lesson_id,professor_id) VALUES ('Anglais M1 G1','prof6');
+INSERT INTO lesson_professor (lesson_id,professor_id) VALUES ('Anglais M1 G1','prof7');
+
+
