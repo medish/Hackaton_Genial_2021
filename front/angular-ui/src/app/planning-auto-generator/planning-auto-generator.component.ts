@@ -1,12 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin, {Draggable} from '@fullcalendar/interaction';
-import {jsPDF} from 'jspdf';
-import html2canvas from "html2canvas";
-import { ConstraintPrecedence } from '../model/constraint/constraint-precedence';
-import { ConstraintTimeRoom } from '../model/constraint/constraint-time-room';
-
+import {FullCalendarComponent} from "@fullcalendar/angular";
+import uniqid from 'uniqid';
 
 @Component({
   selector: 'app-planning-auto-generator',
@@ -17,7 +14,64 @@ export class PlanningAutoGeneratorComponent implements OnInit {
   options: any;
   constructor() {
   }
-  message = 'expanded';
+  @ViewChild('calendar') calendarComponent: FullCalendarComponent;
+
+  /**
+   *
+   */
+  save(){
+
+    let arrayEvents = this.calendarComponent.getApi().getEvents()
+    let arrayPrepared = [];
+    console.warn(arrayEvents)
+    for (let i = 0; i < arrayEvents.length; i++) {
+      let dateStartStr = new Date(arrayEvents[i].startStr)
+      var userTimezoneOffset = dateStartStr.getTimezoneOffset() * 60000;
+      dateStartStr = new Date(dateStartStr.getTime() + userTimezoneOffset);
+      let startTime=dateStartStr.getHours()+":"+dateStartStr.getMinutes()+":"+dateStartStr.getSeconds();
+      let dateEndStr=new Date( new Date(arrayEvents[i].endStr).getTime() + userTimezoneOffset)
+      let endTime="";
+      if(!isNaN(dateEndStr.getTime())){
+        endTime = dateEndStr.getHours()+":"+dateEndStr.getMinutes()+":"+dateEndStr.getSeconds();
+      }else{
+        let defaulthour=dateStartStr.getHours()+1;
+        endTime = defaulthour+":"+dateStartStr.getMinutes()+":"+dateStartStr.getSeconds();
+      }
+      console.warn(dateEndStr.toLocaleDateString())
+      console.warn(endTime);
+      let dayNumber = dateStartStr.getDay()
+      let constraintName = (<HTMLInputElement>document.getElementById('planning-name')).value;
+
+      arrayPrepared.push(
+        {
+          "id":uniqid(),
+          "name":constraintName,
+        }
+      )
+      arrayPrepared.push({
+        "elements":{
+          "lesson_id":uniqid(),
+          "hour":startTime,
+          "day":dayNumber
+        }
+      }
+      )
+      /*arrayPrepared.push(
+        {
+          "id": arrayEvents[i].id,
+          "title": arrayEvents[i].title,
+          "startTime": startTime,
+          "endTime": endTime,
+          "dayNumber": dayNumber
+        },
+      )
+      */
+      console.warn(arrayEvents[i]["id"])
+    }
+    console.warn(arrayPrepared)
+
+    return arrayPrepared;
+  }
 
 
   ngOnInit(): void {
@@ -41,35 +95,7 @@ export class PlanningAutoGeneratorComponent implements OnInit {
       firstDay: 1,
       eventTextColor:"black",
       events: [
-        {
-          daysOfWeek: ['3'],
-          startTime: '13:00:00',
-          endTime: '14:00:00',
-          color: "#7bcce4",
-          title:"Cours JAva",
-          description:"lorem impsum"
-        },
-        {
-          daysOfWeek:[1],
-          startTime: '10:00:00',
-          endTime: '14:00:00',
-          color: "red",
-          title:"Cours C++",
-          description:"lorem impsum"
-        },
-        {
-          daysOfWeek:[4],
-          startTime: '08:00:00',
-          endTime: '11:00:00',
-          color: "green",
-          title:"Lorem ipsum"
-        },
-        {
-          daysOfWeek:[5],
-          startTime: '15:00:00',
-          endTime: '17:00:00',
-          color: "green"
-        }
+
       ]
 
     };

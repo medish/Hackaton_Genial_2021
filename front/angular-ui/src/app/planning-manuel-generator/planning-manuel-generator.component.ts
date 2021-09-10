@@ -7,6 +7,7 @@ import { DataInterfaceService } from '../services/data-interface.service';
 import { Class, Room, Degree, Teacher, CourseDegree} from '../model/datastore/datamodel';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import {FullCalendarComponent} from "@fullcalendar/angular";
+import uniqid from 'uniqid';
 
 @Component({
   selector: 'app-planning-manuel-generator',
@@ -46,13 +47,53 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   getAllEvents(){
     return this.calendarComponent.getApi().getEvents();
   }
-  prepareVerification(){
-    let arrayEvents= this.getAllEvents();
-    console.warn(arrayEvents)
-    for(let i =0;i<arrayEvents.length;i++){
-      console.warn(arrayEvents[i]["id"])
-      alert(arrayEvents[i]["id"])
+
+
+  /**
+   * Get current Planning
+   */
+  prepareVerification() {
+
+    let arrayEvents = this.getAllEvents();
+    let constraintName = (<HTMLInputElement>document.getElementById('planning-name')).value;
+
+    let arrayPrepared = [];
+    let planningJson ={
+      "id":uniqid(),
+      "name":constraintName,
+      "elements":{}
     }
+
+    console.warn(arrayEvents)
+    for (let i = 0; i < arrayEvents.length; i++) {
+      let dateStartStr = new Date(arrayEvents[i].startStr)
+
+      var userTimezoneOffset = dateStartStr.getTimezoneOffset() * 60000;
+      dateStartStr = new Date(dateStartStr.getTime() + userTimezoneOffset);
+      let startTime=dateStartStr.getHours()+":"+dateStartStr.getMinutes()+":"+dateStartStr.getSeconds();
+      let dateEndStr=new Date( new Date(arrayEvents[i].endStr).getTime() + userTimezoneOffset)
+      let endTime="";
+      if(!isNaN(dateEndStr.getTime())){
+        endTime = dateEndStr.getHours()+":"+dateEndStr.getMinutes()+":"+dateEndStr.getSeconds();
+      }else{
+        let defaulthour=dateStartStr.getHours()+1;
+        endTime = defaulthour+":"+dateStartStr.getMinutes()+":"+dateStartStr.getSeconds();
+      }
+      console.warn(dateEndStr.toLocaleDateString())
+      console.warn(endTime);
+      let dayNumber = dateStartStr.getDay()
+
+      arrayPrepared.push({
+            "lesson_id":uniqid(),
+            "hour":startTime,
+            "day":dayNumber
+          }
+      )
+    }
+
+    planningJson.elements=arrayPrepared;
+
+    return JSON.stringify(planningJson);
   }
 
 
@@ -87,7 +128,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
 
         return {
           title: eventEl.innerText,
-          id:Math.random(),
+          id:uniqid(),
           color:eventInitialColors[target_color]
         };
       }
@@ -110,6 +151,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       slotMaxTime: "20:00:00",
       firstDay: 1,
       eventClick:  (info)=>{
+        this.prepareVerification()
         const day = new Date(info.event.startStr).getDay();
         var myModal = new Modal(document.getElementById("modalManuel"), {
           keyboard: false
@@ -118,10 +160,6 @@ export class PlanningManuelGeneratorComponent implements OnInit {
         this.id_event_clicked=info.event.id;
         this.modelData = {title:info.event.title};
         myModal.show();
-      },
-      eventAdd: function (addInfo) {
-        alert("jjjrj")
-        console.log("jdks")
       }
 
     };
