@@ -5,31 +5,31 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
-
-import core.optaplaner.domain.LessonOptaPlaner;
-import server.models.Input;
+import server.models.Course;
+import server.models.Date;
+import server.models.DateId;
+import server.models.Degree;
+import server.models.IInput;
+import server.models.Output;
 import server.models.Professor;
 import server.models.Room;
 
-public class TimeTable implements Output, Input {
+public class TimeTable implements IOutput, IInput {
 
-    private List<Timeslot> timeslotList;
+    private List<Date> timeslotList;
     private List<Room> roomList;
-    private List<LessonOptaPlaner> lessonList;
-
-    private HardSoftScore score;
+    private List<Output> lessonList;
 
     public TimeTable() {
     }
 
-    public TimeTable(List<Timeslot> timeslotList, List<Room> roomList, List<LessonOptaPlaner> lessonList) {
+    public TimeTable(List<Date> timeslotList, List<Room> roomList, List<Output> lessonList) {
         this.timeslotList = timeslotList;
         this.roomList = roomList;
         this.lessonList = lessonList;
     }
 
-    public List<Timeslot> getTimeslotList() {
+    public List<Date> getDateList() {
         return timeslotList;
     }
 
@@ -37,72 +37,64 @@ public class TimeTable implements Output, Input {
         return roomList;
     }
 
-    public List<LessonOptaPlaner> getLessonList() {
+    public List<Output> getLessonList() {
         return lessonList;
-    }
-
-    public HardSoftScore getScore() {
-        return score;
     }
 
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        Map<Timeslot, Map<Room, List<LessonOptaPlaner>>> lessonMap = lessonList.stream()
-                .filter(lesson -> lesson.getTimeslot() != null && lesson.getRoom() != null).collect(Collectors
-                        .groupingBy(LessonOptaPlaner::getTimeslot, Collectors.groupingBy(LessonOptaPlaner::getRoom)));
+        Map<DateId, Map<Room, List<Output>>> lessonMap = lessonList.stream()
+                .filter(lesson -> lesson.getDate().getDateId() != null && lesson.getRoom() != null).collect(Collectors
+                        .groupingBy((lesson) -> lesson.getDate().getDateId(), Collectors.groupingBy(Output::getRoom)));
         stringBuilder.append("|            | " + roomList.stream().map(room -> String.format("%-10s", room.getNumber()))
                 .collect(Collectors.joining(" | ")) + " |\n");
         stringBuilder.append("|" + "------------|".repeat(roomList.size() + 1) + "\n");
-        for (Timeslot timeslot : timeslotList) {
-            List<List<LessonOptaPlaner>> cellList = roomList.stream().map(room -> {
-                Map<Room, List<LessonOptaPlaner>> byRoomMap = lessonMap.get(timeslot);
+        for (Date timeslot : timeslotList) {
+            List<List<Output>> cellList = roomList.stream().map(room -> {
+                Map<Room, List<Output>> byRoomMap = lessonMap.get(timeslot.getDateId());
                 if (byRoomMap == null) {
-                    return Collections.<LessonOptaPlaner>emptyList();
+                    return Collections.<Output>emptyList();
                 }
-                List<LessonOptaPlaner> cellLessonList = byRoomMap.get(room);
+                List<Output> cellLessonList = byRoomMap.get(room);
                 if (cellLessonList == null) {
-                    return Collections.<LessonOptaPlaner>emptyList();
+                    return Collections.<Output>emptyList();
                 }
                 return cellLessonList;
             }).collect(Collectors.toList());
 
             stringBuilder.append("| "
-                    + String.format(
-                            "%-10s", timeslot.getDayOfWeek().toString().substring(0, 3) + " " + timeslot.getStartTime())
+                    + String.format("%-10s", timeslot.getDay().toString().substring(0, 3) + " " + timeslot.getHour())
                     + " | "
                     + cellList.stream()
                             .map(cellLessonList -> String.format("%-10s",
-                                    cellLessonList.stream().map(LessonOptaPlaner::getSubject)
+                                    cellLessonList.stream().map(Output::getCourse).map(Course::getName)
                                             .collect(Collectors.joining(", "))))
                             .collect(Collectors.joining(" | "))
                     + " |\n");
-            stringBuilder.append("|            | "
-                    + cellList.stream()
-                            .map(cellLessonList -> String.format("%-10s",
-                                    cellLessonList.stream().map(LessonOptaPlaner::getTeacher).map(Professor::getName)
-                                            .collect(Collectors.joining(", "))))
-                            .collect(Collectors.joining(" | "))
-                    + " |\n");
-            stringBuilder.append("|            | "
-                    + cellList.stream()
-                            .map(cellLessonList -> String.format("%-10s",
-                                    cellLessonList.stream().map(LessonOptaPlaner::getStudentGroup)
-                                            .collect(Collectors.joining(", "))))
-                            .collect(Collectors.joining(" | "))
-                    + " |\n");
+            stringBuilder.append("|            | " + cellList.stream()
+                    .map(cellLessonList -> String.format("%-10s",
+                            cellLessonList.stream().map(output -> output.getProfessors().iterator().next())
+                                    .map(Professor::getName).collect(Collectors.joining(", "))))
+                    .collect(Collectors.joining(" | ")) + " |\n");
+            stringBuilder.append("|            | " + cellList.stream()
+                    .map(cellLessonList -> String.format("%-10s",
+                            cellLessonList.stream().map(output -> output.getDegrees().iterator().next())
+                                    .map(Degree::getName).collect(Collectors.joining(", "))))
+                    .collect(Collectors.joining(" | ")) + " |\n");
             stringBuilder.append("|" + "------------|".repeat(roomList.size() + 1) + "\n");
         }
-        List<LessonOptaPlaner> unassignedLessons = lessonList.stream()
-                .filter(lesson -> lesson.getTimeslot() == null || lesson.getRoom() == null)
+        List<Output> unassignedLessons = lessonList.stream()
+                .filter(lesson -> lesson.getDate().getDateId() == null || lesson.getRoom() == null)
                 .collect(Collectors.toList());
         if (!unassignedLessons.isEmpty()) {
             stringBuilder.append("");
             stringBuilder.append("Unassigned lessons");
-            for (LessonOptaPlaner lesson : unassignedLessons) {
-                stringBuilder.append("  " + lesson.getSubject() + " - " + lesson.getTeacher() + " - "
-                        + lesson.getStudentGroup() + "\n");
+            for (Output lesson : unassignedLessons) {
+                stringBuilder
+                        .append("  " + lesson.getCourse().getName() + " - " + lesson.getProfessors().iterator().next()
+                                + " - " + lesson.getCourse().getDegrees().iterator().next() + "\n");
             }
         }
         return stringBuilder.toString();
