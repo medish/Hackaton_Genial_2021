@@ -6,7 +6,7 @@ Les dépendances Maven sont situées dans le fichier **Hackaton_Genial_2021\back
 
 # Prérequis côté backend :
 - PostgreSQL installé
-- Créer une Database dans PostgreSQL (ex: Mydatabase)
+- Créer une Database dans PostgreSQL (ex: app_calendar)
 - Java 16 installé avec la variable Java_Home initialisée
 
  ## instructions d'installation
