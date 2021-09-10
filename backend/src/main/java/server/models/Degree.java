@@ -1,5 +1,7 @@
 package server.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -22,11 +24,15 @@ public class Degree implements IInput {
     @Column(unique = true)
     private String name;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "degrees")
     private Set<Course> courses = new HashSet<>();
 
     public String getId() {
         return id;
+    }
+
+    public Degree() {
     }
 
     public void setId(String id) {

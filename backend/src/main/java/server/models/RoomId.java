@@ -19,6 +19,9 @@ public class RoomId implements Serializable {
     @JoinColumn(name = "room_department_id", nullable = false)
     private Department department;
 
+    public RoomId() {
+    }
+
     public RoomId(String number, Department department_id) {
         this.number = number;
         this.department = department_id;
