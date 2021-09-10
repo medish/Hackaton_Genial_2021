@@ -3,8 +3,9 @@ import { Injectable } from '@angular/core';
 import {identity, Observable, throwError } from 'rxjs';
 import { ConstraintPrecedence } from '../model/constraint/constraint-precedence';
 import { ConstraintTimeRoom } from '../model/constraint/constraint-time-room';
-import { Room, Class, RoomType, Teacher, Department, Degree, Identity, Output, CourseDegree } from '../model/datastore/datamodel'
+import { Room, Class, RoomType, Teacher, Department, Degree, Identity, Output } from '../model/datastore/datamodel'
 import { catchError, retry } from 'rxjs/operators';
+import { Planning } from '../model/planning/planning';
 
 @Injectable({
   providedIn: 'root'
@@ -53,10 +54,6 @@ export class DataInterfaceService {
     ).subscribe()
   }
 
-  fetchCourseDegrees(callback: (courseDegrees: [CourseDegree], context: any) => any, context: any) {
-    return this.http.get<[CourseDegree]>(this.url + "/coursedegrees")
-    .subscribe(data => callback(data, context)); 
-  }
 
   fetchAllRooms(callback: (rooms: [Room], context: any) => any, context : any) {
     return this.http.get<[Room]>(this.url + "/rooms")
@@ -64,7 +61,7 @@ export class DataInterfaceService {
   }
 
   fetchAllClasses(callback: (classes: [Class], context: any) => any, context: any) {
-    return this.http.get<[Class]>(this.url + "/classes")
+    return this.http.get<[Class]>(this.url + "/lessons")
     .subscribe(data => callback(data, context));
   }
 
@@ -74,7 +71,7 @@ export class DataInterfaceService {
   }
 
   fetchAllTeachers(callback: (teachers: [Teacher], context: any) => any, context: any) {
-    return this.http.get<[Teacher]>(this.url + "/teachers")
+    return this.http.get<[Teacher]>(this.url + "/professors")
     .subscribe(data => callback(data, context));
   }
 
@@ -97,6 +94,10 @@ export class DataInterfaceService {
   verifyConstraints(constraints: [Output], callback: (violatedConstraints: number) => any) {
     return this.http.post<number>(this.url + "/constraints/verify", constraints)
     .pipe(catchError(this.handleError)).subscribe(data => callback(data));
+  }
+
+  fetchAllPlannings(callback: (plannings:[Planning],context:any)=>any, context:any){
+    return this.http.get<[Planning]>(this.url+'/planning').subscribe(data=>callback(data,context))
   }
 
   handleError(error: HttpErrorResponse) {

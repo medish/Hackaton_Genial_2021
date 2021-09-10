@@ -23,6 +23,8 @@ import { PlanningAutoGeneratorComponent } from './planning-auto-generator/planni
 import { GetFileConstraintsComponent } from './get-file-constraints/get-file-constraints.component';
 import { ConstraintsComponent } from './constraints/constraints.component';
 import { PdfExportComponent } from './pdf-export/pdf-export.component';
+import { AllPlanningsComponent } from './all-plannings/all-plannings.component';
+import { CardPlanningComponent } from './all-plannings/card-planning/card-planning.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -43,7 +45,9 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     PlanningAutoGeneratorComponent,
     GetFileConstraintsComponent,
     ConstraintsComponent,
-    PdfExportComponent
+    PdfExportComponent,
+    AllPlanningsComponent,
+    CardPlanningComponent
   ],
   imports: [
     BrowserAnimationsModule,
