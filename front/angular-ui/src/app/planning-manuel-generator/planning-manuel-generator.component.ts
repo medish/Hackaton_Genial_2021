@@ -67,12 +67,13 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     let planningJson ={
       "id":uniqid(),
       "name":constraintName,
-      "elements":{}
+      "createdAt":new Date(),
+      "outputs":{}
     }
 
     for (let i = 0; i < arrayEvents.length; i++) {
       let dateStartStr = new Date(arrayEvents[i].startStr)
-      let id_lesson = arrayEvents[i].extendedProps.id_lesson
+      let id_lesson = arrayEvents[i].extendedProps.lesson_id
       if(id_lesson==undefined) {
         continue
       }
@@ -93,17 +94,28 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       let dayNumber = dateStartStr.getDay()
 
       arrayPrepared.push({
-            "lesson_id":id_lesson,
+            "id":uniqid(),
+            "date":{
+              "dateId":{
+                day:dayNumber.toString(),
+                hour:startTime
+              },
+              hour:startTime,
+              day:dayNumber.toString()
+            },
+            //TODO ajouter room
+            "lesson":id_lesson,
             "hour":startTime,
-             "endTime":endTime,
+            "endTime":endTime,
             "day":dayNumber
           }
       )
     }
 
-    planningJson.elements=arrayPrepared;
+    planningJson.outputs=arrayPrepared;
     console.warn(planningJson)
     console.warn(arrayEvents)
+    //this.dataService.verifyConstraints(planningJson);
     return JSON.stringify(planningJson);
   }
 
@@ -160,6 +172,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       },
       eventClick:  (info)=>{
         this.prepareVerification()
+        //this.dataService.verifyConstraints
         const day = new Date(info.event.startStr).getDay();
         var myModal = new Modal(document.getElementById("modalManuel"), {
           keyboard: false
@@ -264,7 +277,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     event?.setProp("backgroundColor", color_);
     event?.setProp("title", selectedClass?.course.name);
     event?.setExtendedProp("duration", selectedClass?.duration);
-    event?.setExtendedProp("id_lesson", selectedClass?.id);
+    event?.setExtendedProp("id_lesson", selectedClass);
     for(let professor of this.professors) {
       if(!(teachersId.includes(professor.id))) {
         this.professors = this.professors.filter(t => t.id != professor.id);

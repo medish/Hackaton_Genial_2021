@@ -32,7 +32,9 @@ public class SolverOptaplaner implements SolverTimeTable {
     public TimeTable solve(TimeTable timeTable) {
         TimeTableOptaPlaner timeTableOptaPlaner = TimeTableOptaPlaner.fromInput(timeTable);
         Solver<TimeTableOptaPlaner> solver = solverFactory.buildSolver();
-        return solver.solve(timeTableOptaPlaner).toOutput();
+        TimeTable r=solver.solve(timeTableOptaPlaner).toOutput();
+        System.out.println(r);
+        return r;
     }
 
     @Override
