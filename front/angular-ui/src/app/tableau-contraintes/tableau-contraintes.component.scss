@@ -1,0 +1,12 @@
+.table>:not(:last-child)>:last-child>* {
+    border-bottom-color: #454d55;
+}
+
+table {
+    text-align: center;
+    margin-right: 1rem;
+}
+
+.titre-contraintes {
+    margin-top: 1rem;
+}

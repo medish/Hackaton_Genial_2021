@@ -58,7 +58,9 @@ public class SolverOptaplaner implements SolverTimeTable {
         TimeTableOptaPlaner timeTableOptaPlaner = TimeTableOptaPlaner.fromInput(timeTable);
         setConstraints(timeConstraints, precedenceConstraints);
         Solver<TimeTableOptaPlaner> solver = solverFactory.buildSolver();
-        return solver.solve(timeTableOptaPlaner).toOutput();
+        TimeTable r=solver.solve(timeTableOptaPlaner).toOutput();
+        System.out.println(r);
+        return r;
     }
 
     @Override

@@ -1,0 +1,31 @@
+<header *ngIf="authService.isLoggedIn()">
+    <nav class="navbar navbar-expand-lg navbar-dark pt-3 pb-3 bg_styles">
+        <div class="container-fluid">
+            <p class="navbar-brand" (click)="home()">AI-Planning</p>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <p class="nav-link " aria-current="page" (click)="manual()">Manual</p>
+                    </li>
+                    <li class="nav-item">
+                        <p class="nav-link " aria-current="page" (click)="auto()">Auto</p>
+                    </li>
+                    <li class="nav-item">
+                        <p class="nav-link " aria-current="page" (click)="allPlannings()">All plannings</p>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <ul class="navbar-nav me-5 mb-2 mb-lg-0 ">
+                        <li class="nav-item">
+                            <p (click)="logout()" class="nav-link" aria-current="page">Disconnect</p>
+                        </li>
+
+                    </ul>
+                </form>
+            </div>
+        </div>
+    </nav>
+</header>

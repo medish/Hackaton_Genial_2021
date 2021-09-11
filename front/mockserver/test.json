@@ -1,0 +1,207 @@
+{
+    "lessons": [{
+            "id": 17,
+            "duration": 120,
+            "group_size": 100,
+            "course": {
+                "id": 1,
+                "name": "Programmation Composants Mobiles",
+                "degrees": [{
+                        "id": 1,
+                        "name": "Master GENIAL M1"
+                    },
+                    {
+                        "id": 2,
+                        "name": "Master GENIAL M2"
+                    },
+                    {
+                        "id": 3,
+                        "name": "Master DATA M1"
+                    }
+                ],
+                "color": "#008080"
+            },
+            "roomType": {
+                "id": 1,
+                "name": "cours"
+            },
+            "professors": [{
+                "id": 471,
+                "email": "peter.habermehl@irif.fr",
+                "firstName": "Peter",
+                "name": "Habermehl",
+                "is_admin": false
+            }]
+        },
+        {
+            "id": 19,
+            "duration": 60,
+            "group_size": 30,
+            "course": {
+                "id": 1,
+                "name": "Programmation Composants Mobiles",
+                "degrees": [{
+                        "id": 1,
+                        "name": "Master GENIAL M1"
+                    },
+                    {
+                        "id": 2,
+                        "name": "Master GENIAL M2"
+                    },
+                    {
+                        "id": 3,
+                        "name": "Master DATA M1"
+                    }
+                ],
+                "color": "#008080"
+            },
+            "roomType": {
+                "id": 2,
+                "name": "td"
+            },
+            "professors": [{
+                "id": 471,
+                "email": "peter.habermehl@irif.fr",
+                "firstName": "Peter",
+                "name": "Habermehl",
+                "is_admin": false
+            }]
+        },
+        {
+            "id": 18,
+            "duration": 100,
+            "group_size": 70,
+            "course": {
+                "id": 1,
+                "name": "Informatique Embarquée",
+                "degrees": [{
+                        "id": 1,
+                        "name": "Master GENIAL M1"
+                    },
+                    {
+                        "id": 2,
+                        "name": "Master GENIAL M2"
+                    },
+                    {
+                        "id": 3,
+                        "name": "Master DATA M1"
+                    }
+                ],
+                "color": "#e600e6"
+            },
+            "roomType": {
+                "id": 1,
+                "name": "cours"
+            },
+            "professors": [{
+                "id": 471,
+                "email": "peter.habermehl@irif.fr",
+                "firstName": "Peter",
+                "name": "Habermehl",
+                "is_admin": false
+            }]
+        }
+    ],
+    "rooms": [{
+            "number": "5A",
+            "departmentId": "2",
+            "capacity": "100",
+            "typeId": "1"
+        },
+        {
+            "number": "5B",
+            "departmentId": "1",
+            "capacity": "75",
+            "typeId": "1"
+        },
+        {
+            "number": "201",
+            "departmentId": "1",
+            "capacity": "30",
+            "typeId": "1"
+        }
+    ],
+    "degrees": [{
+            "id": 1,
+            "name": "Master GENIAL M1"
+        },
+        {
+            "id": 2,
+            "name": "Master GENIAL M2"
+        },
+        {
+            "id": 3,
+            "name": "Master DATA M1"
+        },
+        {
+            "id": 4,
+            "name": "Master IMPAIR M1",
+            "departmentId": "1"
+        },
+        {
+            "id": 5,
+            "name": "Master IMPAIR M2",
+            "departmentId": "1"
+        },
+        {
+            "id": 6,
+            "name": "Licence 1 Informatique",
+            "departmentId": "1"
+        },
+        {
+            "id": 7,
+            "name": "Licence 2 Informatique",
+            "departmentId": "1"
+        },
+        {
+            "id": 7,
+            "name": "Licence 3 Informatique",
+            "departmentId": "1"
+        }
+    ],
+    "professors": [{
+            "id": 471,
+            "email": "peter.habermehl@irif.fr",
+            "firstName": "Peter",
+            "name": "Habermehl",
+            "is_admin": false
+        },
+        {
+            "id": 472,
+            "email": "klimann@irif.fr",
+            "firstName": "Ines",
+            "name": "Klimann",
+            "is_admin": true
+        }
+    ],
+    "departments": [{
+            "id": 1,
+            "name": "Informatique"
+        },
+        {
+            "id": 2,
+            "name": "Biologie"
+        }
+    ],
+    "a_b": {
+        "test": "am"
+    },
+    "signin": {
+        "accessToken": "token_example",
+        "name": "name",
+        "surname": "surname",
+        "roles": [
+            "ADMIN"
+        ],
+        "username": "username"
+    },
+    "planning": [{
+        "name": "planning1",
+        "id": "1",
+        "elements": [{
+            "lesson_id": "lesson_id_1",
+            "day": 2,
+            "hour": "10:30"
+        }]
+    }]
+}
