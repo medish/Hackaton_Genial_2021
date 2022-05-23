@@ -22,7 +22,7 @@ public class ProfessorController {
         return service.getAll();
     }
 
-    @GetMapping(value = "/{id]")
+    @GetMapping(value = "/{id}")
     public Optional<Professor> getById(@PathVariable String id) {
         return this.service.getById(id);
     }
