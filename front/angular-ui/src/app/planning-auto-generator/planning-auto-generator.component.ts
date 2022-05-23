@@ -138,7 +138,8 @@ export class PlanningAutoGeneratorComponent implements OnInit {
         duration : {hours :  hours, minutes : minutes},
         title : event.title,
         location : event.extendedProps["room"],
-        description : event.extendedProps["prof"]
+        description : event.extendedProps["prof"],
+        startInputType : "utc"
       });
     }
     const {error, value} = createEvents(events);
