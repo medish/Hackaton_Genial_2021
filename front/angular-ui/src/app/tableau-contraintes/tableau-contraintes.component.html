@@ -51,6 +51,7 @@
                 <th scope="col" rowspan="2">Précedence</th>
                 <th scope="col" rowspan="2">Strict</th>
                 <th colspan="2">Selector Cible</th>
+                <th scope="col" rowspan="2">Priorité</th>
                 <th rowspan="2" colspan="1"></th>
             </tr>
             <tr>
@@ -67,8 +68,9 @@
                 <td>{{constraint?.selector?.selectorUnits[0]?.value}}</td>
                 <td>{{constraint?.precedence === "before" ? "Avant" : (constraint?.precedence === "after") ? "Après" : "Au même temps"}}</td>
                 <td>{{constraint?.strict ? "Oui" : "Non"}}</td>
-                <td>{{constraint?.selectorTarget?.selectorUnits[i]?.attribute}}</td>
-                <td>{{constraint?.selectorTarget?.selectorUnits[i]?.value}}</td>
+                <td>{{constraint?.selectorTarget?.selectorUnits[0]?.attribute}}</td>
+                <td>{{constraint?.selectorTarget?.selectorUnits[0]?.value}}</td>
+                <td>{{constraint?.priority}}</td>
                 <td><button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="deleteConstraint('constraintPrecedence' + i,i,'P')"><i class="bi bi-trash-fill"></i></button></td>
             </tr>
         </tbody>

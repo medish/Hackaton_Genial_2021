@@ -20,6 +20,7 @@ export class ConstraintsComponent implements OnInit {
   
   updatePrecedenceConstraints(constraints:ConstraintPrecedence[]){
     if(!constraints)return;
+    console.log("received ",constraints)
     this.precedenceConstraints=this.precedenceConstraints.concat(constraints);
   }
   updateTimeAndRoomsConstraints(constraints:ConstraintTimeRoom[]){
