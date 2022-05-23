@@ -189,9 +189,10 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   }
 
   download(filename, input) {
-    var element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8, '+encodeURIComponent(input));
-    element.setAttribute('download', filename);
+    const element = document.createElement('a');
+    element.download = filename;
+    const blob = new Blob([input]);
+    element.href = URL.createObjectURL(blob);
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
