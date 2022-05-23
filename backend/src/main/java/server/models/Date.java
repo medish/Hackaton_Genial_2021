@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "Date")
 public class Date {
@@ -23,12 +25,15 @@ public class Date {
     public Date() {
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "date", targetEntity = Output.class)
     private List<Output> outputs;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "date_begin", targetEntity = TimeConstraint.class)
     private List<TimeConstraint> timeConstraintsBegin;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "date_end", targetEntity = TimeConstraint.class)
     private List<TimeConstraint> timeConstraintsEnd;
 
@@ -40,18 +45,22 @@ public class Date {
         this.dateId = dateId;
     }
 
+    @JsonIgnore
     public LocalTime getHour() {
         return dateId.getHour();
     }
 
+    @JsonIgnore
     public void setHour(LocalTime hour) {
         dateId.setHour(hour);
     }
 
+    @JsonIgnore
     public DayOfWeek getDay() {
         return dateId.getDay();
     }
 
+    @JsonIgnore
     public void setDay(DayOfWeek day) {
         dateId.setDay(day);
     }

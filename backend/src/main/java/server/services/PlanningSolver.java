@@ -59,17 +59,17 @@ public class PlanningSolver {
     /**
      * Checks a planning for a given output list.
      * 
-     * @param outputList Output list {@link Output}
+     * @param planning
      * @return {@link ScoreExplanation}
      */
-    public ScoreExplanation<TimeTableOptaPlaner, HardSoftScore> checkPlanning(List<Output> outputList) {
+    public ScoreExplanation<TimeTableOptaPlaner, HardSoftScore> checkPlanning(Planning planning) {
         // Constraints Time + precedence
         List<TimeConstraint> timeConstraints = timeConstraintService.getAll();
         List<PrecedenceConstraint> precedenceConstraints = precedenceConstraintService.getAll();
         // Rooms
         List<Room> roomList = roomService.getAll();
 
-        TimeTable timeTable = new TimeTable(dateList, roomList, outputList);
+        TimeTable timeTable = new TimeTable(dateList, roomList, planning.getOutputs());
 
         return solver.verify(timeTable, timeConstraints, precedenceConstraints);
     }
