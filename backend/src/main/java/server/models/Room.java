@@ -9,6 +9,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "room")
 public class Room implements IInput {
@@ -17,15 +19,17 @@ public class Room implements IInput {
     private RoomId roomId;
     private Integer capacity;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "room_type_id", nullable = false)
     private RoomType roomType;
 
-    public Room() {
-    }
-
+    @JsonIgnore
     @OneToMany(mappedBy = "room", targetEntity = Output.class)
     private List<Output> outputs;
+
+    public Room() {
+    }
 
     public Room(String number, Department department, Integer capacity, RoomType type) {
         this.roomId = new RoomId(number, department);
@@ -39,6 +43,14 @@ public class Room implements IInput {
         this.roomType = roomType;
     }
 
+    public RoomId getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(RoomId roomId) {
+        this.roomId = roomId;
+    }
+
     public Integer getCapacity() {
         return capacity;
     }
@@ -47,23 +59,33 @@ public class Room implements IInput {
         this.capacity = capacity;
     }
 
+    @JsonIgnore
+    public RoomType getRoomType() {
+        return this.roomType;
+    }
+
+    @JsonIgnore
+    public void setRoomType(RoomType roomType) {
+        this.roomType = roomType;
+    }
+
+    @JsonIgnore
     public String getNumber() {
         return roomId.getNumber();
     }
 
+    @JsonIgnore
     public void setNumber(String number) {
         roomId.setNumber(number);
     }
 
+    @JsonIgnore
     public Department getDepartment() {
         return roomId.getDepartment();
     }
 
+    @JsonIgnore
     public void setDepartment(Department department) {
         roomId.setDepartment(department);
-    }
-
-    public RoomType getRoomType(){
-        return this.roomType;
     }
 }

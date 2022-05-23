@@ -13,6 +13,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "Lesson")
 public class Lesson implements IInput {
@@ -36,9 +38,7 @@ public class Lesson implements IInput {
     @JoinTable(name = "lesson_professor", joinColumns = @JoinColumn(name = "lesson_id"), inverseJoinColumns = @JoinColumn(name = "professor_id"))
     private Set<Professor> professors;
 
-    public Lesson()
-    {
-
+    public Lesson() {
     }
 
     public Lesson(String id, Duration duration, int group_size, Course course, RoomType room_type,
@@ -91,15 +91,15 @@ public class Lesson implements IInput {
         this.duration = duration;
     }
 
-    public void setGroup_size(int group_size) {
+    public void setGroupSize(int group_size) {
         this.group_size = group_size;
     }
 
-    public void setCourse_id(Course course) {
+    public void setCourse(Course course) {
         this.course = course;
     }
 
-    public void setRoom_type_id(RoomType room_type) {
+    public void setRoomType(RoomType room_type) {
         this.room_type = room_type;
     }
 
@@ -107,12 +107,13 @@ public class Lesson implements IInput {
         this.professors = professors;
     }
 
+    @JsonIgnore
     public Set<Degree> getDegrees() {
         return course.getDegrees();
     }
 
+    @JsonIgnore
     public void setDegrees(Set<Degree> degrees) {
         course.setDegrees(degrees);
     }
-
 }

@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "Output")
 public class Output {
@@ -21,6 +23,7 @@ public class Output {
     public Output() {
     }
 
+    @JsonIgnore
     @Id
     @Column(name = "lesson_id")
     private String id;
@@ -85,18 +88,6 @@ public class Output {
                 || (output.getStartTime().plus(output.getDuration()).isAfter(getStartTime()));
     }
 
-    public DayOfWeek getDay() {
-        return date.getDay();
-    }
-
-    public LocalTime getStartTime() {
-        return date.getHour();
-    }
-
-    public LocalTime getEndTime() {
-        return date.getHour().plus(getDuration());
-    }
-
     public Date getDate() {
         return date;
     }
@@ -121,63 +112,93 @@ public class Output {
         return lesson;
     }
 
+    @JsonIgnore
+    public DayOfWeek getDay() {
+        return date.getDay();
+    }
+
+    @JsonIgnore
+    public LocalTime getStartTime() {
+        return date.getHour();
+    }
+
+    @JsonIgnore
+    public LocalTime getEndTime() {
+        return date.getHour().plus(getDuration());
+    }
+
+    @JsonIgnore
     public String getId() {
         return lesson.getId();
     }
 
+    @JsonIgnore
     public void setId(String id) {
         lesson.setId(id);
     }
 
+    @JsonIgnore
     public Duration getDuration() {
         return lesson.getDuration();
     }
 
+    @JsonIgnore
     public int getGroupSize() {
         return lesson.getGroupSize();
     }
 
+    @JsonIgnore
     public Course getCourse() {
         return lesson.getCourse();
     }
 
+    @JsonIgnore
     public RoomType getRoomType() {
         return lesson.getRoomType();
     }
 
+    @JsonIgnore
     public Set<Professor> getProfessors() {
         return lesson.getProfessors();
     }
 
+    @JsonIgnore
     public void setDuration(Duration duration) {
         lesson.setDuration(duration);
     }
 
-    public void setGroup_size(int group_size) {
-        lesson.setGroup_size(group_size);
+    @JsonIgnore
+    public void setGroupSize(int group_size) {
+        lesson.setGroupSize(group_size);
     }
 
-    public void setCourse_id(Course course) {
-        lesson.setCourse_id(course);
+    @JsonIgnore
+    public void setCourse(Course course) {
+        lesson.setCourse(course);
     }
 
-    public void setRoom_type_id(RoomType room_type) {
-        lesson.setRoom_type_id(room_type);
+    @JsonIgnore
+    public void setRoomType(RoomType room_type) {
+        lesson.setRoomType(room_type);
     }
 
+    @JsonIgnore
     public void setProfessors(Set<Professor> professors) {
         lesson.setProfessors(professors);
     }
 
+    @JsonIgnore
     @Override
     public String toString() {
         return lesson.toString();
     }
 
+    @JsonIgnore
     public Set<Degree> getDegrees() {
         return lesson.getDegrees();
     }
 
+    @JsonIgnore
     public void setDegrees(Set<Degree> degrees) {
         lesson.setDegrees(degrees);
     }
