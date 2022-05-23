@@ -39,7 +39,6 @@ export class GetFileConstraintsComponent implements OnInit {
     }
   }
   sendFileSelectedTimeAndRoom(){
-    console.log('Appel')
     if(this.currentTimeAndRoom?.length>0){
       console.log(this.currentTimeAndRoom)
       this.onAddConstraintTimeRoom.emit(this.currentTimeAndRoom);
@@ -63,9 +62,7 @@ export class GetFileConstraintsComponent implements OnInit {
   }
 
   sendFileSelectedPrecedence(){
-    console.log('Appel')
     if(this.currentPrecedence?.length>0){
-      console.log(this.currentPrecedence)
       this.onAddConstraintPrecedence.emit(this.currentPrecedence);
     }
   }
