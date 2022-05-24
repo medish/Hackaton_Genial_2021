@@ -12,8 +12,7 @@ import org.optaplanner.core.api.domain.variable.PlanningVariable;
 
 import server.models.Course;
 import server.models.Date;
-import server.models.Lesson;
-import server.models.Output;
+import server.models.CourseSlot;
 import server.models.Professor;
 import server.models.Room;
 
@@ -129,7 +128,7 @@ public class LessonOptaPlaner extends AbstractPersistable implements FromInputTo
         return lessonOptaPlaner;
     }
 
-    public static LessonOptaPlaner fromInput(Output output) {
+    public static LessonOptaPlaner fromInput(CourseSlot output) {
         Iterator<Professor> professors = output.getProfessors() != null ? output.getProfessors().iterator()
                 : new HashSet<Professor>().iterator();
         LessonOptaPlaner lessonOptaPlaner = new LessonOptaPlaner(output.getId().hashCode(), output.getCourse(),
@@ -138,8 +137,8 @@ public class LessonOptaPlaner extends AbstractPersistable implements FromInputTo
         return lessonOptaPlaner;
     }
 
-    public Output toOutput() {
-        return new Output(timeslot, room,
+    public CourseSlot toOutput() {
+        return new CourseSlot(timeslot, room,
                 new Lesson(id + "", duration, 0, subject, null, teacher == null ? null : Set.of(teacher)));
     }
 }

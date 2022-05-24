@@ -10,7 +10,7 @@ import biweekly.Biweekly;
 import biweekly.ICalendar;
 import biweekly.component.VEvent;
 import biweekly.property.Summary;
-import server.models.Output;
+import server.models.CourseSlot;
 
 public class IcsConverter {
 
@@ -23,7 +23,7 @@ public class IcsConverter {
 
         ICalendar ical = new ICalendar();
 
-        for (Output lesson : output.getOutputList()) {
+        for (CourseSlot lesson : output.getOutputList()) {
             VEvent event = createEvent(lesson);
             ical.addEvent(event);
         }
@@ -33,7 +33,7 @@ public class IcsConverter {
 
     }
 
-    public static VEvent createEvent(Output lesson) {
+    public static VEvent createEvent(CourseSlot lesson) {
         VEvent event = new VEvent();
 
         // set up the start and end datetime of event

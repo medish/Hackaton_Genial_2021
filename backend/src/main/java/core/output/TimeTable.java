@@ -1,36 +1,28 @@
 package core.output;
 
+import server.models.*;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import server.models.Course;
-import server.models.Date;
-import server.models.DateId;
-import server.models.Degree;
-import server.models.IInput;
-import server.models.Lesson;
-import server.models.Output;
-import server.models.Professor;
-import server.models.Room;
-
 public class TimeTable implements IOutput, IInput {
 
-    private List<Date> timeslotList;
+    private List<DateSlot> timeslotList;
     private List<Room> roomList;
-    private List<Output> outputList;
+    private List<CourseSlot> outputList;
 
     public TimeTable() {
     }
 
-    public TimeTable(List<Date> timeslotList, List<Room> roomList, List<Output> outputList) {
+    public TimeTable(List<DateSlot> timeslotList, List<Room> roomList, List<CourseSlot> outputList) {
         this.timeslotList = timeslotList;
         this.roomList = roomList;
         this.outputList = outputList;
     }
 
-    public List<Date> getDateList() {
+    public List<DateSlot> getDateList() {
         return timeslotList;
     }
 
@@ -38,7 +30,7 @@ public class TimeTable implements IOutput, IInput {
         return roomList;
     }
 
-    public List<Output> getOutputList() {
+    public List<CourseSlot> getOutputList() {
         return outputList;
     }
 
@@ -46,21 +38,21 @@ public class TimeTable implements IOutput, IInput {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        Map<DateId, Map<Room, List<Output>>> lessonMap = outputList.stream()
+        Map<DateId, Map<Room, List<CourseSlot>>> lessonMap = outputList.stream()
                 .filter(lesson -> lesson.getDate().getDateId() != null && lesson.getRoom() != null).collect(Collectors
-                        .groupingBy((lesson) -> lesson.getDate().getDateId(), Collectors.groupingBy(Output::getRoom)));
+                        .groupingBy((lesson) -> lesson.getDate().getDateId(), Collectors.groupingBy(CourseSlot::getRoom)));
         stringBuilder.append("|            | " + roomList.stream().map(room -> String.format("%-10s", room.getNumber()))
                 .collect(Collectors.joining(" | ")) + " |\n");
         stringBuilder.append("|" + "------------|".repeat(roomList.size() + 1) + "\n");
         for (Date timeslot : timeslotList) {
-            List<List<Output>> cellList = roomList.stream().map(room -> {
-                Map<Room, List<Output>> byRoomMap = lessonMap.get(timeslot.getDateId());
+            List<List<CourseSlot>> cellList = roomList.stream().map(room -> {
+                Map<Room, List<CourseSlot>> byRoomMap = lessonMap.get(timeslot.getDateId());
                 if (byRoomMap == null) {
-                    return Collections.<Output>emptyList();
+                    return Collections.<CourseSlot>emptyList();
                 }
-                List<Output> cellLessonList = byRoomMap.get(room);
+                List<CourseSlot> cellLessonList = byRoomMap.get(room);
                 if (cellLessonList == null) {
-                    return Collections.<Output>emptyList();
+                    return Collections.<CourseSlot>emptyList();
                 }
                 return cellLessonList;
             }).collect(Collectors.toList());
@@ -70,7 +62,7 @@ public class TimeTable implements IOutput, IInput {
                     + " | "
                     + cellList.stream()
                             .map(cellLessonList -> String.format("%-10s",
-                                    cellLessonList.stream().map(Output::getCourse).map(Course::getName)
+                                    cellLessonList.stream().map(CourseSlot::getCourse).map(Course::getName)
                                             .collect(Collectors.joining(", "))))
                             .collect(Collectors.joining(" | "))
                     + " |\n");
@@ -91,13 +83,13 @@ public class TimeTable implements IOutput, IInput {
                     .collect(Collectors.joining(" | ")) + " |\n");
             stringBuilder.append("|" + "------------|".repeat(roomList.size() + 1) + "\n");
         }
-        List<Output> unassignedLessons = outputList.stream()
+        List<CourseSlot> unassignedLessons = outputList.stream()
                 .filter(lesson -> lesson.getDate().getDateId() == null || lesson.getRoom() == null)
                 .collect(Collectors.toList());
         if (!unassignedLessons.isEmpty()) {
             stringBuilder.append("");
             stringBuilder.append("Unassigned lessons");
-            for (Output lesson : unassignedLessons) {
+            for (CourseSlot lesson : unassignedLessons) {
                 stringBuilder
                         .append("  " + lesson.getCourse().getName() + " - " + lesson.getProfessors().iterator().next()
                                 + " - " + lesson.getCourse().getDegrees().iterator().next() + "\n");
@@ -109,11 +101,11 @@ public class TimeTable implements IOutput, IInput {
     /**
      * Build an output list from a given lesson list
      * 
-     * @param lessonList {@link Lesson}
-     * @return List of output {@link Output}
+     * @param courseGroups {@link CourseGroup}
+     * @return List of output {@link CourseSlot}
      */
-    public static List<Output> buildListOutput(List<Lesson> lessonList) {
-        return lessonList.stream().map(lesson -> new Output(null, null, lesson)).collect(Collectors.toList());
+    public static List<CourseSlot> buildListSlots(List<CourseGroup> courseGroups) {
+        return courseGroups.stream().map(group -> new CourseSlot(group, )).collect(Collectors.toList());
     }
 
 }
