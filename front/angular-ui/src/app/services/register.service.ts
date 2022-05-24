@@ -15,7 +15,7 @@ export class RegisterService {
   constructor(private http: HttpClient) { }
 
   register(user: User) {
-    let id = this.http.post(environment.baseUrl + '/register', user);
+    let id = this.http.post(environment.baseUrl + '/register', user).toPromise();
     if (id) {
       console.log(id);
     }
