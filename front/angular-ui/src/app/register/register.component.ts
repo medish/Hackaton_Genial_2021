@@ -42,7 +42,7 @@ export class RegisterComponent implements OnInit {
     this.loading = true;
     let user = new User();
     user.name = this.form.value.username;
-    user.firstname = this.form.value.firstname;
+    user.firstName = this.form.value.firstname;
     user.password = this.form.value.password;
     user.email = this.form.value.email;
 
