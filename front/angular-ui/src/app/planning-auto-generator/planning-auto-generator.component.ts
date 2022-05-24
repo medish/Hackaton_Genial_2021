@@ -12,6 +12,7 @@ import { createEvents } from 'ics';
   templateUrl: './planning-auto-generator.component.html',
   styleUrls: ['./planning-auto-generator.component.scss']
 })
+
 export class PlanningAutoGeneratorComponent implements OnInit {
   options: any;
   constructor(private back:DataInterfaceService) {
@@ -149,6 +150,7 @@ export class PlanningAutoGeneratorComponent implements OnInit {
       this.download(filename, value);
     }
   }
+
   generatePlanning(){
     this.back.generatePlanning(planning=>{
       //COCOU Mouhammed

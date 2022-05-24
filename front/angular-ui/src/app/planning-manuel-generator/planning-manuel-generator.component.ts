@@ -4,7 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin, {Draggable} from '@fullcalendar/interaction';
 import { DataInterfaceService } from '../services/data-interface.service';
-import { Lesson, Room, Degree, Professor} from '../model/datastore/datamodel';
+import { Lesson, Room, Degree, Professor, Department} from '../model/datastore/datamodel';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import {FullCalendarComponent} from "@fullcalendar/angular";
 import uniqid from 'uniqid';
@@ -24,11 +24,14 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   classForm: FormGroup;
   teacherForm: FormGroup;
   degreeForm: FormGroup;
+  departmentForm :FormGroup;
   roomsList: Room[] = [];
   classes: Lesson[] = [];
   professors: Professor[] = [];
   degrees: Degree[] = [];
   selectedDegree: string;
+  departments: Department[] = [];
+
   that = this;
   id_event_clicked: string="";
   calendarApi :any;
@@ -135,6 +138,11 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     this.degreeForm = this.fb.group({
       degreeControl: ['Choisir un cursus']
     });
+
+    this.departmentForm = this.fb.group({
+      departmentControl: ['Choisir un département']
+    });
+
     this.currentDraggable = new Draggable(draggableEl, {
       itemSelector: '.fc-event',
       eventData: function (eventEl: any) {
@@ -245,14 +253,19 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     this.dataService.fetchAllClasses(this.onClassesReceived, this);
     this.dataService.fetchAllTeachers(this.onTeachersReceived, this);
     this.dataService.fetchAllDegrees(this.onDegreesReceived, this);
+    this.dataService.fetchAllDepartments(this.onDepartmentsReceived,this);
   }
+
 
   clearExistingData() {
     this.degrees = [];
     this.classes = [];
     this.roomsList = [];
     this.professors = [];
+    this.departments = [];
   }
+
+
   degreeChangeHandler(degreeId: string) {
     console.log('degreeiD',degreeId)
     /*this.selectedDegree = degreeId;
@@ -285,26 +298,32 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     }
   }
 
+
   teacherChangeHandler(teacherName: string) {
     let calendarApi = this.calendarComponent.getApi();
     let event = calendarApi.getEventById(this.id_event_clicked);
     event?.setExtendedProp("prof", teacherName);
   }
 
-  onClassesReceived(classes : [Lesson], context : this) {
-    console.log('classes',classes)
 
+  departmentsChangeHandler(departmentName :string){
+    console.log(departmentName);
+  }
+
+
+  onClassesReceived(classes : [Lesson], context : this) {
+    console.log('classes -Matieres ',classes)
     for(let classItem of classes) {
       context.classes.push(classItem)
     }
   }
 
   onRoomsReceived(roomsReceived : [Room], context : this) {
-
     for(let room of roomsReceived) {
       context.roomsList.push(room);
     }
   }
+
 
   onTeachersReceived(professors: [Professor], context: this) {
     for(let professor of professors) {
@@ -313,9 +332,20 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   }
 
   onDegreesReceived(degrees : [Degree], context: this) {
-    console.log('degrees',degrees)
+    console.log('degrees',degrees);
     for(let degree of degrees) {
       context.degrees.push(degree);
     }
   }
+
+
+  onDepartmentsReceived(departments : [Department],context:this){
+    console.log('Department',departments);
+    for(let dep of departments) {
+      context.departments.push(dep);
+    }
+    console.log("Deppp")
+    console.log(departments);
+  }
+
 }

@@ -9,6 +9,7 @@ import {TableauContraintesComponent} from './tableau-contraintes/tableau-contrai
 import { AuthGuard } from './services/auth-guard.service';
 import { PlanningAutoGeneratorComponent } from './planning-auto-generator/planning-auto-generator.component';
 import { AllPlanningsComponent } from './all-plannings/all-plannings.component';
+import {AllUsersComponent} from "./all-users/all-users.component";
 const routes: Routes = [
   {path:'login',component:LoginComponent},
   {path:'admin',component:AdminComponent,canActivate: [AuthGuard]},
@@ -17,7 +18,8 @@ const routes: Routes = [
   {path:'tableau',component:TableauContraintesComponent,canActivate: [AuthGuard]},
   {path:'auto',component:PlanningAutoGeneratorComponent,canActivate: [AuthGuard]},
   {path:'all-plannings',component:AllPlanningsComponent, canActivate: [AuthGuard]},
-  {path:'',redirectTo:'/admin',pathMatch:'full'}
+  {path:'',redirectTo:'/admin',pathMatch:'full'},
+  {path:'all_users',component:AllUsersComponent,canActivate: [AuthGuard]}
 ];
 
 @NgModule({
