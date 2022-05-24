@@ -40,7 +40,7 @@ public class ConnexionTest {
         driver.quit();
     }
     @Test
-    public void connexion() {
+    public void connexion() throws InterruptedException {
         driver.manage().deleteAllCookies();
         driver.get("http://localhost:4200/login");
         driver.manage().window().setSize(new Dimension(1280, 680));
@@ -49,6 +49,10 @@ public class ConnexionTest {
         driver.findElement(By.id("password")).click();
         driver.findElement(By.id("password")).sendKeys("sdfsdfsdfsdfsdfsdf");
         driver.findElement(By.cssSelector(".btn")).click();
+
+        synchronized (driver){
+            driver.wait(1000);
+        }
         assertTrue(driver.getCurrentUrl().contains("admin"));
     }
 }
