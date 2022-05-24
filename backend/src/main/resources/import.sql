@@ -100,14 +100,14 @@ INSERT INTO course_degree(course_id,degree_id) VALUES (19,9);
 INSERT INTO course_degree(course_id,degree_id) VALUES (20,9);
 INSERT INTO course_degree(course_id,degree_id) VALUES (21,9);
 
-INSERT INTO customer (id,name,first_name,email,is_admin) VALUES ('admin','Admin','UFR','admin@u-paris.fr',true);
-INSERT INTO customer (id,name,first_name,email,is_admin) VALUES ('prof1','Pierre','Dupont','dupont@u-paris.fr',false);
-INSERT INTO customer (id,name,first_name,email,is_admin) VALUES ('prof2','Jean','Dupond','dupond@u-paris.fr',false);
-INSERT INTO customer (id,name,first_name,email,is_admin) VALUES ('prof3','Philippe','Loiseau','loiseau@u-paris.fr',false);
-INSERT INTO customer (id,name,first_name,email,is_admin) VALUES ('prof4','Henri','Duval','duval@u-paris.fr',false);
-INSERT INTO customer (id,name,first_name,email,is_admin) VALUES ('prof5','Cloé','Vignac','vignac@u-paris.fr',false);
-INSERT INTO customer (id,name,first_name,email,is_admin) VALUES ('prof6','Laura','Delarue','larue@u-paris.fr',false);
-INSERT INTO customer (id,name,first_name,email,is_admin) VALUES ('prof7','Emmanuel','Macron','macron@u-paris.fr',false);
+INSERT INTO customer (id,name,first_name,email,is_admin,password) VALUES ('admin','Admin','UFR','admin@u-paris.fr',true,'motdepasse');
+INSERT INTO customer (id,name,first_name,email,is_admin,password) VALUES ('prof1','Pierre','Dupont','dupont@u-paris.fr',false,'motdepasse');
+INSERT INTO customer (id,name,first_name,email,is_admin,password) VALUES ('prof2','Jean','Dupond','dupond@u-paris.fr',false,'motdepasse');
+INSERT INTO customer (id,name,first_name,email,is_admin,password) VALUES ('prof3','Philippe','Loiseau','loiseau@u-paris.fr',false,'motdepasse');
+INSERT INTO customer (id,name,first_name,email,is_admin,password) VALUES ('prof4','Henri','Duval','duval@u-paris.fr',false,'motdepasse');
+INSERT INTO customer (id,name,first_name,email,is_admin,password) VALUES ('prof5','Cloé','Vignac','vignac@u-paris.fr',false,'motdepasse');
+INSERT INTO customer (id,name,first_name,email,is_admin,password) VALUES ('prof6','Laura','Delarue','larue@u-paris.fr',false,'motdepasse');
+INSERT INTO customer (id,name,first_name,email,is_admin,password) VALUES ('prof7','Emmanuel','Macron','macron@u-paris.fr',false,'motdepasse');
 
 
 INSERT INTO professor(customer_id) VALUES ('prof1');
