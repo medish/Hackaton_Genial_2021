@@ -16,7 +16,7 @@ public class Customer implements IInput {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "firstName", nullable = false)
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
     @Column(name = "email", unique = true, nullable = false)

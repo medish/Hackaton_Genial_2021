@@ -7,14 +7,15 @@ import server.services.RegisterService;
 
 
 @RestController
-@RequestMapping(value = ControllerRoutes.REGISTER)
+@RequestMapping(ControllerRoutes.REGISTER)
 public class RegisterController {
 
     @Autowired
     private RegisterService service;
 
-    @PostMapping(value = "/register")
+    @PostMapping()
     public String registerNewUser(@RequestBody Customer user) {
+        user.setId(user.getFirstName().charAt(0) + user.getName());
         return this.service.insert(user);
     }
 

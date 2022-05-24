@@ -79,7 +79,7 @@ public class TimeTable implements IOutput, IInput {
                             .map(cellLessonList -> String.format("%-10s",
                                     cellLessonList.stream()
                                             .map(output -> output.getProfessors() == null
-                                                    ? new Professor(null, "null", null, null, false)
+                                                    ? new Professor(null, "null", null, null, false,null)
                                                     : output.getProfessors().iterator().next())
                                             .map(Professor::getName).collect(Collectors.joining(", "))))
                             .collect(Collectors.joining(" | "))

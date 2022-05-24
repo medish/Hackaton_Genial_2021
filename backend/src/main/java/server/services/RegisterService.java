@@ -1,11 +1,12 @@
 package server.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import server.models.Customer;
-import server.models.Professor;
-import server.repositories.CustomerRepository;
-import server.repositories.ProfessorRepository;
 
+import server.repositories.CustomerRepository;
+
+@Service
 public class RegisterService {
 
 
