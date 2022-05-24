@@ -1,7 +1,8 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/fontawesome.min.css">
 <div class="m-5">
 
     <div class="">
-        <button type="button" class="btn btn-primary" (click)="isCollapsedconstraints = !isCollapsedconstraints" [attr.aria-expanded]="!isCollapsedconstraints" aria-controls="collapseEvent">Add constraints
+        <button type="button" class="btn btn-primary" (click)="isCollapsedconstraints = !isCollapsedconstraints" [attr.aria-expanded]="!isCollapsedconstraints" aria-controls="collapseEvent"><i class="fa-solid fa-circle-plus"></i>Ajouter des contraintes
         </button>
     </div>
     <hr>
@@ -10,7 +11,7 @@
     </div>
 
     <div class="">
-        <button type="button" class="btn btn-primary" (click)="isCollapsedArray = !isCollapsedArray" [attr.aria-expanded]="!isCollapsedArray" aria-controls="collapseEventArray">View active contraints
+        <button type="button" class="btn btn-primary" (click)="isCollapsedArray = !isCollapsedArray" [attr.aria-expanded]="!isCollapsedArray" aria-controls="collapseEventArray">Consulter les contraintes actives
         </button>
     </div>
     <hr>
@@ -20,7 +21,7 @@
 
   <div class="col-md-6">
     <form action="">
-      <input type="text" class="form-control" placeholder="Name of Planning" id="planning-name" >
+      <input type="text" class="form-control" placeholder="Nom du planning" id="planning-name" >
     </form>
   </div>
 </div>
