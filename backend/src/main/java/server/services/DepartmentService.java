@@ -3,7 +3,7 @@ package server.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import server.models.Department;
-import server.repositories.DepartementRepository;
+import server.repositories.DepartmentRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +11,7 @@ import java.util.Optional;
 @Service
 public class DepartmentService {
     @Autowired
-    private DepartementRepository repository;
+    private DepartmentRepository repository;
 
     /**
      * Gets all departments.
@@ -28,7 +28,7 @@ public class DepartmentService {
      * @param id Department's ID
      * @return {@link Department}
      */
-    public Optional<Department> getById(String id) {
+    public Optional<Department> getById(int id) {
         return repository.findById(id);
     }
 
@@ -55,7 +55,7 @@ public class DepartmentService {
      *
      * @param id Department's ID
      */
-    public void delete(String id) {
+    public void delete(int id) {
         repository.deleteById(id);
     }
 
@@ -64,7 +64,7 @@ public class DepartmentService {
      *
      * @param ids List of IDs.
      */
-    public void delete(List<String> ids) {
+    public void delete(List<Integer> ids) {
         repository.deleteAllById(ids);
     }
 

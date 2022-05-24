@@ -1,7 +1,7 @@
 package server.models;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -16,17 +16,20 @@ public class Planning {
     private String name;
 
     @Column(name = "created_at", nullable = false)
-    private Date createdAt;
+    private LocalDate createdAt;
 
     @OneToMany
     private Set<CourseSlot> slots;
 
-    public Planning(int id, String name, Date createdAt) {
-        this.id = id;
+    public Planning(String name, LocalDate createdAt) {
         this.name = name;
         this.createdAt = createdAt;
     }
 
+    public Planning(Set<CourseSlot> slots){
+        this.createdAt = LocalDate.now();
+        this.slots = slots;
+    }
     public Planning() {
     }
 
@@ -38,11 +41,11 @@ public class Planning {
         this.name = name;
     }
 
-    public Date getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
 

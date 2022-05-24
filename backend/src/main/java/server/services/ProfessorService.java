@@ -27,7 +27,7 @@ public class ProfessorService{
      * @param id Professor's ID
      * @return {@link Professor}
      */
-    public Optional<Professor> getById(String id){
+    public Optional<Professor> getById(int id){
         return repository.findById(id);
     }
 
@@ -51,7 +51,7 @@ public class ProfessorService{
      * Delete a professor record
      * @param id Professor's ID
      */
-    public void delete(String id){
+    public void delete(int id){
         repository.deleteById(id);
     }
 
@@ -59,7 +59,7 @@ public class ProfessorService{
      * Delete multiple professor records.
      * @param ids List of IDs.
      */
-    public void delete(List<String> ids){
+    public void delete(List<Integer> ids){
         repository.deleteAllById(ids);
     }
 

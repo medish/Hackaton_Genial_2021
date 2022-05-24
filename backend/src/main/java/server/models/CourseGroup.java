@@ -19,6 +19,8 @@ public class CourseGroup implements IInput{
     private Duration duration;
 
     private int size;
+    @Enumerated(EnumType.STRING)
+    private RoomType roomType;
 
     public CourseGroup() {
     }
@@ -52,5 +54,13 @@ public class CourseGroup implements IInput{
 
     public void setSize(int size) {
         this.size = size;
+    }
+
+    public RoomType getRoomType() {
+        return roomType;
+    }
+
+    public void setRoomType(RoomType roomType) {
+        this.roomType = roomType;
     }
 }

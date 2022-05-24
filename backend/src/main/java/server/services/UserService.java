@@ -3,15 +3,15 @@ package server.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import server.models.User;
-import server.repositories.CustomerRepository;
+import server.repositories.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CustomerService{
+public class UserService {
     @Autowired
-    private  CustomerRepository repository;
+    private UserRepository repository;
     
     /**
      * Gets all customers.
@@ -26,7 +26,7 @@ public class CustomerService{
      * @param id Customer's ID
      * @return {@link User}
      */
-    public Optional<User> getById(String id){
+    public Optional<User> getById(int id){
         return repository.findById(id);
     }
 
@@ -50,7 +50,7 @@ public class CustomerService{
      * Delete a customer record
      * @param id Customer's ID
      */
-    public void delete(String id){
+    public void delete(int id){
         repository.deleteById(id);
     }
 
@@ -58,7 +58,7 @@ public class CustomerService{
      * Delete multiple customer records.
      * @param ids List of IDs.
      */
-    public void delete(List<String> ids){
+    public void delete(List<Integer> ids){
         repository.deleteAllById(ids);
     }
 

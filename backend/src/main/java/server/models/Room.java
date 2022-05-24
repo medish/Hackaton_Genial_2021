@@ -1,6 +1,7 @@
 package server.models;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -19,6 +20,8 @@ public class Room implements IInput {
     @OneToMany
     private Set<CourseSlot> slots;
 
+    @Enumerated(EnumType.STRING)
+    List<RoomType> roomTypes;
     public Room() {
     }
 

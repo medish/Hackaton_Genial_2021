@@ -19,6 +19,7 @@ public class User implements IInput {
     private String email;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private UserRole role;
 
     public User(int id, String lastName, String firstName, String email, UserRole role) {
