@@ -32,8 +32,8 @@ public class Professor implements Serializable {
     /*-------------------------Getter-------------------------------*/
     /*---------------------------------------------------------------*/
 
-    public Professor(String id, String name, String firstName, String email, boolean is_admin) {
-        this.customer = new Customer(id, name, firstName, email, is_admin);
+    public Professor(String id, String name, String firstName, String email, boolean is_admin, String password) {
+        this.customer = new Customer(id, name, firstName, email, is_admin, password);
         this.id = id;
     }
 
