@@ -1,26 +1,36 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/fontawesome.min.css">
 <div class="m-5">
-
-    <div class="">
-        <button type="button" class="btn btn-primary" (click)="isCollapsedconstraints = !isCollapsedconstraints" [attr.aria-expanded]="!isCollapsedconstraints" aria-controls="collapseEvent">Add constraints
-        </button>
-    </div>
+  <table class="buttons">
+    <tr>
+      <td><button type="button" class="constraints-button btn btn-primary"
+                  (click)="isCollapsedconstraints = !isCollapsedconstraints" [attr.aria-expanded]="!isCollapsedconstraints"
+                  aria-controls="collapseEvent">
+        <fa-icon [icon]="faCirclePlus"></fa-icon>
+        Ajouter des contraintes
+      </button></td></tr>
     <hr>
     <div id="collapseEvent" [isAnimated]="true" [collapse]="isCollapsedconstraints">
-        <app-get-file-constraints (onAddConstraintPrecedence)="updatePrecedenceConstraints($event)" (onAddConstraintTimeRoom)="updateTimeAndRoomsConstraints($event)" class="m-5"></app-get-file-constraints>
+      <app-get-file-constraints (onAddConstraintPrecedence)="updatePrecedenceConstraints($event)"
+                                (onAddConstraintTimeRoom)="updateTimeAndRoomsConstraints($event)"
+                                class="m-5"></app-get-file-constraints>
     </div>
-
-    <div class="">
-        <button type="button" class="btn btn-primary" (click)="isCollapsedArray = !isCollapsedArray" [attr.aria-expanded]="!isCollapsedArray" aria-controls="collapseEventArray">View active contraints
-        </button>
-    </div>
+    <tr>
+      <td><button type="button" class="constraints-button btn btn-primary" (click)="isCollapsedArray = !isCollapsedArray"
+                  [attr.aria-expanded]="!isCollapsedArray" aria-controls="collapseEventArray">
+        <fa-icon [icon]="faEye"></fa-icon>
+        Consulter les contraintes actives
+      </button></td></tr>
     <hr>
-    <div id="collapseEventArray" [isAnimated]="true" [collapse]="isCollapsedArray">
-        <tableau-contraintes [constraintsTimeRoom]="timeAndRoomConstraints" [constraintPrecedence]="precedenceConstraints" class="m-5"></tableau-contraintes>
+    <div class="col-md-6">
+      <form action="">
+        <input type="text" class="placeholder-text form-control" placeholder="Nom du planning" id="planning-name">
+      </form>
     </div>
-
-  <div class="col-md-6">
-    <form action="">
-      <input type="text" class="form-control" placeholder="Name of Planning" id="planning-name" >
-    </form>
+  </table>
+  <div id="collapseEventArray" [isAnimated]="true" [collapse]="isCollapsedArray">
+    <tableau-contraintes [constraintsTimeRoom]="timeAndRoomConstraints" [constraintPrecedence]="precedenceConstraints"
+                         class="m-5"></tableau-contraintes>
   </div>
+
+
 </div>
