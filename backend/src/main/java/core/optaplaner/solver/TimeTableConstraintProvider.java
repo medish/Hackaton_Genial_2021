@@ -181,7 +181,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                     merged = merged
                             .filter((lesson, lesson2) -> lesson2.getTeacher().getId().equals(selector.getValue()));
                 }
-                if (selector.getAttribute() == "name") {
+                else if (selector.getAttribute() == "name") {
                     merged = merged
                             .filter((lesson, lesson2) -> lesson2.getTeacher().getName().equals(selector.getValue()));
                 }
@@ -192,7 +192,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                 if (selector.getAttribute() == "id") {
                     merged = merged.filter((lesson, lesson2) -> lesson2.getId().equals(selector.getValue()));
                 }
-                if (selector.getAttribute() == "subject") {
+                else if (selector.getAttribute() == "subject") {
                     merged = merged.filter((lesson, lesson2) -> lesson2.getSubject().equals(selector.getValue()));
                 }
             }
@@ -203,7 +203,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                     merged = merged
                             .filter((lesson, lesson2) -> lesson2.getRoom().getNumber().equals(selector.getValue()));
                 }
-                if (selector.getAttribute() == "roomType_id") {
+                else if (selector.getAttribute() == "roomType_id") {
                     merged = merged.filter(
                             (lesson, lesson2) -> lesson2.getRoom().getRoomType().getName().equals(selector.getValue()));
                 }
@@ -226,7 +226,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
         if (when.equals("pendant")) {
             merged = merged.filter((lesson1, lesson2) -> lesson1.isCollide(lesson2));
         }
-        if (when.equals("apres")) {
+        else if (when.equals("apres")) {
             if (pc.isStrict()) {
                 merged = merged.filter((lesson1, lesson2) -> lesson1.isBeforeInDay(lesson2)
                         && lesson1.getStartTime().equals(lesson2.getEndTime()));
@@ -260,7 +260,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                 if (selector.getAttribute() == "id") {
                     firstPart = firstPart.filter(lesson -> lesson.getTeacher().getId().equals(selector.getValue()));
                 }
-                if (selector.getAttribute() == "name") {
+                else if (selector.getAttribute() == "name") {
                     firstPart = firstPart.filter(lesson -> lesson.getTeacher().getName().equals(selector.getValue()));
                 }
             }
@@ -269,7 +269,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                 if (selector.getAttribute() == "id") {
                     firstPart = firstPart.filter(lesson -> lesson.getId().equals(selector.getValue()));
                 }
-                if (selector.getAttribute() == "subject") {
+                else if (selector.getAttribute() == "subject") {
                     firstPart = firstPart.filter(lesson -> lesson.getSubject().equals(selector.getValue()));
                 }
             }
@@ -278,7 +278,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                 if (selector.getAttribute() == "number") {
                     firstPart = firstPart.filter(lesson -> lesson.getRoom().getNumber().equals(selector.getValue()));
                 }
-                if (selector.getAttribute() == "roomType_id") {
+                else if (selector.getAttribute() == "roomType_id") {
                     firstPart = firstPart
                             .filter(lesson -> lesson.getRoom().getRoomType().getName().equals(selector.getValue()));
                 }
