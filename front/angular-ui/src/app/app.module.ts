@@ -25,6 +25,9 @@ import { CardPlanningComponent } from './all-plannings/card-planning/card-planni
 import { AllUsersComponent } from './all-users/all-users.component';
 import {DataTablesModule} from "angular-datatables";
 import { AllRoomsComponent } from './all-rooms/all-rooms.component';
+import { DepartmentComponent } from './department/department.component';
+import { AllConstraintsComponent } from './all-constraints/all-constraints.component';
+import { AllGroupsComponent } from './all-groups/all-groups.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -47,7 +50,10 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     AllPlanningsComponent,
     CardPlanningComponent,
     AllUsersComponent,
-    AllRoomsComponent
+    AllRoomsComponent,
+    DepartmentComponent,
+    AllConstraintsComponent,
+    AllGroupsComponent
   ],
   imports: [
     BrowserAnimationsModule,

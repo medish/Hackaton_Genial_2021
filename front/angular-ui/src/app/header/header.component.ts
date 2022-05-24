@@ -12,8 +12,13 @@ export class HeaderComponent implements OnInit {
   constructor(public authService: AuthService, public router: Router) {
   }
 
+  isLoggedIn = false;
+
+
   ngOnInit(): void {
+    this.isLoggedIn = this.authService.isLoggedIn()
   }
+
 
   logout() {
     this.authService.logout();
@@ -32,22 +37,25 @@ export class HeaderComponent implements OnInit {
   }
 
   allRooms() {
-
+    this.router.navigate(['les_salles'])
   }
+
 
   allDepartments() {
-
+    this.router.navigate(['les-departements'])
   }
 
-  allUsers(){
-
+  allUsers() {
+    this.router.navigate(['les-utilisateurs'])
   }
 
-  allGroups(){
-
+  allGroups() {
+    this.router.navigate(['les-groupes'])
   }
 
-
+  allConstraints() {
+    this.router.navigate(['les-contraintes'])
+  }
   auto() {
     this.router.navigate(['/auto'])
   }
