@@ -18,6 +18,10 @@ export class AllUsersComponent implements OnInit {
 
   onTeachersReceived(teachers :[Professor],context:this){
     console.log("Teachers",teachers);
+    for(let teacher of teachers){
+      this.all_teachers.push(teacher);
+    }
   }
+
 
 }

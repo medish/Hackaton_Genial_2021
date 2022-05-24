@@ -152,9 +152,8 @@ export class PlanningAutoGeneratorComponent implements OnInit {
   }
 
   generatePlanning(){
-    this.back.generatePlanning(planning=>{
-      //COCOU Mouhammed
-      console.log(planning);
+    this.back.generatePlanning(planning=>{      
+      console.log("gen retour",planning);
     })
   }
 

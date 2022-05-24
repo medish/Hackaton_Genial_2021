@@ -10,8 +10,9 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 
@@ -24,12 +25,12 @@ public class Department implements IInput {
     @Column(unique = true, name = "name", nullable = false)
     private String name;
 
+    @JsonIgnore
     @ElementCollection(targetClass = RoomId.class)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "RoomID", joinColumns = @JoinColumn(name = "department"))
     @Column(name = "Room")
     private List<Room> rooms;
-
 
     public Department(String id, String name) {
         this.id = id;
@@ -55,10 +56,12 @@ public class Department implements IInput {
         this.name = name;
     }
 
+    @JsonIgnore
     public List<Room> getRooms() {
         return rooms;
     }
 
+    @JsonIgnore
     public void setRooms(List<Room> rooms) {
         this.rooms = rooms;
     }

@@ -60,7 +60,7 @@ export class DataInterfaceService {
     .subscribe(data => callback(data, context));
   }
 
-  fetchAllClasses(callback: (classes: [Lesson], context: any) => any, context: any) {
+  fetchAllLessons(callback: (classes: [Lesson], context: any) => any, context: any) {
     return this.http.get<[Lesson]>(this.url + "/lessons")
     .subscribe(data => callback(data, context));
   }

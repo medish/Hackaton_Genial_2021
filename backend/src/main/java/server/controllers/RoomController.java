@@ -23,7 +23,7 @@ public class RoomController {
         return service.getAll();
     }
 
-    @GetMapping("/{id]")
+    @GetMapping("/{id}")
     public Optional<Room> getById(@PathVariable RoomId roomId) {
         return service.getById(roomId);
     }

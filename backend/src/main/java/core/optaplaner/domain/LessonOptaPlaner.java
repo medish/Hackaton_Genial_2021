@@ -3,6 +3,7 @@ package core.optaplaner.domain;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalTime;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -121,20 +122,24 @@ public class LessonOptaPlaner extends AbstractPersistable implements FromInputTo
     }
 
     public static LessonOptaPlaner fromInput(Lesson lesson) {
-        Iterator<Professor> professors =lesson.getProfessors().iterator();
+        Iterator<Professor> professors = lesson.getProfessors() != null ? lesson.getProfessors().iterator()
+                : new HashSet<Professor>().iterator();
         LessonOptaPlaner lessonOptaPlaner = new LessonOptaPlaner(lesson.getId().hashCode(), lesson.getCourse(),
-                professors.hasNext()?professors.next():null, lesson.getDuration());
+                professors.hasNext() ? professors.next() : null, lesson.getDuration());
         return lessonOptaPlaner;
     }
 
     public static LessonOptaPlaner fromInput(Output output) {
-        Iterator<Professor> professors =output.getProfessors().iterator();
+        Iterator<Professor> professors = output.getProfessors() != null ? output.getProfessors().iterator()
+                : new HashSet<Professor>().iterator();
         LessonOptaPlaner lessonOptaPlaner = new LessonOptaPlaner(output.getId().hashCode(), output.getCourse(),
-                professors.hasNext()?professors.next():null, output.getDuration(), output.getDate(), output.getRoom());
+                professors.hasNext() ? professors.next() : null, output.getDuration(), output.getDate(),
+                output.getRoom());
         return lessonOptaPlaner;
     }
 
     public Output toOutput() {
-        return new Output(timeslot, room, new Lesson(id + "", duration, 0, subject, null, teacher==null?null:Set.of(teacher)));
+        return new Output(timeslot, room,
+                new Lesson(id + "", duration, 0, subject, null, teacher == null ? null : Set.of(teacher)));
     }
 }
