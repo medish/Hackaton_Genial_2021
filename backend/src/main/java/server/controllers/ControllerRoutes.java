@@ -21,4 +21,5 @@ public class ControllerRoutes {
     public final static String LESSON = "lessons";
     public final static String PLANNING = "planning";
 
+    public final static String USER = "users";
 }
