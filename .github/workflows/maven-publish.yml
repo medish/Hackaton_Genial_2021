@@ -10,14 +10,8 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  build-backend:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [12.x, 14.x, 16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 17
@@ -28,12 +22,18 @@ jobs:
           cache: maven
       - name: Build backend
         run: mvn -B package --file backend/pom.xml -DskipTests
-      - name: Build frontend
-        uses: actions/setup-node@v3
+  build-frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: front/angular-ui/
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 16
           cache: "npm"
-        run: npm ci
-        run: npm install -g @angular/cli
-        run: npm run build
-        run: npm test
+          cache-dependency-path: front/angular-ui/package-lock.json
+      - run: npm ci
+      - run: npm install -g @angular/cli
+      - run: npm run build
