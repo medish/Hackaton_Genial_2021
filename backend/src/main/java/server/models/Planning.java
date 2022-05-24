@@ -1,60 +1,33 @@
 package server.models;
 
+import javax.persistence.*;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import java.util.Set;
 
 @Entity
-@Table(name = "Planning")
+@Table(name = "planning")
 public class Planning {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
+    @Column(nullable = false)
     private String name;
+
+    @Column(name = "created_at", nullable = false)
     private Date createdAt;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Output> outputs = new ArrayList<>();
+    @OneToMany
+    private Set<CourseSlot> slots;
 
-    public Planning(String id, List<Output> outputs, Date createdAt) {
+    public Planning(int id, String name, Date createdAt) {
         this.id = id;
+        this.name = name;
         this.createdAt = createdAt;
-        this.outputs = outputs;
-    }
-
-    public Planning(String id) {
-        this.id = id;
     }
 
     public Planning() {
-    }
-
-    public Planning(String id, List<Output> outputs) {
-        this.id = id;
-        this.outputs = outputs;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
     }
 
     public String getName() {
@@ -65,7 +38,23 @@ public class Planning {
         this.name = name;
     }
 
-    public List<Output> getOutputs() {
-        return outputs;
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Set<CourseSlot> getSlots() {
+        return slots;
+    }
+
+    public void setSlots(Set<CourseSlot> slots) {
+        this.slots = slots;
+    }
+
+    public int getId() {
+        return id;
     }
 }

@@ -1,77 +1,54 @@
 package server.models;
 
-import java.time.DayOfWeek;
+import javax.persistence.*;
 import java.time.LocalTime;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 @Entity
-
-@Table(name = "TimeConstraint")
+@Table(name = "time_constraint")
 public class TimeConstraint implements IInput {
-
     @Id
-    @GeneratedValue
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
     private String selector;
     private boolean wants;
+    
+    @ManyToOne
+    @Column(name = "dateBegin")
+    private DateSlot dateBegin;
 
     @ManyToOne
-    @JoinColumns({ @JoinColumn(name = "date_begin_day", nullable = false, referencedColumnName = "day"),
-            @JoinColumn(name = "date_begin_hour", nullable = false, referencedColumnName = "hour") })
-    private Date date_begin;
-
+    @Column(name = "dateEnd")
+    private DateSlot dateEnd;
+    
     @ManyToOne
-    @JoinColumns({ @JoinColumn(name = "date_end_day", nullable = false, referencedColumnName = "day"),
-            @JoinColumn(name = "date_end_hour", nullable = false, referencedColumnName = "hour") })
-    private Date date_end;
-
-    @ManyToOne
-    @JoinColumns({ @JoinColumn(name = "department_id", nullable = false),
-            @JoinColumn(name = "room_id", nullable = false) })
     private Room room;
 
     private int priority;
 
-    private LocalTime start_time;
-    private LocalTime end_time;
+    @Column(name = "start_time")
+    private LocalTime startTime;
 
-    public LocalTime getStart_time() {
-        return this.start_time;
-    }
+    @Column(name = "end_time")
+    private LocalTime endTime;
 
-    public LocalTime getEnd_time() {
-        return this.end_time;
-    }
 
-    public TimeConstraint() {
+    public TimeConstraint() {}
 
-    }
-
-    public TimeConstraint(String id, String selector, boolean wants, Date date_begin, Date date_end, Room room, int priority) {
+    public TimeConstraint(int id, String selector, boolean wants, DateSlot dateBegin, DateSlot dateEnd, Room room, int priority) {
         this.id = id;
         this.selector = selector;
         this.wants = wants;
-        this.date_begin = date_begin;
-        this.date_end = date_end;
+        this.dateBegin = dateBegin;
+        this.dateEnd = dateEnd;
         this.room = room;
         this.priority = priority;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getSelector() {
         return selector;
@@ -89,28 +66,20 @@ public class TimeConstraint implements IInput {
         this.wants = wants;
     }
 
-    public int getPriority() {
-        return priority;
+    public DateSlot getDateBegin() {
+        return dateBegin;
     }
 
-    public void setPriority(int priority) {
-        this.priority = priority;
+    public void setDateBegin(DateSlot dateBegin) {
+        this.dateBegin = dateBegin;
     }
 
-    public Date getDateBegin() {
-        return date_begin;
+    public DateSlot getDateEnd() {
+        return dateEnd;
     }
 
-    public void setDateBegin(Date date_begin) {
-        this.date_begin = date_begin;
-    }
-
-    public Date getDateEnd() {
-        return date_end;
-    }
-
-    public void setDateEnd(Date date_end) {
-        this.date_end = date_end;
+    public void setDateEnd(DateSlot dateEnd) {
+        this.dateEnd = dateEnd;
     }
 
     public Room getRoom() {
@@ -121,9 +90,27 @@ public class TimeConstraint implements IInput {
         this.room = room;
     }
 
-    public Boolean getWants() {
-        return this.wants;
+    public int getPriority() {
+        return priority;
     }
 
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
 
+    public LocalTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
+    }
 }

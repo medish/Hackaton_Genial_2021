@@ -5,8 +5,8 @@ import java.util.Set;
 
 @Entity
 
-@Table(name = "degree")
-public class Degree implements IInput {
+@Table(name = "major")
+public class Major implements IInput {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,16 +15,16 @@ public class Degree implements IInput {
     @Column(unique = true)
     private String name;
 
-    @OneToMany(mappedBy="course")
+    @ManyToMany
     private Set<Course> courses;
 
     @ManyToMany
-    private Set<Major> majors;
+    private Set<Degree> degrees;
 
-    public Degree() {
+    public Major() {
     }
 
-    public Degree(int id, String name) {
+    public Major(int id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -32,6 +32,7 @@ public class Degree implements IInput {
     public int getId() {
         return id;
     }
+
 
     public String getName() {
         return name;
@@ -49,11 +50,11 @@ public class Degree implements IInput {
         this.courses = courses;
     }
 
-    public Set<Major> getMajors() {
-        return majors;
+    public Set<Degree> getDegrees() {
+        return degrees;
     }
 
-    public void setMajors(Set<Major> majors) {
-        this.majors = majors;
+    public void setDegrees(Set<Degree> degrees) {
+        this.degrees = degrees;
     }
 }

@@ -1,33 +1,40 @@
 package server.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 
-@Table(name = "PrecedenceConstraint")
+@Table(name = "precedence_constraint")
 public class PrecedenceConstraint implements IInput {
 
     @Id
-    @GeneratedValue
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
     private String selector;
     private boolean wants;
+    @Column(name = "when_constraint")
     private String whenConstraint;
     private boolean strict;
     private String target;
     private int priority;
 
-    public String getId() {
+    public PrecedenceConstraint() {}
+
+    public PrecedenceConstraint(int id, String selector, boolean wants, String whenConstraint, boolean strict,
+                                String target, int priority) {
+        this.id = id;
+        this.selector = selector;
+        this.wants = wants;
+        this.whenConstraint = whenConstraint;
+        this.strict = strict;
+        this.target = target;
+        this.priority = priority;
+    }
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getSelector() {
         return selector;
@@ -77,18 +84,5 @@ public class PrecedenceConstraint implements IInput {
         this.priority = priority;
     }
 
-    public PrecedenceConstraint() {
 
-    }
-
-    public PrecedenceConstraint(String id, String selector, boolean wants, String whenConstraint, boolean strict,
-            String target, int priority) {
-        this.id = id;
-        this.selector = selector;
-        this.wants = wants;
-        this.whenConstraint = whenConstraint;
-        this.strict = strict;
-        this.target = target;
-        this.priority = priority;
-    }
 }

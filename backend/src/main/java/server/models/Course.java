@@ -1,21 +1,8 @@
 package server.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import java.awt.Color;
-import java.util.HashSet;
-import java.util.List;
+import javax.persistence.*;
+import java.awt.*;
 import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 @Entity
 
@@ -23,27 +10,30 @@ import javax.persistence.Table;
 public class Course implements IInput {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @Column(unique = true)
     private String name;
 
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinTable(name = "course_degree", joinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "degree_id", referencedColumnName = "id"))
-    private Set<Degree> degrees = new HashSet<>();
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "course", targetEntity = Lesson.class)
-    private List<Lesson> lessons;
-
     @Column(name = "color")
     private Color color;
 
-    public Course(int id, String name, Set<Degree> degrees, Color color) {
+    @ManyToOne
+    @JoinColumn(name="degree_id", nullable=false)
+    private Degree degree;
+
+    @ManyToMany
+    private Set<Major> majors;
+
+    @ManyToMany
+    private Set<Professor> professors;
+
+    public Course(int id, String name, Color color, Degree degree) {
         this.id = id;
         this.name = name;
-        this.degrees = degrees;
         this.color = color;
+        this.degree = degree;
     }
 
     public Course()
@@ -55,10 +45,6 @@ public class Course implements IInput {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
@@ -67,19 +53,35 @@ public class Course implements IInput {
         this.name = name;
     }
 
-    public Set<Degree> getDegrees() {
-        return degrees;
-    }
-
-    public void setDegrees(Set<Degree> degrees) {
-        this.degrees = degrees;
-    }
-
     public Color getColor() {
         return this.color;
     }
 
     public void setColor(Color color) {
         this.color = color;
+    }
+
+    public Degree getDegree() {
+        return degree;
+    }
+
+    public void setDegree(Degree degree) {
+        this.degree = degree;
+    }
+
+    public Set<Major> getMajors() {
+        return majors;
+    }
+
+    public void setMajors(Set<Major> majors) {
+        this.majors = majors;
+    }
+
+    public Set<Professor> getProfessors() {
+        return professors;
+    }
+
+    public void setProfessors(Set<Professor> professors) {
+        this.professors = professors;
     }
 }
