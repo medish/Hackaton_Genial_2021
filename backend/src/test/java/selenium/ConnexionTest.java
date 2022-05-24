@@ -1,9 +1,8 @@
 package selenium;
 
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
@@ -13,14 +12,15 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 public class ConnexionTest {
     private WebDriver driver;
     private Map<String, Object> vars;
     JavascriptExecutor js;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         String os = System.getProperty("os.name").toLowerCase();
         if(os.contains("win"))
@@ -35,7 +35,7 @@ public class ConnexionTest {
         vars = new HashMap<String, Object>();
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         driver.quit();
     }
