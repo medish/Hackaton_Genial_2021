@@ -15,13 +15,14 @@ const httpOptions = {
 })
 export class AuthService implements OnInit{
 
-  constructor(private http: HttpClient, private tokenService :TokenStorageService) { 
-    
-    
+  constructor(private http: HttpClient, private tokenService :TokenStorageService) {
+
+
   }
   ngOnInit(){
   }
   isLoggedIn():boolean{
+    return true;
     let currentUser = this.tokenService.getUser();
     return currentUser!=null && currentUser!=undefined;
   };

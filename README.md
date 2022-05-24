@@ -40,6 +40,10 @@ Dans le dossier front/angular-ui faire :
 Pour lancer le projet angular :
 `ng serve`
 
+Une fois le backend et le frontend lancés, l'application est disponible sur le lien suivant : 
+http://localhost:4200/login
+
+
 Pour lancer le mockserver :
 depuis Hackaton_Genial_2021\front\mockserver lancer :<br>
 `npm install -g json-server` <br>

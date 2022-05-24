@@ -23,6 +23,9 @@ import { PdfExportComponent } from './pdf-export/pdf-export.component';
 import { AllPlanningsComponent } from './all-plannings/all-plannings.component';
 import { CardPlanningComponent } from './all-plannings/card-planning/card-planning.component';
 import { RegisterComponent } from './register/register.component';
+import { AllUsersComponent } from './all-users/all-users.component';
+import {DataTablesModule} from "angular-datatables";
+import { AllRoomsComponent } from './all-rooms/all-rooms.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -36,7 +39,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     AdminComponent,
     ProfComponent,
     HeaderComponent,
-      TableauContraintesComponent,
+    TableauContraintesComponent,
     PlanningManuelGeneratorComponent,
     PlanningAutoGeneratorComponent,
     GetFileConstraintsComponent,
@@ -45,6 +48,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     AllPlanningsComponent,
     CardPlanningComponent,
     RegisterComponent
+    AllUsersComponent,
+    AllRoomsComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -54,7 +59,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     FullCalendarModule,
     FormsModule,
     ReactiveFormsModule,
-    CollapseModule.forRoot()
+    CollapseModule.forRoot(),
+    DataTablesModule,
   ],
   providers: [authInterceptorProviders],
   bootstrap: [AppComponent]
