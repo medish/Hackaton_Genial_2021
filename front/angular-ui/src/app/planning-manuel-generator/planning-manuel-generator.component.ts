@@ -41,6 +41,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   constructor(private dataService : DataInterfaceService, private fb : FormBuilder, private exportService:ExportService) {
   }
 
+
   ngOnInit() {
     let draggableEl = document.getElementById('external-events');
     this.formGroupModel = this.fb.group({
@@ -51,6 +52,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       duration:new FormControl(''),
       idEvent:new FormControl(''),
       title:new FormControl(''),
+      department:new FormControl(),
       backgroundColor:new FormControl('')
     })
     this.currentDraggable = new Draggable(draggableEl, {

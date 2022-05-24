@@ -49,13 +49,10 @@
                       <label for="departments">
                         Département
                       </label>
-                      <div [formGroup]="departmentForm">
-                        <select formControlName="departmentControl" (click)="departmentsChangeHandler($event.target.value)"  id="department" class="form-select mt-3 mb-3 ">
-                          <option [value]="">Choisir un département</option>
-                          <option *ngFor="let department of departments" [value]="department.id">{{department.name}}</option>
-                        </select>
-                      </div>
-
+                      <select formControlName="department" (click)="departmentsChangeHandler($event.target.value)"  id="department" class="form-select mt-3 mb-3 ">
+                        <option [value]="">Choisir un département</option>
+                        <option *ngFor="let department of departments" [value]="department.id">{{department.name}}</option>
+                      </select>
                       <label for="cursus">
                             Cursus
                         </label>
