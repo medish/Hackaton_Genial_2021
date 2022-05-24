@@ -1,6 +1,6 @@
 node_modules/
 package-lock.json
-front/angular-ui/package-lock.json
+**/package-lock.json
 **/yarn.lock
 **/.DS_Store
 .idea/

@@ -16,10 +16,10 @@ export class GetFileConstraintsComponent implements OnInit {
   @Output('onAddConstraintTimeRoom')onAddConstraintTimeRoom = new EventEmitter<ConstraintTimeRoom[]>()
   @Output('onAddConstraintPrecedence')onAddConstraintPrecedence = new EventEmitter<ConstraintPrecedence[]>();
   ngOnInit(): void {
-    const inputs = document.querySelectorAll('.inputfile');
+    /*const inputs = document.querySelectorAll('.inputfile');
     console.log("inputs: " + inputs.length + "\n");
     Array.prototype.forEach.call(inputs, function(input : Element) {
-        /*const labelVal : string = input.innerHTML;
+        /!*const labelVal : string = input.innerHTML;
       input.addEventListener('change', function(event ) {
         //console.log("event type: " + typeof event);
         let fileName: string = '';
@@ -32,8 +32,8 @@ export class GetFileConstraintsComponent implements OnInit {
           input.querySelector('span').innerHTML = fileName;
         else
           input.innerHTML = labelVal;
-      })*/
-    })
+      })*!/
+    }) */
 
   }
   faFileArrowUp = faFileArrowUp;
