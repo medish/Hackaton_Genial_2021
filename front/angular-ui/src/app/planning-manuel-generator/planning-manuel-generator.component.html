@@ -1,9 +1,9 @@
 <div class="m-5 row">
-  <h1 class="mt-5 ">Manuel</h1>
+  <h1 class="title mt-5 ">Génération manuelle</h1>
   <app-constraints></app-constraints>
   <div class="float-end" style="direction: rtl;">
     <app-pdf-export></app-pdf-export>
-    <button type="button" class="export-button btn-lg btn-primary me-5" (click)="exportToICS()">Exporter en ICS</button>
+    <button type="button" class="export-button btn-lg btn-primary me-5" (click)="exportToICS()"><fa-icon [icon]="faFile"></fa-icon> Exporter en ICS</button>
   </div>
 </div>
 <br>
@@ -12,7 +12,7 @@
     <div id='external-events' class="me-4 ms-4">
       <div class="card">
         <div class="my-card card-body text-center">
-          <small class="text-tip mb-4 me-4 mt-4 mr-1 ml-1">Veuillez placer une unité de cours sur le planning</small>
+          <small class="text-tip mb-4 me-4 mt-4 mr-1 ml-1">Veuillez placer une unité de cours sur le planning<br/></small>
           <div class='my-class-card fc-event fc-h-event mb-3 bg-danger border border-info'>
             <div class='fc-event-main'>
               <h1 class="class-type">Cours</h1>

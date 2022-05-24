@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import html2canvas from "html2canvas";
 import {jsPDF} from "jspdf";
+import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-pdf-export',
@@ -10,6 +11,8 @@ import {jsPDF} from "jspdf";
 export class PdfExportComponent implements OnInit {
 
   constructor() { }
+
+  faFilePdf = faFilePdf;
 
   ngOnInit(): void {
     function exportToPdf() {

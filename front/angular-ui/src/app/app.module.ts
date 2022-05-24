@@ -10,11 +10,11 @@ import { ProfComponent } from './prof/prof.component';
 import { HeaderComponent } from './header/header.component';
 import { TableauContraintesComponent } from './tableau-contraintes/tableau-contraintes.component';
 import { HttpClientModule } from '@angular/common/http';
-import {PlanningManuelGeneratorComponent} from "./planning-manuel-generator/planning-manuel-generator.component";
+import { PlanningManuelGeneratorComponent } from "./planning-manuel-generator/planning-manuel-generator.component";
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
 import interactionPlugin from '@fullcalendar/interaction';
 import { authInterceptorProviders } from './interceptors/auth.interceptor';
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PlanningAutoGeneratorComponent } from './planning-auto-generator/planning-auto-generator.component';
 import { GetFileConstraintsComponent } from './get-file-constraints/get-file-constraints.component';
@@ -22,6 +22,7 @@ import { ConstraintsComponent } from './constraints/constraints.component';
 import { PdfExportComponent } from './pdf-export/pdf-export.component';
 import { AllPlanningsComponent } from './all-plannings/all-plannings.component';
 import { CardPlanningComponent } from './all-plannings/card-planning/card-planning.component';
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -52,7 +53,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     FullCalendarModule,
     FormsModule,
     ReactiveFormsModule,
-    CollapseModule.forRoot()
+    CollapseModule.forRoot(),
+    FontAwesomeModule
   ],
   providers: [authInterceptorProviders],
   bootstrap: [AppComponent]

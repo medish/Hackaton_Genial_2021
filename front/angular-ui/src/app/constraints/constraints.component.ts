@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { faCirclePlus, faEye } from '@fortawesome/free-solid-svg-icons';
 import { ConstraintPrecedence } from '../model/constraint/constraint-precedence';
 import { ConstraintTimeRoom } from '../model/constraint/constraint-time-room';
 
@@ -10,6 +11,8 @@ import { ConstraintTimeRoom } from '../model/constraint/constraint-time-room';
 export class ConstraintsComponent implements OnInit {
 
   constructor() { }
+  faCirclePlus = faCirclePlus;
+  faEye = faEye;
   isCollapsedconstraints = true;
   isCollapsedArray = true;
   precedenceConstraints:ConstraintPrecedence[]=[];
@@ -17,7 +20,7 @@ export class ConstraintsComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  
+
   updatePrecedenceConstraints(constraints:ConstraintPrecedence[]){
     if(!constraints)return;
     this.precedenceConstraints=this.precedenceConstraints.concat(constraints);

@@ -2,6 +2,8 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ConstraintPrecedence } from '../model/constraint/constraint-precedence';
 import { ConstraintTimeRoom } from '../model/constraint/constraint-time-room';
 import { ConstraintService } from '../services/constraint/constraint.service';
+import { faFileArrowUp } from "@fortawesome/free-solid-svg-icons";
+import {FileChangeEvent} from "@angular/compiler-cli/src/perform_watch";
 
 @Component({
   selector: 'app-get-file-constraints',
@@ -14,7 +16,27 @@ export class GetFileConstraintsComponent implements OnInit {
   @Output('onAddConstraintTimeRoom')onAddConstraintTimeRoom = new EventEmitter<ConstraintTimeRoom[]>()
   @Output('onAddConstraintPrecedence')onAddConstraintPrecedence = new EventEmitter<ConstraintPrecedence[]>();
   ngOnInit(): void {
+    const inputs = document.querySelectorAll('.inputfile');
+    console.log("inputs: " + inputs.length + "\n");
+    Array.prototype.forEach.call(inputs, function(input : Element) {
+        /*const labelVal : string = input.innerHTML;
+      input.addEventListener('change', function(event ) {
+        //console.log("event type: " + typeof event);
+        let fileName: string = '';
+        if(this.files && this.files.length > 1)
+          fileName = (this.getAttribute('data-multiple-caption' || '').replace('{count}', this.files.length));
+        else
+          //fileName = currentEvent.target.value.split('\\').pop();
+          fileName = "heehe";
+        if(fileName)
+          input.querySelector('span').innerHTML = fileName;
+        else
+          input.innerHTML = labelVal;
+      })*/
+    })
+
   }
+  faFileArrowUp = faFileArrowUp;
   currentFileNameTimeAndRoom='';
   currentTimeAndRoom:ConstraintTimeRoom[]=[];
   currentFileNamePrecedence='';

@@ -1,3 +1,47 @@
 button {
     background-color: #8d448b;
 }
+
+.txt {
+  font-family: 'Work Sans', sans-serif;
+}
+
+.valider {
+  font-family: 'Work Sans', sans-serif;
+  margin-top: 1rem;
+  width: 30%;
+  transform: translateX(100%);
+  background-color:  #31fc03 !important;
+}
+
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.inputfile + label {
+  font-size: 1.25em;
+  font-weight: 700;
+  color: white;
+  font-family: 'Work Sans', sans-serif;
+  background-color: #d3394c;
+  height: 2.6rem;
+  display: inline-block;
+  cursor: pointer;
+  width: auto;
+  transform: translateX(5%);
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+  background-color: red;
+}
+
+.inputfile:focus + label {
+  outline: 1px dotted #000;
+  outline: -webkit-focus-ring-color auto 5px;
+}

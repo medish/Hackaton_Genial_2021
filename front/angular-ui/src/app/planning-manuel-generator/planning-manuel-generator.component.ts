@@ -10,6 +10,7 @@ import {FullCalendarComponent} from "@fullcalendar/angular";
 import uniqid from 'uniqid';
 import {createEvents} from 'ics';
 import {document} from "ngx-bootstrap/utils";
+import { faFile } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-planning-manuel-generator',
@@ -33,6 +34,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   id_event_clicked: string="";
   calendarApi :any;
   currentDraggable: Draggable;
+  faFile = faFile;
 
   constructor(private dataService : DataInterfaceService, private fb : FormBuilder) {
   }
