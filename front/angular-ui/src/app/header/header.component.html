@@ -1,4 +1,4 @@
- <!--<header *ngIf="authService.isLoggedIn()">
+<!--<header *ngIf="authService.isLoggedIn()">
     <nav class="navbar navbar-expand-lg navbar-dark pt-3 pb-3 bg_styles">
         <div class="container-fluid">
             <p class="navbar-brand" (click)="home()">UniPlanif</p>
@@ -39,16 +39,20 @@ Acceuil,Profile , Planning, salles, utilisateurs, Départements
 </div>
 
 <main *ngIf="isLoggedIn">
-  <div class="d-flex flex-column flex-shrink-0 p-3 text-white " style="width: 280px; background-color: #8d448b">
-    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+  <div
+    class="d-flex flex-column flex-shrink-0 p-3 text-white"
+    style="width: 280px; background-color: #8d448b"
+  >
+    <a
+      href="/"
+      class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none"
+    >
       <span class="fs-4">UniPlanif</span>
     </a>
-    <hr>
+    <hr />
     <ul class="nav nav-pills flex-column mb-auto">
       <li>
-        <a (click)="home()" class="nav-link text-white">
-          Accueil
-        </a>
+        <a (click)="home()" class="nav-link text-white"> Accueil </a>
       </li>
       <li>
         <a (click)="home()" class="nav-link text-white">
@@ -58,31 +62,23 @@ Acceuil,Profile , Planning, salles, utilisateurs, Départements
 
       <li>
         <a (click)="allConstraints()" class="nav-link text-white">
-            Les contraintes
+          Les contraintes
         </a>
       </li>
 
       <li>
-        <a (click)="allPlannings()" class="nav-link text-white">
-          Plannings
-        </a>
+        <a (click)="allPlannings()" class="nav-link text-white"> Plannings </a>
       </li>
 
       <li>
-        <a (click)="allRooms()" class="nav-link text-white">
-          Salles
-        </a>
+        <a (click)="allRooms()" class="nav-link text-white"> Salles </a>
       </li>
 
       <li>
-        <a  (click)="allUsers()" class="nav-link text-white">
-          Utilisateurs
-        </a>
+        <a (click)="allUsers()" class="nav-link text-white"> Utilisateurs </a>
       </li>
       <li>
-        <a (click)="allGroups()" class="nav-link text-white">
-          Groupes
-        </a>
+        <a (click)="allGroups()" class="nav-link text-white"> Groupes </a>
       </li>
 
       <li>
@@ -92,12 +88,10 @@ Acceuil,Profile , Planning, salles, utilisateurs, Départements
       </li>
 
       <li class="mt-5">
-        <a class="nav-link text-white" (click)="logout()" >
-          Déconnexion
-        </a>
+        <a class="nav-link text-white" (click)="logout()"> Déconnexion </a>
       </li>
     </ul>
-    <hr>
+    <hr />
     <div class="ms-3">
       <strong>François</strong>
     </div>
@@ -107,4 +101,3 @@ Acceuil,Profile , Planning, salles, utilisateurs, Départements
     <router-outlet></router-outlet>
   </div>
 </main>
-

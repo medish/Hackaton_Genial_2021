@@ -1,39 +1,83 @@
 <section class="ftco-section">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6 col-lg-5">
-                <div class="login-wrap p-4 p-md-5">
-                    <div class="icon d-flex align-items-center justify-content-center">
-                        <i class="bi bi-door-open"></i>
-                    </div>
-                    <h3 class="text-center mb-4">Bienvenue sur UniPlanif</h3>
-                    <form *ngIf="!authService.isLoggedIn()" name="loginForm" (ngSubmit)="f.form.valid && onSubmitLogin()" #f="ngForm" novalidate class="login-form">
-                        <div class="form-group">
-                            <input type="text" class="form-control rounded-left" name="username" [(ngModel)]="loginForm.username" placeholder="Nom d'utilisateur" required id="username">
-                            <div class="alert alert-danger" role="alert" *ngIf="username?.errors && f.submitted">
-                                Le nom d'utilisateur est requis
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <input type="password" name="password" [(ngModel)]="loginForm.password" class="form-control rounded-left" placeholder="Mot de passe" id="password" minlength="6" #password="ngModel" required>
-                            <div class="alert alert-danger" role="alert" *ngIf="password?.errors && f.submitted">
-                                <div *ngIf="password?.errors.required">Le mot de passe est requis</div>
-                                <div *ngIf="password?.errors.minlength">
-                                    Le mot de passe doit contenir au moins 6 caractères
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="alert alert-danger" role="alert" *ngIf="f.submitted && isLoginFailed">
-                                La connexion a échoué
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary rounded submit p-3 px-5">Connexion</button>
-                        </div>
-                    </form>
-                </div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-5">
+        <div class="login-wrap p-4 p-md-5">
+          <div class="icon d-flex align-items-center justify-content-center">
+            <i class="bi bi-door-open"></i>
+          </div>
+          <h3 class="text-center mb-4">Bienvenue sur UniPlanif</h3>
+          <form
+            *ngIf="!authService.isLoggedIn()"
+            name="loginForm"
+            (ngSubmit)="f.form.valid && onSubmitLogin()"
+            #f="ngForm"
+            novalidate
+            class="login-form"
+          >
+            <div class="form-group">
+              <input
+                type="text"
+                class="form-control rounded-left"
+                name="username"
+                [(ngModel)]="loginForm.username"
+                placeholder="Nom d'utilisateur"
+                required
+                id="username"
+              />
+              <div
+                class="alert alert-danger"
+                role="alert"
+                *ngIf="username?.errors && f.submitted"
+              >
+                Le nom d'utilisateur est requis
+              </div>
             </div>
+            <div class="form-group">
+              <input
+                type="password"
+                name="password"
+                [(ngModel)]="loginForm.password"
+                class="form-control rounded-left"
+                placeholder="Mot de passe"
+                id="password"
+                minlength="6"
+                #password="ngModel"
+                required
+              />
+              <div
+                class="alert alert-danger"
+                role="alert"
+                *ngIf="password?.errors && f.submitted"
+              >
+                <div *ngIf="password?.errors.required">
+                  Le mot de passe est requis
+                </div>
+                <div *ngIf="password?.errors.minlength">
+                  Le mot de passe doit contenir au moins 6 caractères
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div
+                class="alert alert-danger"
+                role="alert"
+                *ngIf="f.submitted && isLoginFailed"
+              >
+                La connexion a échoué
+              </div>
+            </div>
+            <div class="form-group">
+              <button
+                type="submit"
+                class="btn btn-primary rounded submit p-3 px-5"
+              >
+                Connexion
+              </button>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
+  </div>
 </section>
