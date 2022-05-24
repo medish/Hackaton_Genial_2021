@@ -22,6 +22,7 @@ import { ConstraintsComponent } from './constraints/constraints.component';
 import { PdfExportComponent } from './pdf-export/pdf-export.component';
 import { AllPlanningsComponent } from './all-plannings/all-plannings.component';
 import { CardPlanningComponent } from './all-plannings/card-planning/card-planning.component';
+import { RegisterComponent } from './register/register.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -42,7 +43,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     ConstraintsComponent,
     PdfExportComponent,
     AllPlanningsComponent,
-    CardPlanningComponent
+    CardPlanningComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserAnimationsModule,
