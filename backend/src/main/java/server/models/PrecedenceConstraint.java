@@ -1,6 +1,11 @@
 package server.models;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 
@@ -19,10 +24,11 @@ public class PrecedenceConstraint implements IInput {
     private String target;
     private int priority;
 
-    public PrecedenceConstraint() {}
+    public PrecedenceConstraint() {
+    }
 
     public PrecedenceConstraint(int id, String selector, boolean wants, String whenConstraint, boolean strict,
-                                String target, int priority) {
+            String target, int priority) {
         this.id = id;
         this.selector = selector;
         this.wants = wants;
@@ -31,10 +37,10 @@ public class PrecedenceConstraint implements IInput {
         this.target = target;
         this.priority = priority;
     }
+
     public int getId() {
         return id;
     }
-
 
     public String getSelector() {
         return selector;
@@ -83,6 +89,5 @@ public class PrecedenceConstraint implements IInput {
     public void setPriority(int priority) {
         this.priority = priority;
     }
-
 
 }

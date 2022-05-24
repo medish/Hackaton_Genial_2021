@@ -1,12 +1,19 @@
 package server.models;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 @Entity
 @Table(name = "planning")
-public class Planning implements IInput{
+public class Planning {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,16 +28,23 @@ public class Planning implements IInput{
     @OneToMany(mappedBy = "planning")
     private Set<CourseSlot> slots;
 
-    public Planning(String name, LocalDate createdAt) {
+    public Planning(int id, String name, LocalDate createdAt) {
+        this.id = id;
         this.name = name;
         this.createdAt = createdAt;
     }
 
-    public Planning(Set<CourseSlot> slots){
+    public Planning(int id, Set<CourseSlot> slots) {
+        this.id = id;
         this.createdAt = LocalDate.now();
         this.slots = slots;
     }
+
     public Planning() {
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {
@@ -55,9 +69,5 @@ public class Planning implements IInput{
 
     public void setSlots(Set<CourseSlot> slots) {
         this.slots = slots;
-    }
-
-    public int getId() {
-        return id;
     }
 }

@@ -3,6 +3,8 @@ package server.models;
 import java.io.Serializable;
 
 public class CourseSlotId implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private CourseGroup courseGroup;
     private Planning planning;
 

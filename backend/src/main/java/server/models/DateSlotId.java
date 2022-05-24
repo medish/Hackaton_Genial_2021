@@ -5,6 +5,8 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 public class DateSlotId implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private DayOfWeek day;
     private LocalTime startTime;
 

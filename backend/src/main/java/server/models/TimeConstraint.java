@@ -1,7 +1,16 @@
 package server.models;
 
-import javax.persistence.*;
 import java.time.LocalTime;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "time_constraint")
@@ -12,21 +21,15 @@ public class TimeConstraint implements IInput {
 
     private String selector;
     private boolean wants;
-    
+
     @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "day_begin"),
-            @JoinColumn(name = "time_begin")
-    })
+    @JoinColumns({ @JoinColumn(name = "day_begin"), @JoinColumn(name = "time_begin") })
     private DateSlot dateBegin;
 
     @ManyToOne()
-    @JoinColumns({
-            @JoinColumn(name = "day_end"),
-            @JoinColumn(name = "time_end")
-    })
+    @JoinColumns({ @JoinColumn(name = "day_end"), @JoinColumn(name = "time_end") })
     private DateSlot dateEnd;
-    
+
     @ManyToOne
     private Room room;
 
@@ -38,10 +41,11 @@ public class TimeConstraint implements IInput {
     @Column(name = "end_time")
     private LocalTime endTime;
 
+    public TimeConstraint() {
+    }
 
-    public TimeConstraint() {}
-
-    public TimeConstraint(int id, String selector, boolean wants, DateSlot dateBegin, DateSlot dateEnd, Room room, int priority) {
+    public TimeConstraint(int id, String selector, boolean wants, DateSlot dateBegin, DateSlot dateEnd, Room room,
+            int priority) {
         this.id = id;
         this.selector = selector;
         this.wants = wants;
@@ -54,7 +58,6 @@ public class TimeConstraint implements IInput {
     public int getId() {
         return id;
     }
-
 
     public String getSelector() {
         return selector;

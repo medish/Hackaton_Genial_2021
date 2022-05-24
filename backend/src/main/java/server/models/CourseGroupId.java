@@ -3,7 +3,11 @@ package server.models;
 import java.io.Serializable;
 
 public class CourseGroupId implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     private int groupId;
+
     private Course course;
 
     public int getGroupId() {

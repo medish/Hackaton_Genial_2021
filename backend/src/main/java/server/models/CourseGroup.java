@@ -1,14 +1,24 @@
 package server.models;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Duration;
+import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "course_group")
 @IdClass(CourseGroupId.class)
 public class CourseGroup implements IInput, Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -17,12 +27,13 @@ public class CourseGroup implements IInput, Serializable {
 
     @Id
     @ManyToOne
-    @JoinColumn(name="course_id", nullable=false)
+    @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
     private Duration duration;
 
     private int size;
+
     @Enumerated(EnumType.ORDINAL)
     private RoomType roomType;
 
@@ -60,11 +71,31 @@ public class CourseGroup implements IInput, Serializable {
         this.size = size;
     }
 
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
     public RoomType getRoomType() {
         return roomType;
     }
 
     public void setRoomType(RoomType roomType) {
         this.roomType = roomType;
+    }
+
+    public Set<Professor> getProfessors() {
+        return course.getProfessors();
+    }
+
+    public void setProfessors(Set<Professor> professors) {
+        course.setProfessors(professors);
+    }
+
+    public Degree getDegree() {
+        return course.getDegree();
+    }
+
+    public void setDegree(Degree degree) {
+        course.setDegree(degree);
     }
 }

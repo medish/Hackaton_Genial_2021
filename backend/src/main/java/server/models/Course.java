@@ -1,8 +1,21 @@
 package server.models;
 
-import javax.persistence.*;
-import java.awt.*;
+import java.awt.Color;
+import java.util.List;
 import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 
@@ -16,12 +29,16 @@ public class Course implements IInput {
     @Column(unique = true)
     private String name;
 
+    @ManyToOne
+    @JoinColumn(name = "degree_id", nullable = false)
+    private Degree degree;
+
     @Column(name = "color")
     private Color color;
 
-    @ManyToOne
-    @JoinColumn(name="degree_id", nullable=false)
-    private Degree degree;
+    @JsonIgnore
+    @OneToMany(mappedBy = "course")
+    private List<CourseGroup> courseGroup;
 
     @ManyToMany(mappedBy = "courses")
     private Set<Major> majors;
@@ -29,16 +46,14 @@ public class Course implements IInput {
     @ManyToMany(mappedBy = "courses")
     private Set<Professor> professors;
 
-    public Course(int id, String name, Color color, Degree degree) {
+    public Course(int id, String name, Degree degree, Color color) {
         this.id = id;
         this.name = name;
-        this.color = color;
         this.degree = degree;
+        this.color = color;
     }
 
-    public Course()
-    {
-
+    public Course() {
     }
 
     public int getId() {
@@ -69,6 +84,14 @@ public class Course implements IInput {
         this.degree = degree;
     }
 
+    public List<CourseGroup> getCourseGroup() {
+        return courseGroup;
+    }
+    
+    public void setCourseGroup(List<CourseGroup> courseGroup) {
+        this.courseGroup = courseGroup;
+    }
+    
     public Set<Major> getMajors() {
         return majors;
     }
