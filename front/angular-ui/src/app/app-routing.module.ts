@@ -9,6 +9,11 @@ import { AuthGuard } from './services/auth-guard.service';
 import { PlanningAutoGeneratorComponent } from './planning-auto-generator/planning-auto-generator.component';
 import { AllPlanningsComponent } from './all-plannings/all-plannings.component';
 import {AllUsersComponent} from "./all-users/all-users.component";
+
+import { AllRoomsComponent } from './all-rooms/all-rooms.component';
+import {DepartmentComponent} from "./department/department.component";
+import {AllConstraintsComponent} from "./all-constraints/all-constraints.component";
+import {AllGroupsComponent} from "./all-groups/all-groups.component";
 import { RegisterComponent } from './register/register.component';
 const routes: Routes = [
   {path:'login',component:LoginComponent},
@@ -19,9 +24,13 @@ const routes: Routes = [
   {path:'auto',component:PlanningAutoGeneratorComponent,canActivate: [AuthGuard]},
   {path:'all-plannings',component:AllPlanningsComponent, canActivate: [AuthGuard]},
   {path:'',redirectTo:'/admin',pathMatch:'full'},
-  {path:'all_users',component:AllUsersComponent,canActivate: [AuthGuard]},
-  {path:'register',component:RegisterComponent,canActivate: [AuthGuard]}
+  {path:'les-utilisateurs',component:AllUsersComponent,canActivate: [AuthGuard]},
+  {path:'les_salles',component:AllRoomsComponent,canActivate: [AuthGuard]},
+  {path:'les-departements',component:DepartmentComponent,canActivate: [AuthGuard]},
+  {path:'les-contraintes',component:AllConstraintsComponent,canActivate: [AuthGuard]},
+  {path:'les-groupes',component:AllGroupsComponent,canActivate: [AuthGuard]},
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
