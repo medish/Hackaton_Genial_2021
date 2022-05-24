@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(ControllerRoutes.PLANNING)
+@RequestMapping(ControllerRoutes.PLANNINGS)
 public class PlanningController {
     @Autowired
     private PlanningService service;

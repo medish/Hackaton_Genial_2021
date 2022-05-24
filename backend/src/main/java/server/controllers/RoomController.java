@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(ControllerRoutes.ROOM)
+@RequestMapping(ControllerRoutes.ROOMS)
 public class RoomController {
     @Autowired
     private RoomService service;

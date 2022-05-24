@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(ControllerRoutes.COURSE)
+@RequestMapping(ControllerRoutes.COURSES)
 public class CourseController {
 
     @Autowired

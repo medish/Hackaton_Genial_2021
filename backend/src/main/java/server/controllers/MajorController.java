@@ -5,25 +5,26 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import server.models.Department;
-import server.services.DepartmentService;
+import server.models.Major;
+import server.services.MajorService;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(ControllerRoutes.DEPARTMENTS)
-public class DepartmentController {
+@RequestMapping(ControllerRoutes.MAJORS)
+public class MajorController {
+
     @Autowired
-    private DepartmentService service;
+    private MajorService service;
 
     @GetMapping()
-    public List<Department> getAll(){
+    public List<Major> getAll(){
         return service.getAll();
     }
 
     @GetMapping("/{id}")
-    public Optional<Department> getById(@PathVariable int id){
+    public Optional<Major> getById(@PathVariable int id){
         return service.getById(id);
     }
 }

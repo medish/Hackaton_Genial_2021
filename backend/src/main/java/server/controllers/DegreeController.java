@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(ControllerRoutes.DEGREE)
+@RequestMapping(ControllerRoutes.DEGREES)
 public class DegreeController {
 
     @Autowired
