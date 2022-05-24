@@ -1,7 +1,5 @@
 package server.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.util.List;
 
 import javax.persistence.Column;
@@ -9,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "RoomType")
@@ -20,10 +20,10 @@ public class RoomType implements IInput {
     @Column(name = "name", unique = true)
     private String name;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "roomType", targetEntity = Room.class)
     private List<Room> rooms;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "room_type", targetEntity = Lesson.class)
     private List<Lesson> lessons;
 
@@ -32,8 +32,7 @@ public class RoomType implements IInput {
         this.name = name;
     }
 
-    public RoomType()
-    {
+    public RoomType() {
     }
 
     public RoomType(String name) {

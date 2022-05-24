@@ -12,22 +12,13 @@
         <div id='external-events' class="mt-5 me-5 ms-5">
             <div class="card">
                 <div class="card-body text-center">
-                    <div class='fc-event fc-h-event mb-3 bg-danger border border-info'>
+                    <div class='card-creneau fc-event fc-h-event mb-3 bg-primary text-white border border-info'>
                         <div class='fc-event-main'>
-                            <h1>Cours</h1>
+                            <h1>Créneau</h1>
                         </div>
                     </div>
-                    <div class='fc-event fc-h-event mb-3 bg-warning border-info'>
-                        <div class='fc-event-main'>
-                            <h1>TP</h1>
-                        </div>
-                    </div>
-                    <div class='fc-event fc-h-event bg-primary mb-3 border border-info'>
-                        <div class='fc-event-main'>
-                            <h1>TD</h1>
-                        </div>
-                    </div>
-                    <small class="text-muted mt-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</small>
+                   
+                    <small class="text-muted mt-5">Veuillez glisser le créneau sur l'emploi du temps</small>
                 </div>
             </div>
         </div>
@@ -44,47 +35,46 @@
                     <h5 class="modal-title" id="modalManuelLabel"> <b>Ajouter un créneau</b></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="" method="post">
+                <form [formGroup]="formGroupModel">
                     <div class="modal-body">
-                        <label for="cursus">
+                      <label for="departments">
+                        Département
+                      </label>
+                      <select formControlName="department" (click)="departmentsChangeHandler($event.target.value)"  id="department" class="form-select mt-3 mb-3 ">
+                        <option [value]="">Choisir un département</option>
+                        <option *ngFor="let department of departments" [value]="department.id">{{department.name}}</option>
+                      </select>
+                      <label for="cursus">
                             Cursus
                         </label>
-                        <form [formGroup]="degreeForm">
-                            <select formControlName="degreeControl" (change)="degreeChangeHandler($event.target.value)" id="degree" class="form-select mt-3 mb-3 ">
-                                <option [value]="">Choisir un cursus</option>
-                                <option *ngFor="let degree of degrees" [value]="degree.id">{{degree.name}}</option>
-                            </select>
-                        </form>
+                        <select formControlName="degree" (change)="degreeChangeHandler($event.target.value)" id="degree" class="form-select mt-3 mb-3 ">
+                            <option [value]="">Choisir un cursus</option>
+                            <option *ngFor="let degree of degrees" [value]="degree.id">{{degree.name}}</option>
+                        </select>
                         <label for="session-name">
-                            Classe
+                            Matiere
                         </label>
-                        <form [formGroup]="classForm">
-                            <select formControlName="classControl" (change)="classChangeHandler($event.target.value)" id="class" class="form-select mt-3 mb-3 ">
-                                <option [value]="">Choisir la classe concernée</option>
-                                <option *ngFor="let lesson of classes">{{lesson.course.name}}</option>
-                            </select>
-                        </form>
+                        <select formControlName="course" (change)="courseChangeHandler($event.target.value)" id="class" class="form-select mt-3 mb-3 ">
+                            <option [value]="">Choisir la classe concernée</option>
+                            <option [value]="course.name" *ngFor="let course of courses">{{course.name}}</option>
+                        </select>
                         <label for="salle">Salle / Amphi </label>
-                        <form [formGroup]="roomsForm">
-                            <select formControlName="roomControl" (change)="roomChangeHandler($event.target.value)" id="room" class="form-select mt-3 mb-3 ">
-                                <option [value]="">Choisir la salle ou l'amphi</option>
-                                <option [value]="room.number" *ngFor="let room of roomsList">{{room.number}}</option>
-                            </select>
-                        </form>
+                        <select formControlName="room" (change)="roomChangeHandler($event.target.value)" id="room" class="form-select mt-3 mb-3 ">
+                            <option [value]="">Choisir la salle ou l'amphi</option>
+                            <option [value]="room.number" *ngFor="let room of roomsList">{{room.number}}</option>
+                        </select>
                         <label for="prof">Professeur</label>
-                        <form [formGroup]="teacherForm">
-                            <select formControlName="teacherControl" (change)="teacherChangeHandler($event.target.value)" id="professor" class="form-select mt-3 mb-3 ">
-                                <option [value]="">Choisir le professeur</option>
-                                <option *ngFor="let professor of professors">{{professor.firstName}} {{professor.name}}</option>
-                            </select>
-                        </form>
-                        <label for="color-session">Couleur créneau</label>
-                        <input type="color" class="form-control mt-3 mb-3" id="color-session">
+                        <select formControlName="teacher" (change)="teacherChangeHandler($event.target.value)" id="professor" class="form-select mt-3 mb-3 ">
+                            <option [value]="">Choisir le professeur</option>
+                            <option [value]="professor.firstName+' '+professor.name"*ngFor="let professor of professors">{{professor.firstName}} {{professor.name}}</option>
+                        </select>
+                        <!-- <label for="color-session">Couleur créneau</label>
+                        <input type="color" class="form-control mt-3 mb-3" id="color-session"> -->
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="deleteEvent(id_event_clicked)">Supprimer cet evenement</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="deleteEvent(formGroupModel.controls['idEvent'].value)">Supprimer cet evenement</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Enregistrer</button>
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" (click)="saveEvent(formGroupModel.controls['idEvent'].value)">Enregistrer</button>
                     </div>
                 </form>
             </div>

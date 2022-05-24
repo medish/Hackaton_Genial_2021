@@ -69,6 +69,5 @@ export class TableauContraintesComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
   }
 }

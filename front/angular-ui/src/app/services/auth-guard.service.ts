@@ -13,7 +13,6 @@ import { AuthService } from "./auth.service";
         this.router.navigateByUrl('/login');
         return false;
       } else {
-        console.log('can nav')
         return true;
       }
     }

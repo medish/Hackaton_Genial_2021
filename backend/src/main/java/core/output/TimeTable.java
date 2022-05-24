@@ -5,7 +5,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import server.models.*;
+import server.models.Course;
+import server.models.Date;
+import server.models.DateId;
+import server.models.Degree;
+import server.models.IInput;
+import server.models.Lesson;
+import server.models.Output;
+import server.models.Professor;
+import server.models.Room;
 
 public class TimeTable implements IOutput, IInput {
 
@@ -61,16 +69,21 @@ public class TimeTable implements IOutput, IInput {
                     + String.format("%-10s", timeslot.getDay().toString().substring(0, 3) + " " + timeslot.getHour())
                     + " | "
                     + cellList.stream()
-                    .map(cellLessonList -> String.format("%-10s",
-                            cellLessonList.stream().map(Output::getCourse).map(Course::getName)
-                                    .collect(Collectors.joining(", "))))
-                    .collect(Collectors.joining(" | "))
+                            .map(cellLessonList -> String.format("%-10s",
+                                    cellLessonList.stream().map(Output::getCourse).map(Course::getName)
+                                            .collect(Collectors.joining(", "))))
+                            .collect(Collectors.joining(" | "))
                     + " |\n");
-            stringBuilder.append("|            | " + cellList.stream()
-                    .map(cellLessonList -> String.format("%-10s",
-                            cellLessonList.stream().map(output -> output.getProfessors().iterator().next())
-                                    .map(Professor::getName).collect(Collectors.joining(", "))))
-                    .collect(Collectors.joining(" | ")) + " |\n");
+            stringBuilder.append("|            | "
+                    + cellList.stream()
+                            .map(cellLessonList -> String.format("%-10s",
+                                    cellLessonList.stream()
+                                            .map(output -> output.getProfessors() == null
+                                                    ? new Professor(null, "null", null, null, false,null)
+                                                    : output.getProfessors().iterator().next())
+                                            .map(Professor::getName).collect(Collectors.joining(", "))))
+                            .collect(Collectors.joining(" | "))
+                    + " |\n");
             stringBuilder.append("|            | " + cellList.stream()
                     .map(cellLessonList -> String.format("%-10s",
                             cellLessonList.stream().map(output -> output.getDegrees().iterator().next())
@@ -93,16 +106,14 @@ public class TimeTable implements IOutput, IInput {
         return stringBuilder.toString();
     }
 
-
     /**
      * Build an output list from a given lesson list
+     * 
      * @param lessonList {@link Lesson}
      * @return List of output {@link Output}
      */
     public static List<Output> buildListOutput(List<Lesson> lessonList) {
-        return lessonList.stream().map(lesson ->
-                new Output(null, null, lesson)
-        ).collect(Collectors.toList());
+        return lessonList.stream().map(lesson -> new Output(null, null, lesson)).collect(Collectors.toList());
     }
 
 }
