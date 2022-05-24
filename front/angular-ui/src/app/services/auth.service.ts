@@ -23,8 +23,8 @@ export class AuthService implements OnInit{
   }
   isLoggedIn():boolean{
     return true;
-   /* let currentUser = this.tokenService.getUser();
-    return currentUser!=null && currentUser!=undefined; */
+    let currentUser = this.tokenService.getUser();
+    return currentUser!=null && currentUser!=undefined;
   };
   login(username: string, password: string): Promise<any> {
     /**return this.http.post(AUTH_API + 'signin', {
