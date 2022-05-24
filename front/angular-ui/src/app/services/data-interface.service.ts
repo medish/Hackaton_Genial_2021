@@ -7,6 +7,7 @@ import { Room, Lesson, RoomType, Professor, Department, Degree, Identity, Output
 import { catchError, retry } from 'rxjs/operators';
 import { Planning } from '../model/planning/planning';
 import { environment } from 'src/environments/environment';
+import {User} from "../model/user";
 
 @Injectable({
   providedIn: 'root'
@@ -110,5 +111,10 @@ export class DataInterfaceService {
   handleError(error: HttpErrorResponse) {
     console.log("[HTTP ERROR]: " + error);
     return throwError("An error happened");
+  }
+
+  fetchAllUsers(callback: (users: [User], context: any) => any, context: any) {
+    return this.http.get<[User]>(this.url + "/professors")
+      .subscribe(data => callback(data, context));
   }
 }

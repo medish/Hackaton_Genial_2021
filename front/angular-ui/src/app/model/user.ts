@@ -1,7 +1,8 @@
 export class User{
-    name:string='';
-    surname:string='';
-    roles:string[]=[];
-    username:string='';
-    accessToken:string='';
+  name: string = '';
+  firstName: string;
+  accessToken: string = '';
+  email: string;
+  password: string;
+  is_admin: boolean;
 }
