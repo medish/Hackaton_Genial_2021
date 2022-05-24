@@ -2,7 +2,7 @@
 <div class="m-5">
   <table class="buttons">
     <tr>
-      <td><button type="button" class="constraints-button btn btn-primary"
+      <td><button type="button" class="constraints-button btn btn-primary btn-shadow"
                   (click)="isCollapsedconstraints = !isCollapsedconstraints" [attr.aria-expanded]="!isCollapsedconstraints"
                   aria-controls="collapseEvent">
         <fa-icon [icon]="faCirclePlus"></fa-icon>
@@ -15,7 +15,7 @@
                                 class="m-5"></app-get-file-constraints>
     </div>
     <tr>
-      <td><button type="button" class="constraints-button btn btn-primary" (click)="isCollapsedArray = !isCollapsedArray"
+      <td><button type="button" class="constraints-button btn btn-primary btn-shadow" (click)="isCollapsedArray = !isCollapsedArray"
                   [attr.aria-expanded]="!isCollapsedArray" aria-controls="collapseEventArray">
         <fa-icon [icon]="faEye"></fa-icon>
         Consulter les contraintes actives

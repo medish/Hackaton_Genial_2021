@@ -20,3 +20,8 @@
 .txt {
   font-family: 'Work Sans', sans-serif;
 }
+
+.btn-shadow:focus,
+.btn-shadow:hover{
+  background-color: darkblue !important;
+}
