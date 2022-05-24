@@ -46,7 +46,14 @@
                 </div>
                 <form [formGroup]="formGroupModel">
                     <div class="modal-body">
-                        <label for="cursus">
+                      <label for="departments">
+                        Département
+                      </label>
+                      <select formControlName="department" (click)="departmentsChangeHandler($event.target.value)"  id="department" class="form-select mt-3 mb-3 ">
+                        <option [value]="">Choisir un département</option>
+                        <option *ngFor="let department of departments" [value]="department.id">{{department.name}}</option>
+                      </select>
+                      <label for="cursus">
                             Cursus
                         </label>
                         <select formControlName="degree" (change)="degreeChangeHandler($event.target.value)" id="degree" class="form-select mt-3 mb-3 ">
@@ -54,7 +61,7 @@
                             <option *ngFor="let degree of degrees" [value]="degree.id">{{degree.name}}</option>
                         </select>
                         <label for="session-name">
-                            Classe
+                            Matiere
                         </label>
                         <select formControlName="course" (change)="courseChangeHandler($event.target.value)" id="class" class="form-select mt-3 mb-3 ">
                             <option [value]="">Choisir la classe concernée</option>

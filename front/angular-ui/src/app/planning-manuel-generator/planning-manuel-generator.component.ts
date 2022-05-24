@@ -4,7 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin, {Draggable} from '@fullcalendar/interaction';
 import { DataInterfaceService } from '../services/data-interface.service';
-import { Room, Degree, Professor, Course, Lesson} from '../model/datastore/datamodel';
+import { Room, Degree, Professor, Course, Lesson,Department} from '../model/datastore/datamodel';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {Calendar, CalendarOptions, Dictionary, EventApi, FullCalendarComponent} from "@fullcalendar/angular";
 import uniqid from 'uniqid';
@@ -31,6 +31,8 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   professors: Professor[] = [];
   degrees: Degree[] = [];
   selectedDegree: string;
+  departments: Department[] = [];
+
   that = this;
   calendarApi :any;
   currentDraggable: Draggable;
@@ -38,6 +40,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
 
   constructor(private dataService : DataInterfaceService, private fb : FormBuilder, private exportService:ExportService) {
   }
+
 
   ngOnInit() {
     let draggableEl = document.getElementById('external-events');
@@ -49,6 +52,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       duration:new FormControl(''),
       idEvent:new FormControl(''),
       title:new FormControl(''),
+      department:new FormControl(),
       backgroundColor:new FormControl('')
     })
     this.currentDraggable = new Draggable(draggableEl, {
@@ -91,7 +95,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
         this.onModalReady();
         modal.show();
       },
-      eventChange: (change)=>{}      
+      eventChange: (change)=>{}
 
     };
   }
@@ -136,7 +140,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
 
     for (let i = 0; i < arrayEvents.length; i++) {
       let dateStartStr = new Date(arrayEvents[i].startStr)
-      
+
       let course = arrayEvents[i].extendedProps.course
 
       var userTimezoneOffset = dateStartStr.getTimezoneOffset() * 60000;
@@ -204,14 +208,19 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     this.dataService.fetchAllLessons(this.onLessonsReceived, this);
     this.dataService.fetchAllTeachers(this.onTeachersReceived, this);
     this.dataService.fetchAllDegrees(this.onDegreesReceived, this);
+    this.dataService.fetchAllDepartments(this.onDepartmentsReceived,this);
   }
+
 
   clearExistingData() {
     this.degrees = [];
     this.courses = [];
     this.roomsList = [];
     this.professors = [];
+    this.departments = [];
   }
+
+
   degreeChangeHandler(degreeId: string) {
     this.formGroupModel.controls['degree'].setValue(degreeId);
   }
@@ -243,11 +252,14 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   }
 
   onRoomsReceived(roomsReceived : [Room], context : this) {
+
     for(let room of roomsReceived) {
       context.roomsList.push(room);
     }
   }
-
+  departmentsChangeHandler(departmentName :string){
+    console.log(departmentName);
+  }
   onTeachersReceived(professors: [Professor], context: this) {
     for(let professor of professors) {
       context.professors.push(professor);
@@ -260,4 +272,15 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       context.degrees.push(degree);
     }
   }
+
+
+  onDepartmentsReceived(departments : [Department],context:this){
+    console.log('Department',departments);
+    for(let dep of departments) {
+      context.departments.push(dep);
+    }
+    console.log("Deppp")
+    console.log(departments);
+  }
+
 }

@@ -8,6 +8,7 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
+
 :root {
     --blue: #007bff;
     --indigo: #6610f2;
@@ -11196,3 +11197,11 @@ h5,
 .bg_styles {
     background-color: #8d448b
 }
+
+.fc-day-today {
+  background-color: inherit !important;
+}
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
