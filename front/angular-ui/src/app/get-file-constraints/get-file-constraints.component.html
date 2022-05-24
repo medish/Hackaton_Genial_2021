@@ -7,8 +7,7 @@
             <p>{{errorMessageTimeAndRoom}}</p>
         </div>
     </div>
-
-    <div class="form-group">
+   <div class="form-group">
         <label for="ordering_constraints" class="mb-3 mt-5 control-label">Contraintes d'ordre</label>
         <div class="row">
             <input name="ordering_constraints" id="ordering_constraints" type="file" (change)="onFileSelectedPrecedence($event)" class="form-control">
@@ -16,5 +15,7 @@
             <p>{{errorMessagePrecedence}}</p>
         </div>
     </div>
-
 </form>
+
+<app-form-constraint-time (onValidate)="onAddConstraintTimeRoom.emit([$event])"></app-form-constraint-time>
+
