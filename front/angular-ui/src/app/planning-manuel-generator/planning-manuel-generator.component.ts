@@ -5,11 +5,12 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin, {Draggable} from '@fullcalendar/interaction';
 import { DataInterfaceService } from '../services/data-interface.service';
 import { Room, Degree, Professor, Course, Lesson} from '../model/datastore/datamodel';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {Calendar, CalendarOptions, Dictionary, EventApi, FullCalendarComponent} from "@fullcalendar/angular";
 import uniqid from 'uniqid';
 import {createEvents} from 'ics';
 import {document} from "ngx-bootstrap/utils";
+import { ExportService } from '../services/export/export.service';
 
 export const TD_COLOR = "#0d6efd";
 export const COURS_COLOR= "#dc3545";
@@ -31,22 +32,24 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   degrees: Degree[] = [];
   selectedDegree: string;
   that = this;
-  modelData: {room:string,duration:string,course:Course,prof:string,backgroundColor:string,title:string} = null;
   calendarApi :any;
   currentDraggable: Draggable;
   @ViewChild('calendar') calendarComponent: FullCalendarComponent;
 
-  constructor(private dataService : DataInterfaceService, private fb : FormBuilder) {
+  constructor(private dataService : DataInterfaceService, private fb : FormBuilder, private exportService:ExportService) {
   }
 
   ngOnInit() {
     let draggableEl = document.getElementById('external-events');
     this.formGroupModel = this.fb.group({
-      roomControl: ['Choisir la salle ou l\'amphi'],
-      classControl: ['Choisir la classe concernée'],
-      teacherControl: ['Choisir le professeur'],
-      degreeControl: ['Choisir un cursus'],
-      idEvent:[]
+      room: new FormControl(''),
+      course: new FormControl(''),
+      teacher: new FormControl(''),
+      degree: new FormControl(''),
+      duration:new FormControl(''),
+      idEvent:new FormControl(''),
+      title:new FormControl(''),
+      backgroundColor:new FormControl('')
     })
     this.currentDraggable = new Draggable(draggableEl, {
       itemSelector: '.fc-event',
@@ -101,13 +104,13 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   saveEvent(idEvent:string){
     let calendarApi : Calendar = this.calendarComponent.getApi();
     let event = calendarApi.getEventById(idEvent);
-    event.setExtendedProp("room",this.modelData?.room)
-    event.setExtendedProp("duration",this.modelData?.duration)
-    event.setExtendedProp("course",this.modelData?.course)
-    event.setExtendedProp("prof",this.modelData?.prof)
-    event.setProp("title",this.modelData?.title)
-    event.setProp("backgroundColor",this.modelData?.backgroundColor)
-    this.modelData = null;
+    event.setExtendedProp("room",this.formGroupModel.controls['room'].value)
+    event.setExtendedProp("duration",this.formGroupModel.controls['duration'].value)
+    event.setExtendedProp("course",this.formGroupModel.controls['course'].value)
+    event.setExtendedProp("teacher",this.formGroupModel.controls['teacher'].value)
+    event.setExtendedProp("degree",this.formGroupModel.controls['degree'].value)
+    event.setProp("title",this.formGroupModel.controls['title'].value)
+    event.setProp("backgroundColor",this.formGroupModel.controls['backgroundColor'].value)
   }
   getAllEvents(){
     return this.calendarComponent.getApi().getEvents();
@@ -178,64 +181,23 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   }
 
 
-
-
-
-  download(filename, input) {
-    var element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8, '+encodeURIComponent(input));
-    element.setAttribute('download', filename);
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-  }
-
   exportToICS() {
-    let allEvents = this.getAllEvents();
-    let events = [];
-    for (let i = 0; i < allEvents.length; i++) {
-      let event = allEvents[i];
-      console.log(event.extendedProps);
-      let start = [
-        event.start.getFullYear(),
-        event.start.getMonth()+1,
-        event.start.getDate(),
-        event.start.getUTCHours(),
-        event.start.getMinutes()];
-      let hours = Math.floor(event.extendedProps["duration"]/60);
-      let minutes = event.extendedProps["duration"]%60;
-      console.log(event.extendedProps["duration"]);
-      if (isNaN(hours))
-        hours = 0;
-      if (isNaN(minutes))
-        minutes = 0;
-      events.push({
-        start : start,
-        duration : {hours :  hours, minutes : minutes},
-        title : event.title,
-        location : event.extendedProps["room"],
-        description : event.extendedProps["prof"]
-      });
-    }
-    const {error, value} = createEvents(events);
-    if (error)
-      console.log(error);
-    else {
-      var filename = "calendar.ics";
-      this.download(filename, value);
-    }
+    this.exportService.exportToICS(this.getAllEvents());
   }
 
-  roomChangeHandler(roomNum: string) {
-    this.modelData.room = roomNum;
-  }
+
 
   onModalReady() {
-    if(this.modelData){
-      this.formGroupModel.controls['classControl'].setValue(this.modelData.course);
-      this.formGroupModel.controls['roomControl'].setValue(this.modelData.room);
-      //TODO complete this
-      //this.formGroupModel.controls['degreeControl'].setValue(this.modelData.)
+    if(this.formGroupModel.controls['idEvent'].value){
+      let calendarApi : Calendar = this.calendarComponent.getApi();
+      let event = calendarApi.getEventById(this.formGroupModel.controls['idEvent'].value)
+      this.formGroupModel.controls['room'].setValue(event.extendedProps['room']);
+      this.formGroupModel.controls['course'].setValue(event.extendedProps['course']);
+      this.formGroupModel.controls['teacher'].setValue(event.extendedProps['teacher']);
+      this.formGroupModel.controls['degree'].setValue(event.extendedProps['degree']);
+      this.formGroupModel.controls['duration'].setValue(event.extendedProps['duration']);
+      this.formGroupModel.controls['title'].setValue(event.title);
+      this.formGroupModel.controls['backgroundColor'].setValue(event.backgroundColor);
     }
     this.clearExistingData();
     this.dataService.fetchAllRooms(this.onRoomsReceived, this);
@@ -251,31 +213,23 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     this.professors = [];
   }
   degreeChangeHandler(degreeId: string) {
-    console.log('degreeiD',degreeId)
-    /*this.selectedDegree = degreeId;
-    for(let classItem of this.classes) {
-      const degreesForCourse = classItem.course.degrees;
-      const degreesId = degreesForCourse.map(degree => degree.id);
-      if(!(degreesId.includes(degreeId))) {
-        this.classes = this.classes.filter(c => c.id != degreeId);
-      }
-    }*/
-
+    this.formGroupModel.controls['degree'].setValue(degreeId);
   }
 
-  classChangeHandler(className : string) {
+  courseChangeHandler(className) {
     const selectedCourse = this.courses.find(elem => elem.name === className);
-  
-    let color = selectedCourse?.color;
-    this.modelData.backgroundColor = color;
-    this.modelData.title = selectedCourse?.name;
+    this.formGroupModel.controls['title'].setValue(selectedCourse?.name);
     //TODO Handle duration
-    this.modelData.duration = '1H';
-    this.modelData.course = selectedCourse;
+    this.formGroupModel.controls['duration'].setValue('1H');
+    this.formGroupModel.controls['course'].setValue(selectedCourse?.name);
   }
 
-  teacherChangeHandler(teacherName: string) {
-    this.modelData.prof = teacherName;
+  teacherChangeHandler(teacherFirstNameName: string) {
+    this.formGroupModel.controls['teacher'].setValue(teacherFirstNameName);
+  }
+
+  roomChangeHandler(roomNum: string) {
+    this.formGroupModel.controls['room'].setValue(roomNum);
   }
 
   onLessonsReceived(lessons : [Lesson], context : this) {
