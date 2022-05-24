@@ -13,6 +13,7 @@ public class ControllerRoutes {
     public final static String DAY = "days";
     public final static String DEGREE = "degrees";
     public final static String DEPARTMENT = "departments";
+    public final static String REGISTER = "register";
     public final static String ROOM = "rooms";
     public final static String ROOMID = "room-ids";
     public final static String ROOMTYPE = "room-types";

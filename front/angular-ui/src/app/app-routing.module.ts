@@ -14,6 +14,7 @@ import { AllRoomsComponent } from './all-rooms/all-rooms.component';
 import {DepartmentComponent} from "./department/department.component";
 import {AllConstraintsComponent} from "./all-constraints/all-constraints.component";
 import {AllGroupsComponent} from "./all-groups/all-groups.component";
+import { RegisterComponent } from './register/register.component';
 const routes: Routes = [
   {path:'login',component:LoginComponent},
   {path:'admin',component:AdminComponent,canActivate: [AuthGuard]},
@@ -28,6 +29,8 @@ const routes: Routes = [
   {path:'les-departements',component:DepartmentComponent,canActivate: [AuthGuard]},
   {path:'les-contraintes',component:AllConstraintsComponent,canActivate: [AuthGuard]},
   {path:'les-groupes',component:AllGroupsComponent,canActivate: [AuthGuard]},
+  {path:'all_users',component:AllUsersComponent,canActivate: [AuthGuard]},
+  {path:'register',component:RegisterComponent,canActivate: [AuthGuard]}
 ];
 
 
