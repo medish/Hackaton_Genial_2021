@@ -55,13 +55,12 @@ export class DataInterfaceService {
     ).subscribe()
   }
 
-
   fetchAllRooms(callback: (rooms: [Room], context: any) => any, context : any) {
     return this.http.get<[Room]>(this.url + "/rooms")
     .subscribe(data => callback(data, context));
   }
 
-  fetchAllClasses(callback: (classes: [Lesson], context: any) => any, context: any) {
+  fetchAllLessons(callback: (classes: [Lesson], context: any) => any, context: any) {
     return this.http.get<[Lesson]>(this.url + "/lessons")
     .subscribe(data => callback(data, context));
   }
@@ -76,10 +75,13 @@ export class DataInterfaceService {
     .subscribe(data => callback(data, context));
   }
 
-  fetchAllDepartments(callback: (departments: [Department]) => any) {
+
+
+  fetchAllDepartments(callback: (departments: [Department], context: any) => any, context: any) {
     return this.http.get<[Department]>(this.url + "/departments")
-    .subscribe(data => callback(data));
+    .subscribe(data => callback(data,context));
   }
+
 
   fetchAllDegrees(callback: (degrees: [Degree], context: any) => any, context: any) {
     return this.http.get<[Degree]>(this.url + "/degrees")
