@@ -51,7 +51,7 @@ public class ConnexionTest {
         driver.findElement(By.cssSelector(".btn")).click();
 
         synchronized (driver){
-            driver.wait(1000);
+            driver.wait(2000);
         }
         assertTrue(driver.getCurrentUrl().contains("admin"));
     }
