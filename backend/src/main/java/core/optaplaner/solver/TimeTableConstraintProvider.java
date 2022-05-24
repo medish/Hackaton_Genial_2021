@@ -142,7 +142,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                 if (selector.getAttribute() == "id") {
                     firstPart = firstPart.filter(lesson -> lesson.getTeacher().getId().equals(selector.getValue()));
                 }
-                if (selector.getAttribute() == "name") {
+                else if (selector.getAttribute() == "name") {
                     firstPart = firstPart.filter(lesson -> lesson.getTeacher().getName().equals(selector.getValue()));
                 }
             }
@@ -152,7 +152,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                 if (selector.getAttribute() == "id") {
                     firstPart = firstPart.filter(lesson -> lesson.getId().equals(selector.getValue()));
                 }
-                if (selector.getAttribute() == "subject") {
+                else if (selector.getAttribute() == "subject") {
                     firstPart = firstPart.filter(lesson -> lesson.getSubject().equals(selector.getValue()));
                 }
             }
@@ -162,7 +162,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                 if (selector.getAttribute() == "number") {
                     firstPart = firstPart.filter(lesson -> lesson.getRoom().getNumber().equals(selector.getValue()));
                 }
-                if (selector.getAttribute() == "roomType_id") {
+                else if (selector.getAttribute() == "roomType_id") {
                     firstPart = firstPart
                             .filter(lesson -> lesson.getRoom().getRoomType().getName().equals(selector.getValue()));
                 }
