@@ -47,7 +47,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     PdfExportComponent,
     AllPlanningsComponent,
     CardPlanningComponent,
-    RegisterComponent
+    RegisterComponent,
     AllUsersComponent,
     AllRoomsComponent
   ],
