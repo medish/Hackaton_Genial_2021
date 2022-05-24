@@ -2,8 +2,8 @@ package server.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import server.models.RoomType;
+import server.models.CourseSlot;
 
 @Repository
-public interface RoomTypeRepository extends JpaRepository<RoomType, Integer> {
+public interface CourseSlotRepository extends JpaRepository<CourseSlot, Integer> {
 }

@@ -2,7 +2,7 @@ package server.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import server.models.Customer;
+import server.models.User;
 import server.repositories.CustomerRepository;
 
 import java.util.List;
@@ -15,34 +15,34 @@ public class CustomerService{
     
     /**
      * Gets all customers.
-     * @return List of customers {@link Customer}
+     * @return List of customers {@link User}
      */
-    public List<Customer> getAll(){
+    public List<User> getAll(){
         return repository.findAll();
     }
 
     /**
      * Get customer by ID
      * @param id Customer's ID
-     * @return {@link Customer}
+     * @return {@link User}
      */
-    public Optional<Customer> getById(String id){
+    public Optional<User> getById(String id){
         return repository.findById(id);
     }
 
     /**
      * Insert a customer record
-     * @param customer {@link Customer}
+     * @param customer {@link User}
      */
-    public void insert(Customer customer){
+    public void insert(User customer){
         repository.saveAndFlush(customer);
     }
 
     /**
      * Insert multiple customer records
-     * @param customers {@link Customer}
+     * @param customers {@link User}
      */
-    public void insert(List<Customer> customers){
+    public void insert(List<User> customers){
         repository.saveAllAndFlush(customers);
     }
 
@@ -64,10 +64,10 @@ public class CustomerService{
 
     /**
      * Update a customer record
-     * @param customer {@link Customer}
-     * @return The new record of {@link Customer}
+     * @param customer {@link User}
+     * @return The new record of {@link User}
      */
-    public Customer update(Customer customer){
+    public User update(User customer){
         return repository.saveAndFlush(customer);
     }
 

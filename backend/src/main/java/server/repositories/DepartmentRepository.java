@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import server.models.Department;
 
 @Repository
-public interface DepartementRepository extends JpaRepository<Department, String> {
+public interface DepartmentRepository extends JpaRepository<Department, Integer> {
 }
