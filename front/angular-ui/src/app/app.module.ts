@@ -27,6 +27,7 @@ import { RegisterComponent } from './register/register.component';
 import { AllUsersComponent } from './all-users/all-users.component';
 import {DataTablesModule} from "angular-datatables";
 import { AllRoomsComponent } from './all-rooms/all-rooms.component';
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { DepartmentComponent } from './department/department.component';
 import { AllConstraintsComponent } from './all-constraints/all-constraints.component';
 import { AllGroupsComponent } from './all-groups/all-groups.component';
@@ -69,6 +70,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     ReactiveFormsModule,
     CollapseModule.forRoot(),
     DataTablesModule,
+    FontAwesomeModule
   ],
   providers: [authInterceptorProviders],
   bootstrap: [AppComponent]

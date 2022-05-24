@@ -1,11 +1,11 @@
 <div class="container">
-    <h1> Formulaire de contraintes de temps</h1>
+    <h1 class="txt"> Formulaire de contraintes de temps</h1>
 
     <form #timeForm="ngForm" (ngSubmit)="onSubmit()" name="timeForm">
 
       <div class="form-group">
         <label for="selector">Selector</label>
-        <input type="text" class="form-control" id="selector"
+        <input type="text" class="form-control txt" id="selector"
                required
                [(ngModel)]="timeConstraintForm.selector" name="selector"
         >
@@ -13,7 +13,7 @@
 
       <div class="form-group">
         <label for="want">Volonté</label>
-        <select class="form-control" id="want"
+        <select class="form-control txt" id="want"
                 required
                 [(ngModel)]="timeConstraintForm.want" name="want"
         >
@@ -63,7 +63,7 @@
         >
       </div>
       <div class="form-group">
-        <button type="submit" class="btn btn-primary rounded submit p-3 px-5">Valider</button>
+        <button type="submit" class="btn btn-primary rounded submit p-3 px-5 txt">Valider</button>
       </div>
     </form>
 </div>

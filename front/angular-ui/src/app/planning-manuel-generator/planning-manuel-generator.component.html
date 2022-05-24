@@ -1,5 +1,5 @@
 <div class="m-5 row">
-    <h1 class="mt-5 ">Manuel</h1>
+    <h1 class="title mt-5 ">Génération manuelle</h1>
     <app-constraints></app-constraints>
     <div class="float-end" style="direction: rtl;">
         <app-pdf-export></app-pdf-export>
@@ -17,7 +17,7 @@
                             <h1>Créneau</h1>
                         </div>
                     </div>
-                   
+
                     <small class="text-muted mt-5">Veuillez glisser le créneau sur l'emploi du temps</small>
                 </div>
             </div>
@@ -33,7 +33,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalManuelLabel"> <b>Ajouter un créneau</b></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  <button type="button" class="export-button btn-lg btn-primary me-5" (click)="exportToICS()"><fa-icon [icon]="faFile"></fa-icon> Exporter en ICS</button>
                 </div>
                 <form [formGroup]="formGroupModel">
                     <div class="modal-body">

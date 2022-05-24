@@ -11,6 +11,7 @@ import uniqid from 'uniqid';
 import {createEvents} from 'ics';
 import {document} from "ngx-bootstrap/utils";
 import { ExportService } from '../services/export/export.service';
+import { faFile } from '@fortawesome/free-solid-svg-icons';
 
 export const TD_COLOR = "#0d6efd";
 export const COURS_COLOR= "#dc3545";
@@ -32,7 +33,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   degrees: Degree[] = [];
   selectedDegree: string;
   departments: Department[] = [];
-
+  faFile = faFile;
   that = this;
   calendarApi :any;
   currentDraggable: Draggable;

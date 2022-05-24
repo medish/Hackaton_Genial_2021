@@ -18,7 +18,7 @@ export class FormConstraintTimeComponent implements OnInit {
 
 
   days = [
-    'lundi','mardi', 'mrecredi', 'jeudi', 'vednredi'
+    'lundi','mardi', 'mercredi', 'jeudi', 'vendredi'
   ];
 
   wants = [
