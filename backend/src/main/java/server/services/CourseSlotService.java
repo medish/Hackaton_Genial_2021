@@ -3,6 +3,7 @@ package server.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import server.models.CourseSlot;
+import server.models.CourseSlotId;
 import server.repositories.CourseSlotRepository;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class CourseSlotService {
      * @param id CourseSlot's ID
      * @return {@link CourseSlot}
      */
-    public Optional<CourseSlot> getById(Integer id){
+    public Optional<CourseSlot> getById(CourseSlotId id){
         return repository.findById(id);
     }
 
@@ -50,7 +51,7 @@ public class CourseSlotService {
      * Delete a CourseSlot record
      * @param id CourseSlot's ID
      */
-    public void delete(Integer id){
+    public void delete(CourseSlotId id){
         repository.deleteById(id);
     }
 
@@ -58,7 +59,7 @@ public class CourseSlotService {
      * Delete multiple CourseSlot records.
      * @param ids List of IDs.
      */
-    public void delete(List<Integer> ids){
+    public void delete(List<CourseSlotId> ids){
         repository.deleteAllById(ids);
     }
 

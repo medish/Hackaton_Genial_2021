@@ -17,10 +17,11 @@ public class Room implements IInput {
     @ManyToOne
     private Department department;
 
-    @OneToMany
+    @OneToMany(mappedBy = "room")
     private Set<CourseSlot> slots;
 
     @Enumerated(EnumType.STRING)
+    @ElementCollection(targetClass = RoomType.class)
     List<RoomType> roomTypes;
     public Room() {
     }

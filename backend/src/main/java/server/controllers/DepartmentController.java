@@ -23,7 +23,7 @@ public class DepartmentController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Department> getById(@PathVariable String id){
+    public Optional<Department> getById(@PathVariable int id){
         return service.getById(id);
     }
 }

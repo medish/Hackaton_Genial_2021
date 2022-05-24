@@ -1,20 +1,18 @@
 package server.models;
 
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 @Table(name = "professor")
-public class Professor extends User {
+public class Professor extends User{
 
     @ManyToMany
+    @JoinTable(name = "professor_course", joinColumns = @JoinColumn(name = "professor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"))
     private Set<Course> courses;
 
-    @OneToMany
+    @OneToMany(mappedBy = "professor")
     private Set<CourseSlot> slots;
 
     public Professor(int id, String name, String firstName, String email) {

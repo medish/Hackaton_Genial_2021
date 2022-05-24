@@ -6,7 +6,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "planning")
-public class Planning {
+public class Planning implements IInput{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,7 +18,7 @@ public class Planning {
     @Column(name = "created_at", nullable = false)
     private LocalDate createdAt;
 
-    @OneToMany
+    @OneToMany(mappedBy = "planning")
     private Set<CourseSlot> slots;
 
     public Planning(String name, LocalDate createdAt) {

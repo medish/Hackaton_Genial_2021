@@ -15,10 +15,10 @@ public class Degree implements IInput {
     @Column(unique = true)
     private String name;
 
-    @OneToMany(mappedBy="course")
+    @OneToMany(mappedBy="degree")
     private Set<Course> courses;
 
-    @ManyToMany
+    @ManyToMany(mappedBy ="degrees")
     private Set<Major> majors;
 
     public Degree() {

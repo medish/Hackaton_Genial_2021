@@ -16,9 +16,11 @@ public class Major implements IInput {
     private String name;
 
     @ManyToMany
+    @JoinTable(name = "major_course", joinColumns = @JoinColumn(name = "major_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"))
     private Set<Course> courses;
 
     @ManyToMany
+    @JoinTable(name = "major_degree", joinColumns = @JoinColumn(name = "major_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "degree_id", referencedColumnName = "id"))
     private Set<Degree> degrees;
 
     public Major() {

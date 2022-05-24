@@ -14,11 +14,17 @@ public class TimeConstraint implements IInput {
     private boolean wants;
     
     @ManyToOne
-    @Column(name = "dateBegin")
+    @JoinColumns({
+            @JoinColumn(name = "day_begin"),
+            @JoinColumn(name = "time_begin")
+    })
     private DateSlot dateBegin;
 
-    @ManyToOne
-    @Column(name = "dateEnd")
+    @ManyToOne()
+    @JoinColumns({
+            @JoinColumn(name = "day_end"),
+            @JoinColumn(name = "time_end")
+    })
     private DateSlot dateEnd;
     
     @ManyToOne

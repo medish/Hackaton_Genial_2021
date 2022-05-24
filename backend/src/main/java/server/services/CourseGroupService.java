@@ -3,6 +3,7 @@ package server.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import server.models.CourseGroup;
+import server.models.CourseGroupId;
 import server.repositories.CourseGroupRepository;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class CourseGroupService {
      * @param id CourseGroup's ID
      * @return {@link CourseGroup}
      */
-    public Optional<CourseGroup> getById(Integer id){
+    public Optional<CourseGroup> getById(CourseGroupId id){
         return repository.findById(id);
     }
 
@@ -50,7 +51,7 @@ public class CourseGroupService {
      * Delete a CourseGroup record
      * @param id CourseGroup's ID
      */
-    public void delete(Integer id){
+    public void delete(CourseGroupId id){
         repository.deleteById(id);
     }
 
@@ -58,7 +59,7 @@ public class CourseGroupService {
      * Delete multiple CourseGroup records.
      * @param ids List of IDs.
      */
-    public void delete(List<Integer> ids){
+    public void delete(List<CourseGroupId> ids){
         repository.deleteAllById(ids);
     }
 

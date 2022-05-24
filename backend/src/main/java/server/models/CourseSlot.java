@@ -1,16 +1,16 @@
 package server.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalTime;
 
 @Entity
 @Table(name = "course_slot")
-public class CourseSlot {
+@IdClass(CourseSlotId.class)
+public class CourseSlot implements IInput, Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Id
     @ManyToOne
@@ -18,6 +18,7 @@ public class CourseSlot {
 
     @Id
     @ManyToOne
+
     private Planning planning;
 
     @ManyToOne
@@ -113,7 +114,7 @@ public class CourseSlot {
         return getDateSlot().getDay();
     }
 
-    private LocalTime getStartTime(){
+    public LocalTime getStartTime(){
         return getDateSlot().getStartTime();
     }
 

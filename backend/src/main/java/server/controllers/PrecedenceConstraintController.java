@@ -25,7 +25,7 @@ public class PrecedenceConstraintController {
 
 
     @PostMapping("/delete")
-    public void deleteAll(@RequestBody List<String> ids){
+    public void deleteAll(@RequestBody List<Integer> ids){
         service.delete(ids);
     }
 }

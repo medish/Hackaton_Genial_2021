@@ -1,12 +1,16 @@
 package server.models;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.Duration;
 
 
 @Entity
 @Table(name = "course_group")
-public class CourseGroup implements IInput{
+@IdClass(CourseGroupId.class)
+public class CourseGroup implements IInput, Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Column(name = "group_id", nullable = false)
     private int groupId;
@@ -19,7 +23,7 @@ public class CourseGroup implements IInput{
     private Duration duration;
 
     private int size;
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private RoomType roomType;
 
     public CourseGroup() {

@@ -24,7 +24,7 @@ public class DegreeController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Degree> getById(@PathVariable String id){
+    public Optional<Degree> getById(@PathVariable int id){
         return service.getById(id);
     }
 }

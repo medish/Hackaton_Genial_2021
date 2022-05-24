@@ -3,6 +3,7 @@ package server.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import server.models.DateSlot;
+import server.models.DateSlotId;
 import server.repositories.DateSlotRepository;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class DateSlotService {
      * @param id DateSlot's ID
      * @return {@link DateSlot}
      */
-    public Optional<DateSlot> getById(Integer id){
+    public Optional<DateSlot> getById(DateSlotId id){
         return repository.findById(id);
     }
 
@@ -50,7 +51,7 @@ public class DateSlotService {
      * Delete a DateSlot record
      * @param id DateSlot's ID
      */
-    public void delete(Integer id){
+    public void delete(DateSlotId id){
         repository.deleteById(id);
     }
 
@@ -58,7 +59,7 @@ public class DateSlotService {
      * Delete multiple DateSlot records.
      * @param ids List of IDs.
      */
-    public void delete(List<Integer> ids){
+    public void delete(List<DateSlotId> ids){
         repository.deleteAllById(ids);
     }
 

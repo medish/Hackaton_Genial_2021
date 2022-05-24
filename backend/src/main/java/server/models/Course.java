@@ -23,10 +23,10 @@ public class Course implements IInput {
     @JoinColumn(name="degree_id", nullable=false)
     private Degree degree;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "courses")
     private Set<Major> majors;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "courses")
     private Set<Professor> professors;
 
     public Course(int id, String name, Color color, Degree degree) {

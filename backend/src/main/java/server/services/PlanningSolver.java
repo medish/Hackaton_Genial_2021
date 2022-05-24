@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import server.models.*;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -38,7 +37,7 @@ public class PlanningSolver {
      */
     public Planning solve() {
         // Constraints Time + precedence
-        List<TimeConstraint> timeConstraints = timeConstraintService.getAll();
+        /*List<TimeConstraint> timeConstraints = timeConstraintService.getAll();
         List<PrecedenceConstraint> precedenceConstraints = precedenceConstraintService.getAll();
         // Lessons
         List<CourseSlot> outputList = TimeTable.buildListSlots(courseGroupService.getAll());
@@ -50,6 +49,10 @@ public class PlanningSolver {
         List<CourseSlot> resolvedOutput = solver.solve(timeTable, timeConstraints, precedenceConstraints).getOutputList();
 
         return new Planning(new HashSet<>(resolvedOutput));
+
+         */
+
+        return null;
     }
 
     /**

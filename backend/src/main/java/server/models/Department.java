@@ -15,7 +15,7 @@ public class Department implements IInput {
     @Column(unique = true, name = "name", nullable = false)
     private String name;
 
-    @OneToMany
+    @OneToMany(mappedBy = "department")
     private Set<Room> rooms;
     public Department(int id, String name) {
         this.id = id;
