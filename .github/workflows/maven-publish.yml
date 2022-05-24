@@ -36,5 +36,6 @@ jobs:
           cache-dependency-path: front/angular-ui/package-lock.json
       - run: npm ci
       - run: npm install -g @angular/cli
-      - run: npm install
+      - run: npm install --global yarn
+      - run: yarn install
       - run: npm run build
