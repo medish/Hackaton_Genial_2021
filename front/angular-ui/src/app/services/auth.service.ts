@@ -14,9 +14,9 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class AuthService implements OnInit{
+  public currentRoute:string=""
 
   constructor(private http: HttpClient, private tokenService :TokenStorageService) {
-
 
   }
   ngOnInit(){

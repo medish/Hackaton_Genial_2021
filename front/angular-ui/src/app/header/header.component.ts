@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../services/auth.service';
 
 @Component({
@@ -7,16 +7,27 @@ import {AuthService} from '../services/auth.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
+
 export class HeaderComponent implements OnInit {
 
-  constructor(public authService: AuthService, public router: Router) {
+  constructor(public authService: AuthService, public router: Router,  private route: ActivatedRoute) {
+    console.log(this.router.url);
   }
 
   isLoggedIn = false;
+  name: string
+  url : string;
 
   ngOnInit(): void {
-    this.isLoggedIn = this.authService.isLoggedIn()
+    this.isLoggedIn = this.authService.isLoggedIn();
+    console.log(this.router);
+    this.route.url.subscribe(url => {
+      console.log(url);
+    });
   }
+
+
+
 
 
   logout() {

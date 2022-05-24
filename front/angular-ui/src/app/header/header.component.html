@@ -1,44 +1,46 @@
- <!--<header *ngIf="authService.isLoggedIn()">
-    <nav class="navbar navbar-expand-lg navbar-dark pt-3 pb-3 bg_styles">
-        <div class="container-fluid">
-            <p class="navbar-brand" (click)="home()">AI-Planning</p>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <p class="nav-link " aria-current="page" (click)="manual()">Manual</p>
-                    </li>
-                    <li class="nav-item">
-                        <p class="nav-link " aria-current="page" (click)="auto()">Auto</p>
-                    </li>
-                    <li class="nav-item">
-                        <p class="nav-link " aria-current="page" (click)="allPlannings()">All plannings</p>
-                    </li>
-                </ul>
-                <form class="d-flex">
-                    <ul class="navbar-nav me-5 mb-2 mb-lg-0 ">
-                        <li class="nav-item">
-                            <p (click)="logout()" class="nav-link" aria-current="page">Disconnect</p>
-                        </li>
+<!--<header *ngIf="authService.isLoggedIn()">
+   <nav class="navbar navbar-expand-lg navbar-dark pt-3 pb-3 bg_styles">
+       <div class="container-fluid">
+           <p class="navbar-brand" (click)="home()">AI-Planning</p>
+           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+             <span class="navbar-toggler-icon"></span>
+           </button>
+           <div class="collapse navbar-collapse" id="navbarSupportedContent">
+               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                   <li class="nav-item">
+                       <p class="nav-link " aria-current="page" (click)="manual()">Manual</p>
+                   </li>
+                   <li class="nav-item">
+                       <p class="nav-link " aria-current="page" (click)="auto()">Auto</p>
+                   </li>
+                   <li class="nav-item">
+                       <p class="nav-link " aria-current="page" (click)="allPlannings()">All plannings</p>
+                   </li>
+               </ul>
+               <form class="d-flex">
+                   <ul class="navbar-nav me-5 mb-2 mb-lg-0 ">
+                       <li class="nav-item">
+                           <p (click)="logout()" class="nav-link" aria-current="page">Disconnect</p>
+                       </li>
 
-                    </ul>
-                </form>
-            </div>
-        </div>
-    </nav>
+                   </ul>
+               </form>
+           </div>
+       </div>
+   </nav>
 </header>
 
 //use google font
 Acceuil,Profile , Planning, salles, utilisateurs, Départements
 -->
 
-<div *ngIf="!isLoggedIn">
+
+<div *ngIf="!isLoggedIn || authService.currentRoute=='register'" >
   <router-outlet></router-outlet>
 </div>
 
-<main *ngIf="isLoggedIn">
+
+<main *ngIf="isLoggedIn && authService.currentRoute!='register' ">
   <div class="d-flex flex-column flex-shrink-0 p-3 text-white " style="width: 280px; background-color: #8d448b">
     <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
       <span class="fs-4">AI-planning</span>
@@ -58,7 +60,7 @@ Acceuil,Profile , Planning, salles, utilisateurs, Départements
 
       <li>
         <a (click)="allConstraints()" class="nav-link text-white">
-            Les contraintes
+          Les contraintes
         </a>
       </li>
 
@@ -75,7 +77,7 @@ Acceuil,Profile , Planning, salles, utilisateurs, Départements
       </li>
 
       <li>
-        <a  (click)="allUsers()" class="nav-link text-white">
+        <a (click)="allUsers()" class="nav-link text-white">
           Utilisateurs
         </a>
       </li>
@@ -92,7 +94,7 @@ Acceuil,Profile , Planning, salles, utilisateurs, Départements
       </li>
 
       <li class="mt-5">
-        <a class="nav-link text-white" (click)="logout()" >
+        <a class="nav-link text-white" (click)="logout()">
           Déconnexion
         </a>
       </li>
@@ -107,4 +109,3 @@ Acceuil,Profile , Planning, salles, utilisateurs, Départements
     <router-outlet></router-outlet>
   </div>
 </main>
-
