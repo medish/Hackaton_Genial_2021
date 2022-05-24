@@ -1,19 +1,7 @@
 package core.output;
 
-import java.time.DayOfWeek;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.temporal.TemporalAdjusters;
-import java.util.Date;
-
-import biweekly.Biweekly;
-import biweekly.ICalendar;
-import biweekly.component.VEvent;
-import biweekly.property.Summary;
-import server.models.CourseSlot;
-
 public class IcsConverter {
-
+/*
     public static void convert(TimeTable output) {
 
         System.out.println("=====converting");
@@ -72,4 +60,6 @@ public class IcsConverter {
         return event;
     }
 
+
+ */
 }

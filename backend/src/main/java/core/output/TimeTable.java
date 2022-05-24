@@ -2,10 +2,8 @@ package core.output;
 
 import server.models.*;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class TimeTable implements IOutput, IInput {
 
@@ -37,7 +35,7 @@ public class TimeTable implements IOutput, IInput {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-
+        /*
         Map<DateId, Map<Room, List<CourseSlot>>> lessonMap = outputList.stream()
                 .filter(lesson -> lesson.getDate().getDateId() != null && lesson.getRoom() != null).collect(Collectors
                         .groupingBy((lesson) -> lesson.getDate().getDateId(), Collectors.groupingBy(CourseSlot::getRoom)));
@@ -95,7 +93,10 @@ public class TimeTable implements IOutput, IInput {
                                 + " - " + lesson.getCourse().getDegrees().iterator().next() + "\n");
             }
         }
+
+         */
         return stringBuilder.toString();
+
     }
 
     /**
@@ -105,7 +106,8 @@ public class TimeTable implements IOutput, IInput {
      * @return List of output {@link CourseSlot}
      */
     public static List<CourseSlot> buildListSlots(List<CourseGroup> courseGroups) {
-        return courseGroups.stream().map(group -> new CourseSlot(group, )).collect(Collectors.toList());
+        // return courseGroups.stream().map(group -> new CourseSlot(group, )).collect(Collectors.toList());
+        return new ArrayList<>();
     }
 
 }

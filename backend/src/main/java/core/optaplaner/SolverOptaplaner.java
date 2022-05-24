@@ -1,29 +1,26 @@
 package core.optaplaner;
 
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Function;
-
-import org.optaplanner.core.api.score.ScoreExplanation;
-import org.optaplanner.core.api.score.ScoreManager;
-import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
-import org.optaplanner.core.api.score.stream.Constraint;
-import org.optaplanner.core.api.score.stream.ConstraintFactory;
-import org.optaplanner.core.api.solver.Solver;
-import org.optaplanner.core.api.solver.SolverFactory;
-import org.optaplanner.core.config.solver.SolverConfig;
-
 import core.SolverTimeTable;
-import core.optaplaner.domain.LessonOptaPlaner;
 import core.optaplaner.domain.TimeTableOptaPlaner;
-import core.optaplaner.solver.TimeTableConstraintProvider;
 import core.output.TimeTable;
+import org.optaplanner.core.api.score.ScoreExplanation;
+import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import server.models.PrecedenceConstraint;
 import server.models.TimeConstraint;
 
-public class SolverOptaplaner implements SolverTimeTable {
+import java.util.List;
 
+public class SolverOptaplaner implements SolverTimeTable {
+    @Override
+    public TimeTable solve(TimeTable problem, List<TimeConstraint> timeConstraints, List<PrecedenceConstraint> precedenceConstraints) {
+        return null;
+    }
+
+    @Override
+    public ScoreExplanation<TimeTableOptaPlaner, HardSoftScore> verify(TimeTable problem, List<TimeConstraint> timeConstraints, List<PrecedenceConstraint> precedenceConstraints) {
+        return null;
+    }
+/*
     private SolverFactory<TimeTableOptaPlaner> solverFactory;
 
     private static List<Function<ConstraintFactory, Constraint>> constraints;
@@ -73,4 +70,6 @@ public class SolverOptaplaner implements SolverTimeTable {
                 .explainScore(timeTableOptaPlaner);
         return scoreExplanation;
     }
+
+ */
 }

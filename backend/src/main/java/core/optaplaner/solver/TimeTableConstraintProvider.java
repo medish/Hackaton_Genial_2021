@@ -1,29 +1,15 @@
 package core.optaplaner.solver;
 
-import java.time.Duration;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
-import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.optaplanner.core.api.score.stream.Constraint;
 import org.optaplanner.core.api.score.stream.ConstraintFactory;
 import org.optaplanner.core.api.score.stream.ConstraintProvider;
-import org.optaplanner.core.api.score.stream.Joiners;
-import org.optaplanner.core.api.score.stream.bi.BiConstraintStream;
-import org.optaplanner.core.api.score.stream.uni.UniConstraintStream;
-
-import core.optaplaner.SolverOptaplaner;
-import core.optaplaner.domain.LessonOptaPlaner;
-import core.selector.SelectorUnit;
-import server.models.PrecedenceConstraint;
-import server.models.Professor;
-import server.models.TimeConstraint;
 
 public class TimeTableConstraintProvider implements ConstraintProvider {
-
+    @Override
+    public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
+        return new Constraint[0];
+    }
+/*
     @Override
     public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
         List<Constraint> constraints = new ArrayList<>();
@@ -303,4 +289,6 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
 
         return firstPart.penalize(message, HardSoftScore.ofSoft(tc.getPriority()));
     }
+
+ */
 }

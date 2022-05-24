@@ -1,25 +1,18 @@
 package core.optaplaner.domain;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.optaplanner.core.api.domain.solution.PlanningEntityCollectionProperty;
-import org.optaplanner.core.api.domain.solution.PlanningScore;
-import org.optaplanner.core.api.domain.solution.PlanningSolution;
-import org.optaplanner.core.api.domain.solution.ProblemFactCollectionProperty;
-import org.optaplanner.core.api.domain.valuerange.ValueRangeProvider;
-import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
-
 import core.output.TimeTable;
-import server.models.Date;
-import server.models.Room;
+import org.optaplanner.core.api.domain.solution.PlanningSolution;
 
 @PlanningSolution
 public class TimeTableOptaPlaner implements FromOptaplanerToOutput<TimeTable>, FromInputToOptaPlaner<TimeTable> {
-
+    @Override
+    public TimeTable toOutput() {
+        return null;
+    }
+/*
     @ProblemFactCollectionProperty
     @ValueRangeProvider(id = "timeslotRange")
-    private List<Date> timeslotList;
+    private List<DateSlot> timeslotList;
     @ProblemFactCollectionProperty
     @ValueRangeProvider(id = "roomRange")
     private List<Room> roomList;
@@ -32,13 +25,13 @@ public class TimeTableOptaPlaner implements FromOptaplanerToOutput<TimeTable>, F
     public TimeTableOptaPlaner() {
     }
 
-    public TimeTableOptaPlaner(List<Date> timeslotList, List<Room> roomList, List<LessonOptaPlaner> lessonList) {
+    public TimeTableOptaPlaner(List<DateSlot> timeslotList, List<Room> roomList, List<LessonOptaPlaner> lessonList) {
         this.timeslotList = timeslotList;
         this.roomList = roomList;
         this.lessonList = lessonList;
     }
 
-    public List<Date> getDateList() {
+    public List<DateSlot> getDateList() {
         return timeslotList;
     }
 
@@ -71,4 +64,7 @@ public class TimeTableOptaPlaner implements FromOptaplanerToOutput<TimeTable>, F
                         .map((output) -> LessonOptaPlaner.fromInput(output)).collect(Collectors.toList()));
         return timeTableOptaPlaner;
     }
+
+
+ */
 }

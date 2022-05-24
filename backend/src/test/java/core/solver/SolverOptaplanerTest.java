@@ -1,38 +1,7 @@
 package core.solver;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.awt.Color;
-import java.io.IOException;
-import java.time.DayOfWeek;
-import java.time.Duration;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import org.apache.commons.io.IOUtils;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.optaplanner.core.api.score.ScoreExplanation;
-import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
-
-import core.SolverTimeTable;
-import core.optaplaner.SolverOptaplaner;
-import core.optaplaner.domain.LessonOptaPlaner;
-import core.optaplaner.domain.TimeTableOptaPlaner;
-import core.output.TimeTable;
-import server.models.Course;
-import server.models.Date;
-import server.models.DateId;
-import server.models.Degree;
-import server.models.Department;
-import server.models.Professor;
-import server.models.Room;
-import server.models.RoomType;
-
 public class SolverOptaplanerTest {
-
+/*
     private TimeTableOptaPlaner problem;
     private SolverTimeTable solverTimeTable;
 
@@ -159,4 +128,6 @@ public class SolverOptaplanerTest {
                         """,
                 verify.toString());
     }
+
+ */
 }
