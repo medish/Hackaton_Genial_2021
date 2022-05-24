@@ -16,7 +16,7 @@ public class Customer implements IInput {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "firstName", nullable = false)
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
     @Column(name = "email", unique = true, nullable = false)
@@ -25,12 +25,16 @@ public class Customer implements IInput {
     @Column(name = "is_admin", columnDefinition = "boolean default false")
     private boolean is_admin;
 
-    public Customer(String id, String name, String firstName, String email, boolean is_admin) {
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    public Customer(String id, String name, String firstName, String email, boolean is_admin, String password) {
         this.id = id;
         this.name = name;
         this.firstName = firstName;
         this.email = email;
         this.is_admin = is_admin;
+        this.password = password;
     }
 
     public Customer() {
@@ -65,6 +69,10 @@ public class Customer implements IInput {
         return is_admin;
     }
 
+    public String getPassword(){
+        return password;
+    }
+
     /*---------------------------------------------------------------*/
     /*-------------------------Setter--------------------------------*/
     /*---------------------------------------------------------------*/
@@ -83,5 +91,9 @@ public class Customer implements IInput {
 
     public void setIsAdmin(boolean is_admin) {
         this.is_admin = is_admin;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

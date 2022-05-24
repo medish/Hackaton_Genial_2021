@@ -67,11 +67,11 @@ public class SolverOptaplanerTest {
         List<LessonOptaPlaner> lessonList = new ArrayList<>();
         long id = 0;
 
-        Professor turing = new Professor("Turing", "Turing", "Jean", "jean@u-paris.fr", false);
-        Professor curie = new Professor("M. Curie", "Curie", "Jeanne", "jeanne@u-paris.fr", false);
-        Professor darwin = new Professor("C. Darwin", "Darwin", "Jeanne", "jeanne@u-paris.fr", false);
-        Professor jones = new Professor("I. Jones", "Jones", "Jeanne", "jeanne@u-paris.fr", false);
-        Professor cruz = new Professor("P. Cruz", "Cruz", "Jeanne", "jeanne@u-paris.fr", false);
+        Professor turing = new Professor("Turing", "Turing", "Jean", "jean@u-paris.fr", false,"mdpmdp");
+        Professor curie = new Professor("M. Curie", "Curie", "Jeanne", "jeanne@u-paris.fr", false,"mdpmdp");
+        Professor darwin = new Professor("C. Darwin", "Darwin", "Jeanne", "jeanne@u-paris.fr", false, "mdpmdp");
+        Professor jones = new Professor("I. Jones", "Jones", "Jeanne", "jeanne@u-paris.fr", false, "mdpmdp");
+        Professor cruz = new Professor("P. Cruz", "Cruz", "Jeanne", "jeanne@u-paris.fr", false, "mdpmdp");
 
         Degree grade9 = new Degree("9th grade", "9th grade");
         Degree grade10 = new Degree("10th grade", "10th grade");
