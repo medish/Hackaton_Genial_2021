@@ -34,6 +34,7 @@ jobs:
           node-version: 16
           cache: "npm"
           cache-dependency-path: front/angular-ui/package-lock.json
+      - run: npm audit    # check vulnerabilities 
       - run: npm ci
       - run: npm install -g @angular/cli
       - run: npm run build
