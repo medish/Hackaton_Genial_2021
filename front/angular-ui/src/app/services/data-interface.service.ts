@@ -8,7 +8,7 @@ import { Planning } from '../model/planning/planning';
 import { environment } from 'src/environments/environment';
 import {User} from "../model/user";
 
-import { Degree, Department, Professor, Room } from '../model/swagger/api';
+import {Degree, Department, Professor, Room} from '../model/swagger/api';
 import { Lesson, RoomType } from '../model/datastore/datamodel';
 
 @Injectable({
@@ -116,7 +116,7 @@ export class DataInterfaceService {
   }
 
   fetchAllUsers(callback: (users: [User], context: any) => any, context: any) {
-    return this.http.get<[User]>(this.url + "/professors")
+    return this.http.get<[User]>(this.url + "/users")
       .subscribe(data => callback(data, context));
   }
 }

@@ -15,7 +15,7 @@ export class UserService {
   constructor(private http: HttpClient) {
   }
 
-  updateUser(id: string, name: string, firstname: string, email: string, isAdmin: boolean) {
+  updateUser(id: string, name: string, firstname: string, email: string, isAdmin: string) {
     httpOptions.params = httpOptions.params.set("id", id).set("name", name).set("firstname", firstname).set("email", email).set("isAdmin", isAdmin)
 
     let user = this.http.post(
