@@ -21,6 +21,7 @@ export class AllUsersComponent implements OnInit {
 
   formGroupModal: FormGroup;
   submitted: boolean = false;
+  submitted_edit = false;
   users = [];
   loading: boolean = false;
   formAddUser: FormGroup
@@ -69,13 +70,27 @@ export class AllUsersComponent implements OnInit {
   }
 
   updateUser() {
+    this.submitted_edit = true;
+
+    if (this.formGroupModal.invalid) {
+      return;
+    }
+
     this.userService.updateUser(this.formGroupModal.controls['id'].value,
       this.formGroupModal.controls['lastName'].value, this.formGroupModal.controls['firstname'].value,
       this.formGroupModal.controls['email'].value, this.formGroupModal.controls['role'].value);
+    const modal = new Modal(document.getElementById("editUserModal"), {
+      keyboard: false
+    });
+    modal.close();
   }
 
   get f() {
     return this.formAddUser.controls;
+  }
+
+  get g() {
+    return this.formGroupModal.controls;
   }
 
   addUser() {
