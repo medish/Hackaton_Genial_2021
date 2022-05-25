@@ -9,19 +9,18 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import server.models.Customer;
 import server.repositories.CustomerRepository;
 import server.services.CustomerService;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RegisterCustomerTest {
@@ -55,22 +54,47 @@ public class RegisterCustomerTest {
     public void tearDown() {
         driver.quit();
     }
+
     @Test
-    public void register() {
+    public void registerOK() {
         driver.get("http://localhost:4200/register");
-        driver.manage().window().setSize(new Dimension(1262, 662));
-        driver.findElement(By.id("username")).click();
+        assertTrue(driver.findElement(By.id("username")).isDisplayed());
+        assertTrue(driver.findElement(By.id("username")).isEnabled());
         driver.findElement(By.id("username")).sendKeys("golouboff");
-        driver.findElement(By.id("firstname")).click();
+        assertTrue(driver.findElement(By.id("firstname")).isDisplayed());
+        assertTrue(driver.findElement(By.id("firstname")).isEnabled());
         driver.findElement(By.id("firstname")).sendKeys("seb");
-        driver.findElement(By.id("email")).click();
+        assertTrue(driver.findElement(By.id("email")).isDisplayed());
+        assertTrue(driver.findElement(By.id("email")).isEnabled());
         driver.findElement(By.id("email")).sendKeys("seb@seb.com");
-        driver.findElement(By.id("password")).click();
+        assertTrue(driver.findElement(By.id("password")).isDisplayed());
+        assertTrue(driver.findElement(By.id("password")).isEnabled());
         driver.findElement(By.id("password")).sendKeys("sdgsdgsdgsdgsdgsdgsd");
         driver.findElement(By.cssSelector(".btn")).click();
         driver.findElement(By.cssSelector(".form-group")).click();
 
-        Mockito.when(customerRepository.findById("sgolouboff")).thenReturn(Optional.of(new Customer()));
-        assertTrue(cs.getById("sgolouboff").isPresent());
+        //Mockito.when(customerRepository.findById("sgolouboff")).thenReturn(Optional.of(new Customer()));
+        //assertTrue(cs.getById("sgolouboff").isPresent());
+
+        //assertEquals("URL attendue",driver.getCurrentUrl(),"Must go to logged paged"); TODO
+    }
+
+    @Test
+    public void registerInvalid() throws InterruptedException {
+
+
+        driver.get("http://localhost:4200/register");
+        driver.findElement(By.cssSelector(".btn")).click();
+        driver.findElement(By.cssSelector(".form-group")).click();
+
+        List<WebElement> invalidFields = (driver.findElements(By.cssSelector(".is-invalid")));
+
+        assertTrue(invalidFields.size()>3);
+        assertEquals("http://localhost:4200/register",driver.getCurrentUrl(),"Must not change its current page since it failed");
+
+        //Mockito.when(customerRepository.findById("sgolouboff")).thenReturn(Optional.of(new Customer()));
+        //assertTrue(cs.getById("sgolouboff").isPresent());
+
+        //assertTrue(driver.getCurrentUrl().contains("admin")); TODO
     }
 }
