@@ -91,26 +91,26 @@ class SolverOptaplanerTest {
         Course french10 = new Course(13, "French", grade10, BLACK);
         Course geography10 = new Course(14, "Geography", grade10, BLACK);
 
-        lessonList.add(new CourseGroupOptaPlaner(id++, math9, turing, Duration.ofMinutes(60)));
-        lessonList.add(new CourseGroupOptaPlaner(id++, math9, turing, Duration.ofMinutes(60)));
-        lessonList.add(new CourseGroupOptaPlaner(id++, physics9, curie, Duration.ofMinutes(60)));
-        lessonList.add(new CourseGroupOptaPlaner(id++, chemistry9, curie, Duration.ofMinutes(60)));
-        lessonList.add(new CourseGroupOptaPlaner(id++, biology9, darwin, Duration.ofMinutes(60)));
-        lessonList.add(new CourseGroupOptaPlaner(id++, history9, jones, Duration.ofMinutes(60)));
-        lessonList.add(new CourseGroupOptaPlaner(id++, english9, jones, Duration.ofMinutes(60)));
-        lessonList.add(new CourseGroupOptaPlaner(id++, english9, jones, Duration.ofMinutes(120)));
-        lessonList.add(new CourseGroupOptaPlaner(id++, spanish9, cruz, Duration.ofMinutes(120)));
-        lessonList.add(new CourseGroupOptaPlaner(id++, spanish9, cruz, Duration.ofMinutes(120)));
-        lessonList.add(new CourseGroupOptaPlaner(id++, math10, turing, Duration.ofMinutes(120)));
-        lessonList.add(new CourseGroupOptaPlaner(id++, math10, turing, Duration.ofMinutes(60)));
-        lessonList.add(new CourseGroupOptaPlaner(id++, math10, turing, Duration.ofMinutes(60)));
-        lessonList.add(new CourseGroupOptaPlaner(id++, physics10, curie, Duration.ofMinutes(60)));
-        lessonList.add(new CourseGroupOptaPlaner(id++, chemistry10, curie, Duration.ofMinutes(60)));
-        lessonList.add(new CourseGroupOptaPlaner(id++, french10, curie, Duration.ofMinutes(60)));
-        lessonList.add(new CourseGroupOptaPlaner(id++, geography10, darwin, Duration.ofMinutes(60)));
-        lessonList.add(new CourseGroupOptaPlaner(id++, history10, jones, Duration.ofMinutes(60)));
-        lessonList.add(new CourseGroupOptaPlaner(id++, english10, cruz, Duration.ofMinutes(60)));
-        lessonList.add(new CourseGroupOptaPlaner(id++, spanish10, cruz, Duration.ofMinutes(60)));
+        lessonList.add(new CourseGroupOptaPlaner(id++, math9, turing, Duration.ofMinutes(60), RoomType.CM));
+        lessonList.add(new CourseGroupOptaPlaner(id++, math9, turing, Duration.ofMinutes(60), RoomType.CM));
+        lessonList.add(new CourseGroupOptaPlaner(id++, physics9, curie, Duration.ofMinutes(60), RoomType.CM));
+        lessonList.add(new CourseGroupOptaPlaner(id++, chemistry9, curie, Duration.ofMinutes(60), RoomType.CM));
+        lessonList.add(new CourseGroupOptaPlaner(id++, biology9, darwin, Duration.ofMinutes(60), RoomType.CM));
+        lessonList.add(new CourseGroupOptaPlaner(id++, history9, jones, Duration.ofMinutes(60), RoomType.CM));
+        lessonList.add(new CourseGroupOptaPlaner(id++, english9, jones, Duration.ofMinutes(60), RoomType.CM));
+        lessonList.add(new CourseGroupOptaPlaner(id++, english9, jones, Duration.ofMinutes(120), RoomType.CM));
+        lessonList.add(new CourseGroupOptaPlaner(id++, spanish9, cruz, Duration.ofMinutes(120), RoomType.CM));
+        lessonList.add(new CourseGroupOptaPlaner(id++, spanish9, cruz, Duration.ofMinutes(120), RoomType.CM));
+        lessonList.add(new CourseGroupOptaPlaner(id++, math10, turing, Duration.ofMinutes(120), RoomType.CM));
+        lessonList.add(new CourseGroupOptaPlaner(id++, math10, turing, Duration.ofMinutes(60), RoomType.CM));
+        lessonList.add(new CourseGroupOptaPlaner(id++, math10, turing, Duration.ofMinutes(60), RoomType.CM));
+        lessonList.add(new CourseGroupOptaPlaner(id++, physics10, curie, Duration.ofMinutes(60), RoomType.CM));
+        lessonList.add(new CourseGroupOptaPlaner(id++, chemistry10, curie, Duration.ofMinutes(60), RoomType.CM));
+        lessonList.add(new CourseGroupOptaPlaner(id++, french10, curie, Duration.ofMinutes(60), RoomType.CM));
+        lessonList.add(new CourseGroupOptaPlaner(id++, geography10, darwin, Duration.ofMinutes(60), RoomType.CM));
+        lessonList.add(new CourseGroupOptaPlaner(id++, history10, jones, Duration.ofMinutes(60), RoomType.CM));
+        lessonList.add(new CourseGroupOptaPlaner(id++, english10, cruz, Duration.ofMinutes(60), RoomType.CM));
+        lessonList.add(new CourseGroupOptaPlaner(id++, spanish10, cruz, Duration.ofMinutes(60), RoomType.CM));
 
         problem = new TimeTableOptaPlaner(timeslotList, roomList, lessonList);
     }
