@@ -17,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User implements IInput {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -37,16 +38,15 @@ public class User implements IInput {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    public User(int id, String lastName, String firstName, String email, String password, UserRole role) {
-        this.id = id;
+    public User() {
+    }
+
+    public User(String lastName, String firstName, String email, String password, UserRole role) {
         this.lastName = lastName;
         this.firstName = firstName;
         this.email = email;
         this.password = password;
         this.role = role;
-    }
-
-    public User() {
     }
 
     public int getId() {

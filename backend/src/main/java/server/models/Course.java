@@ -1,10 +1,20 @@
 package server.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 
@@ -36,14 +46,13 @@ public class Course implements IInput {
     @ManyToMany(mappedBy = "courses")
     private Set<Professor> professors;
 
-    public Course(int id, String name, Degree degree, String color) {
-        this.id = id;
+    public Course() {
+    }
+
+    public Course(String name, Degree degree, String color) {
         this.name = name;
         this.degree = degree;
         this.color = color;
-    }
-
-    public Course() {
     }
 
     public int getId() {
@@ -77,11 +86,11 @@ public class Course implements IInput {
     public List<CourseGroup> getCourseGroup() {
         return courseGroup;
     }
-    
+
     public void setCourseGroup(List<CourseGroup> courseGroup) {
         this.courseGroup = courseGroup;
     }
-    
+
     public Set<Major> getMajors() {
         return majors;
     }

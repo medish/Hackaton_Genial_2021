@@ -12,6 +12,7 @@ import core.optaplaner.domain.CourseGroupOptaPlaner;
 import core.optaplaner.domain.TimeTableOptaPlaner;
 import core.optaplaner.solver.TimeTableConstraintProvider;
 import server.models.Course;
+import server.models.CourseGroup;
 import server.models.DateSlot;
 import server.models.Degree;
 import server.models.Department;
@@ -23,9 +24,9 @@ class TimeTableConstraintProviderTest {
 
     private static final String BLACK = "000000";
 
-    private static final Department DEPARTMENT = new Department(0, "UFR d'info");
-    private static final Room ROOM = new Room(1, "Room1", DEPARTMENT, 25, Set.of(RoomType.TD));
-    private static final Room ROOM2 = new Room(2, "Room2", DEPARTMENT, 25, Set.of(RoomType.TD));
+    private static final Department DEPARTMENT = new Department("UFR d'info");
+    private static final Room ROOM = new Room("Room1", DEPARTMENT, 25, Set.of(RoomType.TD));
+    private static final Room ROOM2 = new Room("Room2", DEPARTMENT, 25, Set.of(RoomType.TD));
 
     private static final DateSlot TIMESLOT1 = new DateSlot(DayOfWeek.MONDAY, LocalTime.of(9, 0));
     private static final DateSlot TIMESLOT2 = new DateSlot(DayOfWeek.TUESDAY, LocalTime.of(9, 0));
@@ -40,24 +41,25 @@ class TimeTableConstraintProviderTest {
 
     @Test
     void roomConflict() {
-        Professor turing = new Professor(1, "Turing", "Jean", "jean@u-paris.fr", "mdpmdp");
-        Professor curie = new Professor(2, "Curie", "Jeanne", "jeanne@u-paris.fr", "mdpmdp");
-        Professor darwin = new Professor(3, "Darwin", "Jeanne", "jeanne@u-paris.fr", "mdpmdp");
+        Professor turing = new Professor("Turing", "Jean", "jean@u-paris.fr", "mdpmdp");
+        Professor curie = new Professor("Curie", "Jeanne", "jeanne@u-paris.fr", "mdpmdp");
+        Professor darwin = new Professor("Darwin", "Jeanne", "jeanne@u-paris.fr", "mdpmdp");
 
-        Degree group1 = new Degree(1, "Group1");
-        Degree group2 = new Degree(2, "Group2");
-        Degree group3 = new Degree(3, "Group3");
+        Degree group1 = new Degree("Group1");
+        Degree group2 = new Degree("Group2");
+        Degree group3 = new Degree("Group3");
 
-        Course subject1 = new Course(0, "Subject1", group1, BLACK);
-        Course subject2 = new Course(1, "Subject2", group2, BLACK);
-        Course subject3 = new Course(2, "Subject3", group3, BLACK);
+        Course subject1 = new Course("Subject1", group1, BLACK);
+        Course subject2 = new Course("Subject2", group2, BLACK);
+        Course subject3 = new Course("Subject3", group3, BLACK);
 
-        CourseGroupOptaPlaner firstLesson = new CourseGroupOptaPlaner(1, subject1, turing, Duration.ofMinutes(60),
-                RoomType.CM);
-        CourseGroupOptaPlaner conflictingLesson = new CourseGroupOptaPlaner(2, subject2, curie, Duration.ofMinutes(60),
-                RoomType.CM);
-        CourseGroupOptaPlaner nonConflictingLesson = new CourseGroupOptaPlaner(3, subject3, darwin,
-                Duration.ofMinutes(60), RoomType.CM);
+        CourseGroup courseGroup1 = new CourseGroup(1, subject1, Duration.ofMinutes(60), 0, RoomType.CM);
+        CourseGroup courseGroup2 = new CourseGroup(1, subject2, Duration.ofMinutes(60), 0, RoomType.CM);
+        CourseGroup courseGroup3 = new CourseGroup(1, subject3, Duration.ofMinutes(60), 0, RoomType.CM);
+
+        CourseGroupOptaPlaner firstLesson = new CourseGroupOptaPlaner(1, courseGroup1, turing);
+        CourseGroupOptaPlaner conflictingLesson = new CourseGroupOptaPlaner(2, courseGroup2, curie);
+        CourseGroupOptaPlaner nonConflictingLesson = new CourseGroupOptaPlaner(3, courseGroup3, darwin);
 
         firstLesson.setRoom(ROOM);
         firstLesson.setDateSlot(TIMESLOT1);
@@ -74,23 +76,24 @@ class TimeTableConstraintProviderTest {
 
     @Test
     void teacherConflict() {
-        Professor turing = new Professor(1, "Turing", "Jean", "jean@u-paris.fr", "mdpmdp");
-        Professor curie = new Professor(2, "Curie", "Jeanne", "jeanne@u-paris.fr", "mdpmdp");
+        Professor turing = new Professor("Turing", "Jean", "jean@u-paris.fr", "mdpmdp");
+        Professor curie = new Professor("Curie", "Jeanne", "jeanne@u-paris.fr", "mdpmdp");
 
-        Degree group1 = new Degree(1, "Group1");
-        Degree group2 = new Degree(2, "Group2");
-        Degree group3 = new Degree(3, "Group3");
+        Degree group1 = new Degree("Group1");
+        Degree group2 = new Degree("Group2");
+        Degree group3 = new Degree("Group3");
 
-        Course subject1 = new Course(0, "Subject1", group1, BLACK);
-        Course subject2 = new Course(1, "Subject2", group2, BLACK);
-        Course subject3 = new Course(2, "Subject3", group3, BLACK);
+        Course subject1 = new Course("Subject1", group1, BLACK);
+        Course subject2 = new Course("Subject2", group2, BLACK);
+        Course subject3 = new Course("Subject3", group3, BLACK);
 
-        CourseGroupOptaPlaner firstLesson = new CourseGroupOptaPlaner(1, subject1, turing, Duration.ofMinutes(60),
-                RoomType.CM, TIMESLOT1, ROOM);
-        CourseGroupOptaPlaner conflictingLesson = new CourseGroupOptaPlaner(2, subject2, turing, Duration.ofMinutes(60),
-                RoomType.CM, TIMESLOT1, ROOM2);
-        CourseGroupOptaPlaner nonConflictingLesson = new CourseGroupOptaPlaner(3, subject3, curie,
-                Duration.ofMinutes(60), RoomType.CM, TIMESLOT2, ROOM);
+        CourseGroup courseGroup1 = new CourseGroup(1, subject1, Duration.ofMinutes(60), 0, RoomType.CM);
+        CourseGroup courseGroup2 = new CourseGroup(1, subject2, Duration.ofMinutes(60), 0, RoomType.CM);
+        CourseGroup courseGroup3 = new CourseGroup(1, subject3, Duration.ofMinutes(60), 0, RoomType.CM);
+
+        CourseGroupOptaPlaner firstLesson = new CourseGroupOptaPlaner(1, courseGroup1, turing, TIMESLOT1, ROOM);
+        CourseGroupOptaPlaner conflictingLesson = new CourseGroupOptaPlaner(2, courseGroup2, turing, TIMESLOT1, ROOM2);
+        CourseGroupOptaPlaner nonConflictingLesson = new CourseGroupOptaPlaner(3, courseGroup3, curie, TIMESLOT2, ROOM);
 
         constraintVerifier.verifyThat(TimeTableConstraintProvider::teacherConflict)
                 .given(firstLesson, conflictingLesson, nonConflictingLesson).penalizesBy(1);
@@ -100,26 +103,27 @@ class TimeTableConstraintProviderTest {
     void teacherTimeEfficiency() {
         // A teacher prefers to teach sequential lessons and dislikes gaps between
         // lessons.
-        Professor turing = new Professor(1, "Turing", "Jean", "jean@u-paris.fr", "mdpmdp");
+        Professor turing = new Professor("Turing", "Jean", "jean@u-paris.fr", "mdpmdp");
 
-        Degree group1 = new Degree(1, "Group1");
-        Degree group2 = new Degree(2, "Group2");
-        Degree group3 = new Degree(3, "Group3");
-        Degree group4 = new Degree(4, "Group4");
+        Degree group1 = new Degree("Group1");
+        Degree group2 = new Degree("Group2");
+        Degree group3 = new Degree("Group3");
+        Degree group4 = new Degree("Group4");
 
-        Course subject1 = new Course(0, "Subject1", group1, BLACK);
-        Course subject2 = new Course(1, "Subject2", group2, BLACK);
-        Course subject3 = new Course(2, "Subject3", group3, BLACK);
-        Course subject4 = new Course(2, "Subject4", group4, BLACK);
+        Course subject1 = new Course("Subject1", group1, BLACK);
+        Course subject2 = new Course("Subject2", group2, BLACK);
+        Course subject3 = new Course("Subject3", group3, BLACK);
+        Course subject4 = new Course("Subject4", group4, BLACK);
 
-        CourseGroupOptaPlaner firstLesson = new CourseGroupOptaPlaner(1, subject1, turing, Duration.ofMinutes(60),
-                RoomType.CM, TIMESLOT3, ROOM);
-        CourseGroupOptaPlaner secondLesson = new CourseGroupOptaPlaner(2, subject2, turing, Duration.ofMinutes(60),
-                RoomType.CM, TIMESLOT4, ROOM);
-        CourseGroupOptaPlaner thirdLesson = new CourseGroupOptaPlaner(3, subject3, turing, Duration.ofMinutes(60),
-                RoomType.CM, TIMESLOT5, ROOM);
-        CourseGroupOptaPlaner lastLesson = new CourseGroupOptaPlaner(4, subject4, turing, Duration.ofMinutes(60),
-                RoomType.CM, TIMESLOT6, ROOM);
+        CourseGroup courseGroup1 = new CourseGroup(1, subject1, Duration.ofMinutes(60), 0, RoomType.CM);
+        CourseGroup courseGroup2 = new CourseGroup(1, subject2, Duration.ofMinutes(60), 0, RoomType.CM);
+        CourseGroup courseGroup3 = new CourseGroup(1, subject3, Duration.ofMinutes(60), 0, RoomType.CM);
+        CourseGroup courseGroup4 = new CourseGroup(1, subject4, Duration.ofMinutes(60), 0, RoomType.CM);
+
+        CourseGroupOptaPlaner firstLesson = new CourseGroupOptaPlaner(1, courseGroup1, turing, TIMESLOT3, ROOM);
+        CourseGroupOptaPlaner secondLesson = new CourseGroupOptaPlaner(2, courseGroup2, turing, TIMESLOT4, ROOM);
+        CourseGroupOptaPlaner thirdLesson = new CourseGroupOptaPlaner(3, courseGroup3, turing, TIMESLOT5, ROOM);
+        CourseGroupOptaPlaner lastLesson = new CourseGroupOptaPlaner(4, courseGroup4, turing, TIMESLOT6, ROOM);
 
         constraintVerifier.verifyThat(TimeTableConstraintProvider::teacherTimeEfficiency)
                 .given(firstLesson, secondLesson, thirdLesson, lastLesson).rewardsWith(4);
