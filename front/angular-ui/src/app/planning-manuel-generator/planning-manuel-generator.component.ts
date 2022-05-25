@@ -11,7 +11,7 @@ import {document} from "ngx-bootstrap/utils";
 import { ExportService } from '../services/export/export.service';
 import { faFile } from '@fortawesome/free-solid-svg-icons';
 import { Lesson } from '../model/datastore/datamodel';
-import { Course, CourseSlot, Degree, Department, Professor, Room, TimeconstraintcontrollerApi } from '../model/swagger/api';
+import { Course, CoursecontrollerApi, CourseSlot, Degree, DegreecontrollerApi, Department, DepartmentcontrollerApi, Professor, ProfessorcontrollerApi, Room, RoomcontrollerApi, TimeconstraintcontrollerApi } from '../model/swagger/api';
 
 export const TD_COLOR = "#0d6efd";
 export const COURS_COLOR= "#dc3545";
@@ -39,14 +39,16 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   currentDraggable: Draggable;
   @ViewChild('calendar') calendarComponent: FullCalendarComponent;
 
-  constructor(private timeConstraintController: TimeconstraintcontrollerApi, private dataService : DataInterfaceService, private fb : FormBuilder, private exportService:ExportService) {
+  constructor(private roomController:RoomcontrollerApi,
+    private courseController : CoursecontrollerApi,
+    private professorController: ProfessorcontrollerApi, 
+    private degreeController: DegreecontrollerApi,
+    private departementController:DepartmentcontrollerApi,
+    private timeConstraintController: TimeconstraintcontrollerApi, private dataService : DataInterfaceService, private fb : FormBuilder, private exportService:ExportService) {
   }
 
 
   ngOnInit() {
-    this.timeConstraintController.getAllUsingGET10().then(data=>{
-      console.log("recu",data)
-    })
     let draggableEl = document.getElementById('external-events');
     this.formGroupModel = this.fb.group({
       room: new FormControl(''),
@@ -210,11 +212,31 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       this.formGroupModel.controls['backgroundColor'].setValue(event.backgroundColor);
     }
     this.clearExistingData();
-    this.dataService.fetchAllRooms(this.onRoomsReceived, this);
-    this.dataService.fetchAllLessons(this.onLessonsReceived, this);
-    this.dataService.fetchAllTeachers(this.onTeachersReceived, this);
-    this.dataService.fetchAllDegrees(this.onDegreesReceived, this);
-    this.dataService.fetchAllDepartments(this.onDepartmentsReceived,this);
+    this.roomController.getAllUsingGET9().then(data=>{
+      for(let room of data) {
+        this.roomsList.push(room);
+      }
+    })
+    this.courseController.getAllUsingGET().then(data=>{
+      for(let course of data) {
+        this.courses.push(course);
+      }
+    })
+    this.professorController.getAllUsingGET8().then(data=>{
+      for(let prof of data){
+        this.professors.push(prof);
+      }
+    })
+    this.degreeController.getAllUsingGET3().then(degrees=>{
+      for(let degree of degrees) {
+        this.degrees.push(degree);
+      }
+    })
+    this.departementController.getAllUsingGET4().then(departments=>{
+      for(let dep of departments) {
+        this.departments.push(dep);
+      }
+    })
   }
 
 
@@ -247,46 +269,8 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     this.formGroupModel.controls['room'].setValue(roomNum);
   }
 
-  onLessonsReceived(lessons : [Lesson], context : this) {
-    let alreadyHere = []
-    for(let lesson of lessons) {
-      if(!alreadyHere.includes(lesson?.course?.id)){
-        //context.courses.push(lesson.course);
-        alreadyHere.push(lesson?.course?.id)
-      }
-    }
-  }
-
-  onRoomsReceived(roomsReceived : [Room], context : this) {
-
-    for(let room of roomsReceived) {
-      context.roomsList.push(room);
-    }
-  }
   departmentsChangeHandler(departmentName :string){
     console.log(departmentName);
-  }
-  onTeachersReceived(professors: [Professor], context: this) {
-    for(let professor of professors) {
-      context.professors.push(professor);
-    }
-  }
-
-  onDegreesReceived(degrees : [Degree], context: this) {
-    console.log('degrees',degrees)
-    for(let degree of degrees) {
-      context.degrees.push(degree);
-    }
-  }
-
-
-  onDepartmentsReceived(departments : [Department],context:this){
-    console.log('Department',departments);
-    for(let dep of departments) {
-      context.departments.push(dep);
-    }
-    console.log("Deppp")
-    console.log(departments);
   }
 
 }
