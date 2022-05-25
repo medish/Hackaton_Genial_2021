@@ -28,7 +28,7 @@ public class ConnexionTest {
         else if (os.contains("nux")){
             System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver");
         }else if(os.contains("mac")){
-            //Rajouter le webdriver mac
+            System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver_mac");
         }
         driver = new ChromeDriver();
         js = (JavascriptExecutor) driver;
