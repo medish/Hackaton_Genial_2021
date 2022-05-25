@@ -1,6 +1,5 @@
 package core.solver;
 
-import java.awt.Color;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalTime;
@@ -20,7 +19,9 @@ import server.models.Professor;
 import server.models.Room;
 import server.models.RoomType;
 
-public class TimeTableConstraintProviderTest {
+class TimeTableConstraintProviderTest {
+
+    private static final String BLACK = "000000";
 
     private static final Department DEPARTMENT = new Department(0, "UFR d'info");
     private static final Room ROOM = new Room(1, "Room1", DEPARTMENT, 25, Set.of(RoomType.TD));
@@ -47,9 +48,9 @@ public class TimeTableConstraintProviderTest {
         Degree group2 = new Degree(2, "Group2");
         Degree group3 = new Degree(3, "Group3");
 
-        Course subject1 = new Course(0, "Subject1", group1, Color.BLACK);
-        Course subject2 = new Course(1, "Subject2", group2, Color.BLACK);
-        Course subject3 = new Course(2, "Subject3", group3, Color.BLACK);
+        Course subject1 = new Course(0, "Subject1", group1, BLACK);
+        Course subject2 = new Course(1, "Subject2", group2, BLACK);
+        Course subject3 = new Course(2, "Subject3", group3, BLACK);
 
         CourseGroupOptaPlaner firstLesson = new CourseGroupOptaPlaner(1, subject1, turing, Duration.ofMinutes(60));
         CourseGroupOptaPlaner conflictingLesson = new CourseGroupOptaPlaner(2, subject2, curie, Duration.ofMinutes(60));
@@ -78,9 +79,9 @@ public class TimeTableConstraintProviderTest {
         Degree group2 = new Degree(2, "Group2");
         Degree group3 = new Degree(3, "Group3");
 
-        Course subject1 = new Course(0, "Subject1", group1, Color.BLACK);
-        Course subject2 = new Course(1, "Subject2", group2, Color.BLACK);
-        Course subject3 = new Course(2, "Subject3", group3, Color.BLACK);
+        Course subject1 = new Course(0, "Subject1", group1, BLACK);
+        Course subject2 = new Course(1, "Subject2", group2, BLACK);
+        Course subject3 = new Course(2, "Subject3", group3, BLACK);
 
         CourseGroupOptaPlaner firstLesson = new CourseGroupOptaPlaner(1, subject1, turing, Duration.ofMinutes(60),
                 TIMESLOT1, ROOM);
@@ -104,10 +105,10 @@ public class TimeTableConstraintProviderTest {
         Degree group3 = new Degree(3, "Group3");
         Degree group4 = new Degree(4, "Group4");
 
-        Course subject1 = new Course(0, "Subject1", group1, Color.BLACK);
-        Course subject2 = new Course(1, "Subject2", group2, Color.BLACK);
-        Course subject3 = new Course(2, "Subject3", group3, Color.BLACK);
-        Course subject4 = new Course(2, "Subject4", group4, Color.BLACK);
+        Course subject1 = new Course(0, "Subject1", group1, BLACK);
+        Course subject2 = new Course(1, "Subject2", group2, BLACK);
+        Course subject3 = new Course(2, "Subject3", group3, BLACK);
+        Course subject4 = new Course(2, "Subject4", group4, BLACK);
 
         CourseGroupOptaPlaner firstLesson = new CourseGroupOptaPlaner(1, subject1, turing, Duration.ofMinutes(60),
                 TIMESLOT3, ROOM);

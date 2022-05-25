@@ -26,12 +26,15 @@ import {FormConstraintTimeComponent} from "./constraints/form-constraint-time/fo
 import {RegisterComponent} from './register/register.component';
 import {AllUsersComponent} from './all-users/all-users.component';
 import {DataTablesModule} from "angular-datatables";
+
 import {AllRoomsComponent} from './all-rooms/all-rooms.component';
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {DepartmentComponent} from './department/department.component';
 import {AllConstraintsComponent} from './all-constraints/all-constraints.component';
 import {AllGroupsComponent} from './all-groups/all-groups.component';
 import {AuthcontrollerApi, CoursegroupcontrollerApi, TimeconstraintcontrollerApi} from './model/swagger/api';
+import { CoursecontrollerApi, DegreecontrollerApi, DepartmentcontrollerApi, ProfessorcontrollerApi, RoomcontrollerApi } from './model/swagger/api';
+
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -73,12 +76,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     DataTablesModule,
     FontAwesomeModule
   ],
-  providers: [
-    authInterceptorProviders,
-    TimeconstraintcontrollerApi,
-    AuthcontrollerApi,
-    CoursegroupcontrollerApi
-  ],
+  providers: [authInterceptorProviders,AuthcontrollerApi,CoursegroupcontrollerApi,TimeconstraintcontrollerApi,RoomcontrollerApi,CoursecontrollerApi,ProfessorcontrollerApi,DegreecontrollerApi,DepartmentcontrollerApi],
   bootstrap: [AppComponent]
 })
 export class AppModule {

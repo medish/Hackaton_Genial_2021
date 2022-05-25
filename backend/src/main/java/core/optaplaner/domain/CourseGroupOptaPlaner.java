@@ -130,7 +130,7 @@ public class CourseGroupOptaPlaner extends AbstractPersistable implements FromIn
     }
 
     public static CourseGroupOptaPlaner fromInput(CourseSlot courseSlot) {
-        Iterator<Professor> professors = courseSlot.getProfessor() != null ? courseSlot.getProfessors().iterator()
+        Iterator<Professor> professors = courseSlot.getProfessors() != null ? courseSlot.getProfessors().iterator()
                 : new HashSet<Professor>().iterator();
         CourseGroupOptaPlaner courseGroupOptaPlaner = new CourseGroupOptaPlaner(courseSlot.hashCode(),
                 courseSlot.getCourse(), professors.hasNext() ? professors.next() : null, courseSlot.getDuration(),

@@ -2,7 +2,6 @@ package core.solver;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.awt.Color;
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.Duration;
@@ -30,7 +29,9 @@ import server.models.Professor;
 import server.models.Room;
 import server.models.RoomType;
 
-public class SolverOptaplanerTest {
+class SolverOptaplanerTest {
+
+    private static final String BLACK = "000000";
 
     private TimeTableOptaPlaner problem;
     private SolverTimeTable solverTimeTable;
@@ -65,30 +66,30 @@ public class SolverOptaplanerTest {
         List<CourseGroupOptaPlaner> lessonList = new ArrayList<>();
         long id = 0;
 
-        Professor turing = new Professor(0, "Turing", "Jean", "jean@u-paris.fr","mdpmdp");
-        Professor curie = new Professor(1, "Curie", "Jeanne", "jeanne@u-paris.fr","mdpmdp");
-        Professor darwin = new Professor(2, "Darwin", "Jeanne", "jeanne@u-paris.fr","mdpmdp");
-        Professor jones = new Professor(3, "Jones", "Jeanne", "jeanne@u-paris.fr","mdpmdp");
-        Professor cruz = new Professor(4, "Cruz", "Jeanne", "jeanne@u-paris.fr","mdpmdp");
+        Professor turing = new Professor(0, "Turing", "Jean", "jean@u-paris.fr", "mdpmdp");
+        Professor curie = new Professor(1, "Curie", "Jeanne", "jeanne@u-paris.fr", "mdpmdp");
+        Professor darwin = new Professor(2, "Darwin", "Jeanne", "jeanne@u-paris.fr", "mdpmdp");
+        Professor jones = new Professor(3, "Jones", "Jeanne", "jeanne@u-paris.fr", "mdpmdp");
+        Professor cruz = new Professor(4, "Cruz", "Jeanne", "jeanne@u-paris.fr", "mdpmdp");
 
         Degree grade9 = new Degree(0, "9th grade");
         Degree grade10 = new Degree(1, "10th grade");
 
-        Course math9 = new Course(0, "Math", grade9, Color.BLACK);
-        Course physics9 = new Course(1, "Physics", grade9, Color.BLACK);
-        Course chemistry9 = new Course(2, "Chemistry", grade9, Color.BLACK);
-        Course biology9 = new Course(3, "Biology", grade9, Color.BLACK);
-        Course history9 = new Course(4, "History", grade9, Color.BLACK);
-        Course english9 = new Course(5, "English", grade9, Color.BLACK);
-        Course spanish9 = new Course(6, "Spanish", grade9, Color.BLACK);
-        Course math10 = new Course(7, "Math", grade10, Color.BLACK);
-        Course physics10 = new Course(8, "Physics", grade10, Color.BLACK);
-        Course chemistry10 = new Course(9, "Chemistry", grade10, Color.BLACK);
-        Course history10 = new Course(10, "History", grade10, Color.BLACK);
-        Course english10 = new Course(11, "English", grade10, Color.BLACK);
-        Course spanish10 = new Course(12, "Spanish", grade10, Color.BLACK);
-        Course french10 = new Course(13, "French", grade10, Color.BLACK);
-        Course geography10 = new Course(14, "Geography", grade10, Color.BLACK);
+        Course math9 = new Course(0, "Math", grade9, BLACK);
+        Course physics9 = new Course(1, "Physics", grade9, BLACK);
+        Course chemistry9 = new Course(2, "Chemistry", grade9, BLACK);
+        Course biology9 = new Course(3, "Biology", grade9, BLACK);
+        Course history9 = new Course(4, "History", grade9, BLACK);
+        Course english9 = new Course(5, "English", grade9, BLACK);
+        Course spanish9 = new Course(6, "Spanish", grade9, BLACK);
+        Course math10 = new Course(7, "Math", grade10, BLACK);
+        Course physics10 = new Course(8, "Physics", grade10, BLACK);
+        Course chemistry10 = new Course(9, "Chemistry", grade10, BLACK);
+        Course history10 = new Course(10, "History", grade10, BLACK);
+        Course english10 = new Course(11, "English", grade10, BLACK);
+        Course spanish10 = new Course(12, "Spanish", grade10, BLACK);
+        Course french10 = new Course(13, "French", grade10, BLACK);
+        Course geography10 = new Course(14, "Geography", grade10, BLACK);
 
         lessonList.add(new CourseGroupOptaPlaner(id++, math9, turing, Duration.ofMinutes(60)));
         lessonList.add(new CourseGroupOptaPlaner(id++, math9, turing, Duration.ofMinutes(60)));
