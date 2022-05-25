@@ -31,6 +31,7 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { DepartmentComponent } from './department/department.component';
 import { AllConstraintsComponent } from './all-constraints/all-constraints.component';
 import { AllGroupsComponent } from './all-groups/all-groups.component';
+import { TimeconstraintcontrollerApi } from './model/swagger/api';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -72,7 +73,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     DataTablesModule,
     FontAwesomeModule
   ],
-  providers: [authInterceptorProviders],
+  providers: [authInterceptorProviders,TimeconstraintcontrollerApi],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

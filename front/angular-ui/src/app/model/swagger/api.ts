@@ -30,7 +30,7 @@ import * as assign from "core-js/library/fn/object/assign";
 interface Dictionary<T> { [index: string]: T; }
 export interface FetchAPI { (url: string, init?: any): Promise<any>; }
 
-const BASE_PATH = "https://localhost:8080/";
+const BASE_PATH = "http://localhost:8080";
 
 export interface FetchArgs {
     url: string;
