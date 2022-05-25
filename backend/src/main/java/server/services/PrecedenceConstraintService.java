@@ -26,7 +26,7 @@ public class PrecedenceConstraintService {
      * @param id Precedence constraint ID.
      * @return {@link PrecedenceConstraint}
      */
-    public Optional<PrecedenceConstraint> getById(String id){
+    public Optional<PrecedenceConstraint> getById(int id){
         return repository.findById(id);
     }
 
@@ -50,7 +50,7 @@ public class PrecedenceConstraintService {
      * Delete a precedence constraint record
      * @param id Precedence constraint ID
      */
-    public void delete(String id){
+    public void delete(int id){
         repository.deleteById(id);
     }
 
@@ -58,7 +58,7 @@ public class PrecedenceConstraintService {
      * Delete multiple precedence constraints records
      * @param ids List of ids.
      */
-    public void delete(List<String> ids){
+    public void delete(List<Integer> ids){
         repository.deleteAllById(ids);
     }
 

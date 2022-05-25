@@ -1,15 +1,10 @@
 package server.models;
 
-import java.util.HashSet;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import javax.persistence.*;
 import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 
@@ -17,29 +12,31 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Degree implements IInput {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @Column(unique = true)
     private String name;
 
-    @JsonIgnore
+    @OneToMany(mappedBy = "degree")
+    private Set<Course> courses;
+
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
     @ManyToMany(mappedBy = "degrees")
-    private Set<Course> courses = new HashSet<>();
+    private Set<Major> majors;
 
     public Degree() {
     }
 
-    public Degree(String id, String name) {
+    public Degree(int id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -50,13 +47,11 @@ public class Degree implements IInput {
         this.name = name;
     }
 
-    @JsonIgnore
-    public void setCourses(Set<Course> courses) {
-        this.courses = courses;
+    public Set<Major> getMajors() {
+        return majors;
     }
 
-    @JsonIgnore
-    public Set<Course> getCourses() {
-        return courses;
+    public void setMajors(Set<Major> majors) {
+        this.majors = majors;
     }
 }

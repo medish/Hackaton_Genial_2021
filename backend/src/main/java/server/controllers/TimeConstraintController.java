@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import server.models.TimeConstraint;
 import server.services.TimeConstraintService;
 
-import java.sql.Time;
 import java.util.List;
 
 @RestController
@@ -25,7 +24,7 @@ public class TimeConstraintController {
     }
 
     @PostMapping("/delete")
-    public void deleteAll(@RequestBody List<String> ids){
+    public void deleteAll(@RequestBody List<Integer> ids){
         service.delete(ids);
     }
 }

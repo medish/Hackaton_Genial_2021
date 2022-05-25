@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 import server.models.Professor;
 
 @Repository
-public interface ProfessorRepository extends JpaRepository<Professor,String> {
+public interface ProfessorRepository extends JpaRepository<Professor, Integer> {
     @Query(nativeQuery = true, value = "DELETE FROM LESSON_PROFESSOR where professor_id=:profId")
     @Modifying
-    void removeLessonProfessorMappingt(@Param("profId")String profId);
+    void removeLessonProfessorMappingt(@Param("profId") int profId);
 }

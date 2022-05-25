@@ -26,7 +26,7 @@ public class DegreeService{
      * @param id Degree's ID
      * @return {@link Degree}
      */
-    public Optional<Degree> getById(String id){
+    public Optional<Degree> getById(int id){
         return repository.findById(id);
     }
 
@@ -50,7 +50,7 @@ public class DegreeService{
      * Delete a degree record
      * @param id Degree's ID
      */
-    public void delete(String id){
+    public void delete(int id){
         repository.deleteById(id);
     }
 
@@ -58,7 +58,7 @@ public class DegreeService{
      * Delete multiple degree records.
      * @param ids List of IDs.
      */
-    public void delete(List<String> ids){
+    public void delete(List<Integer> ids){
         repository.deleteAllById(ids);
     }
 

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(ControllerRoutes.DEGREE)
+@RequestMapping(ControllerRoutes.DEGREES)
 public class DegreeController {
 
     @Autowired
@@ -24,7 +24,7 @@ public class DegreeController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Degree> getById(@PathVariable String id){
+    public Optional<Degree> getById(@PathVariable int id){
         return service.getById(id);
     }
 }

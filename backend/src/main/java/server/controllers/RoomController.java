@@ -3,7 +3,6 @@ package server.controllers;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import server.models.RoomId;
 import server.services.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(ControllerRoutes.ROOM)
+@RequestMapping(ControllerRoutes.ROOMS)
 public class RoomController {
     @Autowired
     private RoomService service;
@@ -24,7 +23,7 @@ public class RoomController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Room> getById(@PathVariable RoomId roomId) {
+    public Optional<Room> getById(@PathVariable int roomId) {
         return service.getById(roomId);
     }
 }

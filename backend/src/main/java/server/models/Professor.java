@@ -1,99 +1,49 @@
 package server.models;
 
-import java.io.Serializable;
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "Professor")
-public class Professor implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+@Table(name = "professor")
+public class Professor extends User {
 
     @JsonIgnore
-    @Id
-    @Column(name = "customer_id")
-    private String id;
+    @ManyToMany
+    @JoinTable(name = "professor_course", joinColumns = @JoinColumn(name = "professor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"))
+    private Set<Course> courses;
 
-    @OneToOne(cascade = {CascadeType.REMOVE})
-    @MapsId
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+    @JsonIgnore
+    @OneToMany(mappedBy = "professor")
+    private Set<CourseSlot> slots;
 
-    /*---------------------------------------------------------------*/
-    /*-------------------------Getter-------------------------------*/
-    /*---------------------------------------------------------------*/
-
-    public Professor(String id, String name, String firstName, String email, boolean is_admin, String password) {
-        this.customer = new Customer(id, name, firstName, email, is_admin, password);
-        this.id = id;
+    public Professor(int id, String name, String firstName, String email, String password) {
+        super(id, name, firstName, email, password, UserRole.PROFESSOR);
     }
-
-    /*---------------------------------------------------------------*/
-    /*-------------------------Setter--------------------------------*/
-    /*---------------------------------------------------------------*/
 
     public Professor() {
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public Set<Course> getCourses() {
+        return courses;
     }
 
-    public void setCustomer(Customer customer_id) {
-        this.customer = customer_id;
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
     }
 
-    @JsonIgnore
-    public String getId() {
-        return customer.getId();
+    public Set<CourseSlot> getSlots() {
+        return slots;
     }
 
-    @JsonIgnore
-    public void setId(String id) {
-        customer.setId(id);
-    }
-
-    @JsonIgnore
-    public String getName() {
-        return customer.getName();
-    }
-
-    @JsonIgnore
-    public void setName(String name) {
-        customer.setName(name);
-    }
-
-    @JsonIgnore
-    public String getFirstName() {
-        return customer.getFirstName();
-    }
-
-    @JsonIgnore
-    public boolean getIsAdmin() {
-        return customer.getIsAdmin();
-    }
-
-    @JsonIgnore
-    public void setFirstName(String firstName) {
-        customer.setFirstName(firstName);
-    }
-
-    @JsonIgnore
-    public String getEmail() {
-        return customer.getEmail();
-    }
-
-    @JsonIgnore
-    public void setEmail(String email) {
-        customer.setEmail(email);
-    }
-
-    @JsonIgnore
-    public void setIsAdmin(boolean is_admin) {
-        customer.setIsAdmin(is_admin);
+    public void setSlots(Set<CourseSlot> slots) {
+        this.slots = slots;
     }
 }
