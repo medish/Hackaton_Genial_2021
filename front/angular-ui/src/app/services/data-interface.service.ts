@@ -7,6 +7,7 @@ import { Room, Lesson, RoomType, Professor, Department, Degree, Identity, Output
 import { catchError, retry } from 'rxjs/operators';
 import { Planning } from '../model/planning/planning';
 import { environment } from 'src/environments/environment';
+import {User} from "../model/user";
 
 @Injectable({
   providedIn: 'root'
@@ -55,13 +56,12 @@ export class DataInterfaceService {
     ).subscribe()
   }
 
-
   fetchAllRooms(callback: (rooms: [Room], context: any) => any, context : any) {
     return this.http.get<[Room]>(this.url + "/rooms")
     .subscribe(data => callback(data, context));
   }
 
-  fetchAllClasses(callback: (classes: [Lesson], context: any) => any, context: any) {
+  fetchAllLessons(callback: (classes: [Lesson], context: any) => any, context: any) {
     return this.http.get<[Lesson]>(this.url + "/lessons")
     .subscribe(data => callback(data, context));
   }
@@ -76,10 +76,13 @@ export class DataInterfaceService {
     .subscribe(data => callback(data, context));
   }
 
-  fetchAllDepartments(callback: (departments: [Department]) => any) {
+
+
+  fetchAllDepartments(callback: (departments: [Department], context: any) => any, context: any) {
     return this.http.get<[Department]>(this.url + "/departments")
-    .subscribe(data => callback(data));
+    .subscribe(data => callback(data,context));
   }
+
 
   fetchAllDegrees(callback: (degrees: [Degree], context: any) => any, context: any) {
     return this.http.get<[Degree]>(this.url + "/degrees")
@@ -108,5 +111,10 @@ export class DataInterfaceService {
   handleError(error: HttpErrorResponse) {
     console.log("[HTTP ERROR]: " + error);
     return throwError("An error happened");
+  }
+
+  fetchAllUsers(callback: (users: [User], context: any) => any, context: any) {
+    return this.http.get<[User]>(this.url + "/professors")
+      .subscribe(data => callback(data, context));
   }
 }

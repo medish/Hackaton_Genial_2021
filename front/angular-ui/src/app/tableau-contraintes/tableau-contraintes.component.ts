@@ -15,7 +15,7 @@ let CONSTRAINTS_TIME_AND_ROOM: ConstraintTimeRoom[] = [
         ]
     },
     veut: true,
-    priority:0, // This attribute should be between 0 and 100 
+    priority:0, // This attribute should be between 0 and 100
     room:{selectorUnits:[
      { table: "",
       attribute: "Salle",
@@ -49,7 +49,7 @@ const CONSTRAINTS_PRECEDENCE:ConstraintPrecedence[]=[
 
 
 export class TableauContraintesComponent implements OnInit, OnChanges {
-  
+
 
   deleteConstraint(id_constraint_clicked,index,type){
     let constraint = document.getElementById(id_constraint_clicked);
@@ -65,10 +65,8 @@ export class TableauContraintesComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.serv.fetchPrecedenceConstraints((data)=>{this.constraintPrecedence = data})
     this.serv.fetchTimeConstraints((data)=>{this.constraintsTimeRoom=data})
-    
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
   }
 }

@@ -14,17 +14,20 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class AuthService implements OnInit{
+  public currentRoute:string=""
 
-  constructor(private http: HttpClient, private tokenService :TokenStorageService) { 
-    
-    
+  constructor(private http: HttpClient, private tokenService :TokenStorageService) {
+
   }
   ngOnInit(){
   }
+
   isLoggedIn():boolean{
     let currentUser = this.tokenService.getUser();
     return currentUser!=null && currentUser!=undefined;
   };
+
+
   login(username: string, password: string): Promise<any> {
     /**return this.http.post(AUTH_API + 'signin', {
       username,

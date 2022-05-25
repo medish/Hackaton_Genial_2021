@@ -1,29 +1,39 @@
 package server.controllers;
 
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import server.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import server.models.User;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Optional;
+import server.models.User;
+import server.services.UserService;
 
 @RestController
-@RequestMapping(value = ControllerRoutes.USERS)
+@RequestMapping(ControllerRoutes.USERS)
 public class UserController {
-    @Autowired
-    private UserService service;
 
-    @GetMapping()
-    public List<User> getAll() {
-        return service.getAll();
+    @Autowired
+    private UserService userService;
+
+    @PostMapping()
+    public User updateUser(@RequestParam("name") String name, @RequestParam("firstname") String firstname,
+            @RequestParam("email") String email, @RequestParam("id") int id, @RequestParam("isAdmin") boolean isAdmin) {
+
+        User customer = this.userService.getById(id).get();
+
+        customer.setEmail(email);
+        customer.setFirstName(firstname);
+        customer.setLastName(name);
+        this.userService.update(customer);
+        return customer;
     }
 
-    @GetMapping(value = "/{id}")
-    public Optional<User> getById(@PathVariable int id) {
-        return this.service.getById(id);
+    @RequestMapping(method = { RequestMethod.DELETE })
+    @ResponseBody
+    public void deleteUser(@RequestParam("id") int id) {
+        this.userService.delete(id);
     }
 }

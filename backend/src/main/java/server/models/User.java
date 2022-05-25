@@ -1,7 +1,5 @@
 package server.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "users")
@@ -30,20 +30,23 @@ public class User implements IInput {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @Column(name = "password", nullable = false)
+    private String password;
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    public User(int id, String lastName, String firstName, String email, UserRole role) {
+    public User(int id, String lastName, String firstName, String email, String password, UserRole role) {
         this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;
         this.email = email;
+        this.password = password;
         this.role = role;
     }
 
     public User() {
-
     }
 
     public int getId() {
@@ -62,10 +65,6 @@ public class User implements IInput {
         return firstName;
     }
 
-    public UserRole getRole() {
-        return role;
-    }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -76,6 +75,18 @@ public class User implements IInput {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public UserRole getRole() {
+        return role;
     }
 
     public void setRole(UserRole role) {

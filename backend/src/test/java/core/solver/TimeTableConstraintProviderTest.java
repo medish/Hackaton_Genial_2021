@@ -39,9 +39,9 @@ public class TimeTableConstraintProviderTest {
 
     @Test
     void roomConflict() {
-        Professor turing = new Professor(1, "Turing", "Jean", "jean@u-paris.fr");
-        Professor curie = new Professor(2, "Curie", "Jeanne", "jeanne@u-paris.fr");
-        Professor darwin = new Professor(3, "Darwin", "Jeanne", "jeanne@u-paris.fr");
+        Professor turing = new Professor(1, "Turing", "Jean", "jean@u-paris.fr", "mdpmdp");
+        Professor curie = new Professor(2, "Curie", "Jeanne", "jeanne@u-paris.fr", "mdpmdp");
+        Professor darwin = new Professor(3, "Darwin", "Jeanne", "jeanne@u-paris.fr", "mdpmdp");
 
         Degree group1 = new Degree(1, "Group1");
         Degree group2 = new Degree(2, "Group2");
@@ -71,8 +71,8 @@ public class TimeTableConstraintProviderTest {
 
     @Test
     void teacherConflict() {
-        Professor turing = new Professor(1, "Turing", "Jean", "jean@u-paris.fr");
-        Professor curie = new Professor(2, "Curie", "Jeanne", "jeanne@u-paris.fr");
+        Professor turing = new Professor(1, "Turing", "Jean", "jean@u-paris.fr", "mdpmdp");
+        Professor curie = new Professor(2, "Curie", "Jeanne", "jeanne@u-paris.fr", "mdpmdp");
 
         Degree group1 = new Degree(1, "Group1");
         Degree group2 = new Degree(2, "Group2");
@@ -97,7 +97,7 @@ public class TimeTableConstraintProviderTest {
     void teacherTimeEfficiency() {
         // A teacher prefers to teach sequential lessons and dislikes gaps between
         // lessons.
-        Professor turing = new Professor(1, "Turing", "Jean", "jean@u-paris.fr");
+        Professor turing = new Professor(1, "Turing", "Jean", "jean@u-paris.fr", "mdpmdp");
 
         Degree group1 = new Degree(1, "Group1");
         Degree group2 = new Degree(2, "Group2");

@@ -12,6 +12,7 @@ import { createEvents } from 'ics';
   templateUrl: './planning-auto-generator.component.html',
   styleUrls: ['./planning-auto-generator.component.scss']
 })
+
 export class PlanningAutoGeneratorComponent implements OnInit {
   options: any;
   constructor(private back:DataInterfaceService) {
@@ -105,10 +106,12 @@ export class PlanningAutoGeneratorComponent implements OnInit {
 
     };
   }
+  
   download(filename, input) {
-    var element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8, '+encodeURIComponent(input));
-    element.setAttribute('download', filename);
+    const element = document.createElement('a');
+    element.download = filename;
+    const blob = new Blob([input]);
+    element.href = URL.createObjectURL(blob);
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
@@ -138,7 +141,8 @@ export class PlanningAutoGeneratorComponent implements OnInit {
         duration : {hours :  hours, minutes : minutes},
         title : event.title,
         location : event.extendedProps["room"],
-        description : event.extendedProps["prof"]
+        description : event.extendedProps["prof"],
+        startInputType : "utc"
       });
     }
     const {error, value} = createEvents(events);
@@ -149,10 +153,10 @@ export class PlanningAutoGeneratorComponent implements OnInit {
       this.download(filename, value);
     }
   }
+
   generatePlanning(){
-    this.back.generatePlanning(planning=>{
-      //COCOU Mouhammed
-      console.log(planning);
+    this.back.generatePlanning(planning=>{      
+      console.log("gen retour",planning);
     })
   }
 

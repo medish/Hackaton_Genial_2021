@@ -136,32 +136,32 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
         for (SelectorUnit selector : firstSelectors) {
 
             // loop teacher
-            if (selector.getTable() == "teacher") {
+            if ("teacher".equals(selector.getTable())) {
 
-                if (selector.getAttribute() == "id") {
+                if ("id".equals(selector.getAttribute())) {
                     firstPart = firstPart.filter(lesson -> lesson.getProfessor().getId()==Integer.parseInt(selector.getValue()));
                 }
-                if (selector.getAttribute() == "name") {
+                if ("name".equals(selector.getAttribute())) {
                     firstPart = firstPart.filter(lesson -> lesson.getProfessor().getLastName().equals(selector.getValue()));
                 }
             }
 
             // loop lesson
-            if (selector.getTable() == "lesson") {
-                if (selector.getAttribute() == "id") {
+            if ("lesson".equals(selector.getTable())) {
+                if ("id".equals(selector.getAttribute())) {
                     firstPart = firstPart.filter(lesson -> lesson.getId().equals(selector.getValue()));
                 }
-                if (selector.getAttribute() == "subject") {
+                if ("subject".equals(selector.getAttribute())) {
                     firstPart = firstPart.filter(lesson -> lesson.getCourse().equals(selector.getValue()));
                 }
             }
 
             // loop room
-            if (selector.getTable() == "room") {
-                if (selector.getAttribute() == "number") {
+            if ("room".equals(selector.getTable())) {
+                if ("number".equals(selector.getAttribute())) {
                     firstPart = firstPart.filter(lesson -> lesson.getRoom().getName().equals(selector.getValue()));
                 }
-                if (selector.getAttribute() == "roomType_id") {
+                if ("roomType_id".equals(selector.getAttribute())) {
                     firstPart = firstPart
                             .filter(lesson -> lesson.getRoom().getRoomTypes().contains(RoomType.fromString(selector.getValue())));
                 }
@@ -174,35 +174,35 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
         for (SelectorUnit selector : secondSelector) {
 
             // loop teacher
-            if (selector.getTable() == "teacher") {
+            if ("teacher".equals(selector.getTable())) {
 
-                if (selector.getAttribute() == "id") {
+                if ("id".equals(selector.getAttribute())) {
                     merged = merged
                             .filter((lesson, lesson2) -> lesson2.getProfessor().getId()==Integer.parseInt(selector.getValue()));
                 }
-                if (selector.getAttribute() == "name") {
+                if ("name".equals(selector.getAttribute())) {
                     merged = merged
                             .filter((lesson, lesson2) -> lesson2.getProfessor().getLastName().equals(selector.getValue()));
                 }
             }
 
             // loop lesson
-            if (selector.getTable() == "lesson") {
-                if (selector.getAttribute() == "id") {
+            if ("lesson".equals(selector.getTable())) {
+                if ("id".equals(selector.getAttribute())) {
                     merged = merged.filter((lesson, lesson2) -> lesson2.getId().equals(selector.getValue()));
                 }
-                if (selector.getAttribute() == "subject") {
+                if ("subject".equals(selector.getAttribute())) {
                     merged = merged.filter((lesson, lesson2) -> lesson2.getCourse().equals(selector.getValue()));
                 }
             }
 
             // loop room
-            if (selector.getTable() == "room") {
-                if (selector.getAttribute() == "number") {
+            if ("room".equals(selector.getTable())) {
+                if ("number".equals(selector.getAttribute())) {
                     merged = merged
                             .filter((lesson, lesson2) -> lesson2.getRoom().getName().equals(selector.getValue()));
                 }
-                if (selector.getAttribute() == "roomType_id") {
+                if ("roomType_id".equals(selector.getAttribute())) {
                     merged = merged.filter(
                             (lesson, lesson2) -> lesson2.getRoom().getRoomTypes().contains(RoomType.fromString(selector.getValue())));
                 }
@@ -254,30 +254,30 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
         UniConstraintStream<CourseGroupOptaPlaner> firstPart = constraintFactory.from(CourseGroupOptaPlaner.class);
 
         for (SelectorUnit selector : firstSelectors) {
-            if (selector.getTable() == "teacher") {
+            if ("teacher".equals(selector.getTable())) {
 
-                if (selector.getAttribute() == "id") {
+                if ("id".equals(selector.getAttribute())) {
                     firstPart = firstPart.filter(lesson -> lesson.getProfessor().getId()==Integer.parseInt(selector.getValue()));
                 }
-                if (selector.getAttribute() == "name") {
+                if ("name".equals(selector.getAttribute())) {
                     firstPart = firstPart.filter(lesson -> lesson.getProfessor().getLastName().equals(selector.getValue()));
                 }
             }
 
-            if (selector.getTable() == "lesson") {
-                if (selector.getAttribute() == "id") {
+            if ("lesson".equals(selector.getTable())) {
+                if ("id".equals(selector.getAttribute())) {
                     firstPart = firstPart.filter(lesson -> lesson.getId().equals(selector.getValue()));
                 }
-                if (selector.getAttribute() == "subject") {
+                if ("subject".equals(selector.getAttribute())) {
                     firstPart = firstPart.filter(lesson -> lesson.getCourse().equals(selector.getValue()));
                 }
             }
 
-            if (selector.getTable() == "room") {
-                if (selector.getAttribute() == "number") {
+            if ("room".equals(selector.getTable())) {
+                if ("number".equals(selector.getAttribute())) {
                     firstPart = firstPart.filter(lesson -> lesson.getRoom().getName().equals(selector.getValue()));
                 }
-                if (selector.getAttribute() == "roomType_id") {
+                if ("roomType_id".equals(selector.getAttribute())) {
                     firstPart = firstPart
                             .filter(lesson -> lesson.getRoom().getRoomTypes().contains(RoomType.fromString(selector.getValue())));
                 }
