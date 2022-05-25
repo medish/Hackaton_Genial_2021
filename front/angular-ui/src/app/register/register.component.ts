@@ -40,12 +40,7 @@ export class RegisterComponent implements OnInit {
     }
 
     this.loading = true;
-    let user = new User();
-    user.name = this.form.value.username;
-    user.firstName = this.form.value.firstname;
-    user.password = this.form.value.password;
-    user.email = this.form.value.email;
 
-    this.registerService.register(user);
+    this.registerService.register(this.form.value.username, this.form.value.firstname, this.form.value.email, this.form.value.password);
   }
 }

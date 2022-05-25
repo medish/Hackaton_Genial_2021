@@ -9,9 +9,9 @@
                     <h3 class="text-center mb-4">Bienvenue sur UniPlanif</h3>
                     <form *ngIf="!authService.isLoggedIn()" name="loginForm" (ngSubmit)="f.form.valid && onSubmitLogin()" #f="ngForm" novalidate class="login-form">
                         <div class="form-group">
-                            <input type="text" class="form-control rounded-left" name="username" [(ngModel)]="loginForm.username" placeholder="Nom d'utilisateur" required id="username">
-                            <div class="alert alert-danger" role="alert" *ngIf="username?.errors && f.submitted">
-                                Le nom d'utilisateur est requis
+                            <input type="email" class="form-control rounded-left" #email="ngModel" name="email" [(ngModel)]="loginForm.email" placeholder="Email d'utilisateur" required id="username">
+                            <div class="alert alert-danger" role="alert" *ngIf="email?.errors && f.submitted">
+                                L'email de l'utilisateur est requis
                             </div>
                         </div>
                         <div class="form-group">

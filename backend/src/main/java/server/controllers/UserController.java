@@ -40,4 +40,17 @@ public class UserController {
     public void deleteUser(@RequestParam("id") int id) {
         this.userService.delete(id);
     }
+
+    @PostMapping(value = "/add")
+    public void addUser(@RequestParam("lastName") String lastName, @RequestParam("firstName") String firstName,
+        @RequestParam("email") String email, @RequestParam("password") String password, @RequestParam("role") String role) {
+        User user = new User();
+        user.setLastName(lastName);
+        user.setFirstName(firstName);
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setRole(UserRole.fromString(role));
+
+        this.userService.insert(user);
+    }
 }
