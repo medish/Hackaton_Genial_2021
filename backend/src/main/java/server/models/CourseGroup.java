@@ -1,18 +1,11 @@
 package server.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Duration;
 import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "course_group")
@@ -83,6 +76,7 @@ public class CourseGroup implements IInput, Serializable {
         this.roomType = roomType;
     }
 
+    @JsonIgnore
     public Set<Professor> getProfessors() {
         return course.getProfessors();
     }
@@ -91,6 +85,7 @@ public class CourseGroup implements IInput, Serializable {
         course.setProfessors(professors);
     }
 
+    @JsonIgnore
     public Degree getDegree() {
         return course.getDegree();
     }

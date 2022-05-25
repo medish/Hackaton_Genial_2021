@@ -1,15 +1,10 @@
 package server.models;
 
-import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 
@@ -26,6 +21,9 @@ public class Degree implements IInput {
     @OneToMany(mappedBy = "degree")
     private Set<Course> courses;
 
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
     @ManyToMany(mappedBy = "degrees")
     private Set<Major> majors;
 
@@ -47,14 +45,6 @@ public class Degree implements IInput {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Set<Course> getCourses() {
-        return courses;
-    }
-
-    public void setCourses(Set<Course> courses) {
-        this.courses = courses;
     }
 
     public Set<Major> getMajors() {

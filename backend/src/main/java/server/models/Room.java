@@ -1,17 +1,9 @@
 package server.models;
 
-import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "room")
@@ -25,9 +17,11 @@ public class Room implements IInput {
 
     private int capacity;
 
+    @JsonIgnore
     @ManyToOne
     private Department department;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "room")
     private Set<CourseSlot> slots;
 

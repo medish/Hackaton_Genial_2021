@@ -1,22 +1,20 @@
 package server.models;
 
-import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "professor")
 public class Professor extends User {
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "professor_course", joinColumns = @JoinColumn(name = "professor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"))
     private Set<Course> courses;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "professor")
     private Set<CourseSlot> slots;
 

@@ -27,6 +27,7 @@ public class CourseSlot implements Serializable {
 
     @Id
     @ManyToOne
+    @JsonIgnore
     private Planning planning;
 
     @ManyToOne

@@ -1,5 +1,7 @@
 package server.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -80,6 +82,7 @@ public class User implements IInput {
         this.role = role;
     }
 
+    @JsonIgnore
     public boolean isAdmin() {
         return this.role == UserRole.ADMIN;
     }
