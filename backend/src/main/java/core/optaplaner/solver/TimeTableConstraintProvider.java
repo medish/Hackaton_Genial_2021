@@ -52,7 +52,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
         // A teacher can teach at most one lesson at the same time.
         return constraintFactory
                 .fromUniquePair(CourseGroupOptaPlaner.class, Joiners
-                        .equal(lesson -> Optional.ofNullable(lesson.getProfessor()).map(Professor::getFirstName).orElse(null)),
+                        .equal(lesson -> Optional.ofNullable(lesson.getProfessor()).map(Professor::getLastName).orElse(null)),
                         Joiners.filtering((lesson1, lesson2) -> lesson1.isCollide(lesson2)))
                 .penalize("Teacher conflict", HardSoftScore.ONE_HARD);
     }
@@ -142,7 +142,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                     firstPart = firstPart.filter(lesson -> lesson.getProfessor().getId()==Integer.parseInt(selector.getValue()));
                 }
                 if (selector.getAttribute() == "name") {
-                    firstPart = firstPart.filter(lesson -> lesson.getProfessor().getFirstName().equals(selector.getValue()));
+                    firstPart = firstPart.filter(lesson -> lesson.getProfessor().getLastName().equals(selector.getValue()));
                 }
             }
 
@@ -182,7 +182,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                 }
                 if (selector.getAttribute() == "name") {
                     merged = merged
-                            .filter((lesson, lesson2) -> lesson2.getProfessor().getFirstName().equals(selector.getValue()));
+                            .filter((lesson, lesson2) -> lesson2.getProfessor().getLastName().equals(selector.getValue()));
                 }
             }
 
@@ -260,7 +260,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                     firstPart = firstPart.filter(lesson -> lesson.getProfessor().getId()==Integer.parseInt(selector.getValue()));
                 }
                 if (selector.getAttribute() == "name") {
-                    firstPart = firstPart.filter(lesson -> lesson.getProfessor().getFirstName().equals(selector.getValue()));
+                    firstPart = firstPart.filter(lesson -> lesson.getProfessor().getLastName().equals(selector.getValue()));
                 }
             }
 
