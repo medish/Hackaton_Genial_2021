@@ -10,25 +10,25 @@ import {AuthService} from '../services/auth.service';
 
 export class HeaderComponent implements OnInit {
 
-  constructor(public authService: AuthService, public router: Router,  private route: ActivatedRoute) {
-    console.log(this.router.url);
+  constructor(public authService: AuthService, public router: Router) {
   }
 
+  currentActiveItem = null;
   isLoggedIn = false;
   name: string
-  url : string;
+  url: string;
+
 
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isLoggedIn();
-    console.log(this.router);
-    this.route.url.subscribe(url => {
-      console.log(url);
-    });
   }
 
 
+  acitiveItem() {
 
+  }
 
+  active_item = "actived";
 
   logout() {
     this.authService.logout();
@@ -50,7 +50,6 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['les_salles'])
   }
 
-
   allDepartments() {
     this.router.navigate(['les-departements'])
   }
@@ -66,8 +65,10 @@ export class HeaderComponent implements OnInit {
   allConstraints() {
     this.router.navigate(['les-contraintes'])
   }
+
   auto() {
     this.router.navigate(['/auto'])
   }
+
 
 }

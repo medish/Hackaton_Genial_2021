@@ -16,4 +16,3 @@ export class ChangeRouteService implements CanActivate {
     return true
   }
 }
-
