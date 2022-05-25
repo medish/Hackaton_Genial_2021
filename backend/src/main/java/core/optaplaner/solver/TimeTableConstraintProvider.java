@@ -12,6 +12,7 @@ import org.optaplanner.core.api.score.stream.bi.BiConstraintStream;
 import org.optaplanner.core.api.score.stream.uni.UniConstraintStream;
 import server.models.PrecedenceConstraint;
 import server.models.Professor;
+import server.models.RoomType;
 import server.models.TimeConstraint;
 
 import java.time.Duration;
@@ -162,7 +163,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                 }
                 if (selector.getAttribute() == "roomType_id") {
                     firstPart = firstPart
-                            .filter(lesson -> lesson.getRoom().getRoomTypes().contains(selector.getValue()));
+                            .filter(lesson -> lesson.getRoom().getRoomTypes().contains(RoomType.fromString(selector.getValue())));
                 }
             }
 
@@ -203,7 +204,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                 }
                 if (selector.getAttribute() == "roomType_id") {
                     merged = merged.filter(
-                            (lesson, lesson2) -> lesson2.getRoom().getRoomTypes().contains(selector.getValue()));
+                            (lesson, lesson2) -> lesson2.getRoom().getRoomTypes().contains(RoomType.fromString(selector.getValue())));
                 }
             }
 
@@ -278,7 +279,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                 }
                 if (selector.getAttribute() == "roomType_id") {
                     firstPart = firstPart
-                            .filter(lesson -> lesson.getRoom().getRoomTypes().contains(selector.getValue()));
+                            .filter(lesson -> lesson.getRoom().getRoomTypes().contains(RoomType.fromString(selector.getValue())));
                 }
             }
         }
