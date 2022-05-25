@@ -47,9 +47,10 @@ public class TimeTableConstraintProviderTest {
         Degree group2 = new Degree(2, "Group2");
         Degree group3 = new Degree(3, "Group3");
 
-        Course subject1 = new Course(0, "Subject1", group1, Color.BLACK);
-        Course subject2 = new Course(1, "Subject2", group2, Color.BLACK);
-        Course subject3 = new Course(2, "Subject3", group3, Color.BLACK);
+        Course subject1 = new Course(0, "Subject1", group1, "000000");
+        Course subject2 = new Course(1, "Subject2", group2, "000000");
+        Course subject3 = new Course(2, "Subject3", group3, "000000");
+
 
         CourseGroupOptaPlaner firstLesson = new CourseGroupOptaPlaner(1, subject1, turing, Duration.ofMinutes(60));
         CourseGroupOptaPlaner conflictingLesson = new CourseGroupOptaPlaner(2, subject2, curie, Duration.ofMinutes(60));
@@ -78,9 +79,9 @@ public class TimeTableConstraintProviderTest {
         Degree group2 = new Degree(2, "Group2");
         Degree group3 = new Degree(3, "Group3");
 
-        Course subject1 = new Course(0, "Subject1", group1, Color.BLACK);
-        Course subject2 = new Course(1, "Subject2", group2, Color.BLACK);
-        Course subject3 = new Course(2, "Subject3", group3, Color.BLACK);
+        Course subject1 = new Course(0, "Subject1", group1, "000000");
+        Course subject2 = new Course(1, "Subject2", group2, "000000");
+        Course subject3 = new Course(2, "Subject3", group3, "000000");
 
         CourseGroupOptaPlaner firstLesson = new CourseGroupOptaPlaner(1, subject1, turing, Duration.ofMinutes(60),
                 TIMESLOT1, ROOM);
@@ -104,10 +105,10 @@ public class TimeTableConstraintProviderTest {
         Degree group3 = new Degree(3, "Group3");
         Degree group4 = new Degree(4, "Group4");
 
-        Course subject1 = new Course(0, "Subject1", group1, Color.BLACK);
-        Course subject2 = new Course(1, "Subject2", group2, Color.BLACK);
-        Course subject3 = new Course(2, "Subject3", group3, Color.BLACK);
-        Course subject4 = new Course(2, "Subject4", group4, Color.BLACK);
+        Course subject1 = new Course(0, "Subject1", group1, "000000");
+        Course subject2 = new Course(1, "Subject2", group2, "000000");
+        Course subject3 = new Course(2, "Subject3", group3, "000000");
+        Course subject4 = new Course(2, "Subject4", group4, "000000");
 
         CourseGroupOptaPlaner firstLesson = new CourseGroupOptaPlaner(1, subject1, turing, Duration.ofMinutes(60),
                 TIMESLOT3, ROOM);

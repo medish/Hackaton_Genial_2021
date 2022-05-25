@@ -74,21 +74,21 @@ public class SolverOptaplanerTest {
         Degree grade9 = new Degree(0, "9th grade");
         Degree grade10 = new Degree(1, "10th grade");
 
-        Course math9 = new Course(0, "Math", grade9, Color.BLACK);
-        Course physics9 = new Course(1, "Physics", grade9, Color.BLACK);
-        Course chemistry9 = new Course(2, "Chemistry", grade9, Color.BLACK);
-        Course biology9 = new Course(3, "Biology", grade9, Color.BLACK);
-        Course history9 = new Course(4, "History", grade9, Color.BLACK);
-        Course english9 = new Course(5, "English", grade9, Color.BLACK);
-        Course spanish9 = new Course(6, "Spanish", grade9, Color.BLACK);
-        Course math10 = new Course(7, "Math", grade10, Color.BLACK);
-        Course physics10 = new Course(8, "Physics", grade10, Color.BLACK);
-        Course chemistry10 = new Course(9, "Chemistry", grade10, Color.BLACK);
-        Course history10 = new Course(10, "History", grade10, Color.BLACK);
-        Course english10 = new Course(11, "English", grade10, Color.BLACK);
-        Course spanish10 = new Course(12, "Spanish", grade10, Color.BLACK);
-        Course french10 = new Course(13, "French", grade10, Color.BLACK);
-        Course geography10 = new Course(14, "Geography", grade10, Color.BLACK);
+        Course math9 = new Course(0, "Math", grade9, "000000");
+        Course physics9 = new Course(1, "Physics", grade9, "000000");
+        Course chemistry9 = new Course(2, "Chemistry", grade9, "000000");
+        Course biology9 = new Course(3, "Biology", grade9, "000000");
+        Course history9 = new Course(4, "History", grade9, "000000");
+        Course english9 = new Course(5, "English", grade9, "000000");
+        Course spanish9 = new Course(6, "Spanish", grade9, "000000");
+        Course math10 = new Course(7, "Math", grade10, "000000");
+        Course physics10 = new Course(8, "Physics", grade10, "000000");
+        Course chemistry10 = new Course(9, "Chemistry", grade10, "000000");
+        Course history10 = new Course(10, "History", grade10, "000000");
+        Course english10 = new Course(11, "English", grade10, "000000");
+        Course spanish10 = new Course(12, "Spanish", grade10, "000000");
+        Course french10 = new Course(13, "French", grade10, "000000");
+        Course geography10 = new Course(14, "Geography", grade10, "000000");
 
         lessonList.add(new CourseGroupOptaPlaner(id++, math9, turing, Duration.ofMinutes(60)));
         lessonList.add(new CourseGroupOptaPlaner(id++, math9, turing, Duration.ofMinutes(60)));

@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {identity, Observable, throwError } from 'rxjs';
 import {ConstraintPrecedence, ConstraintPrecedenceExport} from '../model/constraint/constraint-precedence';
-import { ConstraintTimeRoom } from '../model/constraint/constraint-time-room';
+import {ConstraintTimeRoom, ConstraintTimeRoomExport} from '../model/constraint/constraint-time-room';
 import { catchError, retry } from 'rxjs/operators';
 import { Planning } from '../model/planning/planning';
 import { environment } from 'src/environments/environment';
@@ -36,7 +36,7 @@ export class DataInterfaceService {
     .subscribe(data => callback(data));
   }
 
-  sendTimeRoomConstraints(constraints: [ConstraintTimeRoom]) {
+  sendTimeRoomConstraints(constraints: [ConstraintTimeRoomExport]) {
     return this.http.post(this.url + "/constraints/time-and-room", constraints)
     .pipe(catchError(this.handleError)).subscribe();
   }

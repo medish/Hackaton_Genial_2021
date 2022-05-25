@@ -4,7 +4,8 @@ import {ConstraintTimeRoom, ConstraintTimeRoomExport} from '../model/constraint/
 import { DataInterfaceService } from '../services/data-interface.service';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {newArray} from "@angular/compiler/src/util";
-import {TimeConstraint, TimeconstraintcontrollerApi} from "../model/swagger/api";
+import {DateSlot, DateSlotDayEnum, TimeConstraint, TimeconstraintcontrollerApi} from "../model/swagger/api";
+import {parse} from "@fortawesome/fontawesome-svg-core";
 
 let CONSTRAINTS_TIME_AND_ROOM: ConstraintTimeRoom[] = [
   {
@@ -99,9 +100,27 @@ export class TableauContraintesComponent implements OnInit, OnChanges {
           dataService.sendPrecedenceConstraints(precedenceConstraint);
         } else {
           console.log("salut");
-          let timeRoomConstraint : [TimeConstraint] = change.currentValue;
+          let timeRoomConstraint : [ConstraintTimeRoom] = change.currentValue;
+          let timeRoomConstraintExp: [ConstraintTimeRoomExport] = [null];
+          timeRoomConstraintExp.pop();
           let t = new TimeconstraintcontrollerApi();
-          t.insertAllUsingPOST1({constraints: timeRoomConstraint});
+          for(let i = 0; i < timeRoomConstraint.length; i++) {
+            const curr : ConstraintTimeRoom = timeRoomConstraint[i];
+            let day : DateSlotDayEnum = curr.day == 1 ? "MONDAY" : curr.day == 2 ? "TUESDAY" : curr.day == 3 ? "WEDNESDAY" : curr.day == 4 ? "TUESDAY" : "FRIDAY";
+            let start = curr.dateBegin.split(":");
+            let end = curr.dateEnd.split(":");
+            let tmp : ConstraintTimeRoomExport = {
+              id: curr.id,
+              selector: curr.selector.selectorUnits[0].table+":"+curr.selector.selectorUnits[0].attribute+":"+curr.selector.selectorUnits[0].value,
+              wants: curr.wants,
+              dateBegin: {day: day, startTime: {hour: parseInt(start[0]), minute: parseInt(start[1]), second: parseInt(start[2])}},
+              dateEnd: {day: day, startTime: {hour: parseInt(end[0]), minute: parseInt(end[1]), second: parseInt(end[2])}},
+              room: curr.room.selectorUnits[0].table+":"+curr.room.selectorUnits[0].attribute+":"+curr.room.selectorUnits[0].value,
+              priority: curr.priority
+            }
+            timeRoomConstraintExp.push(tmp);
+          }
+          dataService.sendTimeRoomConstraints(timeRoomConstraintExp);
         }
       }
     }

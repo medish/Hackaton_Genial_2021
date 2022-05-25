@@ -1,5 +1,6 @@
 import { Selector } from "../selector/selector";
 import {Time} from "../time/time";
+import {DateSlot} from "../swagger/api";
 
 export class ConstraintTimeRoom {
     id:number;
@@ -18,14 +19,8 @@ export class ConstraintTimeRoomExport {
   id:number;
   selector:string;
   wants: boolean = true;
-  day:number = 1;
-  dateBegin:DataSlot;
-  dateEnd:DataSlot;
+  dateBegin:DateSlot;
+  dateEnd:DateSlot;
   room:string;
   priority:number = 0; // This attribute should be between 0 and 100
-}
-
-export class DataSlot {
-  day: string;
-  startTime: string;
 }

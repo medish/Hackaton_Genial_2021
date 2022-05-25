@@ -20,6 +20,7 @@ public class TimeConstraintController {
 
     @PostMapping()
     public void insertAll(@RequestBody List<TimeConstraint> constraints){
+        System.out.println("ESSAI");
         service.insert(constraints);
     }
 
