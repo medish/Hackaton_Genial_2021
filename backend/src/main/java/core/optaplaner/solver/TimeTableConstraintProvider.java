@@ -1,15 +1,25 @@
 package core.optaplaner.solver;
 
+import core.optaplaner.SolverOptaplaner;
+import core.optaplaner.domain.LessonOptaPlaner;
+import core.selector.SelectorUnit;
+import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.optaplanner.core.api.score.stream.Constraint;
 import org.optaplanner.core.api.score.stream.ConstraintFactory;
 import org.optaplanner.core.api.score.stream.ConstraintProvider;
+import org.optaplanner.core.api.score.stream.Joiners;
+import org.optaplanner.core.api.score.stream.uni.UniConstraintStream;
+import server.models.PrecedenceConstraint;
+import server.models.Professor;
+import server.models.TimeConstraint;
+
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 public class TimeTableConstraintProvider implements ConstraintProvider {
-    @Override
-    public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
-        return new Constraint[0];
-    }
-/*
     @Override
     public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
         List<Constraint> constraints = new ArrayList<>();
@@ -39,7 +49,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
         // A teacher can teach at most one lesson at the same time.
         return constraintFactory
                 .fromUniquePair(LessonOptaPlaner.class, Joiners
-                        .equal(lesson -> Optional.ofNullable(lesson.getTeacher()).map(Professor::getName).orElse(null)),
+                        .equal(lesson -> Optional.ofNullable(lesson.getTeacher()).map(Professor::getLastName).orElse(null)),
                         Joiners.filtering((lesson1, lesson2) -> lesson1.isCollide(lesson2)))
                 .penalize("Teacher conflict", HardSoftScore.ONE_HARD);
     }
@@ -289,6 +299,4 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
 
         return firstPart.penalize(message, HardSoftScore.ofSoft(tc.getPriority()));
     }
-
- */
 }

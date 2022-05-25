@@ -1,12 +1,19 @@
 package core.optaplaner.domain;
 
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
-import server.models.CourseSlot;
+import org.optaplanner.core.api.domain.variable.PlanningVariable;
+import server.models.*;
+
+import java.time.DayOfWeek;
+import java.time.Duration;
+import java.time.LocalTime;
+import java.time.temporal.Temporal;
+import java.util.Iterator;
 
 @PlanningEntity
 public class LessonOptaPlaner extends AbstractPersistable implements FromInputToOptaPlaner<CourseSlot> {
- /*
-    private CourseSlot courseSlot;
+
+    private Course course;
     private Professor teacher;
     private Duration duration;
 
@@ -18,25 +25,25 @@ public class LessonOptaPlaner extends AbstractPersistable implements FromInputTo
     public LessonOptaPlaner() {
     }
 
-    public LessonOptaPlaner(long id, CourseSlot courseSlot, Professor teacher) {
+    public LessonOptaPlaner(long id, Course course, Professor teacher) {
         super(id);
-        this.courseSlot = courseSlot;
+        this.course = course;
         this.teacher = teacher;
     }
 
-    public LessonOptaPlaner(long id, CourseSlot courseSlot, Professor teacher, DateSlot timeslot, Room room) {
-        this(id, courseSlot, teacher);
+    public LessonOptaPlaner(long id, Course course, Professor teacher, DateSlot timeslot, Room room) {
+        this(id, course, teacher);
         this.timeslot = timeslot;
         this.room = room;
     }
 
     @Override
     public String toString() {
-        return courseSlot + "(" + id + ")";
+        return course + "(" + id + ")";
     }
 
-    public CourseSlot getCourseSlot() {
-        return courseSlot;
+    public Course getCourseSlot() {
+        return course;
     }
 
     public Professor getTeacher() {
@@ -122,5 +129,10 @@ public class LessonOptaPlaner extends AbstractPersistable implements FromInputTo
                 new Lesson(id + "", duration, 0, courseSlot, null, teacher == null ? null : Set.of(teacher)));
     }
 
-  */
+    public Temporal getEndTime() {
+    }
+
+    public CourseSlot getSubject() {
+        return courseSlot;
+    }
 }
