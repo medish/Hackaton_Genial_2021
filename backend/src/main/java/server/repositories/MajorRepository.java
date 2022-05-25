@@ -2,8 +2,8 @@ package server.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import server.models.Lesson;
+import server.models.Major;
 
 @Repository
-public interface LessonRepository extends JpaRepository<Lesson, String> {
+public interface MajorRepository extends JpaRepository<Major, Integer> {
 }

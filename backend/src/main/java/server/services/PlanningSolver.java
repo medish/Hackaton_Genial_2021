@@ -1,5 +1,8 @@
 package server.services;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.optaplanner.core.api.score.ScoreExplanation;
@@ -12,8 +15,8 @@ import core.optaplaner.SolverOptaplaner;
 import core.optaplaner.domain.TimeTableOptaPlaner;
 import core.output.TimeTable;
 import core.planning.DateList;
-import server.models.Date;
-import server.models.Output;
+import server.models.CourseSlot;
+import server.models.DateSlot;
 import server.models.Planning;
 import server.models.PrecedenceConstraint;
 import server.models.Room;
@@ -26,13 +29,15 @@ public class PlanningSolver {
     @Autowired
     private RoomService roomService;
     @Autowired
-    private LessonService lessonService;
+    private CourseSlotService courseSlotService;
+    @Autowired
+    private CourseGroupService courseGroupService;
     @Autowired
     private TimeConstraintService timeConstraintService;
     @Autowired
     private PrecedenceConstraintService precedenceConstraintService;
 
-    private static final List<Date> dateList = DateList.build();
+    private static final List<DateSlot> dateList = DateList.build();
     private static final SolverTimeTable solver = new SolverOptaplaner();
 
     /**
@@ -45,15 +50,27 @@ public class PlanningSolver {
         List<TimeConstraint> timeConstraints = timeConstraintService.getAll();
         List<PrecedenceConstraint> precedenceConstraints = precedenceConstraintService.getAll();
         // Lessons
-        List<Output> outputList = TimeTable.buildListOutput(lessonService.getAll());
+        List<CourseSlot> outputList = TimeTable.buildListSlots(courseGroupService.getAll());
         // Rooms
         List<Room> roomList = roomService.getAll();
 
         TimeTable timeTable = new TimeTable(dateList, roomList, outputList);
 
-        List<Output> resolvedOutput = solver.solve(timeTable, timeConstraints, precedenceConstraints).getOutputList();
+        List<CourseSlot> resolvedOutput = solver.solve(timeTable, timeConstraints, precedenceConstraints)
+                .getCourseSlots();
 
-        return new Planning("0", resolvedOutput);
+        Planning planning = new Planning(0, "name", LocalDate.now(), new HashSet<>(resolvedOutput));
+        planningService.insert(planning);
+
+//        for (CourseSlot courseSlot : resolvedOutput) {
+//            courseSlot.setPlanning(planning);
+//            try {
+//                courseSlotService.insert(courseSlot);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+        return planning;
     }
 
     /**
@@ -69,7 +86,7 @@ public class PlanningSolver {
         // Rooms
         List<Room> roomList = roomService.getAll();
 
-        TimeTable timeTable = new TimeTable(dateList, roomList, planning.getOutputs());
+        TimeTable timeTable = new TimeTable(dateList, roomList, new ArrayList<>(planning.getSlots()));
 
         return solver.verify(timeTable, timeConstraints, precedenceConstraints);
     }

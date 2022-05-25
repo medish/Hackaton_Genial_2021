@@ -27,7 +27,7 @@ public class PlanningService {
      * @param id Planning ID.
      * @return {@link Planning}
      */
-    public Optional<Planning> getById(String id){
+    public Optional<Planning> getById(int id){
         return repository.findById(id);
     }
 
@@ -51,7 +51,7 @@ public class PlanningService {
      * Delete a planning record
      * @param id Planning ID
      */
-    public void delete(String id){
+    public void delete(int id){
         repository.deleteById(id);
     }
 
@@ -59,7 +59,7 @@ public class PlanningService {
      * Delete multiple plannings records
      * @param ids List of ids.
      */
-    public void delete(List<String> ids){
+    public void delete(List<Integer> ids){
         repository.deleteAllById(ids);
     }
 

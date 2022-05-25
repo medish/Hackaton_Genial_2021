@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(ControllerRoutes.DEPARTMENT)
+@RequestMapping(ControllerRoutes.DEPARTMENTS)
 public class DepartmentController {
     @Autowired
     private DepartmentService service;
@@ -23,7 +23,7 @@ public class DepartmentController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Department> getById(@PathVariable String id){
+    public Optional<Department> getById(@PathVariable int id){
         return service.getById(id);
     }
 }

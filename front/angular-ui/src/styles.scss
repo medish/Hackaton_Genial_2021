@@ -11181,11 +11181,14 @@ h5,
 }
 
 .form-group .submit {
-    position: absolute;
     top: 20px;
     left: 0;
     right: 0;
     margin: 0 auto;
+}
+
+.form-submit-container {
+    display: flex;
 }
 
 @media (max-width: 767.98px) {

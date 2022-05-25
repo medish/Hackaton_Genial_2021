@@ -15,7 +15,7 @@
 
         <property name="show_sql">true</property> <!-- Show SQL in console -->
         <property name="format_sql">true</property> <!-- Show SQL formatted -->
-        <mapping class="server.models.Customer"/>
+        <mapping class="server.models.User"/>
         <mapping class="server.models.Lesson"/>
         <mapping class="server.models.Professor"/>
         <mapping class="server.models.RoomType"/>
@@ -24,7 +24,7 @@
         <mapping class="server.models.Date"/>
         <mapping class="server.models.Degree"/>
         <mapping class="server.models.Course"/>
-        <mapping class="server.models.Output"/>
+        <mapping class="server.models.CourseSlot"/>
         <mapping class="server.models.TimeConstraint"/>
         <mapping class="server.models.PrecedenceConstraint"/>
         <mapping class="server.models.Planning"/>

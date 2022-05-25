@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import server.models.Degree;
 
 @Repository
-public interface DegreeRepository extends JpaRepository<Degree, String> {
+public interface DegreeRepository extends JpaRepository<Degree, Integer> {
 }

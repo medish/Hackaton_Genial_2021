@@ -11,7 +11,7 @@ import org.optaplanner.core.api.domain.valuerange.ValueRangeProvider;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 
 import core.output.TimeTable;
-import server.models.Date;
+import server.models.DateSlot;
 import server.models.Room;
 
 @PlanningSolution
@@ -19,12 +19,14 @@ public class TimeTableOptaPlaner implements FromOptaplanerToOutput<TimeTable>, F
 
     @ProblemFactCollectionProperty
     @ValueRangeProvider(id = "timeslotRange")
-    private List<Date> timeslotList;
+    private List<DateSlot> dateSlots;
+
     @ProblemFactCollectionProperty
     @ValueRangeProvider(id = "roomRange")
-    private List<Room> roomList;
+    private List<Room> rooms;
+
     @PlanningEntityCollectionProperty
-    private List<LessonOptaPlaner> lessonList;
+    private List<CourseGroupOptaPlaner> courseGroups;
 
     @PlanningScore
     private HardSoftScore score;
@@ -32,22 +34,22 @@ public class TimeTableOptaPlaner implements FromOptaplanerToOutput<TimeTable>, F
     public TimeTableOptaPlaner() {
     }
 
-    public TimeTableOptaPlaner(List<Date> timeslotList, List<Room> roomList, List<LessonOptaPlaner> lessonList) {
-        this.timeslotList = timeslotList;
-        this.roomList = roomList;
-        this.lessonList = lessonList;
+    public TimeTableOptaPlaner(List<DateSlot> dateSlots, List<Room> rooms, List<CourseGroupOptaPlaner> courseGroups) {
+        this.dateSlots = dateSlots;
+        this.rooms = rooms;
+        this.courseGroups = courseGroups;
     }
 
-    public List<Date> getDateList() {
-        return timeslotList;
+    public List<DateSlot> getDateSlots() {
+        return dateSlots;
     }
 
-    public List<Room> getRoomList() {
-        return roomList;
+    public List<Room> getRooms() {
+        return rooms;
     }
 
-    public List<LessonOptaPlaner> getLessonList() {
-        return lessonList;
+    public List<CourseGroupOptaPlaner> getCourseGroups() {
+        return courseGroups;
     }
 
     public HardSoftScore getScore() {
@@ -60,15 +62,15 @@ public class TimeTableOptaPlaner implements FromOptaplanerToOutput<TimeTable>, F
 
     @Override
     public TimeTable toOutput() {
-        TimeTable timetable = new TimeTable(timeslotList, roomList,
-                lessonList.stream().map(LessonOptaPlaner::toOutput).collect(Collectors.toList()));
+        TimeTable timetable = new TimeTable(dateSlots, rooms,
+                courseGroups.stream().map(CourseGroupOptaPlaner::toOutput).collect(Collectors.toList()));
         return timetable;
     }
 
     public static TimeTableOptaPlaner fromInput(TimeTable timeTable) {
-        TimeTableOptaPlaner timeTableOptaPlaner = new TimeTableOptaPlaner(timeTable.getDateList(),
-                timeTable.getRoomList(), timeTable.getOutputList().stream()
-                        .map((output) -> LessonOptaPlaner.fromInput(output)).collect(Collectors.toList()));
+        TimeTableOptaPlaner timeTableOptaPlaner = new TimeTableOptaPlaner(timeTable.getDateSlots(),
+                timeTable.getRooms(), timeTable.getCourseSlots().stream()
+                        .map((output) -> CourseGroupOptaPlaner.fromInput(output)).collect(Collectors.toList()));
         return timeTableOptaPlaner;
     }
 }

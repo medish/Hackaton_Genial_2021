@@ -1,60 +1,45 @@
 package server.models;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Planning")
+@Table(name = "planning")
 public class Planning {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
+    @Column(nullable = false)
     private String name;
-    private Date createdAt;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Output> outputs = new ArrayList<>();
+    @Column(name = "created_at", nullable = false)
+    private LocalDate createdAt;
 
-    public Planning(String id, List<Output> outputs, Date createdAt) {
+    @OneToMany(mappedBy = "planning")
+    private Set<CourseSlot> slots;
+
+    public Planning(int id, String name, LocalDate createdAt, Set<CourseSlot> slots) {
         this.id = id;
+        this.name = name;
         this.createdAt = createdAt;
-        this.outputs = outputs;
-    }
-
-    public Planning(String id) {
-        this.id = id;
+        this.slots = slots;
     }
 
     public Planning() {
     }
 
-    public Planning(String id, List<Output> outputs) {
-        this.id = id;
-        this.outputs = outputs;
-    }
-
-    public String getId() {
+    public int getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
     }
 
     public String getName() {
@@ -65,7 +50,19 @@ public class Planning {
         this.name = name;
     }
 
-    public List<Output> getOutputs() {
-        return outputs;
+    public LocalDate getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Set<CourseSlot> getSlots() {
+        return slots;
+    }
+
+    public void setSlots(Set<CourseSlot> slots) {
+        this.slots = slots;
     }
 }

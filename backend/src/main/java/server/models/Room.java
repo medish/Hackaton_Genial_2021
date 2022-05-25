@@ -1,91 +1,76 @@
 package server.models;
 
-import java.util.List;
-
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "room")
 public class Room implements IInput {
 
-    @EmbeddedId
-    private RoomId roomId;
-    private Integer capacity;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    private String name;
+
+    private int capacity;
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "room_type_id", nullable = false)
-    private RoomType roomType;
+    private Department department;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "room", targetEntity = Output.class)
-    private List<Output> outputs;
+    @OneToMany(mappedBy = "room")
+    private Set<CourseSlot> slots;
+
+    @Enumerated(EnumType.STRING)
+    @ElementCollection(targetClass = RoomType.class)
+    Set<RoomType> roomTypes;
 
     public Room() {
     }
 
-    public Room(String number, Department department, Integer capacity, RoomType type) {
-        this.roomId = new RoomId(number, department);
+    public Room(int id, String name, Department department, int capacity, Set<RoomType> roomTypes) {
+        this.id = id;
+        this.name = name;
         this.capacity = capacity;
-        this.roomType = type;
+        this.department = department;
+        this.roomTypes = roomTypes;
     }
 
-    public Room(RoomId roomId, Integer capacity, RoomType roomType) {
-        this.roomId = roomId;
-        this.capacity = capacity;
-        this.roomType = roomType;
+    public String getName() {
+        return name;
     }
 
-    public RoomId getRoomId() {
-        return roomId;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setRoomId(RoomId roomId) {
-        this.roomId = roomId;
-    }
-
-    public Integer getCapacity() {
+    public int getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(Integer capacity) {
+    public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
 
-    @JsonIgnore
-    public RoomType getRoomType() {
-        return this.roomType;
-    }
-
-    @JsonIgnore
-    public void setRoomType(RoomType roomType) {
-        this.roomType = roomType;
-    }
-
-    @JsonIgnore
-    public String getNumber() {
-        return roomId.getNumber();
-    }
-
-    @JsonIgnore
-    public void setNumber(String number) {
-        roomId.setNumber(number);
-    }
-
-    @JsonIgnore
     public Department getDepartment() {
-        return roomId.getDepartment();
+        return department;
     }
 
-    @JsonIgnore
     public void setDepartment(Department department) {
-        roomId.setDepartment(department);
+        this.department = department;
     }
+
+    public Set<CourseSlot> getSlots() {
+        return slots;
+    }
+
+    public void setSlots(Set<CourseSlot> slots) {
+        this.slots = slots;
+    }
+
+    public Set<RoomType> getRoomTypes() { return this.roomTypes;}
 }

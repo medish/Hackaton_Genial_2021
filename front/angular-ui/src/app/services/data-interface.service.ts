@@ -3,11 +3,13 @@ import { Injectable } from '@angular/core';
 import {identity, Observable, throwError } from 'rxjs';
 import { ConstraintPrecedence } from '../model/constraint/constraint-precedence';
 import { ConstraintTimeRoom } from '../model/constraint/constraint-time-room';
-import { Room, Lesson, RoomType, Professor, Department, Degree, Identity, Output } from '../model/datastore/datamodel'
 import { catchError, retry } from 'rxjs/operators';
 import { Planning } from '../model/planning/planning';
 import { environment } from 'src/environments/environment';
 import {User} from "../model/user";
+
+import { Degree, Department, Professor, Room } from '../model/swagger/api';
+import { Lesson, RoomType } from '../model/datastore/datamodel';
 
 @Injectable({
   providedIn: 'root'
