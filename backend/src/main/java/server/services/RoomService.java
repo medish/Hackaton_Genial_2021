@@ -2,10 +2,8 @@ package server.services;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import server.models.Room;
-import server.models.RoomId;
 import server.repositories.RoomRepository;
 
 import java.util.List;
@@ -25,11 +23,11 @@ public class RoomService {
     }
 
     /**
-     * Get room by {@link RoomId}
-     * @param roomId see {@link RoomId}
+     * Get room by id
+     * @param roomId
      * @return Room ID
      */
-    public Optional<Room> getById(RoomId roomId) {
+    public Optional<Room> getById(int roomId) {
         return roomRepository.findById(roomId);
     }
 
@@ -51,9 +49,9 @@ public class RoomService {
 
     /**
      * Delete a room record
-     * @param roomId {@link RoomId}
+     * @param roomId
      */
-    public void delete(RoomId roomId){
+    public void delete(int roomId){
         roomRepository.deleteById(roomId);
     }
 
@@ -61,7 +59,7 @@ public class RoomService {
      * Delete multiple room records
      * @param roomIds List of rooms ids.
      */
-    public void delete(List<RoomId> roomIds){
+    public void delete(List<Integer> roomIds){
         roomRepository.deleteAllById(roomIds);
     }
 

@@ -1,38 +1,30 @@
 package server.models;
 
-import java.util.List;
+import java.util.Set;
 
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
-
 @Table(name = "department")
 public class Department implements IInput {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
     @Column(unique = true, name = "name", nullable = false)
     private String name;
 
-    @JsonIgnore
-    @ElementCollection(targetClass = RoomId.class)
-    @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "RoomID", joinColumns = @JoinColumn(name = "department"))
-    @Column(name = "Room")
-    private List<Room> rooms;
+    @OneToMany(mappedBy = "department")
+    private Set<Room> rooms;
 
-    public Department(String id, String name) {
+    public Department(int id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -40,12 +32,8 @@ public class Department implements IInput {
     public Department() {
     }
 
-    public String getId() {
+    public int getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -56,13 +44,11 @@ public class Department implements IInput {
         this.name = name;
     }
 
-    @JsonIgnore
-    public List<Room> getRooms() {
+    public Set<Room> getRooms() {
         return rooms;
     }
 
-    @JsonIgnore
-    public void setRooms(List<Room> rooms) {
+    public void setRooms(Set<Room> rooms) {
         this.rooms = rooms;
     }
 }

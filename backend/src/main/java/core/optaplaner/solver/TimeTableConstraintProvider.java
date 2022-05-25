@@ -1,12 +1,8 @@
 package core.optaplaner.solver;
 
-import java.time.Duration;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
+import core.optaplaner.SolverOptaplaner;
+import core.optaplaner.domain.CourseGroupOptaPlaner;
+import core.selector.SelectorUnit;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.optaplanner.core.api.score.stream.Constraint;
 import org.optaplanner.core.api.score.stream.ConstraintFactory;
@@ -14,16 +10,19 @@ import org.optaplanner.core.api.score.stream.ConstraintProvider;
 import org.optaplanner.core.api.score.stream.Joiners;
 import org.optaplanner.core.api.score.stream.bi.BiConstraintStream;
 import org.optaplanner.core.api.score.stream.uni.UniConstraintStream;
-
-import core.optaplaner.SolverOptaplaner;
-import core.optaplaner.domain.LessonOptaPlaner;
-import core.selector.SelectorUnit;
 import server.models.PrecedenceConstraint;
 import server.models.Professor;
+import server.models.RoomType;
 import server.models.TimeConstraint;
 
-public class TimeTableConstraintProvider implements ConstraintProvider {
+import java.time.Duration;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
+public class TimeTableConstraintProvider implements ConstraintProvider {
     @Override
     public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
         List<Constraint> constraints = new ArrayList<>();
@@ -40,9 +39,9 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
         // A room can accommodate at most one lesson at the same time.
         return constraintFactory
                 // Select each pair of 2 different lessons ...
-                .fromUniquePair(LessonOptaPlaner.class,
+                .fromUniquePair(CourseGroupOptaPlaner.class,
                         // ... in the same room ...
-                        Joiners.equal(LessonOptaPlaner::getRoom),
+                        Joiners.equal(CourseGroupOptaPlaner::getRoom),
                         // ... in the same timeslot ...
                         Joiners.filtering((lesson1, lesson2) -> lesson1.isCollide(lesson2)))
                 // ... and penalize each pair with a hard weight.
@@ -52,8 +51,8 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
     public Constraint teacherConflict(ConstraintFactory constraintFactory) {
         // A teacher can teach at most one lesson at the same time.
         return constraintFactory
-                .fromUniquePair(LessonOptaPlaner.class, Joiners
-                        .equal(lesson -> Optional.ofNullable(lesson.getTeacher()).map(Professor::getName).orElse(null)),
+                .fromUniquePair(CourseGroupOptaPlaner.class, Joiners
+                        .equal(lesson -> Optional.ofNullable(lesson.getProfessor()).map(Professor::getLastName).orElse(null)),
                         Joiners.filtering((lesson1, lesson2) -> lesson1.isCollide(lesson2)))
                 .penalize("Teacher conflict", HardSoftScore.ONE_HARD);
     }
@@ -61,8 +60,8 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
     public Constraint teacherTimeEfficiency(ConstraintFactory constraintFactory) {
         // A teacher prefers to teach sequential lessons and dislikes gaps between
         // lessons.
-        return constraintFactory.from(LessonOptaPlaner.class).join(LessonOptaPlaner.class,
-                Joiners.equal(LessonOptaPlaner::getTeacher), Joiners.equal(LessonOptaPlaner::getDay))
+        return constraintFactory.from(CourseGroupOptaPlaner.class).join(CourseGroupOptaPlaner.class,
+                Joiners.equal(CourseGroupOptaPlaner::getProfessor), Joiners.equal(CourseGroupOptaPlaner::getDay))
                 .filter((lesson1, lesson2) -> {
                     Duration between = Duration.between(lesson1.getEndTime(), lesson2.getEndTime());
                     return !between.isNegative() && between.compareTo(Duration.ofMinutes(30)) <= 0;
@@ -71,7 +70,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
 
     public Constraint teacherRoomStability(ConstraintFactory constraintFactory) {
         // A teacher prefers to teach in a single room.
-        return constraintFactory.fromUniquePair(LessonOptaPlaner.class, Joiners.equal(LessonOptaPlaner::getTeacher))
+        return constraintFactory.fromUniquePair(CourseGroupOptaPlaner.class, Joiners.equal(CourseGroupOptaPlaner::getProfessor))
                 .filter((lesson1, lesson2) -> lesson1.getRoom() != lesson2.getRoom())
                 .penalize("Teacher room stability", HardSoftScore.ONE_SOFT);
     }
@@ -79,8 +78,8 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
     public Constraint studentGroupConflict(ConstraintFactory constraintFactory) {
         // A student can attend at most one lesson at the same time.
         return constraintFactory
-                .fromUniquePair(LessonOptaPlaner.class,
-                        Joiners.equal(lesson -> lesson.getSubject().getDegrees().iterator().next().getName()),
+                .fromUniquePair(CourseGroupOptaPlaner.class,
+                        Joiners.equal(lesson -> lesson.getCourse().getDegree().getName()),
                         Joiners.filtering((lesson1, lesson2) -> lesson1.isCollide(lesson2)))
                 .penalize("Student group conflict", HardSoftScore.ONE_HARD);
     }
@@ -130,82 +129,82 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
         SelectorUnit[] secondSelector = Arrays.stream(pc.getSelector().split(",")).map(SelectorUnit::builder)
                 .toArray(SelectorUnit[]::new);
 
-        UniConstraintStream<LessonOptaPlaner> firstPart = constraintFactory.from(LessonOptaPlaner.class);
+        UniConstraintStream<CourseGroupOptaPlaner> firstPart = constraintFactory.from(CourseGroupOptaPlaner.class);
 
         // filter with first selectors
 
         for (SelectorUnit selector : firstSelectors) {
 
             // loop teacher
-            if ("teacher".equals(selector.getTable())) {
+            if (selector.getTable() == "teacher") {
 
-                if ("id".equals(selector.getAttribute())) {
-                    firstPart = firstPart.filter(lesson -> lesson.getTeacher().getId().equals(selector.getValue()));
+                if (selector.getAttribute() == "id") {
+                    firstPart = firstPart.filter(lesson -> lesson.getProfessor().getId()==Integer.parseInt(selector.getValue()));
                 }
-                if ("name".equals(selector.getAttribute())) {
-                    firstPart = firstPart.filter(lesson -> lesson.getTeacher().getName().equals(selector.getValue()));
+                if (selector.getAttribute() == "name") {
+                    firstPart = firstPart.filter(lesson -> lesson.getProfessor().getLastName().equals(selector.getValue()));
                 }
             }
 
             // loop lesson
-            if ("lesson".equals(selector.getTable())) {
-                if ("id".equals(selector.getAttribute())) {
+            if (selector.getTable() == "lesson") {
+                if (selector.getAttribute() == "id") {
                     firstPart = firstPart.filter(lesson -> lesson.getId().equals(selector.getValue()));
                 }
-                if ("subject".equals(selector.getAttribute())) {
-                    firstPart = firstPart.filter(lesson -> lesson.getSubject().equals(selector.getValue()));
+                if (selector.getAttribute() == "subject") {
+                    firstPart = firstPart.filter(lesson -> lesson.getCourse().equals(selector.getValue()));
                 }
             }
 
             // loop room
-            if ("room".equals(selector.getTable())) {
-                if ("number".equals(selector.getAttribute())) {
-                    firstPart = firstPart.filter(lesson -> lesson.getRoom().getNumber().equals(selector.getValue()));
+            if (selector.getTable() == "room") {
+                if (selector.getAttribute() == "number") {
+                    firstPart = firstPart.filter(lesson -> lesson.getRoom().getName().equals(selector.getValue()));
                 }
-                if ("roomType_id".equals(selector.getAttribute())) {
+                if (selector.getAttribute() == "roomType_id") {
                     firstPart = firstPart
-                            .filter(lesson -> lesson.getRoom().getRoomType().getName().equals(selector.getValue()));
+                            .filter(lesson -> lesson.getRoom().getRoomTypes().contains(RoomType.fromString(selector.getValue())));
                 }
             }
 
         }
 
         // filter with second selector
-        BiConstraintStream<LessonOptaPlaner, LessonOptaPlaner> merged = firstPart.join(LessonOptaPlaner.class);
+        BiConstraintStream<CourseGroupOptaPlaner, CourseGroupOptaPlaner> merged = firstPart.join(CourseGroupOptaPlaner.class);
         for (SelectorUnit selector : secondSelector) {
 
             // loop teacher
-            if ("teacher".equals(selector.getTable())) {
+            if (selector.getTable() == "teacher") {
 
-                if ("id".equals(selector.getAttribute())) {
+                if (selector.getAttribute() == "id") {
                     merged = merged
-                            .filter((lesson, lesson2) -> lesson2.getTeacher().getId().equals(selector.getValue()));
+                            .filter((lesson, lesson2) -> lesson2.getProfessor().getId()==Integer.parseInt(selector.getValue()));
                 }
-                if ("name".equals(selector.getAttribute())) {
+                if (selector.getAttribute() == "name") {
                     merged = merged
-                            .filter((lesson, lesson2) -> lesson2.getTeacher().getName().equals(selector.getValue()));
+                            .filter((lesson, lesson2) -> lesson2.getProfessor().getLastName().equals(selector.getValue()));
                 }
             }
 
             // loop lesson
-            if ("lesson".equals(selector.getTable())) {
-                if ("id".equals(selector.getAttribute())) {
+            if (selector.getTable() == "lesson") {
+                if (selector.getAttribute() == "id") {
                     merged = merged.filter((lesson, lesson2) -> lesson2.getId().equals(selector.getValue()));
                 }
-                if ("subject".equals(selector.getAttribute())) {
-                    merged = merged.filter((lesson, lesson2) -> lesson2.getSubject().equals(selector.getValue()));
+                if (selector.getAttribute() == "subject") {
+                    merged = merged.filter((lesson, lesson2) -> lesson2.getCourse().equals(selector.getValue()));
                 }
             }
 
             // loop room
-            if ("room".equals(selector.getTable())) {
-                if ("number".equals(selector.getAttribute())) {
+            if (selector.getTable() == "room") {
+                if (selector.getAttribute() == "number") {
                     merged = merged
-                            .filter((lesson, lesson2) -> lesson2.getRoom().getNumber().equals(selector.getValue()));
+                            .filter((lesson, lesson2) -> lesson2.getRoom().getName().equals(selector.getValue()));
                 }
-                if ("roomType_id".equals(selector.getAttribute())) {
+                if (selector.getAttribute() == "roomType_id") {
                     merged = merged.filter(
-                            (lesson, lesson2) -> lesson2.getRoom().getRoomType().getName().equals(selector.getValue()));
+                            (lesson, lesson2) -> lesson2.getRoom().getRoomTypes().contains(RoomType.fromString(selector.getValue())));
                 }
             }
 
@@ -252,54 +251,54 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
         SelectorUnit[] firstSelectors = Arrays.stream(tc.getSelector().split(",")).map(SelectorUnit::builder)
                 .toArray(SelectorUnit[]::new);
 
-        UniConstraintStream<LessonOptaPlaner> firstPart = constraintFactory.from(LessonOptaPlaner.class);
+        UniConstraintStream<CourseGroupOptaPlaner> firstPart = constraintFactory.from(CourseGroupOptaPlaner.class);
 
         for (SelectorUnit selector : firstSelectors) {
-            if ("teacher".equals(selector.getTable())) {
+            if (selector.getTable() == "teacher") {
 
-                if ("id".equals(selector.getAttribute())) {
-                    firstPart = firstPart.filter(lesson -> lesson.getTeacher().getId().equals(selector.getValue()));
+                if (selector.getAttribute() == "id") {
+                    firstPart = firstPart.filter(lesson -> lesson.getProfessor().getId()==Integer.parseInt(selector.getValue()));
                 }
-                if ("name".equals(selector.getAttribute())) {
-                    firstPart = firstPart.filter(lesson -> lesson.getTeacher().getName().equals(selector.getValue()));
+                if (selector.getAttribute() == "name") {
+                    firstPart = firstPart.filter(lesson -> lesson.getProfessor().getLastName().equals(selector.getValue()));
                 }
             }
 
-            if ("lesson".equals(selector.getTable())) {
-                if ("id".equals(selector.getAttribute())) {
+            if (selector.getTable() == "lesson") {
+                if (selector.getAttribute() == "id") {
                     firstPart = firstPart.filter(lesson -> lesson.getId().equals(selector.getValue()));
                 }
-                if ("subject".equals(selector.getAttribute())) {
-                    firstPart = firstPart.filter(lesson -> lesson.getSubject().equals(selector.getValue()));
+                if (selector.getAttribute() == "subject") {
+                    firstPart = firstPart.filter(lesson -> lesson.getCourse().equals(selector.getValue()));
                 }
             }
 
-            if ("room".equals(selector.getTable())) {
-                if ("number".equals(selector.getAttribute())) {
-                    firstPart = firstPart.filter(lesson -> lesson.getRoom().getNumber().equals(selector.getValue()));
+            if (selector.getTable() == "room") {
+                if (selector.getAttribute() == "number") {
+                    firstPart = firstPart.filter(lesson -> lesson.getRoom().getName().equals(selector.getValue()));
                 }
-                if ("roomType_id".equals(selector.getAttribute())) {
+                if (selector.getAttribute() == "roomType_id") {
                     firstPart = firstPart
-                            .filter(lesson -> lesson.getRoom().getRoomType().getName().equals(selector.getValue()));
+                            .filter(lesson -> lesson.getRoom().getRoomTypes().contains(RoomType.fromString(selector.getValue())));
                 }
             }
         }
 
-        LocalTime start_at = tc.getStart_time();
+        LocalTime start_at = tc.getStartTime();
         if (start_at != null) {
             firstPart = firstPart.filter(lesson -> lesson.getStartTime().equals(start_at));
         }
 
         String message = null;
 
-        Boolean wants = tc.getWants();
+        Boolean wants = tc.isWants();
 
         if (wants) {
-            message = firstSelectors.toString() + " is " + "at" + tc.getStart_time();
+            message = firstSelectors.toString() + " is " + "at" + tc.getStartTime();
 
             return firstPart.reward(message, HardSoftScore.ofSoft(tc.getPriority()));
         }
-        message = firstSelectors.toString() + " is not" + "at" + tc.getStart_time();
+        message = firstSelectors.toString() + " is not" + "at" + tc.getStartTime();
 
         return firstPart.penalize(message, HardSoftScore.ofSoft(tc.getPriority()));
     }

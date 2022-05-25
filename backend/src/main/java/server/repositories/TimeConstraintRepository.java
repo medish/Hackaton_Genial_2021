@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import server.models.TimeConstraint;
 
 @Repository
-public interface TimeConstraintRepository extends JpaRepository<TimeConstraint, String> {
+public interface TimeConstraintRepository extends JpaRepository<TimeConstraint, Integer> {
 }

@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import server.models.Planning;
 
 @Repository
-public interface PlanningRepository extends JpaRepository<Planning, String> {
+public interface PlanningRepository extends JpaRepository<Planning, Integer> {
 }

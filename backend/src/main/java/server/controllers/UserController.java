@@ -1,37 +1,29 @@
 package server.controllers;
 
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import server.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import server.models.Customer;
-import server.services.CustomerService;
+import org.springframework.web.bind.annotation.GetMapping;
+import server.models.User;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping(ControllerRoutes.USER)
+@RequestMapping(value = ControllerRoutes.USERS)
 public class UserController {
-
     @Autowired
-    private CustomerService userService;
+    private UserService service;
 
-
-    @PostMapping()
-    public Customer updateUser(@RequestParam("name") String name, @RequestParam("firstname") String firstname,
-                             @RequestParam("email") String email, @RequestParam("id") String id, @RequestParam("isAdmin") boolean isAdmin) {
-
-        Customer customer = this.userService.getById(id).get();
-
-        if (customer.getId() != null) {
-            customer.setEmail(email);
-            customer.setFirstName(firstname);
-            customer.setName(name);
-            customer.setIsAdmin(isAdmin);
-            this.userService.update(customer);
-        }
-        return customer;
+    @GetMapping()
+    public List<User> getAll() {
+        return service.getAll();
     }
 
-    @RequestMapping(method = {RequestMethod.DELETE})
-    @ResponseBody
-    public void deleteUser(@RequestParam("id") String id) {
-        this.userService.delete(id);
+    @GetMapping(value = "/{id}")
+    public Optional<User> getById(@PathVariable int id) {
+        return this.service.getById(id);
     }
 }

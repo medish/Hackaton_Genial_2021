@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import server.models.PrecedenceConstraint;
 
 @Repository
-public interface PrecedenceConstraintRepository extends JpaRepository<PrecedenceConstraint, String> {
+public interface PrecedenceConstraintRepository extends JpaRepository<PrecedenceConstraint, Integer> {
 }

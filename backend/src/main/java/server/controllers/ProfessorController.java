@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = ControllerRoutes.PROFESSOR)
+@RequestMapping(value = ControllerRoutes.PROFESSORS)
 public class ProfessorController {
     @Autowired
     private ProfessorService service;
@@ -23,7 +23,7 @@ public class ProfessorController {
     }
 
     @GetMapping(value = "/{id}")
-    public Optional<Professor> getById(@PathVariable String id) {
+    public Optional<Professor> getById(@PathVariable int id) {
         return this.service.getById(id);
     }
 }

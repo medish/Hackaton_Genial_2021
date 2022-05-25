@@ -7,14 +7,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 
-@Table(name = "degree")
-public class Degree implements IInput {
+@Table(name = "major")
+public class Major implements IInput {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,16 +24,18 @@ public class Degree implements IInput {
     @Column(unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "degree")
+    @ManyToMany
+    @JoinTable(name = "major_course", joinColumns = @JoinColumn(name = "major_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"))
     private Set<Course> courses;
 
-    @ManyToMany(mappedBy = "degrees")
-    private Set<Major> majors;
+    @ManyToMany
+    @JoinTable(name = "major_degree", joinColumns = @JoinColumn(name = "major_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "degree_id", referencedColumnName = "id"))
+    private Set<Degree> degrees;
 
-    public Degree() {
+    public Major() {
     }
 
-    public Degree(int id, String name) {
+    public Major(int id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -57,11 +60,11 @@ public class Degree implements IInput {
         this.courses = courses;
     }
 
-    public Set<Major> getMajors() {
-        return majors;
+    public Set<Degree> getDegrees() {
+        return degrees;
     }
 
-    public void setMajors(Set<Major> majors) {
-        this.majors = majors;
+    public void setDegrees(Set<Degree> degrees) {
+        this.degrees = degrees;
     }
 }
