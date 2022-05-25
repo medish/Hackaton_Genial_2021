@@ -9,18 +9,28 @@ import {solid} from "@fortawesome/fontawesome-svg-core/import.macro";
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
+
 export class HeaderComponent implements OnInit {
 
   constructor(public authService: AuthService, public router: Router) {
   }
 
+  currentActiveItem = null;
   isLoggedIn = false;
+  name: string
+  url: string;
 
 
   ngOnInit(): void {
-    this.isLoggedIn = this.authService.isLoggedIn()
+    this.isLoggedIn = this.authService.isLoggedIn();
   }
 
+
+  acitiveItem() {
+
+  }
+
+  active_item = "actived";
 
   logout() {
     this.authService.logout();
@@ -42,7 +52,6 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['les_salles'])
   }
 
-
   allDepartments() {
     this.router.navigate(['les-departements'])
   }
@@ -58,8 +67,10 @@ export class HeaderComponent implements OnInit {
   allConstraints() {
     this.router.navigate(['les-contraintes'])
   }
+
   auto() {
     this.router.navigate(['/auto'])
   }
+
 
 }
