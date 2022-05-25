@@ -41,7 +41,6 @@ public class UploadConstraint {
   @Test
   public void uploadConstraint() throws InterruptedException {
     driver.get("http://localhost:4200/login");
-    driver.
     driver.findElement(By.id("username")).click();
     driver.findElement(By.id("username")).sendKeys("lololol");
     driver.findElement(By.id("password")).click();
