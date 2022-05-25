@@ -1,10 +1,16 @@
 package server.models;
 
-import javax.persistence.*;
 import java.util.Set;
 
-@Entity
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
+@Entity
 @Table(name = "department")
 public class Department implements IInput {
 
@@ -17,6 +23,7 @@ public class Department implements IInput {
 
     @OneToMany(mappedBy = "department")
     private Set<Room> rooms;
+
     public Department(int id, String name) {
         this.id = id;
         this.name = name;

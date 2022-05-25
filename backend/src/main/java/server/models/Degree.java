@@ -1,7 +1,15 @@
 package server.models;
 
-import javax.persistence.*;
 import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
 
@@ -15,10 +23,10 @@ public class Degree implements IInput {
     @Column(unique = true)
     private String name;
 
-    @OneToMany(mappedBy="degree")
+    @OneToMany(mappedBy = "degree")
     private Set<Course> courses;
 
-    @ManyToMany(mappedBy ="degrees")
+    @ManyToMany(mappedBy = "degrees")
     private Set<Major> majors;
 
     public Degree() {

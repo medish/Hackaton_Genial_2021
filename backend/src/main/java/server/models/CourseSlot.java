@@ -1,15 +1,24 @@
 package server.models;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalTime;
+import java.util.Set;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "course_slot")
 @IdClass(CourseSlotId.class)
-public class CourseSlot implements IInput, Serializable {
+public class CourseSlot implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -18,11 +27,11 @@ public class CourseSlot implements IInput, Serializable {
 
     @Id
     @ManyToOne
-
     private Planning planning;
 
     @ManyToOne
     private Professor professor;
+
     @ManyToOne
     private Room room;
 
@@ -75,9 +84,6 @@ public class CourseSlot implements IInput, Serializable {
                 || (courseSlot.getStartTime().plus(courseSlot.getDuration()).isAfter(getStartTime()));
     }
 
-
-
-
     public CourseGroup getCourseGroup() {
         return courseGroup;
     }
@@ -114,7 +120,7 @@ public class CourseSlot implements IInput, Serializable {
         return getDateSlot().getDay();
     }
 
-    public LocalTime getStartTime(){
+    public LocalTime getStartTime() {
         return getDateSlot().getStartTime();
     }
 
@@ -122,7 +128,70 @@ public class CourseSlot implements IInput, Serializable {
         return getStartTime().plus(getDuration());
     }
 
+    @JsonIgnore
     public Duration getDuration() {
         return courseGroup.getDuration();
     }
+
+    @JsonIgnore
+    public int getSize() {
+        return courseGroup.getSize();
+    }
+
+    @JsonIgnore
+    public Course getCourse() {
+        return courseGroup.getCourse();
+    }
+
+    @JsonIgnore
+    public RoomType getRoomType() {
+        return courseGroup.getRoomType();
+    }
+
+    @JsonIgnore
+    public Set<Professor> getProfessors() {
+        return courseGroup.getProfessors();
+    }
+
+    @JsonIgnore
+    public void setDuration(Duration duration) {
+        courseGroup.setDuration(duration);
+    }
+
+    @JsonIgnore
+    public void setSize(int size) {
+        courseGroup.setSize(size);
+    }
+
+    @JsonIgnore
+    public void setCourse(Course course) {
+        courseGroup.setCourse(course);
+    }
+
+    @JsonIgnore
+    public void setRoomType(RoomType room_type) {
+        courseGroup.setRoomType(room_type);
+    }
+
+    @JsonIgnore
+    public void setProfessors(Set<Professor> professors) {
+        courseGroup.setProfessors(professors);
+    }
+
+    @JsonIgnore
+    public Degree getDegree() {
+        return courseGroup.getDegree();
+    }
+
+    @JsonIgnore
+    public void setDegree(Degree degrees) {
+        courseGroup.setDegree(degrees);
+    }
+
+    @JsonIgnore
+    @Override
+    public String toString() {
+        return courseGroup.toString();
+    }
+
 }

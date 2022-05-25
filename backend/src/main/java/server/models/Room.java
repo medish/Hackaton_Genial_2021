@@ -1,8 +1,17 @@
 package server.models;
 
-import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
+
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "room")
@@ -11,6 +20,8 @@ public class Room implements IInput {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    private String name;
 
     private int capacity;
 
@@ -22,11 +33,25 @@ public class Room implements IInput {
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(targetClass = RoomType.class)
-    List<RoomType> roomTypes;
+    Set<RoomType> roomTypes;
+
     public Room() {
     }
 
-    public Room(String number, int capacity, Department department) {
+    public Room(int id, String name, Department department, int capacity, Set<RoomType> roomTypes) {
+        this.id = id;
+        this.name = name;
+        this.capacity = capacity;
+        this.department = department;
+        this.roomTypes = roomTypes;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getCapacity() {
@@ -51,9 +76,5 @@ public class Room implements IInput {
 
     public void setSlots(Set<CourseSlot> slots) {
         this.slots = slots;
-    }
-
-    public int getId() {
-        return id;
     }
 }
