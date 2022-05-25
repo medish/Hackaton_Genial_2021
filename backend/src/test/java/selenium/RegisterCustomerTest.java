@@ -44,7 +44,7 @@ public class RegisterCustomerTest {
         else if (os.contains("nux")){
             System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver");
         }else if(os.contains("mac")){
-            //Rajouter le webdriver mac
+            System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver_mac");
         }
         driver = new ChromeDriver();
         js = (JavascriptExecutor) driver;
@@ -58,7 +58,7 @@ public class RegisterCustomerTest {
     @Test
     public void register() {
         driver.get("http://localhost:4200/register");
-        driver.manage().window().setSize(new Dimension(1262, 662));
+    //    driver.manage().window().setSize(new Dimension(1262, 662));
         driver.findElement(By.id("username")).click();
         driver.findElement(By.id("username")).sendKeys("golouboff");
         driver.findElement(By.id("firstname")).click();

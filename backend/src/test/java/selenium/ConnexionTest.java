@@ -28,7 +28,7 @@ public class ConnexionTest {
         else if (os.contains("nux")){
             System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver");
         }else if(os.contains("mac")){
-            //Rajouter le webdriver mac
+            System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver_mac");
         }
         driver = new ChromeDriver();
         js = (JavascriptExecutor) driver;
@@ -43,7 +43,7 @@ public class ConnexionTest {
     public void connexion() throws InterruptedException {
         driver.manage().deleteAllCookies();
         driver.get("http://localhost:4200/login");
-        driver.manage().window().setSize(new Dimension(1280, 680));
+    //    driver.manage().window().setSize(new Dimension(1280, 680));
         driver.findElement(By.id("username")).click();
         driver.findElement(By.id("username")).sendKeys("sdsdfsdfd");
         driver.findElement(By.id("password")).click();
@@ -51,7 +51,7 @@ public class ConnexionTest {
         driver.findElement(By.cssSelector(".btn")).click();
 
         synchronized (driver){
-            driver.wait(2000);
+            driver.wait(1000);
         }
         assertTrue(driver.getCurrentUrl().contains("admin"));
     }
