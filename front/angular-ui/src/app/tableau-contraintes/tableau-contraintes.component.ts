@@ -98,6 +98,7 @@ export class TableauContraintesComponent implements OnInit, OnChanges {
           console.log(precedenceConstraint);
           dataService.sendPrecedenceConstraints(precedenceConstraint);
         } else {
+          console.log("salut");
           let timeRoomConstraint : [TimeConstraint] = change.currentValue;
           let t = new TimeconstraintcontrollerApi();
           t.insertAllUsingPOST1({constraints: timeRoomConstraint});
