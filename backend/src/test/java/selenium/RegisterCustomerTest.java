@@ -58,7 +58,7 @@ public class RegisterCustomerTest {
     @Test
     public void register() {
         driver.get("http://localhost:4200/register");
-        driver.manage().window().setSize(new Dimension(1262, 662));
+    //    driver.manage().window().setSize(new Dimension(1262, 662));
         driver.findElement(By.id("username")).click();
         driver.findElement(By.id("username")).sendKeys("golouboff");
         driver.findElement(By.id("firstname")).click();
