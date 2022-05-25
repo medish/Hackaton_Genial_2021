@@ -15,7 +15,7 @@ public class UserController {
 
     @PostMapping()
     public Customer updateUser(@RequestParam("name") String name, @RequestParam("firstname") String firstname,
-                             @RequestParam("email") String email, @RequestParam("id") String id) {
+                             @RequestParam("email") String email, @RequestParam("id") String id, @RequestParam("isAdmin") boolean isAdmin) {
 
         Customer customer = this.userService.getById(id).get();
 
@@ -23,6 +23,7 @@ public class UserController {
             customer.setEmail(email);
             customer.setFirstName(firstname);
             customer.setName(name);
+            customer.setIsAdmin(isAdmin);
             this.userService.update(customer);
         }
         return customer;

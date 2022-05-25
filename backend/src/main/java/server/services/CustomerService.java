@@ -2,8 +2,10 @@ package server.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import server.models.Customer;
 import server.repositories.CustomerRepository;
+import server.repositories.ProfessorRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +14,9 @@ import java.util.Optional;
 public class CustomerService{
     @Autowired
     private  CustomerRepository repository;
+
+    @Autowired
+    private ProfessorRepository professorRepository;
     
     /**
      * Gets all customers.
@@ -50,8 +55,10 @@ public class CustomerService{
      * Delete a customer record
      * @param id Customer's ID
      */
+    @Transactional
     public void delete(String id){
-        repository.deleteById(id);
+        professorRepository.removeLessonProfessorMappingt(id);
+        professorRepository.deleteById(id);
     }
 
     /**

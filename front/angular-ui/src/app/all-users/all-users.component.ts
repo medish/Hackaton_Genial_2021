@@ -25,7 +25,8 @@ export class AllUsersComponent implements OnInit {
       name: ['', [Validators.required, Validators.max(255), Validators.min(20)]],
       firstname: ['', [Validators.required, Validators.max(255), Validators.min(20)]],
       email: ['', [Validators.required, Validators.email]],
-      id: []
+      id: [],
+      isAdmin: ['', [Validators.required]]
     });
   }
 
@@ -44,6 +45,7 @@ export class AllUsersComponent implements OnInit {
     this.formGroupModal.controls['firstname'].setValue(user.customer.firstName);
     this.formGroupModal.controls['email'].setValue(user.customer.email);
     this.formGroupModal.controls['id'].setValue(user.customer.id)
+    this.formGroupModal.controls['isAdmin'].setValue(user.customer.isAdmin);
     modal.show();
   }
 
@@ -54,6 +56,6 @@ export class AllUsersComponent implements OnInit {
   updateUser() {
     this.userService.updateUser(this.formGroupModal.controls['id'].value,
       this.formGroupModal.controls['name'].value, this.formGroupModal.controls['firstname'].value,
-      this.formGroupModal.controls['email'].value);
+      this.formGroupModal.controls['email'].value, this.formGroupModal.controls['isAdmin'].value);
   }
 }

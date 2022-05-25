@@ -4,5 +4,5 @@ export class User {
   accessToken: string = '';
   email: string;
   password: string;
-  is_admin: boolean;
+  isAdmin: boolean;
 }

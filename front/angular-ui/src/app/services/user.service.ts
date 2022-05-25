@@ -15,12 +15,12 @@ export class UserService {
   constructor(private http: HttpClient) {
   }
 
-  updateUser(id: string, name: string, firstname: string, email: string) {
-    httpOptions.params = httpOptions.params.set("id", id).set("name", name).set("firstname", firstname).set("email", email)
+  updateUser(id: string, name: string, firstname: string, email: string, isAdmin: boolean) {
+    httpOptions.params = httpOptions.params.set("id", id).set("name", name).set("firstname", firstname).set("email", email).set("isAdmin", isAdmin)
 
     let user = this.http.post(
       environment.baseUrl + '/users', {}, httpOptions
-    ).pipe().toPromise().then(data => console.log("success on update user")).catch(err => {
+    ).pipe().toPromise().then(data => window.location.reload()).catch(err => {
       console.log("err on update user")
     });
 
@@ -31,7 +31,7 @@ export class UserService {
 
   deleteUser(id: string) {
     return this.http.delete(environment.baseUrl+ '/users?id='+id, httpOptions)
-      .pipe().toPromise().then(data => console.log("success on delete user")).catch(err => {
+      .pipe().toPromise().then(data => window.location.reload()).catch(err => {
         console.log("error on delete user");
       })
   }

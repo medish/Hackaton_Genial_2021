@@ -1,6 +1,7 @@
 package server.models;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -17,7 +18,7 @@ public class Professor implements Serializable {
     @Column(name = "customer_id")
     private String id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.REMOVE})
     @MapsId
     @JoinColumn(name = "customer_id")
     private Customer customer;
