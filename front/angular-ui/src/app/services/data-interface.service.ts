@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {identity, Observable, throwError } from 'rxjs';
-import { ConstraintPrecedence } from '../model/constraint/constraint-precedence';
+import {ConstraintPrecedence, ConstraintPrecedenceExport} from '../model/constraint/constraint-precedence';
 import { ConstraintTimeRoom } from '../model/constraint/constraint-time-room';
 import { catchError, retry } from 'rxjs/operators';
 import { Planning } from '../model/planning/planning';
@@ -41,7 +41,7 @@ export class DataInterfaceService {
     .pipe(catchError(this.handleError)).subscribe();
   }
 
-  sendPrecedenceConstraints(constraints: [ConstraintPrecedence]) {
+  sendPrecedenceConstraints(constraints: [ConstraintPrecedenceExport]) {
     return this.http.post(this.url + "/constraints/precedence", constraints)
     .pipe(catchError(this.handleError)).subscribe();
   }
@@ -112,11 +112,15 @@ export class DataInterfaceService {
 
   handleError(error: HttpErrorResponse) {
     console.log("[HTTP ERROR]: " + error);
+    alert("Error");
     return throwError("An error happened");
   }
+<<<<<<< Updated upstream
 
   fetchAllUsers(callback: (users: [User], context: any) => any, context: any) {
     return this.http.get<[User]>(this.url + "/professors")
       .subscribe(data => callback(data, context));
   }
+=======
+>>>>>>> Stashed changes
 }

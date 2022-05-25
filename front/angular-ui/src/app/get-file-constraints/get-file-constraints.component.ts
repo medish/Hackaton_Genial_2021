@@ -15,29 +15,6 @@ export class GetFileConstraintsComponent implements OnInit {
   @Output('onAddConstraintTimeRoom')onAddConstraintTimeRoom = new EventEmitter<ConstraintTimeRoom[]>()
   @Output('onAddConstraintPrecedence')onAddConstraintPrecedence = new EventEmitter<ConstraintPrecedence[]>();
   ngOnInit(): void {
-    const inputs = document.querySelectorAll('.inputfile');
-    Array.prototype.forEach.call( inputs, function(input) {
-      const label	 = input.nextElementSibling,
-        labelVal = label.innerHTML;
-      console.log(label.querySelector("fa-icon").innerHTML);
-      input.addEventListener('change', function(e) {
-        let fileName = '';
-        if(this.files && this.files.length > 1) {
-          fileName = (this.getAttribute('data-multiple-caption') || '').replace('{count}', this.files.length);
-          console.log("fileName: " + fileName);
-        } else {
-          fileName = e.target.value.split('\\').pop();
-          console.log("fileName: " + fileName);
-        }
-        if(fileName) {
-          label.querySelector('span').innerHTML = fileName;
-          console.log("fileName True");
-        } else {
-          label.innerHTML = labelVal;
-          console.log("fileName false");
-        }
-      });
-    });
   }
   currentFileNameTimeAndRoom='';
   currentTimeAndRoom:ConstraintTimeRoom[]=[];

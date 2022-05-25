@@ -15,11 +15,13 @@ public class PrecedenceConstraintController {
 
     @GetMapping()
     public List<PrecedenceConstraint> getAll(){
+        System.out.println("PRINT1");
         return service.getAll();
     }
 
     @PostMapping()
     public void insertAll(@RequestBody List<PrecedenceConstraint> constraints){
+        System.out.println("PRINT");
         service.insert(constraints);
     }
 
