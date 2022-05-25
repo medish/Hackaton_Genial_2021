@@ -122,7 +122,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     event.setExtendedProp("course",this.formGroupModel.controls['course'].value)
     event.setExtendedProp("teacher",this.formGroupModel.controls['teacher'].value)
     event.setExtendedProp("degree",this.formGroupModel.controls['degree'].value)
-    event.setProp("title",this.formGroupModel.controls['title'].value)
+    event.setProp("title",this.formGroupModel.controls['course'].value + ' - '+this.formGroupModel.controls['teacher'].value+' - '+this.formGroupModel.controls['room'].value)
     event.setProp("backgroundColor",this.formGroupModel.controls['backgroundColor'].value)
 
     console.log("props : ",this.formGroupModel.controls['backgroundColor'].value)
