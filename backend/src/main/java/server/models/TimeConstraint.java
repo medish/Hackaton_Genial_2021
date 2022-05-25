@@ -122,4 +122,5 @@ public class TimeConstraint implements IInput {
     public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
+
 }

@@ -77,4 +77,6 @@ public class Room implements IInput {
     public void setSlots(Set<CourseSlot> slots) {
         this.slots = slots;
     }
+
+    public Set<RoomType> getRoomTypes() { return this.roomTypes;}
 }
