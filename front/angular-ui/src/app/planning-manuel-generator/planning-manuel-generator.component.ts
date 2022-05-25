@@ -11,7 +11,7 @@ import {document} from "ngx-bootstrap/utils";
 import { ExportService } from '../services/export/export.service';
 import { faFile } from '@fortawesome/free-solid-svg-icons';
 import { Lesson } from '../model/datastore/datamodel';
-import { Course, CourseSlot, Degree, Department, Professor, Room } from '../model/swagger/api';
+import { Course, CourseSlot, Degree, Department, Professor, Room, TimeconstraintcontrollerApi } from '../model/swagger/api';
 
 export const TD_COLOR = "#0d6efd";
 export const COURS_COLOR= "#dc3545";
@@ -39,11 +39,14 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   currentDraggable: Draggable;
   @ViewChild('calendar') calendarComponent: FullCalendarComponent;
 
-  constructor(private dataService : DataInterfaceService, private fb : FormBuilder, private exportService:ExportService) {
+  constructor(private timeConstraintController: TimeconstraintcontrollerApi, private dataService : DataInterfaceService, private fb : FormBuilder, private exportService:ExportService) {
   }
 
 
   ngOnInit() {
+    this.timeConstraintController.getAllUsingGET10().then(data=>{
+      console.log("recu",data)
+    })
     let draggableEl = document.getElementById('external-events');
     this.formGroupModel = this.fb.group({
       room: new FormControl(''),
