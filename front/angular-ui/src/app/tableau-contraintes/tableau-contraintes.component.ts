@@ -4,6 +4,7 @@ import {ConstraintTimeRoom, ConstraintTimeRoomExport} from '../model/constraint/
 import { DataInterfaceService } from '../services/data-interface.service';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {newArray} from "@angular/compiler/src/util";
+import {TimeConstraint, TimeconstraintcontrollerApi} from "../model/swagger/api";
 
 let CONSTRAINTS_TIME_AND_ROOM: ConstraintTimeRoom[] = [
   {
@@ -97,13 +98,9 @@ export class TableauContraintesComponent implements OnInit, OnChanges {
           console.log(precedenceConstraint);
           dataService.sendPrecedenceConstraints(precedenceConstraint);
         } else {
-          let timeRoomConstraint : [ConstraintTimeRoomExport] = [null];
-          timeRoomConstraint.pop();
-          let tim : [ConstraintTimeRoom] = change.currentValue;
-          for(let i = 0; i < tim.length; i++) {
-            const curr : ConstraintTimeRoom = tim[i];
-          }
-          dataService.sendTimeRoomConstraints(timeRoomConstraint);
+          let timeRoomConstraint : [TimeConstraint] = change.currentValue;
+          let t = new TimeconstraintcontrollerApi();
+          t.insertAllUsingPOST1({constraints: timeRoomConstraint});
         }
       }
     }

@@ -115,12 +115,9 @@ export class DataInterfaceService {
     alert("Error");
     return throwError("An error happened");
   }
-<<<<<<< Updated upstream
 
   fetchAllUsers(callback: (users: [User], context: any) => any, context: any) {
     return this.http.get<[User]>(this.url + "/professors")
       .subscribe(data => callback(data, context));
   }
-=======
->>>>>>> Stashed changes
 }
