@@ -17,6 +17,8 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import server.repositories.UserRepository;
+import server.services.UserService;
 
 import java.util.HashMap;
 import java.util.List;
