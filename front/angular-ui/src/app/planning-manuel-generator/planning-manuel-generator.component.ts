@@ -11,7 +11,7 @@ import {document} from "ngx-bootstrap/utils";
 import { ExportService } from '../services/export/export.service';
 import { faFile } from '@fortawesome/free-solid-svg-icons';
 import { Lesson } from '../model/datastore/datamodel';
-import { Course, Degree, Department, Professor, Room } from '../model/swagger/api';
+import { Course, CourseSlot, Degree, Department, Professor, Room } from '../model/swagger/api';
 
 export const TD_COLOR = "#0d6efd";
 export const COURS_COLOR= "#dc3545";
@@ -56,6 +56,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       department:new FormControl(),
       backgroundColor:new FormControl('')
     })
+    let x:CourseSlot
     this.currentDraggable = new Draggable(draggableEl, {
       itemSelector: '.fc-event',
       eventData: function (eventEl: any) {
