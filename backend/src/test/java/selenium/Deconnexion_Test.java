@@ -44,7 +44,7 @@ public class Deconnexion_Test {
     @Test
     public void testDeconnexion() {
         driver.get("http://localhost:4200/login");
-        driver.manage().window().setSize(new Dimension(1262, 662));
+        //driver.manage().window().setSize(new Dimension(1262, 662));
         driver.findElement(By.id("username")).click();
         driver.findElement(By.id("username")).sendKeys("sdfsdfdsfsdf");
         driver.findElement(By.id("password")).click();
