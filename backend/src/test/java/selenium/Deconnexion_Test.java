@@ -21,6 +21,7 @@ public class Deconnexion_Test {
     private WebDriver driver;
     private Map<String, Object> vars;
     JavascriptExecutor js;
+
     @BeforeEach
     public void setUp() {
         String os = System.getProperty("os.name").toLowerCase();
@@ -35,7 +36,6 @@ public class Deconnexion_Test {
         js = (JavascriptExecutor) driver;
         vars = new HashMap<String, Object>();
     }
-
 
     @AfterEach
     public void tearDown() {
