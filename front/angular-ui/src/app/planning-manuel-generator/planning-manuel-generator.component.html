@@ -13,29 +13,26 @@
   </div>
 </div>
 <br />
-<div class="row">
-  <div class="col-2">
-    <div id="external-events" class="mt-5 me-5 ms-5">
-      <div class="card">
-        <div class="card-body text-center">
-          <div
-            class="card-creneau fc-event fc-h-event mb-3 bg-primary text-white border border-info"
-          >
-            <div class="fc-event-main">
-              <h1>Créneau</h1>
-            </div>
+<div class="planning-container">
+  <div class="col-9 calendar-container">
+    <full-calendar #calendar [options]="options" id="calendar"></full-calendar>
+  </div>
+  <div class="col-2 caption-container">
+    <div class="card caption">
+      <div class="card-body text-center">
+        <div
+          class="card-creneau fc-event fc-h-event mb-3 bg-primary text-white border border-info"
+        >
+          <div class="fc-event-main">
+            <h1>Créneau</h1>
           </div>
-
-          <small class="text-muted mt-5"
-            >Veuillez glisser le créneau sur l'emploi du temps</small
-          >
         </div>
+
+        <small class="text-muted mt-5"
+          >Veuillez glisser le créneau sur l'emploi du temps</small
+        >
       </div>
     </div>
-  </div>
-
-  <div class="col-9">
-    <full-calendar #calendar [options]="options" id="calendar"></full-calendar>
   </div>
 
   <div
