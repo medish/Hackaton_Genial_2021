@@ -15,6 +15,7 @@ import server.models.CourseSlot;
 import server.models.DateSlot;
 import server.models.Professor;
 import server.models.Room;
+import server.models.RoomType;
 
 @PlanningEntity
 public class CourseGroupOptaPlaner extends AbstractPersistable implements FromInputToOptaPlaner<CourseGroup> {
@@ -22,6 +23,7 @@ public class CourseGroupOptaPlaner extends AbstractPersistable implements FromIn
     private Course course;
     private Professor professor;
     private Duration duration;
+    private RoomType roomType;
 
     @PlanningVariable(valueRangeProviderRefs = "timeslotRange")
     private DateSlot dateSlot;
@@ -31,16 +33,17 @@ public class CourseGroupOptaPlaner extends AbstractPersistable implements FromIn
     public CourseGroupOptaPlaner() {
     }
 
-    public CourseGroupOptaPlaner(long id, Course course, Professor professor, Duration duration) {
+    public CourseGroupOptaPlaner(long id, Course course, Professor professor, Duration duration, RoomType roomType) {
         super(id);
         this.course = course;
         this.professor = professor;
         this.duration = duration;
+        this.roomType = roomType;
     }
 
-    public CourseGroupOptaPlaner(long id, Course course, Professor professor, Duration duration, DateSlot dateSlot,
-            Room room) {
-        this(id, course, professor, duration);
+    public CourseGroupOptaPlaner(long id, Course course, Professor professor, Duration duration, RoomType roomType,
+            DateSlot dateSlot, Room room) {
+        this(id, course, professor, duration, roomType);
         this.dateSlot = dateSlot;
         this.room = room;
     }
@@ -125,7 +128,8 @@ public class CourseGroupOptaPlaner extends AbstractPersistable implements FromIn
         Iterator<Professor> professors = courseGroup.getProfessors() != null ? courseGroup.getProfessors().iterator()
                 : new HashSet<Professor>().iterator();
         CourseGroupOptaPlaner courseGroupOptaPlaner = new CourseGroupOptaPlaner(courseGroup.hashCode(),
-                courseGroup.getCourse(), professors.hasNext() ? professors.next() : null, courseGroup.getDuration());
+                courseGroup.getCourse(), professors.hasNext() ? professors.next() : null, courseGroup.getDuration(),
+                courseGroup.getRoomType());
         return courseGroupOptaPlaner;
     }
 
@@ -134,11 +138,11 @@ public class CourseGroupOptaPlaner extends AbstractPersistable implements FromIn
                 : new HashSet<Professor>().iterator();
         CourseGroupOptaPlaner courseGroupOptaPlaner = new CourseGroupOptaPlaner(courseSlot.hashCode(),
                 courseSlot.getCourse(), professors.hasNext() ? professors.next() : null, courseSlot.getDuration(),
-                courseSlot.getDateSlot(), courseSlot.getRoom());
+                courseSlot.getRoomType(), courseSlot.getDateSlot(), courseSlot.getRoom());
         return courseGroupOptaPlaner;
     }
 
     public CourseSlot toOutput() {
-        return new CourseSlot(new CourseGroup(0, course, duration, 0), null, professor, room, dateSlot);
+        return new CourseSlot(new CourseGroup(0, course, duration, 0, roomType), null, professor, room, dateSlot);
     }
 }
