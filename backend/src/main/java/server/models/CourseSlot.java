@@ -93,6 +93,10 @@ public class CourseSlot implements Serializable {
         return planning;
     }
 
+    public void setPlanning(Planning planning) {
+        this.planning = planning;
+    }
+
     public Professor getProfessor() {
         return professor;
     }

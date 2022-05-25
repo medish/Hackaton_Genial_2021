@@ -42,11 +42,12 @@ public class CourseGroup implements IInput, Serializable {
     public CourseGroup() {
     }
 
-    public CourseGroup(int groupId, Course course, Duration duration, int size) {
+    public CourseGroup(int groupId, Course course, Duration duration, int size, RoomType roomType) {
         this.groupId = groupId;
         this.course = course;
         this.duration = duration;
         this.size = size;
+        this.roomType = roomType;
     }
 
     public int getGroupId() {

@@ -1,6 +1,5 @@
 package core.output;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -115,9 +114,7 @@ public class TimeTable implements IOutput, IInput {
      * @return List of output {@link CourseSlot}
      */
     public static List<CourseSlot> buildListSlots(List<CourseGroup> courseGroups) {
-        // return courseGroups.stream().map(group -> new CourseSlot(group,
-        // )).collect(Collectors.toList());
-        return new ArrayList<>();
+        return courseGroups.stream().map(courseGroup -> new CourseSlot(courseGroup, null, null, null, null)).toList();
     }
 
 }
