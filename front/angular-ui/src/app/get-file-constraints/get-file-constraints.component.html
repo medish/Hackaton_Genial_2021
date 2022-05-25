@@ -1,20 +1,23 @@
 <form action="">
     <div class="form-group">
-        <label for="timing_constraints" class="mb-3 control-label"> Contraintes de temps </label>
+       <label for="file" class="mb-3 control-label"> Contraintes de temps </label>
         <div class="row">
-            <input name="timing_constraints" id="timing_constraints" type="file" (change)="onFileSelectedTimeAndRoom($event)" placeholder="" class="form-control">
-            <button class="btn btn-lg text-white" (click)="sendFileSelectedTimeAndRoom()">Valider</button>
-            <p>{{errorMessageTimeAndRoom}}</p>
+          <input type="file" name="file" id="file" class="inputfile" data-multiple-caption="{count} files selected" multiple (change)="onFileSelectedTimeAndRoom($event)"/>
+          <label for="file"><fa-icon [icon]="faFileArrowUp"></fa-icon> Sélectionner un fichier</label>
+          <button class="valider btn btn-primary btn-lg text-white" (click)="sendFileSelectedTimeAndRoom()">Valider</button>
+          <p>{{errorMessageTimeAndRoom}}</p>
         </div>
     </div>
 
     <div class="form-group">
-        <label for="ordering_constraints" class="mb-3 mt-5 control-label">Contraintes d'ordre</label>
         <div class="row">
             <input name="ordering_constraints" id="ordering_constraints" type="file" (change)="onFileSelectedPrecedence($event)" class="form-control">
-            <button class="btn btn-lg text-white" (click)="sendFileSelectedPrecedence()">Valider</button>
+            <button class="valider btn btn-lg text-white" (click)="sendFileSelectedPrecedence()">Valider</button>
             <p>{{errorMessagePrecedence}}</p>
         </div>
     </div>
 
 </form>
+
+<app-form-constraint-time (onValidate)="onAddConstraintTimeRoom.emit([$event])"></app-form-constraint-time>
+

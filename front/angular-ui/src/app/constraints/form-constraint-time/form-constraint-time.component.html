@@ -1,0 +1,69 @@
+<div class="container">
+    <h1 class="txt"> Formulaire de contraintes de temps</h1>
+
+    <form #timeForm="ngForm" (ngSubmit)="onSubmit()" name="timeForm">
+
+      <div class="form-group">
+        <label for="selector">Selector</label>
+        <input type="text" class="form-control txt" id="selector"
+               required
+               [(ngModel)]="timeConstraintForm.selector" name="selector"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="want">Volonté</label>
+        <select class="form-control txt" id="want"
+                required
+                [(ngModel)]="timeConstraintForm.want" name="want"
+        >
+          <option *ngFor="let want of wants" [value]="want">{{want}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="day">Jour</label>
+        <select class="form-control" id="day"
+                required
+                [(ngModel)]="timeConstraintForm.day" name="day"
+        >
+          <option *ngFor="let day of days" [value]="day">{{day}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="startTime">Début du créneau</label>
+        <input type="time" class="form-control" id="startTime"
+               required
+               [(ngModel)]="timeConstraintForm.startTime" name="startTime"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="endTime">Fin du créneau</label>
+        <input type="time" class="form-control" id="endTime"
+               required
+               [(ngModel)]="timeConstraintForm.endTime" name="endTime"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="room">Salle</label>
+        <input type="text" class="form-control" id="room"
+               required
+               [(ngModel)]="timeConstraintForm.room" name="room"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="priority">Priorité</label>
+        <input type="number" max="100" min="1" value="50" class="form-control" id="priority"
+               required
+               [(ngModel)]="timeConstraintForm.priority" name="priority"
+        >
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary rounded submit p-3 px-5 txt">Valider</button>
+      </div>
+    </form>
+</div>

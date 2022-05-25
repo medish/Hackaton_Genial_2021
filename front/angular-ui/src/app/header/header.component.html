@@ -1,4 +1,4 @@
-<div *ngIf="!isLoggedIn || authService.currentRoute=='register'" >
+<div *ngIf="!isLoggedIn || authService.currentRoute=='register'">
   <router-outlet></router-outlet>
 </div>
 
@@ -7,65 +7,55 @@
     <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
       <span class="fs-4">UniPlanif</span>
     </a>
-    <hr>
+    <hr/>
     <ul class="nav nav-pills flex-column mb-auto">
       <li>
-        <a (click)="home()" class="nav-link actived text-white" >
+        <a (click)="home()" class="nav-link actived text-white">
           Accueil
         </a>
       </li>
       <li>
-        <a (click)="home()" class="nav-link text-white">
-          Générer un planning
-        </a>
+        <a (click)="home()" class="nav-link text-white"> Générer un EDT </a>
       </li>
 
       <li>
         <a (click)="allConstraints()" class="nav-link text-white">
-            Les contraintes
+          Les contraintes
         </a>
       </li>
 
       <li>
         <a (click)="allPlannings()" class="nav-link text-white">
-          Plannings
+          Emplois du temps
         </a>
       </li>
 
       <li>
-        <a (click)="allRooms()" class="nav-link text-white">
-          Salles
-        </a>
+        <a (click)="allRooms()" class="nav-link text-white"> Salles </a>
       </li>
 
       <li>
-        <a  (click)="allUsers()" class="nav-link text-white">
-          Utilisateurs
-        </a>
+        <a (click)="allUsers()" class="nav-link text-white"> Utilisateurs </a>
       </li>
       <li>
-        <a (click)="allGroups()" class="nav-link text-white">
-          Groupes
-        </a>
+        <a (click)="allGroups()" class="nav-link text-white"> Groupes </a>
       </li>
 
       <li>
-        <a (click)="allDepartments()" class="nav-link text-white">
+        <a (click)="allDepartments()" class="nav-link text-white title">
           Départements
         </a>
       </li>
-
       <li class="mt-5">
-        <a class="nav-link text-white" (click)="logout()" >
-          Déconnexion
-        </a>
+        <a class="nav-link text-white" (click)="logout()"> Déconnexion </a>
       </li>
     </ul>
-    <hr>
+    <hr/>
     <div class="ms-3">
       <strong>François</strong>
     </div>
   </div>
+
   <div class="b-example-divider"></div>
   <div class="main-content">
     <router-outlet></router-outlet>

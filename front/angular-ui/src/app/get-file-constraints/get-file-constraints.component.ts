@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { faFileArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { ConstraintPrecedence } from '../model/constraint/constraint-precedence';
 import { ConstraintTimeRoom } from '../model/constraint/constraint-time-room';
 import { ConstraintService } from '../services/constraint/constraint.service';
@@ -21,6 +22,7 @@ export class GetFileConstraintsComponent implements OnInit {
   currentPrecedence:ConstraintPrecedence[]=[];
   errorMessageTimeAndRoom='';
   errorMessagePrecedence='';
+  faFileArrowUp = faFileArrowUp;
   onFileSelectedTimeAndRoom(event:any){
     let fileReader = new FileReader();
     fileReader.onload = (e) => {
@@ -28,7 +30,7 @@ export class GetFileConstraintsComponent implements OnInit {
       this.errorMessageTimeAndRoom = ''
       if(!result){
         console.log("error")
-        this.errorMessageTimeAndRoom = 'Syntax error'
+        window.alert('Erreur de syntaxe');
       }else{
         this.currentTimeAndRoom = result;
       }
