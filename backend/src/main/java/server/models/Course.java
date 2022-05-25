@@ -3,7 +3,6 @@ package server.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.awt.*;
 import java.util.List;
 import java.util.Set;
 
@@ -13,7 +12,7 @@ import java.util.Set;
 public class Course implements IInput {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(unique = true)
@@ -23,8 +22,8 @@ public class Course implements IInput {
     @JoinColumn(name = "degree_id", nullable = false)
     private Degree degree;
 
-    @Column(name = "color")
-    private Color color;
+    @Column(name = "color", length = 6)
+    private String color;
 
     @JsonIgnore
     @OneToMany(mappedBy = "course")
@@ -37,7 +36,7 @@ public class Course implements IInput {
     @ManyToMany(mappedBy = "courses")
     private Set<Professor> professors;
 
-    public Course(int id, String name, Degree degree, Color color) {
+    public Course(int id, String name, Degree degree, String color) {
         this.id = id;
         this.name = name;
         this.degree = degree;
@@ -59,11 +58,11 @@ public class Course implements IInput {
         this.name = name;
     }
 
-    public Color getColor() {
+    public String getColor() {
         return this.color;
     }
 
-    public void setColor(Color color) {
+    public void setColor(String color) {
         this.color = color;
     }
 
