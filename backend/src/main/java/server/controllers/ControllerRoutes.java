@@ -1,7 +1,8 @@
 package server.controllers;
 
 public class ControllerRoutes {
-    private ControllerRoutes(){}
+    private ControllerRoutes() {
+    }
 
     public final static String SIGNIN = "signin";
     public final static String CONSTRAINTS = "constraints";
@@ -19,5 +20,6 @@ public class ControllerRoutes {
     public final static String MAJORS = "majors";
     public final static String ROOMS = "rooms";
     public final static String PLANNINGS = "planning";
+    public final static String REGISTER = "register";
 
 }
