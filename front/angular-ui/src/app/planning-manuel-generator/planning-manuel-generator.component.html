@@ -107,8 +107,8 @@
               class="form-select mt-3 mb-3"
             >
               <option [value]="">Choisir la salle ou l'amphi</option>
-              <option [value]="room.number" *ngFor="let room of roomsList">
-                {{ room.number }}
+              <option [value]="room.name" *ngFor="let room of roomsList">
+                {{ room.name }}
               </option>
             </select>
             <label for="prof">Professeur</label>
@@ -120,10 +120,10 @@
             >
               <option [value]="">Choisir le professeur</option>
               <option
-                [value]="professor.firstName + ' ' + professor.name"
+                [value]="professor.firstName + ' ' + professor.lastName"
                 *ngFor="let professor of professors"
               >
-                {{ professor.firstName }} {{ professor.name }}
+                {{ professor.firstName }} {{ professor.lastName }}
               </option>
             </select>
             <!-- <label for="color-session">Couleur créneau</label>

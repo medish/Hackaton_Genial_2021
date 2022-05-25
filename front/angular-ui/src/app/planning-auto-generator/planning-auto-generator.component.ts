@@ -96,6 +96,7 @@ export class PlanningAutoGeneratorComponent implements OnInit {
       //eventColor: '#17a2b8',
       allDaySlot: false,
       weekNumbers: false,
+      expandRows: true,
       slotMinTime: "8:00:00",
       slotMaxTime: "20:00:00",
       firstDay: 1,

@@ -90,6 +90,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       //eventColor: '#17a2b8',
       allDaySlot: false,
       weekNumbers: false,
+      expandRows: true,
       slotMinTime: "8:00:00",
       slotMaxTime: "20:00:00",
       firstDay: 1,
@@ -123,6 +124,8 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     event.setExtendedProp("degree",this.formGroupModel.controls['degree'].value)
     event.setProp("title",this.formGroupModel.controls['title'].value)
     event.setProp("backgroundColor",this.formGroupModel.controls['backgroundColor'].value)
+
+    console.log("props : ",this.formGroupModel.controls['backgroundColor'].value)
   }
   getAllEvents(){
     return this.calendarComponent.getApi().getEvents();
@@ -256,17 +259,19 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   courseChangeHandler(className) {
     const selectedCourse = this.courses.find(elem => elem.name === className);
     this.formGroupModel.controls['title'].setValue(selectedCourse?.name);
+    console.log("color ",selectedCourse)
+    this.formGroupModel.controls['backgroundColor'].setValue("#"+selectedCourse?.color)
     //TODO Handle duration
     this.formGroupModel.controls['duration'].setValue('1H');
     this.formGroupModel.controls['course'].setValue(selectedCourse?.name);
   }
-
+  
   teacherChangeHandler(teacherFirstNameName: string) {
     this.formGroupModel.controls['teacher'].setValue(teacherFirstNameName);
   }
 
-  roomChangeHandler(roomNum: string) {
-    this.formGroupModel.controls['room'].setValue(roomNum);
+  roomChangeHandler(roomName: string) {
+    this.formGroupModel.controls['room'].setValue(roomName);
   }
 
   departmentsChangeHandler(departmentName :string){
