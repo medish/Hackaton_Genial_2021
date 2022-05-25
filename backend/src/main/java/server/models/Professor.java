@@ -1,14 +1,9 @@
 package server.models;
 
 import java.io.Serializable;
+import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -23,7 +18,7 @@ public class Professor implements Serializable {
     @Column(name = "customer_id")
     private String id;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.REMOVE})
     @MapsId
     @JoinColumn(name = "customer_id")
     private Customer customer;
