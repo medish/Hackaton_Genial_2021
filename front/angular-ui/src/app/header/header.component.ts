@@ -3,6 +3,9 @@ import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 import {solid} from "@fortawesome/fontawesome-svg-core/import.macro";
+import {AuthcontrollerApi, CourseGroup, CoursegroupcontrollerApi} from "../model/swagger/api";
+import { param } from 'jquery';
+
 
 @Component({
   selector: 'app-header',
@@ -10,9 +13,11 @@ import {solid} from "@fortawesome/fontawesome-svg-core/import.macro";
   styleUrls: ['./header.component.scss']
 })
 
+
 export class HeaderComponent implements OnInit {
 
-  constructor(public authService: AuthService, public router: Router) {
+  constructor(public authService: AuthService, public router: Router, public c: AuthcontrollerApi, public d : CoursegroupcontrollerApi) {
+
   }
 
   currentActiveItem = null;
@@ -21,9 +26,19 @@ export class HeaderComponent implements OnInit {
   url: string;
 
 
+
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isLoggedIn();
+    this.c.checkAuthUsingGET({username:'',password:""}).then(data => {
+      console.log(data)
+      }
+    )
+    this.d.getAllUsingGET1().then(data =>{
+      let ii : Array<CourseGroup> = data;
+      console.log(ii.length);
+    })
   }
+
 
 
   acitiveItem() {

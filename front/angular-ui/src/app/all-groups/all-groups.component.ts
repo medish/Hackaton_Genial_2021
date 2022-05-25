@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {CourseGroup, CoursegroupcontrollerApi} from "../model/swagger/api";
 
 @Component({
   selector: 'app-all-groups',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AllGroupsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private coursegroupcontroller: CoursegroupcontrollerApi) {
+  }
+
+  all_groups : CourseGroup[];
 
   ngOnInit(): void {
+    this.coursegroupcontroller.getAllUsingGET1().then(data => {
+      this.all_groups = data;
+    })
   }
+
+
+
+
 
 }
