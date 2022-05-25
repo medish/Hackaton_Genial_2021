@@ -14,8 +14,8 @@ button {
 
 .valider {
   font-family: "Work Sans", sans-serif;
-  width: 30%;
   background-color: #31fc03 !important;
+  padding: 0.5rem 2rem;
 }
 
 .valider:focus,
@@ -42,7 +42,6 @@ button {
   display: inline-block;
   cursor: pointer;
   width: fit-content;
-  transform: translateX(5%);
   height: fit-content;
   border-radius: 0.25rem;
   opacity: 0.7;
