@@ -15,7 +15,7 @@ import javax.persistence.Table;
 public class Department implements IInput {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(unique = true, name = "name", nullable = false)
