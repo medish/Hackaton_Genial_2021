@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class ConnexionTest {
+    public static final int TIMEOUT_MILLIS = 1000;
     private WebDriver driver;
     private Map<String, Object> vars;
     JavascriptExecutor js;
@@ -51,7 +52,7 @@ public class ConnexionTest {
         driver.findElement(By.cssSelector(".btn")).click();
 
         synchronized (driver){
-            driver.wait(1000);
+            driver.wait(TIMEOUT_MILLIS);
         }
         assertTrue(driver.getCurrentUrl().contains("admin"));
     }
