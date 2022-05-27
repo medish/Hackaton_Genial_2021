@@ -17,7 +17,7 @@ import { CourseSlot, PlanningcontrollerApi } from '../model/swagger/api';
 
 export class PlanningAutoGeneratorComponent implements OnInit {
   options: any;
-  constructor(private planningController:PlanningcontrollerApi,private back:DataInterfaceService, private courseSlotsService:CourseSlotsService) {
+  constructor(private planningController:PlanningcontrollerApi,private courseSlotsService:CourseSlotsService) {
   }
   @ViewChild('calendar') calendarComponent: FullCalendarComponent;
 
@@ -157,16 +157,12 @@ export class PlanningAutoGeneratorComponent implements OnInit {
     }
   }
   generatePlanning(){
-    console.log(this.calendarComponent.getApi())
     this.planningController.generatePlanningUsingGET().then(planning=>{
       let slots = planning.slots?.map(slot=>this.courseSlotsService.fromCourseSlotToCalendar(slot));
       this.calendarComponent.getApi().removeAllEvents();
       for(let evt of slots){
         this.calendarComponent.getApi().addEvent(evt);
       }
-      console.log('ret ',planning)
-      console.log('res 1',slots)      
-      console.log('res 2',this.getAllEvents())
     })
   }
 

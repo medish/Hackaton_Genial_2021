@@ -27,3 +27,17 @@
 .calendar-container {
   margin-bottom: 3rem;
 }
+
+.new-edt-wrapper{
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  justify-content: flex-start;
+  .new-edt-btn{
+    margin-right: 2rem;
+  }
+  .new-edt-spinner{
+
+  }
+}

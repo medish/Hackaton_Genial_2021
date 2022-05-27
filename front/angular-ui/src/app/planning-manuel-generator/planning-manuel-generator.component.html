@@ -1,11 +1,19 @@
 <div class="m-5 row">
-  <h1 class="mt-5">Manuel</h1>
+  <h1 class="mt-5">Emploi du temps</h1>
   <app-constraints></app-constraints>
+  <div class="float-start new-edt-wrapper">
+    <button class="btn btn-success txt new-edt-btn" (click)="generatePlanning()">
+      Générer un nouvel EDT
+    </button>
+    <div *ngIf="generating" class="spinner-border new-edt-spinner" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
   <div class="float-end" style="direction: rtl">
     <app-pdf-export></app-pdf-export>
     <button
       type="button"
-      class="btn-lg btn-primary me-5"
+      class="btn-lg btn-success me-5"
       (click)="exportToICS()"
     >
       Export: ICS
