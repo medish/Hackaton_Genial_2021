@@ -3,8 +3,6 @@
     <label for="file" class="mb-3 control-label">
       <h5>Contraintes de précédences</h5>
     </label>
-    <label for="ordering_time_constraints" class="mb-3 control-label">
-      <h5>Contraintes de temps</h5></label>
     <div class="row">
       <div class="attach-file-container">
         <input
@@ -17,10 +15,10 @@
           multiple
         />
         <label
-          for="ordering_time_constraints"
+          for="ordering_constraints"
           class="attach-file-label"
-          id="time-and-room-button"
-          ><fa-icon [icon]="faFileArrowUp"></fa-icon> Sélectionner un
+          id="ordering_button"
+        ><fa-icon [icon]="faFileArrowUp"></fa-icon> Sélectionner un
           fichier</label
         >
       </div>
@@ -37,7 +35,7 @@
   </div>
   <div>
     <label id="example-radio-group-label"
-      >Ajouter des contraintes de temps:</label
+    >Ajouter des contraintes de temps:</label
     >
     <mat-radio-group
       aria-labelledby="example-radio-group-label"
@@ -70,10 +68,10 @@
           (change)="onFileSelectedTimeAndRoom($event)"
         />
         <label
-          for="ordering_constraints"
+          for="file"
           class="attach-file-label"
-          id="ordering_button"
-          ><fa-icon [icon]="faFileArrowUp"></fa-icon> Sélectionner un
+          id="time-and-room-button"
+        ><fa-icon [icon]="faFileArrowUp"></fa-icon> Sélectionner un
           fichier</label
         >
       </div>
@@ -100,7 +98,6 @@
          [dismissOnTimeout]="timeoutError">
     <p>Une erreur est survenue pendant le traitement du fichier. Veuillez réessayer</p>
   </alert>
-</form>
 
   <app-form-constraint-time
     (onValidate)="onAddConstraintTimeRoom.emit([$event])"

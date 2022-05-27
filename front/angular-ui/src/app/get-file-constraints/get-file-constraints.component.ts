@@ -18,7 +18,6 @@ export enum Modes {
   selector: 'app-get-file-constraints',
   templateUrl: './get-file-constraints.component.html',
   styleUrls: ['./get-file-constraints.component.scss'],
-  styleUrls: ['./get-file-constraints.component.scss'],
   providers: [DataInterfaceService]
 })
 export class GetFileConstraintsComponent implements OnInit {
@@ -34,12 +33,13 @@ export class GetFileConstraintsComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  currentFileNameTimeAndRoom='';
-  currentTimeAndRoom:ConstraintTimeRoom[]=[];
-  currentFileNamePrecedence='';
-  currentPrecedence:ConstraintPrecedence[]=[];
-  errorMessageTimeAndRoom='';
-  errorMessagePrecedence='';
+
+  currentFileNameTimeAndRoom = '';
+  currentTimeAndRoom: ConstraintTimeRoom[] = [];
+  currentFileNamePrecedence = '';
+  currentPrecedence: ConstraintPrecedence[] = [];
+  errorMessageTimeAndRoom = '';
+  errorMessagePrecedence = '';
   Modes = Modes;
   constraintsMode: string;
   constraintsModes: string[] = [Modes.CSV, Modes.FORM];
@@ -75,13 +75,13 @@ export class GetFileConstraintsComponent implements OnInit {
           this.currentTimeAndRoom = result;
         }
       }
+      ;
       if (event?.target?.files?.length > 0) {
         this.currentFileNameTimeAndRoom = event.target.files[0].name;
         fileReader.readAsText(event.target.files[0]);
       }
     }
   }
-
   sendFileSelectedTimeAndRoom() {
     if (this.currentTimeAndRoom?.length > 0) {
       console.log(this.currentTimeAndRoom);
