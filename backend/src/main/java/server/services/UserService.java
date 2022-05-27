@@ -22,7 +22,7 @@ public class UserService {
     }
 
     public User getByEmailAndPassword(String email, String password){
-        return repository.getByEmailAndPassword(email, password);
+        return repository.findAll().stream().filter(u->email.equals(u.getEmail())&&password.equals(u.getPassword())).findFirst().orElse(null);
     }
 
     /**

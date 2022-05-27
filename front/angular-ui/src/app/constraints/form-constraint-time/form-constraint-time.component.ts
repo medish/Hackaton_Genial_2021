@@ -54,10 +54,10 @@ export class FormConstraintTimeComponent implements OnInit {
     let timeConstraint: ConstraintTimeRoom = {
       id: undefined,
       selector: {selectorUnits: [{table: slct[0], attribute: slct[1], value: slct[2]}]},
-      veut: form_result[1] == true,
+      wants: form_result[1] == true,
       day: parseInt(form_result[2]),
-      hourBegin: form_result[3],
-      hourEnd: form_result[4],
+      dateBegin: form_result[3],
+      dateEnd: form_result[4],
       room: {selectorUnits: [{table: r[0], attribute: r[1], value: r[2]}]},
       priority: parseInt(form_result[6])
     }

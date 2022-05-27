@@ -31,7 +31,7 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { DepartmentComponent } from './department/department.component';
 import { AllConstraintsComponent } from './all-constraints/all-constraints.component';
 import { AllGroupsComponent } from './all-groups/all-groups.component';
-import { CoursecontrollerApi, DegreecontrollerApi, DepartmentcontrollerApi, ProfessorcontrollerApi, RoomcontrollerApi, TimeconstraintcontrollerApi } from './model/swagger/api';
+import { CoursecontrollerApi, CoursegroupcontrollerApi, DegreecontrollerApi, DepartmentcontrollerApi, PlanningcontrollerApi, ProfessorcontrollerApi, RoomcontrollerApi, TimeconstraintcontrollerApi } from './model/swagger/api';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -73,7 +73,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     DataTablesModule,
     FontAwesomeModule
   ],
-  providers: [authInterceptorProviders,TimeconstraintcontrollerApi,RoomcontrollerApi,CoursecontrollerApi,ProfessorcontrollerApi,DegreecontrollerApi,DepartmentcontrollerApi],
+  providers: [authInterceptorProviders,TimeconstraintcontrollerApi,RoomcontrollerApi,CoursecontrollerApi,ProfessorcontrollerApi,DegreecontrollerApi,DepartmentcontrollerApi,CoursegroupcontrollerApi,PlanningcontrollerApi],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

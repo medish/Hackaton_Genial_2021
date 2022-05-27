@@ -81,6 +81,10 @@ public class CourseSlot implements Serializable {
                 || (courseSlot.getStartTime().plus(courseSlot.getDuration()).isAfter(getStartTime()));
     }
 
+    public int getId() {
+        return id;
+    }
+
     public CourseGroup getCourseGroup() {
         return courseGroup;
     }

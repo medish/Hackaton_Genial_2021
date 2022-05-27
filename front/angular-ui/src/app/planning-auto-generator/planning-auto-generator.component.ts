@@ -2,10 +2,12 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin, {Draggable} from '@fullcalendar/interaction';
-import {FullCalendarComponent} from "@fullcalendar/angular";
+import {EventApi, FullCalendarComponent} from "@fullcalendar/angular";
 import uniqid from 'uniqid';
 import { DataInterfaceService } from '../services/data-interface.service';
 import { createEvents } from 'ics';
+import { CourseSlotsService } from '../services/course-slots/course-slots.service';
+import { CourseSlot, PlanningcontrollerApi } from '../model/swagger/api';
 
 @Component({
   selector: 'app-planning-auto-generator',
@@ -15,7 +17,7 @@ import { createEvents } from 'ics';
 
 export class PlanningAutoGeneratorComponent implements OnInit {
   options: any;
-  constructor(private back:DataInterfaceService) {
+  constructor(private planningController:PlanningcontrollerApi,private back:DataInterfaceService, private courseSlotsService:CourseSlotsService) {
   }
   @ViewChild('calendar') calendarComponent: FullCalendarComponent;
 
@@ -100,7 +102,7 @@ export class PlanningAutoGeneratorComponent implements OnInit {
       slotMinTime: "8:00:00",
       slotMaxTime: "20:00:00",
       firstDay: 1,
-      eventTextColor:"black",
+      eventTextColor:"white",
       events: [
 
       ]
@@ -154,10 +156,17 @@ export class PlanningAutoGeneratorComponent implements OnInit {
       this.download(filename, value);
     }
   }
-
   generatePlanning(){
-    this.back.generatePlanning(planning=>{      
-      console.log("gen retour",planning);
+    console.log(this.calendarComponent.getApi())
+    this.planningController.generatePlanningUsingGET().then(planning=>{
+      let slots = planning.slots?.map(slot=>this.courseSlotsService.fromCourseSlotToCalendar(slot));
+      this.calendarComponent.getApi().removeAllEvents();
+      for(let evt of slots){
+        this.calendarComponent.getApi().addEvent(evt);
+      }
+      console.log('ret ',planning)
+      console.log('res 1',slots)      
+      console.log('res 2',this.getAllEvents())
     })
   }
 

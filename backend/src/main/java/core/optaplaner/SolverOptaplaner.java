@@ -1,10 +1,10 @@
 package core.optaplaner;
 
-import core.SolverTimeTable;
-import core.optaplaner.domain.CourseGroupOptaPlaner;
-import core.optaplaner.domain.TimeTableOptaPlaner;
-import core.optaplaner.solver.TimeTableConstraintProvider;
-import core.output.TimeTable;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
+
 import org.optaplanner.core.api.score.ScoreExplanation;
 import org.optaplanner.core.api.score.ScoreManager;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
@@ -13,16 +13,16 @@ import org.optaplanner.core.api.score.stream.ConstraintFactory;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.config.solver.SolverConfig;
+
+import core.SolverTimeTable;
+import core.optaplaner.domain.CourseGroupOptaPlaner;
+import core.optaplaner.domain.TimeTableOptaPlaner;
+import core.optaplaner.solver.TimeTableConstraintProvider;
+import core.output.TimeTable;
 import server.models.PrecedenceConstraint;
 import server.models.TimeConstraint;
 
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Function;
-
 public class SolverOptaplaner implements SolverTimeTable {
-
 
     private SolverFactory<TimeTableOptaPlaner> solverFactory;
 
@@ -71,6 +71,7 @@ public class SolverOptaplaner implements SolverTimeTable {
         ScoreManager<TimeTableOptaPlaner, HardSoftScore> scoreManager = ScoreManager.create(solverFactory);
         ScoreExplanation<TimeTableOptaPlaner, HardSoftScore> scoreExplanation = scoreManager
                 .explainScore(timeTableOptaPlaner);
+        System.out.println(scoreExplanation);
         return scoreExplanation;
     }
 }
