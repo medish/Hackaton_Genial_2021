@@ -117,7 +117,7 @@ INSERT INTO course_group (major_course_major_id, major_course_course_id, duratio
 INSERT INTO course_group (major_course_major_id, major_course_course_id, duration,size,room_type) VALUES (2,5,7200000000000,20,'CM');
 
 
-INSERT INTO users (last_name,first_name,email,password,role) VALUES ('Admin','UFR','admin@u-paris.fr','oui','ADMIN');
+INSERT INTO users (last_name,first_name,email,password,role) VALUES ('Admin','UFR','admin@u-paris.fr','ouiouioui','ADMIN');
 INSERT INTO users (last_name,first_name,email,password,role) VALUES ('Pierre','Dupont','dupont@u-paris.fr','oui','PROFESSOR');
 INSERT INTO users (last_name,first_name,email,password,role) VALUES ('Jean','Dupond','dupond@u-paris.fr','oui','PROFESSOR');
 INSERT INTO users (last_name,first_name,email,password,role) VALUES ('Philippe','Loiseau','loiseau@u-paris.fr','oui','PROFESSOR');
