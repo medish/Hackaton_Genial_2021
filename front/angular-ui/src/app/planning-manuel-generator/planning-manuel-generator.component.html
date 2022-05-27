@@ -14,13 +14,10 @@
 </div>
 <br />
 <div class="planning-container">
-  <div class="col-9 calendar-container" id="external-events">
-    <full-calendar #calendar [options]="options" id="calendar"></full-calendar>
-  </div>
-  <div class="col-2 caption-container">
+  <div class="col-2 caption-container" id="external-events">
     <div class="card caption">
       <div class="card-body text-center">
-        <div
+        <div 
           class="card-creneau fc-event fc-h-event mb-3 bg-primary text-white border border-info"
         >
           <div class="fc-event-main">
@@ -34,6 +31,10 @@
       </div>
     </div>
   </div>
+  <div class="col-9 calendar-container">
+    <full-calendar #calendar [options]="options" id="calendar"></full-calendar>
+  </div>
+
 
   <div
     class="modal fade"
