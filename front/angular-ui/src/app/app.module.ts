@@ -42,6 +42,7 @@ import {
   TimeconstraintcontrollerApi,
 } from './model/swagger/api';
 import { MatRadioModule } from '@angular/material/radio';
+import { AlertModule, AlertConfig } from 'ngx-bootstrap/alert'
 
 FullCalendarModule.registerPlugins([
   // register FullCalendar plugins
@@ -84,6 +85,8 @@ FullCalendarModule.registerPlugins([
     DataTablesModule,
     FontAwesomeModule,
     MatRadioModule,
+    FontAwesomeModule,
+    AlertModule
   ],
   providers: [
     authInterceptorProviders,
@@ -96,6 +99,6 @@ FullCalendarModule.registerPlugins([
     CoursegroupcontrollerApi,
     PlanningcontrollerApi,
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

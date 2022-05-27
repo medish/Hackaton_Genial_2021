@@ -1,8 +1,12 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { faFileArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { ConstraintPrecedence } from '../model/constraint/constraint-precedence';
 import { ConstraintTimeRoom } from '../model/constraint/constraint-time-room';
 import { ConstraintService } from '../services/constraint/constraint.service';
+import {DataInterfaceService} from "../services/data-interface.service";
+import {MessagingService} from "../services/messaging.service";
+import {skip} from "rxjs";
+
 import { AlertComponent } from 'ngx-bootstrap/alert'
 
 export enum Modes {
@@ -14,8 +18,28 @@ export enum Modes {
   selector: 'app-get-file-constraints',
   templateUrl: './get-file-constraints.component.html',
   styleUrls: ['./get-file-constraints.component.scss'],
+  styleUrls: ['./get-file-constraints.component.scss'],
+  providers: [DataInterfaceService]
 })
 export class GetFileConstraintsComponent implements OnInit {
+
+  constructor(private constraintService: ConstraintService, private messagingService: MessagingService) {
+    messagingService.currentMessageState.pipe(skip(1)).subscribe(value => {
+      this.isOpenError = !value;
+      this.isOpen = value;
+    })
+  }
+  @Output('onAddConstraintTimeRoom')onAddConstraintTimeRoom = new EventEmitter<ConstraintTimeRoom[]>()
+  @Output('onAddConstraintPrecedence')onAddConstraintPrecedence = new EventEmitter<ConstraintPrecedence[]>();
+
+  ngOnInit(): void {
+  }
+  currentFileNameTimeAndRoom='';
+  currentTimeAndRoom:ConstraintTimeRoom[]=[];
+  currentFileNamePrecedence='';
+  currentPrecedence:ConstraintPrecedence[]=[];
+  errorMessageTimeAndRoom='';
+  errorMessagePrecedence='';
   constructor(public constraintService: ConstraintService) {}
   @Output('onAddConstraintTimeRoom') onAddConstraintTimeRoom = new EventEmitter<
     ConstraintTimeRoom[]
@@ -34,6 +58,14 @@ export class GetFileConstraintsComponent implements OnInit {
   constraintsModes: string[] = [Modes.CSV, Modes.FORM];
   faFileArrowUp = faFileArrowUp;
   onFileSelectedTimeAndRoom(event: any) {
+
+  public isOpen: boolean = false;
+  dismissible: boolean = true;
+  timeout: number = 10000;
+  timeoutError: number = 20000;
+  public isOpenError: boolean = false;
+
+  onFileSelectedTimeAndRoom(event:any){
     const files = event.target.files;
     const fileName = files[0].name;
     const inputFile = document.getElementById('time-and-room-button');
@@ -49,6 +81,11 @@ export class GetFileConstraintsComponent implements OnInit {
           'Une erreur de syntaxe se trouve dans le fichier. Veuillez réessayer'
         );
       } else {
+      let result = this.constraintService.parseConstraintsTimeAndRoom(fileReader.result?.toString());
+      this.errorMessageTimeAndRoom = ''
+      if(!result){
+        this.isOpenError = true;
+      }else{
         this.currentTimeAndRoom = result;
       }
     };

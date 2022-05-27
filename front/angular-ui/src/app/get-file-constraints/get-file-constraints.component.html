@@ -3,6 +3,8 @@
     <label for="file" class="mb-3 control-label">
       <h5>Contraintes de précédences</h5>
     </label>
+    <label for="ordering_time_constraints" class="mb-3 control-label">
+      <h5>Contraintes de temps</h5></label>
     <div class="row">
       <div class="attach-file-container">
         <input
@@ -86,6 +88,19 @@
       <p>{{ errorMessageTimeAndRoom }}</p>
     </div>
   </div>
+  <alert type="success"
+         [dismissible]="dismissible"
+         [isOpen]="isOpen"
+         [dismissOnTimeout]="timeout">
+    <p>Le fichier a été téléversé avec succès</p>
+  </alert>
+  <alert type="danger"
+         [dismissible]="dismissible"
+         [isOpen]="isOpenError"
+         [dismissOnTimeout]="timeoutError">
+    <p>Une erreur est survenue pendant le traitement du fichier. Veuillez réessayer</p>
+  </alert>
+</form>
 
   <app-form-constraint-time
     (onValidate)="onAddConstraintTimeRoom.emit([$event])"
