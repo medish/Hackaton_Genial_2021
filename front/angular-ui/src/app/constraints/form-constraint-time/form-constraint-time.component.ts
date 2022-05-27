@@ -47,36 +47,29 @@ export class FormConstraintTimeComponent implements OnInit {
     }
   ]
 
+  submitted = false;
+  validated = false;
   professors : Professor[] = [];
   courses : Course[] = [];
   rooms : Room[] = [];
   timeFormGroup: FormGroup;
 
-  timeConstraintForm = {
-    selector: '',
-    selectorTarget: '',
-    want: '',
-    day: null,
-    startTime: '',
-    endTime: '',
-    room: null,
-    priority: 0
-  }
-
   onSubmit() {
 
+    this.submitted = true;
+    this.validated = false;
     if(this.timeFormGroup.invalid){
       return;
     }
 
     let form_result= [
-      this.timeConstraintForm.selector+":id:"+this.timeConstraintForm.selectorTarget,
-      this.timeConstraintForm.want == 'souhaite' ? 'true':'false',
-      (this.days.indexOf(this.timeConstraintForm.day)+1).toString(),
-      this.timeConstraintForm.startTime+":00",
-      this.timeConstraintForm.endTime+":00",
-      this.timeConstraintForm.room,
-      this.timeConstraintForm.priority.toString()
+      this.timeFormGroup.value.selector+":id:"+this.timeFormGroup.value.selectorTarget,
+      this.timeFormGroup.value.want == 'souhaite' ? 'true':'false',
+      (this.days.indexOf(this.timeFormGroup.value.day)+1).toString(),
+      this.timeFormGroup.value.startTime+":00",
+      this.timeFormGroup.value.endTime+":00",
+      "room:id:"+this.timeFormGroup.value.room,
+      this.timeFormGroup.value.priority.toString()
     ];
 
     let slct = form_result[0].split(':')
@@ -93,14 +86,10 @@ export class FormConstraintTimeComponent implements OnInit {
       priority: parseInt(form_result[6])
     }
 
-    console.log(timeConstraint)
-    console.log(form_result)
-    const result = this.constraintService.verifySplittedLineConstraintsTimeRoom(form_result);
-    if(result){
+    this.validated = this.constraintService.verifySplittedLineConstraintsTimeRoom(form_result);
+    if(this.validated){
       this.onValidate.emit(timeConstraint);
     }
-    console.log("res : "+result);
-
   }
 
   ngOnInit(): void {
@@ -124,8 +113,7 @@ export class FormConstraintTimeComponent implements OnInit {
 
     this.timeFormGroup = this.formBuilder.group({
       selector: ['', [Validators.required]],
-      teacher: ['', [Validators.required]],
-      lesson: ['', [Validators.required]],
+      selectorTarget: ['', [Validators.required]],
       want: ['', [Validators.required]],
       day: ['', [Validators.required]],
       startTime: ['', [Validators.required]],
@@ -134,5 +122,5 @@ export class FormConstraintTimeComponent implements OnInit {
       priority: ['',[Validators.required]]
     });
   }
-
 }
+
