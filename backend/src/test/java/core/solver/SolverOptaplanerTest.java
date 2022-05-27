@@ -70,6 +70,7 @@ class SolverOptaplanerTest {
 
         Major impairs = new Major("Impairs");
         Major genial = new Major("Genial");
+        Major data = new Major("Data");
 
         Course math9 = new Course("Math", grade9, BLACK);
         Course physics9 = new Course("Physics", grade9, BLACK);
@@ -96,10 +97,10 @@ class SolverOptaplanerTest {
         CourseGroup courseGroup7 = new CourseGroup(1, new MajorCourse(english9, impairs), Duration.ofMinutes(60), 20, RoomType.CM);
         CourseGroup courseGroup8 = new CourseGroup(2, new MajorCourse(english9, genial), Duration.ofMinutes(120), 20, RoomType.TD);
         CourseGroup courseGroup9 = new CourseGroup(1, new MajorCourse(spanish9, genial), Duration.ofMinutes(120), 20, RoomType.CM);
-        CourseGroup courseGroup10 = new CourseGroup(2, new MajorCourse(spanish9, genial), Duration.ofMinutes(120), 20, RoomType.TP);
+        CourseGroup courseGroup10 = new CourseGroup(2, new MajorCourse(spanish9, impairs), Duration.ofMinutes(120), 20, RoomType.TP);
         CourseGroup courseGroup11 = new CourseGroup(1, new MajorCourse(math10, impairs), Duration.ofMinutes(120), 20, RoomType.TP);
         CourseGroup courseGroup12 = new CourseGroup(2, new MajorCourse(math10, genial), Duration.ofMinutes(60), 20, RoomType.TD);
-        CourseGroup courseGroup13 = new CourseGroup(3, new MajorCourse(math10, impairs), Duration.ofMinutes(60), 20, RoomType.CM);
+        CourseGroup courseGroup13 = new CourseGroup(3, new MajorCourse(math10, data), Duration.ofMinutes(60), 20, RoomType.CM);
         CourseGroup courseGroup14 = new CourseGroup(1, new MajorCourse(physics10, genial), Duration.ofMinutes(60), 20, RoomType.CM);
         CourseGroup courseGroup15 = new CourseGroup(1, new MajorCourse(chemistry10, impairs), Duration.ofMinutes(60), 20, RoomType.TD);
         CourseGroup courseGroup16 = new CourseGroup(1, new MajorCourse(french10, impairs), Duration.ofMinutes(60), 20, RoomType.CM);
