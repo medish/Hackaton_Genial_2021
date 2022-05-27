@@ -15,7 +15,7 @@ public class AuthController {
     UserService userService;
 
     @GetMapping()
-    public boolean checkAuth(@RequestParam("email") String email, @RequestParam("password") String password) {
-        return true;
+    public User checkAuth(@RequestParam("email") String email, @RequestParam("password") String password) {
+        return this.userService.getByEmailAndPassword(email, password);
     }
 }
