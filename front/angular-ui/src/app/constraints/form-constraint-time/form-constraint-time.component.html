@@ -1,17 +1,35 @@
 <div class="container">
   <h1 class="txt">Formulaire de contraintes de temps</h1>
 
-  <form #timeForm="ngForm" (ngSubmit)="onSubmit()" name="timeForm">
+  <form #timeForm="ngForm" name="timeForm" [formGroup]="timeFormGroup">
     <div class="form-group">
-      <label for="selector">Selector</label>
-      <input
-        type="text"
-        class="form-control txt"
+      <label for="selector">Sélecteur</label>
+      <select
+        class="form-control"
         id="selector"
         required
-        [(ngModel)]="timeConstraintForm.selector"
         name="selector"
-      />
+      >
+        <option *ngFor="let selector of selectors" [value]="selector.value">{{ selector.label }}</option>
+      </select>
+      <select
+              class="form-control"
+              *ngIf="timeConstraintForm.selector == 'teacher'"
+              formControlName="teacher"
+              id="professor"
+              required
+      >
+        <option [value]="professor.id" *ngFor="let professor of professors">{{ professor.firstName }} {{ professor.lastName }}</option>
+      </select>
+      <select
+              class="form-control"
+              *ngIf="timeConstraintForm.selector == 'lesson'"
+              formControlName="lesson"
+              id="lesson"
+              required
+      >
+        <option [value]="course.id" *ngFor="let course of courses">{{ course.name }}</option>
+      </select>
     </div>
 
     <div class="form-group">
@@ -19,8 +37,8 @@
       <select
         class="form-control txt"
         id="want"
+        formControlName="want"
         required
-        [(ngModel)]="timeConstraintForm.want"
         name="want"
       >
         <option *ngFor="let want of wants" [value]="want">{{ want }}</option>
@@ -32,8 +50,8 @@
       <select
         class="form-control"
         id="day"
+        formControlName="day"
         required
-        [(ngModel)]="timeConstraintForm.day"
         name="day"
       >
         <option *ngFor="let day of days" [value]="day">{{ day }}</option>
@@ -46,8 +64,8 @@
         type="time"
         class="form-control"
         id="startTime"
+        formControlName="startTime"
         required
-        [(ngModel)]="timeConstraintForm.startTime"
         name="startTime"
       />
     </div>
@@ -58,22 +76,24 @@
         type="time"
         class="form-control"
         id="endTime"
+        formControlName="endTime"
         required
-        [(ngModel)]="timeConstraintForm.endTime"
         name="endTime"
       />
     </div>
 
     <div class="form-group">
       <label for="room">Salle</label>
-      <input
+      <select
         type="text"
+        formControlName="room"
         class="form-control"
         id="room"
         required
-        [(ngModel)]="timeConstraintForm.room"
         name="room"
-      />
+      >
+        <option *ngFor="let room of rooms" [value]="room.id">{{ room.name }}</option>
+      </select>
     </div>
 
     <div class="form-group">
@@ -86,12 +106,12 @@
         class="form-control"
         id="priority"
         required
-        [(ngModel)]="timeConstraintForm.priority"
+        formControlName="priority"
         name="priority"
       />
     </div>
     <div class="form-group form-submit-container">
-      <button type="submit" class="btn btn-primary rounded submit p-3 px-5 txt">
+      <button type="submit" (click)="onSubmit()"  class="btn btn-primary rounded submit p-3 px-5 txt">
         Valider
       </button>
     </div>
