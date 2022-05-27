@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import server.models.CourseGroup;
-import server.models.CourseGroupId;
 import server.services.CourseGroupService;
 
 import java.util.List;
@@ -25,7 +24,7 @@ public class CourseGroupController {
     }
 
     @GetMapping("/{id}")
-    public Optional<CourseGroup> getById(@PathVariable CourseGroupId id){
+    public Optional<CourseGroup> getById(@PathVariable int id){
         return service.getById(id);
     }
 }

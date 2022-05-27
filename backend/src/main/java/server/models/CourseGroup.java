@@ -1,35 +1,20 @@
 package server.models;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.time.Duration;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 @Table(name = "course_group")
-@IdClass(CourseGroupId.class)
-public class CourseGroup implements IInput, Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class CourseGroup implements IInput {
 
     @Id
-    @Column(name = "group_id", nullable = false)
-    private int groupId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-    @Id
     @ManyToOne
-    @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
     private Duration duration;
@@ -42,16 +27,16 @@ public class CourseGroup implements IInput, Serializable {
     public CourseGroup() {
     }
 
-    public CourseGroup(int groupId, Course course, Duration duration, int size, RoomType roomType) {
-        this.groupId = groupId;
+    public CourseGroup(int id, Course course, Duration duration, int size, RoomType roomType) {
+        this.id = id;
         this.course = course;
         this.duration = duration;
         this.size = size;
         this.roomType = roomType;
     }
 
-    public int getGroupId() {
-        return groupId;
+    public int getId() {
+        return id;
     }
 
     public Course getCourse() {
