@@ -57,7 +57,6 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
 
     public Constraint teacherTimeEfficiency(ConstraintFactory constraintFactory) {
         // A teacher prefers to teach sequential lessons and dislikes gaps between lessons.
-
         return constraintFactory
                 .forEach(CourseGroupOptaPlaner.class)
                 .join(CourseGroupOptaPlaner.class,
@@ -86,7 +85,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                         Joiners.equal(CourseGroupOptaPlaner::getCouseGroupe))
                 .penalize("Student group conflict", HardSoftScore.ONE_HARD);
     }
-    public static Constraint teacherTimeJustAfterTwoLessonConflict(ConstraintFactory constraintFactory, String[] courses) {
+    public Constraint teacherTimeJustAfterTwoLessonConflict(ConstraintFactory constraintFactory, String[] courses) {
         // A teacher prefer to teach lesson1 French just after lesson2 Chemistry
         return constraintFactory
                 .forEach(CourseGroupOptaPlaner.class)
@@ -97,7 +96,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                 .penalize("Teacher can't teach lesson 1 before lesson 2", HardSoftScore.ONE_SOFT);
     }
 
-    public static Constraint teacherLessonRoomTimePreferencesConflict(ConstraintFactory constraintFactory, String course, String profName, String romeName, int[] time) {
+    public Constraint teacherLessonRoomTimePreferencesConflict(ConstraintFactory constraintFactory, String course, String profName, String romeName, int[] time) {
         // Teacher teacher1 'Turing' does not want to teach Course1 'Math' in room 'C' at Hour '8H30'
         return constraintFactory
                 .forEach(CourseGroupOptaPlaner.class)
@@ -108,7 +107,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                 .penalize("Teacher 'profName' does not want to teach 'course' in room 'romName' at time", HardSoftScore.ONE_SOFT);
     }
 
-    public static Constraint teacherLessonRoomPreferencesConflict(ConstraintFactory constraintFactory, String course, String profName, String romeName) {
+    public Constraint teacherLessonRoomPreferencesConflict(ConstraintFactory constraintFactory, String course, String profName, String romeName) {
         // Teacher 'profName' does not want to teach 'course' in Room 'romName'
         return constraintFactory
                 .forEach(CourseGroupOptaPlaner.class)
@@ -118,7 +117,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                 .penalize("Teacher 'profName' does not want to teach 'course' in Room 'romName'", HardSoftScore.ONE_SOFT);
     }
 
-    public static Constraint teacherLessonNotInRoomPreferencesConflict(ConstraintFactory constraintFactory, String course, String profName, String romeName) {
+    public Constraint teacherLessonNotInRoomPreferencesConflict(ConstraintFactory constraintFactory, String course, String profName, String romeName) {
         // Teacher 'profName' want to teach 'course' in Room 'romName'
         return constraintFactory
                 .forEach(CourseGroupOptaPlaner.class)

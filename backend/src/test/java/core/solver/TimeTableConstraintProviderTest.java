@@ -49,8 +49,8 @@ class TimeTableConstraintProviderTest {
         Major genial = new Major("Genial");
 
         CourseGroup courseGroup1 = new CourseGroup(1, new MajorCourse(subject1, impairs), Duration.ofMinutes(60), 0, RoomType.CM);
-        CourseGroup courseGroup2 = new CourseGroup(1, new MajorCourse(subject2, genial), Duration.ofMinutes(60), 0, RoomType.TD);
-        CourseGroup courseGroup3 = new CourseGroup(1, new MajorCourse(subject3, impairs), Duration.ofMinutes(60), 0, RoomType.CM);
+        CourseGroup courseGroup2 = new CourseGroup(2, new MajorCourse(subject2, genial), Duration.ofMinutes(60), 0, RoomType.TD);
+        CourseGroup courseGroup3 = new CourseGroup(3, new MajorCourse(subject3, impairs), Duration.ofMinutes(60), 0, RoomType.CM);
 
         CourseGroupOptaPlaner firstLesson = new CourseGroupOptaPlaner(1, courseGroup1, turing);
         CourseGroupOptaPlaner conflictingLesson = new CourseGroupOptaPlaner(2, courseGroup2, curie);
@@ -81,12 +81,13 @@ class TimeTableConstraintProviderTest {
         Course subject1 = new Course("Subject1", group1, BLACK);
         Course subject2 = new Course("Subject2", group2, BLACK);
         Course subject3 = new Course("Subject3", group3, BLACK);
+
         Major impairs = new Major("Impairs");
         Major genial = new Major("Genial");
 
         CourseGroup courseGroup1 = new CourseGroup(1, new MajorCourse(subject1, impairs), Duration.ofMinutes(60), 0, RoomType.CM);
-        CourseGroup courseGroup2 = new CourseGroup(1, new MajorCourse(subject2, genial), Duration.ofMinutes(60), 0, RoomType.TD);
-        CourseGroup courseGroup3 = new CourseGroup(1, new MajorCourse(subject3, impairs), Duration.ofMinutes(60), 0, RoomType.CM);
+        CourseGroup courseGroup2 = new CourseGroup(2, new MajorCourse(subject2, genial), Duration.ofMinutes(60), 0, RoomType.TD);
+        CourseGroup courseGroup3 = new CourseGroup(3, new MajorCourse(subject3, impairs), Duration.ofMinutes(60), 0, RoomType.CM);
 
         CourseGroupOptaPlaner firstLesson = new CourseGroupOptaPlaner(1, courseGroup1, turing, TIMESLOT1, ROOM);
         CourseGroupOptaPlaner conflictingLesson = new CourseGroupOptaPlaner(2, courseGroup2, turing, TIMESLOT1, ROOM2);
@@ -94,6 +95,9 @@ class TimeTableConstraintProviderTest {
 
         constraintVerifier.verifyThat(TimeTableConstraintProvider::teacherConflict)
                 .given(firstLesson, conflictingLesson, nonConflictingLesson).penalizesBy(1);
+
+        constraintVerifier.verifyThat(TimeTableConstraintProvider::teacherConflict)
+                .given(firstLesson, nonConflictingLesson).penalizesBy(0);
     }
 
     @Test
@@ -116,9 +120,9 @@ class TimeTableConstraintProviderTest {
         Major genial = new Major("Genial");
 
         CourseGroup courseGroup1 = new CourseGroup(1, new MajorCourse(subject1, impairs), Duration.ofMinutes(60), 0, RoomType.CM);
-        CourseGroup courseGroup2 = new CourseGroup(1, new MajorCourse(subject2, genial), Duration.ofMinutes(60), 0, RoomType.TD);
-        CourseGroup courseGroup3 = new CourseGroup(1, new MajorCourse(subject3, impairs), Duration.ofMinutes(60), 0, RoomType.CM);
-        CourseGroup courseGroup4 = new CourseGroup(1, new MajorCourse(subject4, genial), Duration.ofMinutes(60), 0, RoomType.TP);
+        CourseGroup courseGroup2 = new CourseGroup(2, new MajorCourse(subject2, genial), Duration.ofMinutes(60), 0, RoomType.TD);
+        CourseGroup courseGroup3 = new CourseGroup(3, new MajorCourse(subject3, impairs), Duration.ofMinutes(60), 0, RoomType.CM);
+        CourseGroup courseGroup4 = new CourseGroup(4, new MajorCourse(subject4, genial), Duration.ofMinutes(60), 0, RoomType.TP);
 
         CourseGroupOptaPlaner firstLesson = new CourseGroupOptaPlaner(1, courseGroup1, turing, TIMESLOT3, ROOM);
         CourseGroupOptaPlaner secondLesson = new CourseGroupOptaPlaner(2, courseGroup2, turing, TIMESLOT4, ROOM);
@@ -126,7 +130,41 @@ class TimeTableConstraintProviderTest {
         CourseGroupOptaPlaner lastLesson = new CourseGroupOptaPlaner(4, courseGroup4, turing, TIMESLOT6, ROOM);
 
         constraintVerifier.verifyThat(TimeTableConstraintProvider::teacherTimeEfficiency)
-                .given(firstLesson, secondLesson, thirdLesson, lastLesson).rewardsWith(4);
+                .given(firstLesson, secondLesson, thirdLesson, lastLesson).rewardsWith(3);
     }
 
+    @Test
+    void techLessonBefore() {
+        Professor turing = new Professor("Turing", "Jean", "jean@u-paris.fr", "mdpmdp");
+
+        Degree group1 = new Degree("Group1");
+        Degree group2 = new Degree("Group2");
+        Degree group3 = new Degree("Group3");
+        Degree group4 = new Degree("Group4");
+
+        Course subject1 = new Course("Subject1", group1, BLACK);
+        Course subject2 = new Course("Subject2", group2, BLACK);
+        Course subject3 = new Course("Subject3", group3, BLACK);
+        Course subject4 = new Course("Subject4", group4, BLACK);
+
+        Major impairs = new Major("Impairs");
+        Major genial = new Major("Genial");
+
+        CourseGroup courseGroup1 = new CourseGroup(1, new MajorCourse(subject1, impairs), Duration.ofMinutes(60), 0, RoomType.CM);
+        CourseGroup courseGroup2 = new CourseGroup(2, new MajorCourse(subject2, genial), Duration.ofMinutes(60), 0, RoomType.TD);
+        CourseGroup courseGroup3 = new CourseGroup(3, new MajorCourse(subject3, impairs), Duration.ofMinutes(60), 0, RoomType.CM);
+        CourseGroup courseGroup4 = new CourseGroup(4, new MajorCourse(subject4, genial), Duration.ofMinutes(60), 0, RoomType.TP);
+
+        CourseGroupOptaPlaner firstLesson = new CourseGroupOptaPlaner(1, courseGroup1, turing, TIMESLOT4, ROOM);
+        CourseGroupOptaPlaner secondLesson = new CourseGroupOptaPlaner(2, courseGroup2, turing, TIMESLOT3, ROOM);
+
+        CourseGroupOptaPlaner thirdLesson = new CourseGroupOptaPlaner(3, courseGroup3, turing, TIMESLOT5, ROOM);
+        CourseGroupOptaPlaner lastLesson = new CourseGroupOptaPlaner(4, courseGroup4, turing, TIMESLOT6, ROOM);
+
+        constraintVerifier.verifyThat((arg, arg2) ->TimeTableConstraintProvider.techLessonBefore(arg2, subject1.getName(), subject2.getName()))
+                .given(firstLesson, secondLesson).penalizesBy(1);
+
+        constraintVerifier.verifyThat((arg1, arg2) -> TimeTableConstraintProvider.techLessonBefore(arg2, subject3.getName(), subject4.getName()))
+                .given(thirdLesson, lastLesson).penalizesBy(0);
+    }
 }
