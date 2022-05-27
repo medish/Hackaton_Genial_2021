@@ -24,12 +24,11 @@ public class Department implements IInput {
     @OneToMany(mappedBy = "department")
     private Set<Room> rooms;
 
-    public Department(int id, String name) {
-        this.id = id;
-        this.name = name;
+    public Department() {
     }
 
-    public Department() {
+    public Department(String name) {
+        this.name = name;
     }
 
     public int getId() {

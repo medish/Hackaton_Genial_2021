@@ -27,9 +27,8 @@ public class PrecedenceConstraint implements IInput {
     public PrecedenceConstraint() {
     }
 
-    public PrecedenceConstraint(int id, String selector, boolean wants, String whenConstraint, boolean strict,
-            String target, int priority) {
-        this.id = id;
+    public PrecedenceConstraint(String selector, boolean wants, String whenConstraint, boolean strict, String target,
+            int priority) {
         this.selector = selector;
         this.wants = wants;
         this.whenConstraint = whenConstraint;

@@ -1,11 +1,20 @@
 package server.models;
 
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
-import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 
@@ -19,9 +28,7 @@ public class Major implements IInput {
     @Column(unique = true)
     private String name;
 
-    @JsonIdentityInfo(
-            generator = ObjectIdGenerators.PropertyGenerator.class,
-            property = "id")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @ManyToMany
     @JoinTable(name = "major_course", joinColumns = @JoinColumn(name = "major_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"))
     private Set<Course> courses;
@@ -34,8 +41,7 @@ public class Major implements IInput {
     public Major() {
     }
 
-    public Major(int id, String name) {
-        this.id = id;
+    public Major(String name) {
         this.name = name;
     }
 

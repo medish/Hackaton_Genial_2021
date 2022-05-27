@@ -15,6 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "time_constraint")
 public class TimeConstraint implements IInput {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -44,9 +45,8 @@ public class TimeConstraint implements IInput {
     public TimeConstraint() {
     }
 
-    public TimeConstraint(int id, String selector, boolean wants, DateSlot dateBegin, DateSlot dateEnd, Room room,
+    public TimeConstraint(String selector, boolean wants, DateSlot dateBegin, DateSlot dateEnd, Room room,
             int priority) {
-        this.id = id;
         this.selector = selector;
         this.wants = wants;
         this.dateBegin = dateBegin;
