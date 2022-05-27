@@ -24,13 +24,16 @@ export class GetFileConstraintsComponent implements OnInit {
   errorMessagePrecedence='';
   faFileArrowUp = faFileArrowUp;
   onFileSelectedTimeAndRoom(event:any){
+    const files = event.target.files;
+    const fileName = files[0].name;
+    const inputFile = document.getElementById("time-and-room-button");
+    inputFile.innerText = fileName;
     let fileReader = new FileReader();
     fileReader.onload = (e) => {
       let result = this.constraintService.parseConstraintsTimeAndRoom(fileReader.result?.toString());
       this.errorMessageTimeAndRoom = ''
       if(!result){
-        console.log("error")
-        window.alert('Erreur de syntaxe');
+        window.alert("Une erreur de syntaxe se trouve dans le fichier. Veuillez réessayer");
       }else{
         this.currentTimeAndRoom = result;
       }
@@ -47,12 +50,16 @@ export class GetFileConstraintsComponent implements OnInit {
     }
   }
   onFileSelectedPrecedence(event:any){
+    const files = event.target.files;
+    const fileName = files[0].name;
+    const inputFile = document.getElementById("ordering_button");
+    inputFile.innerText = fileName;
     let fileReader = new FileReader();
     fileReader.onload = (e) => {
       let result = this.constraintService.parseConstraintsPrecedence(fileReader.result?.toString());
       this.errorMessagePrecedence = ''
       if(!result){
-        this.errorMessagePrecedence = 'Syntax error';
+        window.alert("Une erreur de syntaxe se trouve dans le fichier. Veuillez réessayer")
       }else{
         this.currentPrecedence = result;
       }

@@ -74,7 +74,6 @@ export class TableauContraintesComponent implements OnInit, OnChanges {
     for (let propName in changes) {
       let change = changes[propName];
       if(change.currentValue.length != 0) {
-        console.log("ici");
         if (change.currentValue[0].whenConstraint != null) {
           //let precedenceConstraint: [ConstraintPrecedence] = change.currentValue;
           let precedenceConstraint: [ConstraintPrecedenceExport] = [null];

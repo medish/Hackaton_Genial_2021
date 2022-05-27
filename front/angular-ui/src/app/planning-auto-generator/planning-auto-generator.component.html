@@ -1,10 +1,10 @@
 <div class="m-5">
-  <h1 class="mt-5">Automatique</h1>
+  <h1 class="mt-5 txt">Automatique</h1>
   <app-constraints></app-constraints>
 
   <div>
     <div class="float-start">
-      <button class="btn btn-success" (click)="generatePlanning()">
+      <button class="btn btn-success txt" (click)="generatePlanning()">
         Générer un nouveau EDT
       </button>
     </div>
@@ -12,7 +12,7 @@
       <app-pdf-export></app-pdf-export>
       <button
         type="button"
-        class="btn-lg btn-primary me-5"
+        class="btn-lg btn-primary me-5 txt"
         (click)="exportToICS()"
       >
         Export: ICS
