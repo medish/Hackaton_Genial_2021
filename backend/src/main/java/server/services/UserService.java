@@ -12,13 +12,17 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     private UserRepository repository;
-    
+
     /**
      * Gets all customers.
      * @return List of customers {@link User}
      */
     public List<User> getAll(){
         return repository.findAll();
+    }
+
+    public User getByEmailAndPassword(String email, String password){
+        return repository.findAll().stream().filter(u->email.equals(u.getEmail())&&password.equals(u.getPassword())).findFirst().orElse(null);
     }
 
     /**

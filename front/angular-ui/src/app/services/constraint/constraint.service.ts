@@ -17,8 +17,8 @@ export class ConstraintService {
   constructor() { }
 
   /**
-  * 
-  * @param constraints 
+  *
+  * @param constraints
   * @returns null if errors, else the list of parsed constraints
   */
   parseConstraintsTimeAndRoom(constraints: string): ConstraintTimeRoom[] {
@@ -32,11 +32,11 @@ export class ConstraintService {
         result.push({
           id: Math.random(),
           selector: this.parseSelector(lineSplitted[0]),
-          veut: lineSplitted[1].toLowerCase() == 'true',
+          wants: lineSplitted[1].toLowerCase() == 'true',
           room: this.parseSelector(lineSplitted[0]),
           day: parseInt(lineSplitted[2]),
-          hourBegin: lineSplitted[3],
-          hourEnd: lineSplitted[4],
+          dateBegin: lineSplitted[3],
+          dateEnd: lineSplitted[4],
           priority: parseInt(lineSplitted[6])
         })
       }
@@ -65,7 +65,7 @@ export class ConstraintService {
   }
 
   parseConstraintsPrecedence(constraints: string): ConstraintPrecedence[] {
-    let lines = constraints.split(/\r\n|\r|\n/);  
+    let lines = constraints.split(/\r\n|\r|\n/);
 
     let result: ConstraintPrecedence[] = [];
     let lineSplitted = []
@@ -75,9 +75,9 @@ export class ConstraintService {
       result.push({
         id: Math.random(),
         selector: this.parseSelector(lineSplitted[0]),
-        veut: lineSplitted[1] == 'true',
+        wants: lineSplitted[1] == 'true',
         priority: parseInt(lineSplitted[5]),
-        precedence: lineSplitted[2],
+        whenConstraint: lineSplitted[2],
         strict: lineSplitted[3] == 'true',
         selectorTarget: this.parseSelector(lineSplitted[4])
       })

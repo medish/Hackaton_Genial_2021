@@ -2,21 +2,11 @@ package server.models;
 
 import java.io.Serializable;
 
-public class CourseGroupId implements Serializable {
-
+public class MajorCourseId implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private int groupId;
-
     private Course course;
-
-    public int getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(int groupId) {
-        this.groupId = groupId;
-    }
+    private Major major;
 
     public Course getCourse() {
         return course;
@@ -24,5 +14,13 @@ public class CourseGroupId implements Serializable {
 
     public void setCourse(Course course) {
         this.course = course;
+    }
+
+    public Major getMajor() {
+        return major;
+    }
+
+    public void setMajor(Major major) {
+        this.major = major;
     }
 }

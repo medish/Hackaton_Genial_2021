@@ -4,67 +4,91 @@ import { ConstraintPrecedence } from '../model/constraint/constraint-precedence'
 import { ConstraintTimeRoom } from '../model/constraint/constraint-time-room';
 import { ConstraintService } from '../services/constraint/constraint.service';
 
+export enum Modes {
+  CSV = 'Par fichier CSV',
+  FORM = 'Par formulaire',
+}
+
 @Component({
   selector: 'app-get-file-constraints',
   templateUrl: './get-file-constraints.component.html',
-  styleUrls: ['./get-file-constraints.component.scss']
+  styleUrls: ['./get-file-constraints.component.scss'],
 })
 export class GetFileConstraintsComponent implements OnInit {
-
-  constructor(public constraintService:ConstraintService) { }
-  @Output('onAddConstraintTimeRoom')onAddConstraintTimeRoom = new EventEmitter<ConstraintTimeRoom[]>()
-  @Output('onAddConstraintPrecedence')onAddConstraintPrecedence = new EventEmitter<ConstraintPrecedence[]>();
-  ngOnInit(): void {
-  }
-  currentFileNameTimeAndRoom='';
-  currentTimeAndRoom:ConstraintTimeRoom[]=[];
-  currentFileNamePrecedence='';
-  currentPrecedence:ConstraintPrecedence[]=[];
-  errorMessageTimeAndRoom='';
-  errorMessagePrecedence='';
+  constructor(public constraintService: ConstraintService) {}
+  @Output('onAddConstraintTimeRoom') onAddConstraintTimeRoom = new EventEmitter<
+    ConstraintTimeRoom[]
+  >();
+  @Output('onAddConstraintPrecedence') onAddConstraintPrecedence =
+    new EventEmitter<ConstraintPrecedence[]>();
+  ngOnInit(): void {}
+  currentFileNameTimeAndRoom = '';
+  currentTimeAndRoom: ConstraintTimeRoom[] = [];
+  currentFileNamePrecedence = '';
+  currentPrecedence: ConstraintPrecedence[] = [];
+  errorMessageTimeAndRoom = '';
+  errorMessagePrecedence = '';
+  Modes = Modes;
+  constraintsMode: string;
+  constraintsModes: string[] = [Modes.CSV, Modes.FORM];
   faFileArrowUp = faFileArrowUp;
-  onFileSelectedTimeAndRoom(event:any){
+  onFileSelectedTimeAndRoom(event: any) {
+    const files = event.target.files;
+    const fileName = files[0].name;
+    const inputFile = document.getElementById('time-and-room-button');
+    inputFile.innerText = fileName;
     let fileReader = new FileReader();
     fileReader.onload = (e) => {
-      let result = this.constraintService.parseConstraintsTimeAndRoom(fileReader.result?.toString());
-      this.errorMessageTimeAndRoom = ''
-      if(!result){
-        console.log("error")
-        window.alert('Erreur de syntaxe');
-      }else{
+      let result = this.constraintService.parseConstraintsTimeAndRoom(
+        fileReader.result?.toString()
+      );
+      this.errorMessageTimeAndRoom = '';
+      if (!result) {
+        window.alert(
+          'Une erreur de syntaxe se trouve dans le fichier. Veuillez réessayer'
+        );
+      } else {
         this.currentTimeAndRoom = result;
       }
-    }
-    if(event?.target?.files?.length > 0){
+    };
+    if (event?.target?.files?.length > 0) {
       this.currentFileNameTimeAndRoom = event.target.files[0].name;
       fileReader.readAsText(event.target.files[0]);
     }
   }
-  sendFileSelectedTimeAndRoom(){
-    if(this.currentTimeAndRoom?.length>0){
-      console.log(this.currentTimeAndRoom)
+  sendFileSelectedTimeAndRoom() {
+    if (this.currentTimeAndRoom?.length > 0) {
+      console.log(this.currentTimeAndRoom);
       this.onAddConstraintTimeRoom.emit(this.currentTimeAndRoom);
     }
   }
-  onFileSelectedPrecedence(event:any){
+  onFileSelectedPrecedence(event: any) {
+    const files = event.target.files;
+    const fileName = files[0].name;
+    const inputFile = document.getElementById('ordering_button');
+    inputFile.innerText = fileName;
     let fileReader = new FileReader();
     fileReader.onload = (e) => {
-      let result = this.constraintService.parseConstraintsPrecedence(fileReader.result?.toString());
-      this.errorMessagePrecedence = ''
-      if(!result){
-        this.errorMessagePrecedence = 'Syntax error';
-      }else{
+      let result = this.constraintService.parseConstraintsPrecedence(
+        fileReader.result?.toString()
+      );
+      this.errorMessagePrecedence = '';
+      if (!result) {
+        window.alert(
+          'Une erreur de syntaxe se trouve dans le fichier. Veuillez réessayer'
+        );
+      } else {
         this.currentPrecedence = result;
       }
-    }
-    if(event?.target?.files?.length > 0){
-      this.currentFileNamePrecedence = event.target.files[0].name
+    };
+    if (event?.target?.files?.length > 0) {
+      this.currentFileNamePrecedence = event.target.files[0].name;
       fileReader.readAsText(event.target.files[0]);
     }
   }
 
-  sendFileSelectedPrecedence(){
-    if(this.currentPrecedence?.length>0){
+  sendFileSelectedPrecedence() {
+    if (this.currentPrecedence?.length > 0) {
       this.onAddConstraintPrecedence.emit(this.currentPrecedence);
     }
   }

@@ -1,6 +1,59 @@
 <form action="">
   <div class="form-group">
     <label for="file" class="mb-3 control-label">
+      <h5>Contraintes de précédences</h5>
+    </label>
+    <div class="row">
+      <div class="attach-file-container">
+        <input
+          name="ordering_constraints"
+          id="ordering_constraints"
+          type="file"
+          class="inputfile"
+          data-multiple-caption="{count} files selected"
+          (change)="onFileSelectedPrecedence($event)"
+          multiple
+        />
+        <label
+          for="ordering_time_constraints"
+          class="attach-file-label"
+          id="time-and-room-button"
+          ><fa-icon [icon]="faFileArrowUp"></fa-icon> Sélectionner un
+          fichier</label
+        >
+      </div>
+      <div class="valider-button-container">
+        <button
+          class="valider btn btn-lg text-white"
+          (click)="sendFileSelectedPrecedence()"
+        >
+          Valider
+        </button>
+      </div>
+      <p>{{ errorMessagePrecedence }}</p>
+    </div>
+  </div>
+  <div>
+    <label id="example-radio-group-label"
+      >Ajouter des contraintes de temps:</label
+    >
+    <mat-radio-group
+      aria-labelledby="example-radio-group-label"
+      class="example-radio-group"
+      [(ngModel)]="constraintsMode"
+      name="constraintsMode"
+    >
+      <mat-radio-button
+        class="example-radio-button"
+        *ngFor="let mode of constraintsModes"
+        [value]="mode"
+      >
+        {{ mode }}
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+  <div class="form-group" *ngIf="constraintsMode === Modes.CSV">
+    <label for="file" class="mb-3 control-label">
       <h5>Contraintes de temps</h5></label
     >
     <div class="row">
@@ -14,7 +67,10 @@
           multiple
           (change)="onFileSelectedTimeAndRoom($event)"
         />
-        <label for="file" class="attach-file-label"
+        <label
+          for="ordering_constraints"
+          class="attach-file-label"
+          id="ordering_button"
           ><fa-icon [icon]="faFileArrowUp"></fa-icon> Sélectionner un
           fichier</label
         >
@@ -31,39 +87,8 @@
     </div>
   </div>
 
-  <div class="form-group">
-    <label for="file" class="mb-3 control-label">
-      <h5>Contraintes de précédences</h5>
-    </label>
-    <div class="row">
-      <div class="attach-file-container">
-        <input
-          name="ordering_constraints"
-          id="ordering_constraints"
-          type="file"
-          class="inputfile"
-          data-multiple-caption="{count} files selected"
-          (change)="onFileSelectedPrecedence($event)"
-          multiple
-        />
-        <label for="file" class="attach-file-label"
-          ><fa-icon [icon]="faFileArrowUp"></fa-icon> Sélectionner un
-          fichier</label
-        >
-      </div>
-      <div class="valider-button-container">
-        <button
-          class="valider btn btn-lg text-white"
-          (click)="sendFileSelectedPrecedence()"
-        >
-          Valider
-        </button>
-      </div>
-      <p>{{ errorMessagePrecedence }}</p>
-    </div>
-  </div>
+  <app-form-constraint-time
+    (onValidate)="onAddConstraintTimeRoom.emit([$event])"
+    *ngIf="constraintsMode === Modes.FORM"
+  ></app-form-constraint-time>
 </form>
-
-<app-form-constraint-time
-  (onValidate)="onAddConstraintTimeRoom.emit([$event])"
-></app-form-constraint-time>

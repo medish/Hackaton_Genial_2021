@@ -1,9 +1,19 @@
 package server.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
 import java.util.Set;
+
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "room")
@@ -32,12 +42,15 @@ public class Room implements IInput {
     public Room() {
     }
 
-    public Room(int id, String name, Department department, int capacity, Set<RoomType> roomTypes) {
-        this.id = id;
+    public Room(String name, Department department, int capacity, Set<RoomType> roomTypes) {
         this.name = name;
         this.capacity = capacity;
         this.department = department;
         this.roomTypes = roomTypes;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {
@@ -72,5 +85,7 @@ public class Room implements IInput {
         this.slots = slots;
     }
 
-    public Set<RoomType> getRoomTypes() { return this.roomTypes;}
+    public Set<RoomType> getRoomTypes() {
+        return this.roomTypes;
+    }
 }

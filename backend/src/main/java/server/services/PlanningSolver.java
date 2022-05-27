@@ -31,6 +31,8 @@ public class PlanningSolver {
     @Autowired
     private CourseSlotService courseSlotService;
     @Autowired
+    private DateSlotService dateSlotService;
+    @Autowired
     private CourseGroupService courseGroupService;
     @Autowired
     private TimeConstraintService timeConstraintService;
@@ -46,6 +48,7 @@ public class PlanningSolver {
      * @return {@link Planning}
      */
     public Planning solve() {
+        dateSlotService.insert(dateList);
         // Constraints Time + precedence
         List<TimeConstraint> timeConstraints = timeConstraintService.getAll();
         List<PrecedenceConstraint> precedenceConstraints = precedenceConstraintService.getAll();
@@ -59,17 +62,14 @@ public class PlanningSolver {
         List<CourseSlot> resolvedOutput = solver.solve(timeTable, timeConstraints, precedenceConstraints)
                 .getCourseSlots();
 
-        Planning planning = new Planning(0, "name", LocalDate.now(), new HashSet<>(resolvedOutput));
+        Planning planning = new Planning("name", LocalDate.now());
         planningService.insert(planning);
 
-//        for (CourseSlot courseSlot : resolvedOutput) {
-//            courseSlot.setPlanning(planning);
-//            try {
-//                courseSlotService.insert(courseSlot);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
+        planning.setSlots(new HashSet<>(resolvedOutput));
+        for (CourseSlot courseSlot : resolvedOutput) {
+            courseSlot.setPlanning(planning);
+        }
+        courseSlotService.insert(resolvedOutput);
         return planning;
     }
 
