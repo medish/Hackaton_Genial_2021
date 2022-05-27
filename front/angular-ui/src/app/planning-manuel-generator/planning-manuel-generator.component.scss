@@ -1,7 +1,25 @@
 .title {
-  font-family: 'Work Sans', sans-serif;
+  font-family: "Work Sans", sans-serif;
 }
 
-.card-creneau{
-    cursor: pointer;
+.card-creneau {
+  cursor: pointer;
+}
+
+.planning-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.caption-container {
+  width: 100%;
+  margin: 2rem;
+  display: flex;
+  justify-content: center;
+  max-width: 100%;
+}
+
+.caption {
+  width: fit-content;
 }
