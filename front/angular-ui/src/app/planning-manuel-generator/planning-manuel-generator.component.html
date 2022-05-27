@@ -113,8 +113,8 @@
               class="form-select mt-3 mb-3"
             >
               <option [value]="">Choisir la classe concernée</option>
-              <option [value]="courseGroup.groupId" *ngFor="let courseGroup of courseGroups">
-                {{ courseGroup.groupId }}
+              <option [value]="courseGroup.id" *ngFor="let courseGroup of courseGroups">
+                {{ courseGroup.id }}
               </option>
             </select>
             <label for="salle">Salle / Amphi </label>
