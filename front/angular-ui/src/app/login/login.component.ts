@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   }
 
   loginForm = {
-    username: '',
+    email: '',
     password: '',
   };
   isLoginFailed = false;
@@ -29,8 +29,8 @@ export class LoginComponent implements OnInit {
 
 
   onSubmitLogin(): void {
-    const {username, password} = this.loginForm;
-    this.authService.login(username, password).then(data => {
+    const {email, password} = this.loginForm;
+    this.authService.login(email, password).then(data => {
       this.tokenStorage.saveToken(data.accessToken);
       this.tokenStorage.saveUser(data);
       this.isLoginFailed = false;
