@@ -32,7 +32,13 @@ import {DepartmentComponent} from './department/department.component';
 import {AllConstraintsComponent} from './all-constraints/all-constraints.component';
 import {AllGroupsComponent} from './all-groups/all-groups.component';
 import {AuthcontrollerApi, CoursegroupcontrollerApi, TimeconstraintcontrollerApi} from './model/swagger/api';
-import { CoursecontrollerApi, DegreecontrollerApi, DepartmentcontrollerApi, ProfessorcontrollerApi, RoomcontrollerApi } from './model/swagger/api';
+import {
+  CoursecontrollerApi,
+  DegreecontrollerApi,
+  DepartmentcontrollerApi,
+  ProfessorcontrollerApi,
+  RoomcontrollerApi
+} from './model/swagger/api';
 
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
@@ -73,9 +79,12 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     ReactiveFormsModule,
     CollapseModule.forRoot(),
     DataTablesModule,
-    FontAwesomeModule
+    FontAwesomeModule,
   ],
-  providers: [authInterceptorProviders,AuthcontrollerApi,CoursegroupcontrollerApi,TimeconstraintcontrollerApi,RoomcontrollerApi,CoursecontrollerApi,ProfessorcontrollerApi,DegreecontrollerApi,DepartmentcontrollerApi],
+
+
+  providers: [authInterceptorProviders, AuthcontrollerApi, CoursegroupcontrollerApi, TimeconstraintcontrollerApi, RoomcontrollerApi, CoursecontrollerApi, ProfessorcontrollerApi, DegreecontrollerApi, DepartmentcontrollerApi, CoursecontrollerApi
+    , RoomcontrollerApi],
   bootstrap: [AppComponent]
 })
 export class AppModule {

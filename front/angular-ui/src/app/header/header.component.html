@@ -1,13 +1,15 @@
-<div *ngIf="!isLoggedIn || authService.currentRoute=='register' || authService.currentRoute=='prof'">
+<div *ngIf="!isLoggedIn || authService.currentRoute=='register'">
   <router-outlet></router-outlet>
 </div>
-<main *ngIf="isLoggedIn && authService.currentRoute!='register' && authService.currentRoute!='prof' ">
+
+<main *ngIf="isLoggedIn && authService.currentRoute!='register' ">
   <div class="d-flex flex-column flex-shrink-0 p-3 text-white " style="width: 280px; background-color: #8d448b">
     <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
       <span class="fs-4">UniPlanif</span>
     </a>
     <hr/>
     <ul class="nav nav-pills flex-column mb-auto">
+
       <li>
         <a (click)="home()" class="nav-link actived text-white">
           Accueil
@@ -45,11 +47,11 @@
           Départements
         </a>
       </li>
+
       <li class="mt-5">
         <a class="nav-link text-white" (click)="logout()"> Déconnexion </a>
       </li>
     </ul>
-
     <hr/>
     <div class="ms-3">
       <strong>François</strong>

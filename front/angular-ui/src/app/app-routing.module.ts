@@ -16,6 +16,7 @@ import {AllConstraintsComponent} from "./all-constraints/all-constraints.compone
 import {AllGroupsComponent} from "./all-groups/all-groups.component";
 import { RegisterComponent } from './register/register.component';
 import { ChangeRouteService } from './services/change-route.service';
+
 const routes: Routes = [
   {path:'login',component:LoginComponent},
   {path:'admin',component:AdminComponent,canActivate: [AuthGuard,ChangeRouteService]},
