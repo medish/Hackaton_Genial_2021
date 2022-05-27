@@ -1,0 +1,41 @@
+= School Timetabling (Java, Spring Boot, Maven or Gradle)
+
+Assign lessons to timeslots and rooms to produce a better schedule for teachers and students.
+
+image::../../build/quickstarts-showcase/src/main/resources/META-INF/resources/screenshot/quarkus-school-timetabling-screenshot.png[]
+
+* <<run,Run the application>>
+
+[[run]]
+== Run the application
+
+. Git clone the optaplanner-quickstarts repo and navigate to this directory:
++
+[source, shell]
+----
+$ git clone https://github.com/kiegroup/optaplanner-quickstarts.git
+...
+$ cd optaplanner-quickstarts/technology/java-spring-boot
+----
+
+. Start the application with Maven:
++
+[source, shell]
+----
+$ mvn spring-boot:run
+----
++
+or with Gradle:
++
+[source, shell]
+----
+$ gradle bootRun
+----
+
+. Visit http://localhost:8080 in your browser.
+
+. Click on the *Solve* button.
+
+== More information
+
+Visit https://www.optaplanner.org/[www.optaplanner.org].
