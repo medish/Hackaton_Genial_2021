@@ -102,10 +102,7 @@ export class DataInterfaceService {
     .pipe(catchError(this.handleError)).subscribe(data => callback(data));
   }
 
-  generatePlanning(callback:(any)=>any){
-    return this.http.get<any>(this.url + "/planning/auto")
-    .pipe(catchError(this.handleError)).subscribe(data=>callback(data));
-  }
+
   fetchAllPlannings(callback: (plannings:[Planning],context:any)=>any, context:any){
     return this.http.get<[Planning]>(this.url+'/planning').subscribe(data=>callback(data,context))
   }
