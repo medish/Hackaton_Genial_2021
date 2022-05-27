@@ -1,6 +1,10 @@
 package server.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import server.utils.DurationDeserialize;
+import server.utils.DurationSerializer;
 
 import javax.persistence.*;
 import java.time.Duration;
@@ -17,6 +21,8 @@ public class CourseGroup implements IInput {
     @ManyToOne
     private MajorCourse majorCourse;
 
+    @JsonSerialize(using = DurationSerializer.class)
+    @JsonDeserialize(keyUsing = DurationDeserialize.class)
     private Duration duration;
 
     private int size;
@@ -43,11 +49,6 @@ public class CourseGroup implements IInput {
         return majorCourse;
     }
 
-    public long getDurationSeconds(){
-        return duration.getSeconds();
-    }
-
-    @JsonIgnore
     public Duration getDuration() {
         return duration;
     }
