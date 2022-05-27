@@ -97,6 +97,18 @@
                 {{ course.name }}
               </option>
             </select>
+            <label for="session-name"> Groupe </label>
+            <select
+              formControlName="courseGroup"
+              (change)="changeCourseGroupHandler($event.target.value)"
+              id="class"
+              class="form-select mt-3 mb-3"
+            >
+              <option [value]="">Choisir la classe concernée</option>
+              <option [value]="courseGroup.groupId" *ngFor="let courseGroup of courseGroups">
+                {{ courseGroup.groupId }}
+              </option>
+            </select>
             <label for="salle">Salle / Amphi </label>
             <select
               formControlName="room"
