@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -18,6 +19,10 @@ public class PrecedenceConstraint implements IInput {
 
     private String selector;
     private boolean wants;
+
+    @ManyToOne
+    private Professor creator;
+
     @Column(name = "when_constraint")
     private String whenConstraint;
     private boolean strict;
@@ -55,6 +60,14 @@ public class PrecedenceConstraint implements IInput {
 
     public void setWants(boolean wants) {
         this.wants = wants;
+    }
+
+    public Professor getCreator() {
+        return creator;
+    }
+
+    public void setCreator(Professor creator) {
+        this.creator = creator;
     }
 
     public String getWhen() {

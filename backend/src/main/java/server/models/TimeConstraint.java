@@ -24,6 +24,9 @@ public class TimeConstraint implements IInput {
     private boolean wants;
 
     @ManyToOne
+    private Professor creator;
+
+    @ManyToOne
     @JoinColumns({ @JoinColumn(name = "day_begin"), @JoinColumn(name = "time_begin") })
     private DateSlot dateBegin;
 
@@ -73,6 +76,14 @@ public class TimeConstraint implements IInput {
 
     public void setWants(boolean wants) {
         this.wants = wants;
+    }
+
+    public Professor getCreator() {
+        return creator;
+    }
+
+    public void setCreator(Professor creator) {
+        this.creator = creator;
     }
 
     public DateSlot getDateBegin() {

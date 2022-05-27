@@ -1,1 +1,69 @@
-<p>all-constraints works!</p>
+<div class="container mt-5">
+  <h1>Les contraintes de précédence</h1>
+  <div *ngIf="precedenceConstraints" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    <table datatable class="table table-striped">
+      <thead>
+      <th>Priorité</th>
+      <th>selecteur</th>
+      <th>strict</th>
+      <th>Cible</th>
+      <th>Souhaite</th>
+      <th>Avant/ Après</th>
+      <th>Actions</th>
+      </thead>
+      <tbody>
+      <ng-container *ngFor="let precedence of precedenceConstraints">
+        <tr>
+          <td>{{precedence.priority}}</td>
+          <td>{{precedence.selector}}</td>
+          <td>{{precedence.strict}}</td>
+          <td>{{precedence.target}}</td>
+          <td>{{precedence.wants}}</td>
+          <td>{{precedence.when_constraint}}</td>
+          <td>
+            <button type="button" class="btn btn-sm btn-danger" (click)="deletePrecedenceConstraints(precedence.id)">Supprimer
+            </button>
+          </td>
+        </tr>
+      </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h1>Les contraintes de temps</h1>
+  <div *ngIf="timeConstraints" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    <table datatable class="table table-striped">
+      <thead>
+      <th>End time</th>
+      <th>Priorité</th>
+      <th>selecteur</th>
+      <th>Start time</th>
+      <th>Souhaite</th>
+      <th>Date begin</th>
+      <th>Date end</th>
+      <th>Room</th>
+      <th>Actions</th>
+      </thead>
+      <tbody>
+      <ng-container *ngFor="let time of timeConstraints">
+        <tr>
+          <td>{{time.endTime}}</td>
+          <td>{{time.priority}}</td>
+          <td>{{time.selector}}</td>
+          <td>{{time.startTime}}</td>
+          <td>{{time.wants}}</td>
+          <td>{{time.dateBegin.day}} {{time.dateBegin.startTime}}</td>
+          <td>{{time.dateEnd.day}} {{time.dateBegin.startTime}}</td>
+          <td>{{time.room.name}}</td>
+          <td>
+            <button type="button" class="btn btn-sm btn-danger" (click)="deleteTimeConstraints(time.id)" >Supprimer</button>
+          </td>
+        </tr>
+      </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>
+

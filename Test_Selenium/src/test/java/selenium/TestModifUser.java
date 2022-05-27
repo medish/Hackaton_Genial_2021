@@ -5,16 +5,14 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class TestModifUser {
@@ -56,9 +54,9 @@ public class TestModifUser {
         driver.get("http://localhost:4200/login");
 //        driver.manage().window().setSize(new Dimension(1262, 662));
         driver.findElement(By.id("username")).click();
-        driver.findElement(By.id("username")).sendKeys("sddsfdsfsdf");
+        driver.findElement(By.id("username")).sendKeys("admin@u-paris.fr");
         driver.findElement(By.id("password")).click();
-        driver.findElement(By.id("password")).sendKeys("f,sdf,sdfldsk,dskldfs");
+        driver.findElement(By.id("password")).sendKeys("motedepasse");
         driver.findElement(By.cssSelector(".btn")).click();
         synchronized (driver){
             driver.wait(TIMEOUT_MILLIS);

@@ -10,7 +10,8 @@ import uniqid from 'uniqid';
 import {document} from "ngx-bootstrap/utils";
 import { ExportService } from '../services/export/export.service';
 import { faFile } from '@fortawesome/free-solid-svg-icons';
-import { Course, CoursecontrollerApi, CourseGroup, CoursegroupcontrollerApi, CourseSlot, Degree, DegreecontrollerApi, Department, DepartmentcontrollerApi, Professor, ProfessorcontrollerApi, Room, RoomcontrollerApi, TimeconstraintcontrollerApi } from '../model/swagger/api';
+import { Course, CoursecontrollerApi, CourseGroup, CoursegroupcontrollerApi, CourseSlot, Degree, DegreecontrollerApi, Department, DepartmentcontrollerApi, PlanningcontrollerApi, Professor, ProfessorcontrollerApi, Room, RoomcontrollerApi, TimeconstraintcontrollerApi } from '../model/swagger/api';
+import { CourseSlotsService } from '../services/course-slots/course-slots.service';
 
 
 export const TD_COLOR = "#0d6efd";
@@ -40,6 +41,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   that = this;
   calendarApi :any;
   currentDraggable: Draggable;
+  generating:boolean=false;
   @ViewChild('calendar') calendarComponent: FullCalendarComponent;
 
   constructor(private roomController:RoomcontrollerApi,
@@ -48,12 +50,23 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     private degreeController: DegreecontrollerApi,
     private departementController:DepartmentcontrollerApi,
     private courseGroupController : CoursegroupcontrollerApi,
-    private timeConstraintController: TimeconstraintcontrollerApi, private dataService : DataInterfaceService, private fb : FormBuilder, private exportService:ExportService) {
+    private timeConstraintController: TimeconstraintcontrollerApi, 
+    private planningController:PlanningcontrollerApi, 
+    private courseSlotsService:CourseSlotsService,
+    private fb : FormBuilder, 
+    private exportService:ExportService) {
   }
 
-
   ngOnInit() {
-    let draggableEl = document.getElementById('external-events');
+    this.initForm();
+    this.initCalendar();
+    this.planningController.getByIdUsingGET6({id:1}).then(data=>{
+      this.setEvents(data?.['slots']);
+    }).catch(err=>{
+      console.error('err :',err)
+    })
+  }
+  initForm(){
     this.formGroupModel = this.fb.group({
       room: new FormControl(''),
       course: new FormControl(''),
@@ -66,7 +79,9 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       department:new FormControl(),
       backgroundColor:new FormControl('')
     })
-    let x:CourseSlot
+  }
+  initCalendar(){
+    let draggableEl = document.getElementById('external-events');
     this.currentDraggable = new Draggable(draggableEl, {
       itemSelector: '.fc-event',
       eventData: function (eventEl: any) {
@@ -98,10 +113,12 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       slotMinTime: "8:00:00",
       slotMaxTime: "20:00:00",
       firstDay: 1,
+      eventTextColor:"white",
+      events: [],
       eventDragStart : function (info ) {},
       eventClick:  (info)=>{
         this.formGroupModel.controls['idEvent'].setValue(info.event.id)
-        this.prepareVerification()
+        //this.prepareVerification()
         var modal = new Modal(document.getElementById("modalManuel"), {
           keyboard: false
         });
@@ -109,10 +126,8 @@ export class PlanningManuelGeneratorComponent implements OnInit {
         modal.show();
       },
       eventChange: (change)=>{}
-
     };
   }
-
 
   deleteEvent(idEvent:string){
     let calendarApi : Calendar = this.calendarComponent.getApi();
@@ -121,20 +136,35 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   saveEvent(idEvent:string){
     let calendarApi : Calendar = this.calendarComponent.getApi();
     let event = calendarApi.getEventById(idEvent);
-    event.setExtendedProp("room",this.formGroupModel.controls['room'].value)
-    event.setExtendedProp("duration",this.formGroupModel.controls['duration'].value)
-    event.setExtendedProp("course",this.formGroupModel.controls['course'].value)
-    event.setExtendedProp("courseGroup",this.formGroupModel.controls['courseGroup'].value)
-    event.setExtendedProp("teacher",this.formGroupModel.controls['teacher'].value)
-    event.setExtendedProp("degree",this.formGroupModel.controls['degree'].value)
-    event.setExtendedProp("department",this.formGroupModel.controls['department'].value)
-    event.setProp("title",this.degrees.filter(d=>d.id==this.formGroupModel.controls['degree'].value)?.[0]?.name+' - Groupe '+ this.formGroupModel.controls['courseGroup'].value+ ' - ' + this.formGroupModel.controls['course'].value + ' - '+this.formGroupModel.controls['teacher'].value+' - '+this.formGroupModel.controls['room'].value)
-    event.setProp("backgroundColor",this.formGroupModel.controls['backgroundColor'].value)
+    let newobj = {
+      title:this.degrees.filter(d=>d.id==this.formGroupModel.controls['degree'].value)?.[0]?.name+' - Groupe '+ this.formGroupModel.controls['courseGroup'].value+ ' - ' + this.formGroupModel.controls['course'].value + ' - '+this.formGroupModel.controls['teacher'].value+' - '+this.formGroupModel.controls['room'].value,
+      color:this.formGroupModel.controls['backgroundColor'].value,
+      daysOfWeek:event?._def?.recurringDef?.typeData['daysOfWeek'],
+      startTime:event?._def?.recurringDef?.typeData['startTime'],
+      endTime:event?._def?.recurringDef?.typeData['endTime'],
+      id:uniqid(),
+      extendedProps:{
+        room:this.formGroupModel.controls['room'].value,
+        course:this.formGroupModel.controls['course'].value,
+        courseGroup:this.formGroupModel.controls['courseGroup'].value,
+        teacher: this.formGroupModel.controls['teacher'].value,
+        degree: this.formGroupModel.controls['degree'].value,
+        department: this.formGroupModel.controls['department'].value,
+        duration: this.formGroupModel.controls['duration'].value
+      }
+    }
+    event.remove()
+    this.calendarComponent.getApi().addEvent(newobj)
   }
   getAllEvents(){
     return this.calendarComponent.getApi().getEvents();
   }
-
+  setEvents(events){
+    this.calendarComponent.getApi().removeAllEvents();
+    for(let event of events){
+      this.calendarComponent.getApi().addEvent(this.courseSlotsService.fromCourseSlotToCalendar(event));
+    }
+  }
 
 
   /**
@@ -169,8 +199,6 @@ export class PlanningManuelGeneratorComponent implements OnInit {
         let defaulthour=dateStartStr.getHours()+1;
         endTime = defaulthour+":"+dateStartStr.getMinutes()+":"+dateStartStr.getSeconds();
       }
-      console.warn(dateEndStr.toLocaleDateString())
-      console.warn(endTime);
       let dayNumber = dateStartStr.getDay()
 
       arrayPrepared.push({
@@ -193,8 +221,6 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     }
 
     planningJson.outputs=arrayPrepared;
-    console.warn(planningJson)
-    console.warn(arrayEvents)
     //this.dataService.verifyConstraints(planningJson);
     return JSON.stringify(planningJson);
   }
@@ -260,7 +286,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       }
       if(this.formGroupModel.controls['course']?.value){
         this.courseGroups = this.allCourseGroups.filter(courseGroup=>{
-          if(courseGroup.course.name==this.formGroupModel.controls['course']?.value){
+          if(courseGroup.majorCourse?.course.name==this.formGroupModel.controls['course']?.value){
             return true;
           }
           return false;
@@ -294,7 +320,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     this.formGroupModel.controls['duration'].setValue('1H');
     this.formGroupModel.controls['course'].setValue(selectedCourse?.name);
     this.courseGroups = this.allCourseGroups.filter(courseGroup=>{
-      if(courseGroup.course.name==this.formGroupModel.controls['course']?.value){
+      if(courseGroup?.majorCourse?.course.name==this.formGroupModel.controls['course']?.value){
         return true;
       }
       return false;
@@ -324,4 +350,15 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     this.formGroupModel.controls['department'].setValue(departmentName);
   }
 
+  generatePlanning(){
+    this.generating=true;
+    this.planningController.generatePlanningUsingGET().then(planning=>{
+      let slots = planning.slots?.map(slot=>this.courseSlotsService.fromCourseSlotToCalendar(slot));
+      this.calendarComponent.getApi().removeAllEvents();
+      for(let evt of slots){
+        this.calendarComponent.getApi().addEvent(evt);
+      }
+      this.generating=false;
+    })
+  }
 }

@@ -1,37 +1,28 @@
 package server.models;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import server.utils.DurationDeserialize;
+import server.utils.DurationSerializer;
+
+import javax.persistence.*;
 import java.time.Duration;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 @Table(name = "course_group")
-@IdClass(CourseGroupId.class)
-public class CourseGroup implements IInput, Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class CourseGroup implements IInput {
 
     @Id
-    @Column(name = "group_id", nullable = false)
-    private int groupId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-    @Id
     @ManyToOne
-    @JoinColumn(name = "course_id", nullable = false)
-    private Course course;
+    private MajorCourse majorCourse;
 
+    @JsonSerialize(using = DurationSerializer.class)
+    @JsonDeserialize(keyUsing = DurationDeserialize.class)
     private Duration duration;
 
     private int size;
@@ -42,20 +33,20 @@ public class CourseGroup implements IInput, Serializable {
     public CourseGroup() {
     }
 
-    public CourseGroup(int groupId, Course course, Duration duration, int size, RoomType roomType) {
-        this.groupId = groupId;
-        this.course = course;
+    public CourseGroup(int id, MajorCourse majorCourse, Duration duration, int size, RoomType roomType) {
+        this.id = id;
+        this.majorCourse = majorCourse;
         this.duration = duration;
         this.size = size;
         this.roomType = roomType;
     }
 
-    public int getGroupId() {
-        return groupId;
+    public int getId() {
+        return id;
     }
 
-    public Course getCourse() {
-        return course;
+    public MajorCourse getMajorCourse() {
+        return majorCourse;
     }
 
     public Duration getDuration() {
@@ -74,8 +65,8 @@ public class CourseGroup implements IInput, Serializable {
         this.size = size;
     }
 
-    public void setCourse(Course course) {
-        this.course = course;
+    public void setMajorCourse(MajorCourse majorCourse) {
+        this.majorCourse = majorCourse;
     }
 
     public RoomType getRoomType() {
@@ -88,19 +79,19 @@ public class CourseGroup implements IInput, Serializable {
 
     @JsonIgnore
     public Set<Professor> getProfessors() {
-        return course.getProfessors();
+        return majorCourse.getCourse().getProfessors();
     }
 
     public void setProfessors(Set<Professor> professors) {
-        course.setProfessors(professors);
+        majorCourse.getCourse().setProfessors(professors);
     }
 
     @JsonIgnore
     public Degree getDegree() {
-        return course.getDegree();
+        return majorCourse.getCourse().getDegree();
     }
 
     public void setDegree(Degree degree) {
-        course.setDegree(degree);
+        majorCourse.getCourse().setDegree(degree);
     }
 }

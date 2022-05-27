@@ -3,7 +3,10 @@ package server.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import server.models.PrecedenceConstraint;
+import server.models.User;
+import server.models.UserRole;
 import server.repositories.PrecedenceConstraintRepository;
+import server.repositories.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +15,9 @@ import java.util.Optional;
 public class PrecedenceConstraintService {
     @Autowired
     private PrecedenceConstraintRepository repository;
+
+    @Autowired
+    private UserRepository userRepository;
     
     /**
      * Get all precedence constraints
@@ -71,7 +77,11 @@ public class PrecedenceConstraintService {
         return repository.saveAndFlush(constraint);
     }
 
+    public List<PrecedenceConstraint> getPrecedenceConstraints(int user_id) {
+        User user = this.userRepository.findById(user_id).get();
 
-
-
+        if (user.getRole().equals(UserRole.ADMIN))
+            return this.repository.findAllPrecedenceConstraintsFor();
+        return this.repository.findPrecedenceConstraintFor(user);
+    }
 }
