@@ -43,6 +43,9 @@ public class CourseGroup implements IInput {
         return majorCourse;
     }
 
+    public long getDurationSeconds(){
+        return duration.getSeconds();
+    }
     public Duration getDuration() {
         return duration;
     }
