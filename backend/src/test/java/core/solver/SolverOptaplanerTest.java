@@ -1,16 +1,6 @@
 package core.solver;
 
-import core.SolverTimeTable;
-import core.optaplaner.SolverOptaplaner;
-import core.optaplaner.domain.CourseGroupOptaPlaner;
-import core.optaplaner.domain.TimeTableOptaPlaner;
-import core.output.TimeTable;
-import org.apache.commons.io.IOUtils;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.optaplanner.core.api.score.ScoreExplanation;
-import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
-import server.models.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.time.DayOfWeek;
@@ -20,7 +10,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.apache.commons.io.IOUtils;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.optaplanner.core.api.score.ScoreExplanation;
+import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
+
+import core.SolverTimeTable;
+import core.optaplaner.SolverOptaplaner;
+import core.optaplaner.domain.CourseGroupOptaPlaner;
+import core.optaplaner.domain.TimeTableOptaPlaner;
+import core.output.TimeTable;
+import server.models.Course;
+import server.models.CourseGroup;
+import server.models.DateSlot;
+import server.models.Degree;
+import server.models.Department;
+import server.models.Major;
+import server.models.MajorCourse;
+import server.models.Professor;
+import server.models.Room;
+import server.models.RoomType;
 
 class SolverOptaplanerTest {
 
@@ -135,6 +146,7 @@ class SolverOptaplanerTest {
         problem = new TimeTableOptaPlaner(timeslotList, roomList, lessonList);
     }
 
+    @Disabled
     @Test
     void solveTest() throws IOException {
         TimeTable solution = solverTimeTable.solve(problem.toOutput(), List.of(), List.of());
@@ -143,6 +155,7 @@ class SolverOptaplanerTest {
                 solution.toString());
     }
 
+    @Disabled
     @Test
     void verifyTest() throws IOException {
         ScoreExplanation<TimeTableOptaPlaner, HardSoftScore> verify = solverTimeTable
