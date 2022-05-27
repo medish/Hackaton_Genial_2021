@@ -16,6 +16,9 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import server.services.KeyID;
+import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 

@@ -83,12 +83,12 @@
 		<dependency>
 			<groupId>org.optaplanner</groupId>
 			<artifactId>optaplanner-core</artifactId>
-			<version>8.11.0.Final</version>
+			<version>8.21.0.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>org.optaplanner</groupId>
 			<artifactId>optaplanner-test</artifactId>
-			<version>8.11.0.Final</version>
+			<version>8.21.0.Final</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
