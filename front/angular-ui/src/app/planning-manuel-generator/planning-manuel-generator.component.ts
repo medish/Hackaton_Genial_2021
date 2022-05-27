@@ -286,7 +286,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       }
       if(this.formGroupModel.controls['course']?.value){
         this.courseGroups = this.allCourseGroups.filter(courseGroup=>{
-          if(courseGroup.course.name==this.formGroupModel.controls['course']?.value){
+          if(courseGroup.majorCourse?.course.name==this.formGroupModel.controls['course']?.value){
             return true;
           }
           return false;
@@ -320,7 +320,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     this.formGroupModel.controls['duration'].setValue('1H');
     this.formGroupModel.controls['course'].setValue(selectedCourse?.name);
     this.courseGroups = this.allCourseGroups.filter(courseGroup=>{
-      if(courseGroup.course.name==this.formGroupModel.controls['course']?.value){
+      if(courseGroup?.majorCourse?.course.name==this.formGroupModel.controls['course']?.value){
         return true;
       }
       return false;

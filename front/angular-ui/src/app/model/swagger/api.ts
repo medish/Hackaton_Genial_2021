@@ -22,6 +22,7 @@
  * limitations under the License.
  */
 
+import * as querystring from "querystring";
 import * as url from "url";
 
 import * as isomorphicFetch from "isomorphic-fetch";
@@ -47,22 +48,6 @@ export class BaseAPI {
     }
 }
 
-export interface Color {
-    "alpha"?: number;
-    "blue"?: number;
-    "colorSpace"?: ColorSpace;
-    "green"?: number;
-    "red"?: number;
-    "rgb"?: number;
-    "transparency"?: number;
-}
-
-export interface ColorSpace {
-    "csSRGB"?: boolean;
-    "numComponents"?: number;
-    "type"?: number;
-}
-
 export interface ConstraintMatchHardSoftScore {
     "constraintId"?: string;
     "constraintName"?: string;
@@ -83,7 +68,7 @@ export interface ConstraintMatchTotalHardSoftScore {
 }
 
 export interface Course {
-    "color"?: Color;
+    "color"?: string;
     "degree"?: Degree;
     "id"?: number;
     "name"?: string;
@@ -91,20 +76,21 @@ export interface Course {
 }
 
 export interface CourseGroup {
-    "course"?: Course;
     "duration"?: Duration;
-    "groupId"?: number;
+    "id"?: number;
+    "majorCourse"?: MajorCourse;
     "roomType"?: CourseGroupRoomTypeEnum;
     "size"?: number;
 }
 
 export type CourseGroupRoomTypeEnum = "CM" | "TP" | "TD";
 export interface CourseGroupOptaPlaner {
-    "course"?: Course;
     "dateSlot"?: DateSlot;
     "day"?: CourseGroupOptaPlanerDayEnum;
+    "duration"?: Duration;
     "endTime"?: LocalTime;
     "id"?: number;
+    "majorCourse"?: MajorCourse;
     "professor"?: Professor;
     "room"?: Room;
     "startTime"?: LocalTime;
@@ -115,6 +101,7 @@ export interface CourseSlot {
     "courseGroup"?: CourseGroup;
     "dateSlot"?: DateSlot;
     "endTime"?: LocalTime;
+    "id"?: number;
     "professor"?: Professor;
     "room"?: Room;
     "startTime"?: LocalTime;
@@ -169,9 +156,13 @@ export interface LocalTime {
 }
 
 export interface Major {
-    "courses"?: Array<Course>;
     "id"?: number;
     "name"?: string;
+}
+
+export interface MajorCourse {
+    "course"?: Course;
+    "major"?: Major;
 }
 
 export interface OptionalCourse {
@@ -227,6 +218,7 @@ export interface Planning {
 }
 
 export interface PrecedenceConstraint {
+    "creator"?: Professor;
     "id"?: number;
     "priority"?: number;
     "selector"?: string;
@@ -248,6 +240,7 @@ export interface Professor {
 export type ProfessorRoleEnum = "ADMIN" | "PROFESSOR";
 export interface Room {
     "capacity"?: number;
+    "id"?: number;
     "name"?: string;
     "roomTypes"?: RoomTypesEnum[];
 }
@@ -269,6 +262,7 @@ export interface TemporalUnit {
 }
 
 export interface TimeConstraint {
+    "creator"?: Professor;
     "dateBegin"?: DateSlot;
     "dateEnd"?: DateSlot;
     "endTime"?: LocalTime;
@@ -305,13 +299,13 @@ export type UserRoleEnum = "ADMIN" | "PROFESSOR";
 export const AuthcontrollerApiFetchParamCreactor = {
     /** 
      * checkAuth
-     * @param username username
+     * @param email email
      * @param password password
      */
-    checkAuthUsingGET(params: {  username: string; password: string; }): FetchArgs {
-        // verify required parameter "username" is set
-        if (params["username"] == null) {
-            throw new Error("Missing required parameter username when calling checkAuthUsingGET");
+    checkAuthUsingGET(params: {  email: string; password: string; }): FetchArgs {
+        // verify required parameter "email" is set
+        if (params["email"] == null) {
+            throw new Error("Missing required parameter email when calling checkAuthUsingGET");
         }
         // verify required parameter "password" is set
         if (params["password"] == null) {
@@ -320,7 +314,7 @@ export const AuthcontrollerApiFetchParamCreactor = {
         const baseUrl = `/signin`;
         let urlObj = url.parse(baseUrl, true);
         urlObj.query = assign({}, urlObj.query, { 
-            "username": params.username,
+            "email": params.email,
             "password": params.password,
         });
         let fetchOptions: RequestInit = { method: "GET" };
@@ -342,10 +336,10 @@ export const AuthcontrollerApiFetchParamCreactor = {
 export const AuthcontrollerApiFp = {
     /** 
      * checkAuth
-     * @param username username
+     * @param email email
      * @param password password
      */
-    checkAuthUsingGET(params: { username: string; password: string;  }): (fetch: FetchAPI, basePath?: string) => Promise<boolean> {
+    checkAuthUsingGET(params: { email: string; password: string;  }): (fetch: FetchAPI, basePath?: string) => Promise<User> {
         const fetchArgs = AuthcontrollerApiFetchParamCreactor.checkAuthUsingGET(params);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
@@ -365,10 +359,10 @@ export const AuthcontrollerApiFp = {
 export class AuthcontrollerApi extends BaseAPI {
     /** 
      * checkAuth
-     * @param username username
+     * @param email email
      * @param password password
      */
-    checkAuthUsingGET(params: {  username: string; password: string; }) {
+    checkAuthUsingGET(params: {  email: string; password: string; }) {
         return AuthcontrollerApiFp.checkAuthUsingGET(params)(this.fetch, this.basePath);
     }
 };
@@ -380,10 +374,10 @@ export const AuthcontrollerApiFactory = function (fetch?: FetchAPI, basePath?: s
     return {
         /** 
          * checkAuth
-         * @param username username
+         * @param email email
          * @param password password
          */
-        checkAuthUsingGET(params: {  username: string; password: string; }) {
+        checkAuthUsingGET(params: {  email: string; password: string; }) {
             return AuthcontrollerApiFp.checkAuthUsingGET(params)(fetch, basePath);
         },
     }
@@ -434,6 +428,32 @@ export const CoursecontrollerApiFetchParamCreactor = {
             options: fetchOptions,
         };
     },
+    /** 
+     * insert
+     * @param course course
+     */
+    insertUsingPOST(params: {  course: Course; }): FetchArgs {
+        // verify required parameter "course" is set
+        if (params["course"] == null) {
+            throw new Error("Missing required parameter course when calling insertUsingPOST");
+        }
+        const baseUrl = `/courses`;
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = { method: "POST" };
+
+        let contentTypeHeader: Dictionary<string>;
+        contentTypeHeader = { "Content-Type": "application/json" };
+        if (params["course"]) {
+            fetchOptions.body = JSON.stringify(params["course"] || {});
+        }
+        if (contentTypeHeader) {
+            fetchOptions.headers = contentTypeHeader;
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
 }
 
 /**
@@ -471,6 +491,22 @@ export const CoursecontrollerApiFp = {
             });
         };
     },
+    /** 
+     * insert
+     * @param course course
+     */
+    insertUsingPOST(params: { course: Course;  }): (fetch: FetchAPI, basePath?: string) => Promise<boolean> {
+        const fetchArgs = CoursecontrollerApiFetchParamCreactor.insertUsingPOST(params);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
 };
 
 /**
@@ -489,6 +525,13 @@ export class CoursecontrollerApi extends BaseAPI {
      */
     getByIdUsingGET(params: {  id: number; }) {
         return CoursecontrollerApiFp.getByIdUsingGET(params)(this.fetch, this.basePath);
+    }
+    /** 
+     * insert
+     * @param course course
+     */
+    insertUsingPOST(params: {  course: Course; }) {
+        return CoursecontrollerApiFp.insertUsingPOST(params)(this.fetch, this.basePath);
     }
 };
 
@@ -509,6 +552,13 @@ export const CoursecontrollerApiFactory = function (fetch?: FetchAPI, basePath?:
          */
         getByIdUsingGET(params: {  id: number; }) {
             return CoursecontrollerApiFp.getByIdUsingGET(params)(fetch, basePath);
+        },
+        /** 
+         * insert
+         * @param course course
+         */
+        insertUsingPOST(params: {  course: Course; }) {
+            return CoursecontrollerApiFp.insertUsingPOST(params)(fetch, basePath);
         },
     }
 };
@@ -539,7 +589,7 @@ export const CoursegroupcontrollerApiFetchParamCreactor = {
      * getById
      * @param id id
      */
-    getByIdUsingGET1(params: {  id: string; }): FetchArgs {
+    getByIdUsingGET1(params: {  id: number; }): FetchArgs {
         // verify required parameter "id" is set
         if (params["id"] == null) {
             throw new Error("Missing required parameter id when calling getByIdUsingGET1");
@@ -550,6 +600,32 @@ export const CoursegroupcontrollerApiFetchParamCreactor = {
         let fetchOptions: RequestInit = { method: "GET" };
 
         let contentTypeHeader: Dictionary<string>;
+        if (contentTypeHeader) {
+            fetchOptions.headers = contentTypeHeader;
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
+    /** 
+     * insert
+     * @param courseGroup courseGroup
+     */
+    insertUsingPOST1(params: {  courseGroup: CourseGroup; }): FetchArgs {
+        // verify required parameter "courseGroup" is set
+        if (params["courseGroup"] == null) {
+            throw new Error("Missing required parameter courseGroup when calling insertUsingPOST1");
+        }
+        const baseUrl = `/courses-groups`;
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = { method: "POST" };
+
+        let contentTypeHeader: Dictionary<string>;
+        contentTypeHeader = { "Content-Type": "application/json" };
+        if (params["courseGroup"]) {
+            fetchOptions.body = JSON.stringify(params["courseGroup"] || {});
+        }
         if (contentTypeHeader) {
             fetchOptions.headers = contentTypeHeader;
         }
@@ -583,8 +659,24 @@ export const CoursegroupcontrollerApiFp = {
      * getById
      * @param id id
      */
-    getByIdUsingGET1(params: { id: string;  }): (fetch: FetchAPI, basePath?: string) => Promise<OptionalCourseGroup> {
+    getByIdUsingGET1(params: { id: number;  }): (fetch: FetchAPI, basePath?: string) => Promise<OptionalCourseGroup> {
         const fetchArgs = CoursegroupcontrollerApiFetchParamCreactor.getByIdUsingGET1(params);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
+    /** 
+     * insert
+     * @param courseGroup courseGroup
+     */
+    insertUsingPOST1(params: { courseGroup: CourseGroup;  }): (fetch: FetchAPI, basePath?: string) => Promise<boolean> {
+        const fetchArgs = CoursegroupcontrollerApiFetchParamCreactor.insertUsingPOST1(params);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -611,8 +703,15 @@ export class CoursegroupcontrollerApi extends BaseAPI {
      * getById
      * @param id id
      */
-    getByIdUsingGET1(params: {  id: string; }) {
+    getByIdUsingGET1(params: {  id: number; }) {
         return CoursegroupcontrollerApiFp.getByIdUsingGET1(params)(this.fetch, this.basePath);
+    }
+    /** 
+     * insert
+     * @param courseGroup courseGroup
+     */
+    insertUsingPOST1(params: {  courseGroup: CourseGroup; }) {
+        return CoursegroupcontrollerApiFp.insertUsingPOST1(params)(this.fetch, this.basePath);
     }
 };
 
@@ -631,8 +730,15 @@ export const CoursegroupcontrollerApiFactory = function (fetch?: FetchAPI, baseP
          * getById
          * @param id id
          */
-        getByIdUsingGET1(params: {  id: string; }) {
+        getByIdUsingGET1(params: {  id: number; }) {
             return CoursegroupcontrollerApiFp.getByIdUsingGET1(params)(fetch, basePath);
+        },
+        /** 
+         * insert
+         * @param courseGroup courseGroup
+         */
+        insertUsingPOST1(params: {  courseGroup: CourseGroup; }) {
+            return CoursegroupcontrollerApiFp.insertUsingPOST1(params)(fetch, basePath);
         },
     }
 };
@@ -663,7 +769,7 @@ export const CourseslotcontrollerApiFetchParamCreactor = {
      * getById
      * @param id id
      */
-    getByIdUsingGET2(params: {  id: string; }): FetchArgs {
+    getByIdUsingGET2(params: {  id: number; }): FetchArgs {
         // verify required parameter "id" is set
         if (params["id"] == null) {
             throw new Error("Missing required parameter id when calling getByIdUsingGET2");
@@ -674,6 +780,32 @@ export const CourseslotcontrollerApiFetchParamCreactor = {
         let fetchOptions: RequestInit = { method: "GET" };
 
         let contentTypeHeader: Dictionary<string>;
+        if (contentTypeHeader) {
+            fetchOptions.headers = contentTypeHeader;
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
+    /** 
+     * update
+     * @param courseSlot courseSlot
+     */
+    updateUsingPUT(params: {  courseSlot: CourseSlot; }): FetchArgs {
+        // verify required parameter "courseSlot" is set
+        if (params["courseSlot"] == null) {
+            throw new Error("Missing required parameter courseSlot when calling updateUsingPUT");
+        }
+        const baseUrl = `/courses-slots`;
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = { method: "PUT" };
+
+        let contentTypeHeader: Dictionary<string>;
+        contentTypeHeader = { "Content-Type": "application/json" };
+        if (params["courseSlot"]) {
+            fetchOptions.body = JSON.stringify(params["courseSlot"] || {});
+        }
         if (contentTypeHeader) {
             fetchOptions.headers = contentTypeHeader;
         }
@@ -707,8 +839,24 @@ export const CourseslotcontrollerApiFp = {
      * getById
      * @param id id
      */
-    getByIdUsingGET2(params: { id: string;  }): (fetch: FetchAPI, basePath?: string) => Promise<OptionalCourseSlot> {
+    getByIdUsingGET2(params: { id: number;  }): (fetch: FetchAPI, basePath?: string) => Promise<OptionalCourseSlot> {
         const fetchArgs = CourseslotcontrollerApiFetchParamCreactor.getByIdUsingGET2(params);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
+    /** 
+     * update
+     * @param courseSlot courseSlot
+     */
+    updateUsingPUT(params: { courseSlot: CourseSlot;  }): (fetch: FetchAPI, basePath?: string) => Promise<boolean> {
+        const fetchArgs = CourseslotcontrollerApiFetchParamCreactor.updateUsingPUT(params);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -735,8 +883,15 @@ export class CourseslotcontrollerApi extends BaseAPI {
      * getById
      * @param id id
      */
-    getByIdUsingGET2(params: {  id: string; }) {
+    getByIdUsingGET2(params: {  id: number; }) {
         return CourseslotcontrollerApiFp.getByIdUsingGET2(params)(this.fetch, this.basePath);
+    }
+    /** 
+     * update
+     * @param courseSlot courseSlot
+     */
+    updateUsingPUT(params: {  courseSlot: CourseSlot; }) {
+        return CourseslotcontrollerApiFp.updateUsingPUT(params)(this.fetch, this.basePath);
     }
 };
 
@@ -755,8 +910,15 @@ export const CourseslotcontrollerApiFactory = function (fetch?: FetchAPI, basePa
          * getById
          * @param id id
          */
-        getByIdUsingGET2(params: {  id: string; }) {
+        getByIdUsingGET2(params: {  id: number; }) {
             return CourseslotcontrollerApiFp.getByIdUsingGET2(params)(fetch, basePath);
+        },
+        /** 
+         * update
+         * @param courseSlot courseSlot
+         */
+        updateUsingPUT(params: {  courseSlot: CourseSlot; }) {
+            return CourseslotcontrollerApiFp.updateUsingPUT(params)(fetch, basePath);
         },
     }
 };
@@ -806,6 +968,32 @@ export const DegreecontrollerApiFetchParamCreactor = {
             options: fetchOptions,
         };
     },
+    /** 
+     * insert
+     * @param degree degree
+     */
+    insertUsingPOST2(params: {  degree: Degree; }): FetchArgs {
+        // verify required parameter "degree" is set
+        if (params["degree"] == null) {
+            throw new Error("Missing required parameter degree when calling insertUsingPOST2");
+        }
+        const baseUrl = `/degrees`;
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = { method: "POST" };
+
+        let contentTypeHeader: Dictionary<string>;
+        contentTypeHeader = { "Content-Type": "application/json" };
+        if (params["degree"]) {
+            fetchOptions.body = JSON.stringify(params["degree"] || {});
+        }
+        if (contentTypeHeader) {
+            fetchOptions.headers = contentTypeHeader;
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
 }
 
 /**
@@ -843,6 +1031,22 @@ export const DegreecontrollerApiFp = {
             });
         };
     },
+    /** 
+     * insert
+     * @param degree degree
+     */
+    insertUsingPOST2(params: { degree: Degree;  }): (fetch: FetchAPI, basePath?: string) => Promise<boolean> {
+        const fetchArgs = DegreecontrollerApiFetchParamCreactor.insertUsingPOST2(params);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
 };
 
 /**
@@ -861,6 +1065,13 @@ export class DegreecontrollerApi extends BaseAPI {
      */
     getByIdUsingGET3(params: {  id: number; }) {
         return DegreecontrollerApiFp.getByIdUsingGET3(params)(this.fetch, this.basePath);
+    }
+    /** 
+     * insert
+     * @param degree degree
+     */
+    insertUsingPOST2(params: {  degree: Degree; }) {
+        return DegreecontrollerApiFp.insertUsingPOST2(params)(this.fetch, this.basePath);
     }
 };
 
@@ -881,6 +1092,13 @@ export const DegreecontrollerApiFactory = function (fetch?: FetchAPI, basePath?:
          */
         getByIdUsingGET3(params: {  id: number; }) {
             return DegreecontrollerApiFp.getByIdUsingGET3(params)(fetch, basePath);
+        },
+        /** 
+         * insert
+         * @param degree degree
+         */
+        insertUsingPOST2(params: {  degree: Degree; }) {
+            return DegreecontrollerApiFp.insertUsingPOST2(params)(fetch, basePath);
         },
     }
 };
@@ -930,6 +1148,32 @@ export const DepartmentcontrollerApiFetchParamCreactor = {
             options: fetchOptions,
         };
     },
+    /** 
+     * insert
+     * @param department department
+     */
+    insertUsingPOST3(params: {  department: Department; }): FetchArgs {
+        // verify required parameter "department" is set
+        if (params["department"] == null) {
+            throw new Error("Missing required parameter department when calling insertUsingPOST3");
+        }
+        const baseUrl = `/departments`;
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = { method: "POST" };
+
+        let contentTypeHeader: Dictionary<string>;
+        contentTypeHeader = { "Content-Type": "application/json" };
+        if (params["department"]) {
+            fetchOptions.body = JSON.stringify(params["department"] || {});
+        }
+        if (contentTypeHeader) {
+            fetchOptions.headers = contentTypeHeader;
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
 }
 
 /**
@@ -967,6 +1211,22 @@ export const DepartmentcontrollerApiFp = {
             });
         };
     },
+    /** 
+     * insert
+     * @param department department
+     */
+    insertUsingPOST3(params: { department: Department;  }): (fetch: FetchAPI, basePath?: string) => Promise<boolean> {
+        const fetchArgs = DepartmentcontrollerApiFetchParamCreactor.insertUsingPOST3(params);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
 };
 
 /**
@@ -985,6 +1245,13 @@ export class DepartmentcontrollerApi extends BaseAPI {
      */
     getByIdUsingGET4(params: {  id: number; }) {
         return DepartmentcontrollerApiFp.getByIdUsingGET4(params)(this.fetch, this.basePath);
+    }
+    /** 
+     * insert
+     * @param department department
+     */
+    insertUsingPOST3(params: {  department: Department; }) {
+        return DepartmentcontrollerApiFp.insertUsingPOST3(params)(this.fetch, this.basePath);
     }
 };
 
@@ -1005,6 +1272,13 @@ export const DepartmentcontrollerApiFactory = function (fetch?: FetchAPI, basePa
          */
         getByIdUsingGET4(params: {  id: number; }) {
             return DepartmentcontrollerApiFp.getByIdUsingGET4(params)(fetch, basePath);
+        },
+        /** 
+         * insert
+         * @param department department
+         */
+        insertUsingPOST3(params: {  department: Department; }) {
+            return DepartmentcontrollerApiFp.insertUsingPOST3(params)(fetch, basePath);
         },
     }
 };
@@ -1389,6 +1663,32 @@ export const MajorcontrollerApiFetchParamCreactor = {
             options: fetchOptions,
         };
     },
+    /** 
+     * insert
+     * @param major major
+     */
+    insertUsingPOST4(params: {  major: Major; }): FetchArgs {
+        // verify required parameter "major" is set
+        if (params["major"] == null) {
+            throw new Error("Missing required parameter major when calling insertUsingPOST4");
+        }
+        const baseUrl = `/majors`;
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = { method: "POST" };
+
+        let contentTypeHeader: Dictionary<string>;
+        contentTypeHeader = { "Content-Type": "application/json" };
+        if (params["major"]) {
+            fetchOptions.body = JSON.stringify(params["major"] || {});
+        }
+        if (contentTypeHeader) {
+            fetchOptions.headers = contentTypeHeader;
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
 }
 
 /**
@@ -1426,6 +1726,22 @@ export const MajorcontrollerApiFp = {
             });
         };
     },
+    /** 
+     * insert
+     * @param major major
+     */
+    insertUsingPOST4(params: { major: Major;  }): (fetch: FetchAPI, basePath?: string) => Promise<boolean> {
+        const fetchArgs = MajorcontrollerApiFetchParamCreactor.insertUsingPOST4(params);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
 };
 
 /**
@@ -1444,6 +1760,13 @@ export class MajorcontrollerApi extends BaseAPI {
      */
     getByIdUsingGET5(params: {  id: number; }) {
         return MajorcontrollerApiFp.getByIdUsingGET5(params)(this.fetch, this.basePath);
+    }
+    /** 
+     * insert
+     * @param major major
+     */
+    insertUsingPOST4(params: {  major: Major; }) {
+        return MajorcontrollerApiFp.insertUsingPOST4(params)(this.fetch, this.basePath);
     }
 };
 
@@ -1464,6 +1787,13 @@ export const MajorcontrollerApiFactory = function (fetch?: FetchAPI, basePath?: 
          */
         getByIdUsingGET5(params: {  id: number; }) {
             return MajorcontrollerApiFp.getByIdUsingGET5(params)(fetch, basePath);
+        },
+        /** 
+         * insert
+         * @param major major
+         */
+        insertUsingPOST4(params: {  major: Major; }) {
+            return MajorcontrollerApiFp.insertUsingPOST4(params)(fetch, basePath);
         },
     }
 };
@@ -1579,21 +1909,21 @@ export const PlanningcontrollerApiFetchParamCreactor = {
     },
     /** 
      * verifyConstraints
-     * @param planning planning
+     * @param id id
      */
-    verifyConstraintsUsingPOST(params: {  planning: Planning; }): FetchArgs {
-        // verify required parameter "planning" is set
-        if (params["planning"] == null) {
-            throw new Error("Missing required parameter planning when calling verifyConstraintsUsingPOST");
+    verifyConstraintsUsingPOST(params: {  id: number; }): FetchArgs {
+        // verify required parameter "id" is set
+        if (params["id"] == null) {
+            throw new Error("Missing required parameter id when calling verifyConstraintsUsingPOST");
         }
-        const baseUrl = `/planning/verify`;
+        const baseUrl = `/planning/verify/{id}`;
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = { method: "POST" };
 
         let contentTypeHeader: Dictionary<string>;
         contentTypeHeader = { "Content-Type": "application/json" };
-        if (params["planning"]) {
-            fetchOptions.body = JSON.stringify(params["planning"] || {});
+        if (params["id"]) {
+            fetchOptions.body = JSON.stringify(params["id"] || {});
         }
         if (contentTypeHeader) {
             fetchOptions.headers = contentTypeHeader;
@@ -1689,9 +2019,9 @@ export const PlanningcontrollerApiFp = {
     },
     /** 
      * verifyConstraints
-     * @param planning planning
+     * @param id id
      */
-    verifyConstraintsUsingPOST(params: { planning: Planning;  }): (fetch: FetchAPI, basePath?: string) => Promise<ScoreExplanationTimeTableOptaPlanerHardSoftScore> {
+    verifyConstraintsUsingPOST(params: { id: number;  }): (fetch: FetchAPI, basePath?: string) => Promise<ScoreExplanationTimeTableOptaPlanerHardSoftScore> {
         const fetchArgs = PlanningcontrollerApiFetchParamCreactor.verifyConstraintsUsingPOST(params);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
@@ -1744,9 +2074,9 @@ export class PlanningcontrollerApi extends BaseAPI {
     }
     /** 
      * verifyConstraints
-     * @param planning planning
+     * @param id id
      */
-    verifyConstraintsUsingPOST(params: {  planning: Planning; }) {
+    verifyConstraintsUsingPOST(params: {  id: number; }) {
         return PlanningcontrollerApiFp.verifyConstraintsUsingPOST(params)(this.fetch, this.basePath);
     }
 };
@@ -1791,9 +2121,9 @@ export const PlanningcontrollerApiFactory = function (fetch?: FetchAPI, basePath
         },
         /** 
          * verifyConstraints
-         * @param planning planning
+         * @param id id
          */
-        verifyConstraintsUsingPOST(params: {  planning: Planning; }) {
+        verifyConstraintsUsingPOST(params: {  id: number; }) {
             return PlanningcontrollerApiFp.verifyConstraintsUsingPOST(params)(fetch, basePath);
         },
     }
@@ -2113,22 +2443,39 @@ export const ProfessorcontrollerApiFactory = function (fetch?: FetchAPI, basePat
 export const RegistercontrollerApiFetchParamCreactor = {
     /** 
      * registerNewUser
-     * @param user user
+     * @param lastName lastName
+     * @param firstName firstName
+     * @param email email
+     * @param password password
      */
-    registerNewUserUsingPOST(params: {  user: User; }): FetchArgs {
-        // verify required parameter "user" is set
-        if (params["user"] == null) {
-            throw new Error("Missing required parameter user when calling registerNewUserUsingPOST");
+    registerNewUserUsingPOST(params: {  lastName: string; firstName: string; email: string; password: string; }): FetchArgs {
+        // verify required parameter "lastName" is set
+        if (params["lastName"] == null) {
+            throw new Error("Missing required parameter lastName when calling registerNewUserUsingPOST");
+        }
+        // verify required parameter "firstName" is set
+        if (params["firstName"] == null) {
+            throw new Error("Missing required parameter firstName when calling registerNewUserUsingPOST");
+        }
+        // verify required parameter "email" is set
+        if (params["email"] == null) {
+            throw new Error("Missing required parameter email when calling registerNewUserUsingPOST");
+        }
+        // verify required parameter "password" is set
+        if (params["password"] == null) {
+            throw new Error("Missing required parameter password when calling registerNewUserUsingPOST");
         }
         const baseUrl = `/register`;
         let urlObj = url.parse(baseUrl, true);
+        urlObj.query = assign({}, urlObj.query, { 
+            "lastName": params.lastName,
+            "firstName": params.firstName,
+            "email": params.email,
+            "password": params.password,
+        });
         let fetchOptions: RequestInit = { method: "POST" };
 
         let contentTypeHeader: Dictionary<string>;
-        contentTypeHeader = { "Content-Type": "application/json" };
-        if (params["user"]) {
-            fetchOptions.body = JSON.stringify(params["user"] || {});
-        }
         if (contentTypeHeader) {
             fetchOptions.headers = contentTypeHeader;
         }
@@ -2145,9 +2492,12 @@ export const RegistercontrollerApiFetchParamCreactor = {
 export const RegistercontrollerApiFp = {
     /** 
      * registerNewUser
-     * @param user user
+     * @param lastName lastName
+     * @param firstName firstName
+     * @param email email
+     * @param password password
      */
-    registerNewUserUsingPOST(params: { user: User;  }): (fetch: FetchAPI, basePath?: string) => Promise<number> {
+    registerNewUserUsingPOST(params: { lastName: string; firstName: string; email: string; password: string;  }): (fetch: FetchAPI, basePath?: string) => Promise<number> {
         const fetchArgs = RegistercontrollerApiFetchParamCreactor.registerNewUserUsingPOST(params);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
@@ -2167,9 +2517,12 @@ export const RegistercontrollerApiFp = {
 export class RegistercontrollerApi extends BaseAPI {
     /** 
      * registerNewUser
-     * @param user user
+     * @param lastName lastName
+     * @param firstName firstName
+     * @param email email
+     * @param password password
      */
-    registerNewUserUsingPOST(params: {  user: User; }) {
+    registerNewUserUsingPOST(params: {  lastName: string; firstName: string; email: string; password: string; }) {
         return RegistercontrollerApiFp.registerNewUserUsingPOST(params)(this.fetch, this.basePath);
     }
 };
@@ -2181,9 +2534,12 @@ export const RegistercontrollerApiFactory = function (fetch?: FetchAPI, basePath
     return {
         /** 
          * registerNewUser
-         * @param user user
+         * @param lastName lastName
+         * @param firstName firstName
+         * @param email email
+         * @param password password
          */
-        registerNewUserUsingPOST(params: {  user: User; }) {
+        registerNewUserUsingPOST(params: {  lastName: string; firstName: string; email: string; password: string; }) {
             return RegistercontrollerApiFp.registerNewUserUsingPOST(params)(fetch, basePath);
         },
     }
@@ -2234,6 +2590,32 @@ export const RoomcontrollerApiFetchParamCreactor = {
             options: fetchOptions,
         };
     },
+    /** 
+     * insert
+     * @param room room
+     */
+    insertUsingPOST5(params: {  room: Room; }): FetchArgs {
+        // verify required parameter "room" is set
+        if (params["room"] == null) {
+            throw new Error("Missing required parameter room when calling insertUsingPOST5");
+        }
+        const baseUrl = `/rooms`;
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = { method: "POST" };
+
+        let contentTypeHeader: Dictionary<string>;
+        contentTypeHeader = { "Content-Type": "application/json" };
+        if (params["room"]) {
+            fetchOptions.body = JSON.stringify(params["room"] || {});
+        }
+        if (contentTypeHeader) {
+            fetchOptions.headers = contentTypeHeader;
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
 }
 
 /**
@@ -2271,6 +2653,22 @@ export const RoomcontrollerApiFp = {
             });
         };
     },
+    /** 
+     * insert
+     * @param room room
+     */
+    insertUsingPOST5(params: { room: Room;  }): (fetch: FetchAPI, basePath?: string) => Promise<boolean> {
+        const fetchArgs = RoomcontrollerApiFetchParamCreactor.insertUsingPOST5(params);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
 };
 
 /**
@@ -2289,6 +2687,13 @@ export class RoomcontrollerApi extends BaseAPI {
      */
     getByIdUsingGET8(params: {  roomId: number; }) {
         return RoomcontrollerApiFp.getByIdUsingGET8(params)(this.fetch, this.basePath);
+    }
+    /** 
+     * insert
+     * @param room room
+     */
+    insertUsingPOST5(params: {  room: Room; }) {
+        return RoomcontrollerApiFp.insertUsingPOST5(params)(this.fetch, this.basePath);
     }
 };
 
@@ -2309,6 +2714,13 @@ export const RoomcontrollerApiFactory = function (fetch?: FetchAPI, basePath?: s
          */
         getByIdUsingGET8(params: {  roomId: number; }) {
             return RoomcontrollerApiFp.getByIdUsingGET8(params)(fetch, basePath);
+        },
+        /** 
+         * insert
+         * @param room room
+         */
+        insertUsingPOST5(params: {  room: Room; }) {
+            return RoomcontrollerApiFp.insertUsingPOST5(params)(fetch, basePath);
         },
     }
 };
@@ -2573,6 +2985,55 @@ export const TimeconstraintcontrollerApiFactory = function (fetch?: FetchAPI, ba
  */
 export const UsercontrollerApiFetchParamCreactor = {
     /** 
+     * addUser
+     * @param lastName lastName
+     * @param firstName firstName
+     * @param email email
+     * @param password password
+     * @param role role
+     */
+    addUserUsingPOST(params: {  lastName: string; firstName: string; email: string; password: string; role: string; }): FetchArgs {
+        // verify required parameter "lastName" is set
+        if (params["lastName"] == null) {
+            throw new Error("Missing required parameter lastName when calling addUserUsingPOST");
+        }
+        // verify required parameter "firstName" is set
+        if (params["firstName"] == null) {
+            throw new Error("Missing required parameter firstName when calling addUserUsingPOST");
+        }
+        // verify required parameter "email" is set
+        if (params["email"] == null) {
+            throw new Error("Missing required parameter email when calling addUserUsingPOST");
+        }
+        // verify required parameter "password" is set
+        if (params["password"] == null) {
+            throw new Error("Missing required parameter password when calling addUserUsingPOST");
+        }
+        // verify required parameter "role" is set
+        if (params["role"] == null) {
+            throw new Error("Missing required parameter role when calling addUserUsingPOST");
+        }
+        const baseUrl = `/users/add`;
+        let urlObj = url.parse(baseUrl, true);
+        urlObj.query = assign({}, urlObj.query, { 
+            "lastName": params.lastName,
+            "firstName": params.firstName,
+            "email": params.email,
+            "password": params.password,
+            "role": params.role,
+        });
+        let fetchOptions: RequestInit = { method: "POST" };
+
+        let contentTypeHeader: Dictionary<string>;
+        if (contentTypeHeader) {
+            fetchOptions.headers = contentTypeHeader;
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
+    /** 
      * deleteUser
      * @param id id
      */
@@ -2598,6 +3059,23 @@ export const UsercontrollerApiFetchParamCreactor = {
         };
     },
     /** 
+     * getAllUsers
+     */
+    getAllUsersUsingGET(): FetchArgs {
+        const baseUrl = `/users`;
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = { method: "GET" };
+
+        let contentTypeHeader: Dictionary<string>;
+        if (contentTypeHeader) {
+            fetchOptions.headers = contentTypeHeader;
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
+    /** 
      * updateUser
      * @param name name
      * @param firstname firstname
@@ -2605,7 +3083,7 @@ export const UsercontrollerApiFetchParamCreactor = {
      * @param id id
      * @param isAdmin isAdmin
      */
-    updateUserUsingPOST(params: {  name: string; firstname: string; email: string; id: number; isAdmin: boolean; }): FetchArgs {
+    updateUserUsingPOST(params: {  name: string; firstname: string; email: string; id: number; isAdmin: string; }): FetchArgs {
         // verify required parameter "name" is set
         if (params["name"] == null) {
             throw new Error("Missing required parameter name when calling updateUserUsingPOST");
@@ -2653,6 +3131,26 @@ export const UsercontrollerApiFetchParamCreactor = {
  */
 export const UsercontrollerApiFp = {
     /** 
+     * addUser
+     * @param lastName lastName
+     * @param firstName firstName
+     * @param email email
+     * @param password password
+     * @param role role
+     */
+    addUserUsingPOST(params: { lastName: string; firstName: string; email: string; password: string; role: string;  }): (fetch: FetchAPI, basePath?: string) => Promise<any> {
+        const fetchArgs = UsercontrollerApiFetchParamCreactor.addUserUsingPOST(params);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response;
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
+    /** 
      * deleteUser
      * @param id id
      */
@@ -2669,6 +3167,21 @@ export const UsercontrollerApiFp = {
         };
     },
     /** 
+     * getAllUsers
+     */
+    getAllUsersUsingGET(): (fetch: FetchAPI, basePath?: string) => Promise<Array<User>> {
+        const fetchArgs = UsercontrollerApiFetchParamCreactor.getAllUsersUsingGET();
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
+    /** 
      * updateUser
      * @param name name
      * @param firstname firstname
@@ -2676,7 +3189,7 @@ export const UsercontrollerApiFp = {
      * @param id id
      * @param isAdmin isAdmin
      */
-    updateUserUsingPOST(params: { name: string; firstname: string; email: string; id: number; isAdmin: boolean;  }): (fetch: FetchAPI, basePath?: string) => Promise<User> {
+    updateUserUsingPOST(params: { name: string; firstname: string; email: string; id: number; isAdmin: string;  }): (fetch: FetchAPI, basePath?: string) => Promise<User> {
         const fetchArgs = UsercontrollerApiFetchParamCreactor.updateUserUsingPOST(params);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
@@ -2695,11 +3208,28 @@ export const UsercontrollerApiFp = {
  */
 export class UsercontrollerApi extends BaseAPI {
     /** 
+     * addUser
+     * @param lastName lastName
+     * @param firstName firstName
+     * @param email email
+     * @param password password
+     * @param role role
+     */
+    addUserUsingPOST(params: {  lastName: string; firstName: string; email: string; password: string; role: string; }) {
+        return UsercontrollerApiFp.addUserUsingPOST(params)(this.fetch, this.basePath);
+    }
+    /** 
      * deleteUser
      * @param id id
      */
     deleteUserUsingDELETE(params: {  id: number; }) {
         return UsercontrollerApiFp.deleteUserUsingDELETE(params)(this.fetch, this.basePath);
+    }
+    /** 
+     * getAllUsers
+     */
+    getAllUsersUsingGET() {
+        return UsercontrollerApiFp.getAllUsersUsingGET()(this.fetch, this.basePath);
     }
     /** 
      * updateUser
@@ -2709,7 +3239,7 @@ export class UsercontrollerApi extends BaseAPI {
      * @param id id
      * @param isAdmin isAdmin
      */
-    updateUserUsingPOST(params: {  name: string; firstname: string; email: string; id: number; isAdmin: boolean; }) {
+    updateUserUsingPOST(params: {  name: string; firstname: string; email: string; id: number; isAdmin: string; }) {
         return UsercontrollerApiFp.updateUserUsingPOST(params)(this.fetch, this.basePath);
     }
 };
@@ -2720,11 +3250,28 @@ export class UsercontrollerApi extends BaseAPI {
 export const UsercontrollerApiFactory = function (fetch?: FetchAPI, basePath?: string) {
     return {
         /** 
+         * addUser
+         * @param lastName lastName
+         * @param firstName firstName
+         * @param email email
+         * @param password password
+         * @param role role
+         */
+        addUserUsingPOST(params: {  lastName: string; firstName: string; email: string; password: string; role: string; }) {
+            return UsercontrollerApiFp.addUserUsingPOST(params)(fetch, basePath);
+        },
+        /** 
          * deleteUser
          * @param id id
          */
         deleteUserUsingDELETE(params: {  id: number; }) {
             return UsercontrollerApiFp.deleteUserUsingDELETE(params)(fetch, basePath);
+        },
+        /** 
+         * getAllUsers
+         */
+        getAllUsersUsingGET() {
+            return UsercontrollerApiFp.getAllUsersUsingGET()(fetch, basePath);
         },
         /** 
          * updateUser
@@ -2734,7 +3281,7 @@ export const UsercontrollerApiFactory = function (fetch?: FetchAPI, basePath?: s
          * @param id id
          * @param isAdmin isAdmin
          */
-        updateUserUsingPOST(params: {  name: string; firstname: string; email: string; id: number; isAdmin: boolean; }) {
+        updateUserUsingPOST(params: {  name: string; firstname: string; email: string; id: number; isAdmin: string; }) {
             return UsercontrollerApiFp.updateUserUsingPOST(params)(fetch, basePath);
         },
     }
