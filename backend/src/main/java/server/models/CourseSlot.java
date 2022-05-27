@@ -1,31 +1,27 @@
 package server.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 @Table(name = "course_slot")
-@IdClass(CourseSlotId.class)
 public class CourseSlot implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
     @ManyToOne
     private CourseGroup courseGroup;
 
-    @Id
     @ManyToOne
     @JsonIgnore
     private Planning planning;
@@ -85,12 +81,20 @@ public class CourseSlot implements Serializable {
                 || (courseSlot.getStartTime().plus(courseSlot.getDuration()).isAfter(getStartTime()));
     }
 
+    public int getId() {
+        return id;
+    }
+
     public CourseGroup getCourseGroup() {
         return courseGroup;
     }
 
     public Planning getPlanning() {
         return planning;
+    }
+
+    public void setPlanning(Planning planning) {
+        this.planning = planning;
     }
 
     public Professor getProfessor() {
@@ -140,8 +144,8 @@ public class CourseSlot implements Serializable {
     }
 
     @JsonIgnore
-    public Course getCourse() {
-        return courseGroup.getCourse();
+    public MajorCourse getMajorCourse() {
+        return courseGroup.getMajorCourse();
     }
 
     @JsonIgnore
@@ -165,8 +169,8 @@ public class CourseSlot implements Serializable {
     }
 
     @JsonIgnore
-    public void setCourse(Course course) {
-        courseGroup.setCourse(course);
+    public void setMajorCourse(MajorCourse majorCourse) {
+        courseGroup.setMajorCourse(majorCourse);
     }
 
     @JsonIgnore

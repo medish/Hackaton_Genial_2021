@@ -29,14 +29,8 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isLoggedIn();
-    this.c.checkAuthUsingGET({username:'',password:""}).then(data => {
-      console.log(data)
-      }
-    )
     // insert group
-
   }
-
 
 
   acitiveItem() {

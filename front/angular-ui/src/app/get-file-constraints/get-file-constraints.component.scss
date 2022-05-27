@@ -1,24 +1,21 @@
 button {
-    background-color: #8d448b;
+  background-color: #8d448b;
 }
 
 .txt {
-  font-family: 'Work Sans', sans-serif;
+  font-family: "Work Sans", sans-serif;
+}
+
+.valider-button-container {
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
 }
 
 .valider {
-  font-family: 'Work Sans', sans-serif;
-  margin-top: 4rem;
-  width: 30%;
-  transform: translateX(90%);
-  background-color:  #31fc03 !important;
+  font-family: "Work Sans", sans-serif;
+  padding: 0.5rem 2rem;
 }
-
-.valider:focus,
-.valider:hover {
-  background-color: darkgreen !important;
-}
-
 
 .inputfile {
   width: 0.1px;
@@ -33,13 +30,18 @@ button {
   font-size: 1.25em;
   font-weight: 700;
   color: white;
-  font-family: 'Work Sans', sans-serif;
-  background-color: #b0a892;
+  font-family: "Work Sans", sans-serif;
+  background-color: #8d448b;
   height: 3.6rem;
   display: inline-block;
   cursor: pointer;
-  width: 80%;
-  transform: translateX(5%);
+  width: fit-content;
+  height: fit-content;
+  border-radius: 0.25rem;
+  opacity: 0.7;
+  border: 1px solid black;
+  text-align: center;
+  padding: 0.5rem 2rem;
 }
 
 .inputfile:focus + label,
@@ -50,4 +52,20 @@ button {
 .inputfile:focus + label {
   outline: 1px dotted #000;
   outline: -webkit-focus-ring-color auto 5px;
+}
+
+.attach-file-container {
+  display: flex;
+  justify-content: center;
+}
+
+.example-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  align-items: flex-start;
+}
+
+.example-radio-button {
+  margin: 5px;
 }

@@ -10,18 +10,23 @@
 
 .buttons button {
   width: 50%;
-  font-family: 'Work Sans', sans-serif;
+  font-family: "Work Sans", sans-serif;
 }
 
 .placeholder-text {
-  font-family: 'Work Sans', sans-serif;
+  font-family: "Work Sans", sans-serif;
 }
 
 .txt {
-  font-family: 'Work Sans', sans-serif;
+  font-family: "Work Sans", sans-serif;
 }
 
 .btn-shadow:focus,
-.btn-shadow:hover{
+.btn-shadow:hover {
   background-color: darkblue !important;
+}
+
+.main-action-button {
+  width: 100%;
+  border-radius: 0;
 }

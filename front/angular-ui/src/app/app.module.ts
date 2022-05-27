@@ -31,7 +31,12 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {DepartmentComponent} from './department/department.component';
 import {AllConstraintsComponent} from './all-constraints/all-constraints.component';
 import {AllGroupsComponent} from './all-groups/all-groups.component';
-import {AuthcontrollerApi, CoursegroupcontrollerApi, TimeconstraintcontrollerApi} from './model/swagger/api';
+import {
+  AuthcontrollerApi,
+  CoursegroupcontrollerApi, MajorcontrollerApi,
+  PlanningcontrollerApi,
+  TimeconstraintcontrollerApi
+} from './model/swagger/api';
 import {
   CoursecontrollerApi,
   DegreecontrollerApi,
@@ -39,11 +44,13 @@ import {
   ProfessorcontrollerApi,
   RoomcontrollerApi
 } from './model/swagger/api';
+import {MatRadioModule} from "@angular/material/radio";
 
 
-FullCalendarModule.registerPlugins([ // register FullCalendar plugins
+FullCalendarModule.registerPlugins([
+  // register FullCalendar plugins
   dayGridPlugin,
-  interactionPlugin
+  interactionPlugin,
 ]);
 
 @NgModule({
@@ -67,7 +74,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     DepartmentComponent,
     AllConstraintsComponent,
     AllGroupsComponent,
-    FormConstraintTimeComponent
+    FormConstraintTimeComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -80,12 +87,24 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     CollapseModule.forRoot(),
     DataTablesModule,
     FontAwesomeModule,
+    FontAwesomeModule,
+    MatRadioModule,
   ],
 
 
-  providers: [authInterceptorProviders, AuthcontrollerApi, CoursegroupcontrollerApi, TimeconstraintcontrollerApi, RoomcontrollerApi, CoursecontrollerApi, ProfessorcontrollerApi, DegreecontrollerApi, DepartmentcontrollerApi, CoursecontrollerApi
-    , RoomcontrollerApi],
-  bootstrap: [AppComponent]
+  providers: [authInterceptorProviders,
+    AuthcontrollerApi,
+    CoursegroupcontrollerApi,
+    TimeconstraintcontrollerApi,
+    RoomcontrollerApi,
+    CoursecontrollerApi,
+    ProfessorcontrollerApi,
+    DepartmentcontrollerApi,
+    DegreecontrollerApi,
+    PlanningcontrollerApi,
+    MajorcontrollerApi
+  ],
+  bootstrap: [AppComponent],
 })
 export class AppModule {
 }

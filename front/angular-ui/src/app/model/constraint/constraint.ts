@@ -12,10 +12,5 @@ export class Constraint{
         time: []
     };
     room: string = "";
-    priority:number=0; // This attribute should be between 0 and 100 
-    precedence: ConstraintPrecedence = {
-        precedence: "Before",
-        strict: false,
-        selectorTarget: {selectorUnits:[]}
-    };
+    priority:number=0; // This attribute should be between 0 and 100
 }

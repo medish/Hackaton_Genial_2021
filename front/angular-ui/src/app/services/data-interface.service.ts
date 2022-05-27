@@ -1,14 +1,14 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {identity, Observable, throwError } from 'rxjs';
-import { ConstraintPrecedence } from '../model/constraint/constraint-precedence';
-import { ConstraintTimeRoom } from '../model/constraint/constraint-time-room';
+import { ConstraintPrecedence, ConstraintPrecedenceExport } from '../model/constraint/constraint-precedence';
+import { ConstraintTimeRoom, ConstraintTimeRoomExport } from '../model/constraint/constraint-time-room';
 import { catchError, retry } from 'rxjs/operators';
 import { Planning } from '../model/planning/planning';
 import { environment } from 'src/environments/environment';
 import {User} from "../model/user";
 
-import { Degree, Department, Professor, Room } from '../model/swagger/api';
+import {Degree, Department, Professor, Room} from '../model/swagger/api';
 import { Lesson, RoomType } from '../model/datastore/datamodel';
 
 @Injectable({
@@ -36,12 +36,12 @@ export class DataInterfaceService {
     .subscribe(data => callback(data));
   }
 
-  sendTimeRoomConstraints(constraints: [ConstraintTimeRoom]) {
+  sendTimeRoomConstraints(constraints: [ConstraintTimeRoomExport]) {
     return this.http.post(this.url + "/constraints/time-and-room", constraints)
     .pipe(catchError(this.handleError)).subscribe();
   }
 
-  sendPrecedenceConstraints(constraints: [ConstraintPrecedence]) {
+  sendPrecedenceConstraints(constraints: [ConstraintPrecedenceExport]) {
     return this.http.post(this.url + "/constraints/precedence", constraints)
     .pipe(catchError(this.handleError)).subscribe();
   }
@@ -102,21 +102,19 @@ export class DataInterfaceService {
     .pipe(catchError(this.handleError)).subscribe(data => callback(data));
   }
 
-  generatePlanning(callback:(any)=>any){
-    return this.http.get<any>(this.url + "/planning/auto")
-    .pipe(catchError(this.handleError)).subscribe(data=>callback(data));
-  }
+
   fetchAllPlannings(callback: (plannings:[Planning],context:any)=>any, context:any){
     return this.http.get<[Planning]>(this.url+'/planning').subscribe(data=>callback(data,context))
   }
 
   handleError(error: HttpErrorResponse) {
     console.log("[HTTP ERROR]: " + error);
+    window.alert("Une erreur est survenue");
     return throwError("An error happened");
   }
 
   fetchAllUsers(callback: (users: [User], context: any) => any, context: any) {
-    return this.http.get<[User]>(this.url + "/professors")
+    return this.http.get<[User]>(this.url + "/users")
       .subscribe(data => callback(data, context));
   }
 }

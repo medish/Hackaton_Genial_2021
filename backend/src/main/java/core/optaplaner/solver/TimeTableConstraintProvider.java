@@ -79,7 +79,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
         // A student can attend at most one lesson at the same time.
         return constraintFactory
                 .fromUniquePair(CourseGroupOptaPlaner.class,
-                        Joiners.equal(lesson -> lesson.getCourse().getDegree().getName()),
+                        Joiners.equal(lesson -> lesson.getMajorCourse().getCourse().getDegree().getName()),
                         Joiners.filtering((lesson1, lesson2) -> lesson1.isCollide(lesson2)))
                 .penalize("Student group conflict", HardSoftScore.ONE_HARD);
     }
@@ -152,7 +152,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                     firstPart = firstPart.filter(lesson -> lesson.getId().equals(selector.getValue()));
                 }
                 if ("subject".equals(selector.getAttribute())) {
-                    firstPart = firstPart.filter(lesson -> lesson.getCourse().equals(selector.getValue()));
+                    firstPart = firstPart.filter(lesson -> lesson.getMajorCourse().getCourse().equals(selector.getValue()));
                 }
             }
 
@@ -192,7 +192,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                     merged = merged.filter((lesson, lesson2) -> lesson2.getId().equals(selector.getValue()));
                 }
                 if ("subject".equals(selector.getAttribute())) {
-                    merged = merged.filter((lesson, lesson2) -> lesson2.getCourse().equals(selector.getValue()));
+                    merged = merged.filter((lesson, lesson2) -> lesson2.getMajorCourse().getCourse().equals(selector.getValue()));
                 }
             }
 
@@ -269,7 +269,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                     firstPart = firstPart.filter(lesson -> lesson.getId().equals(selector.getValue()));
                 }
                 if ("subject".equals(selector.getAttribute())) {
-                    firstPart = firstPart.filter(lesson -> lesson.getCourse().equals(selector.getValue()));
+                    firstPart = firstPart.filter(lesson -> lesson.getMajorCourse().getCourse().equals(selector.getValue()));
                 }
             }
 

@@ -10,8 +10,9 @@ import uniqid from 'uniqid';
 import {document} from "ngx-bootstrap/utils";
 import { ExportService } from '../services/export/export.service';
 import { faFile } from '@fortawesome/free-solid-svg-icons';
-import { Lesson } from '../model/datastore/datamodel';
-import { Course, CoursecontrollerApi, CourseSlot, Degree, DegreecontrollerApi, Department, DepartmentcontrollerApi, Professor, ProfessorcontrollerApi, Room, RoomcontrollerApi, TimeconstraintcontrollerApi } from '../model/swagger/api';
+import { Course, CoursecontrollerApi, CourseGroup, CoursegroupcontrollerApi, CourseSlot, Degree, DegreecontrollerApi, Department, DepartmentcontrollerApi, PlanningcontrollerApi, Professor, ProfessorcontrollerApi, Room, RoomcontrollerApi, TimeconstraintcontrollerApi } from '../model/swagger/api';
+import { CourseSlotsService } from '../services/course-slots/course-slots.service';
+
 
 export const TD_COLOR = "#0d6efd";
 export const COURS_COLOR= "#dc3545";
@@ -29,7 +30,10 @@ export class PlanningManuelGeneratorComponent implements OnInit {
 
   roomsList: Room[] = [];
   courses: Course[] = [];
+  courseGroups:CourseGroup[] = [];
+  allCourseGroups:CourseGroup[] = [];
   professors: Professor[] = [];
+  allProfessors: Professor[] = []
   degrees: Degree[] = [];
   selectedDegree: string;
   departments: Department[] = [];
@@ -37,6 +41,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   that = this;
   calendarApi :any;
   currentDraggable: Draggable;
+  generating:boolean=false;
   @ViewChild('calendar') calendarComponent: FullCalendarComponent;
 
   constructor(private roomController:RoomcontrollerApi,
@@ -44,15 +49,28 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     private professorController: ProfessorcontrollerApi, 
     private degreeController: DegreecontrollerApi,
     private departementController:DepartmentcontrollerApi,
-    private timeConstraintController: TimeconstraintcontrollerApi, private dataService : DataInterfaceService, private fb : FormBuilder, private exportService:ExportService) {
+    private courseGroupController : CoursegroupcontrollerApi,
+    private timeConstraintController: TimeconstraintcontrollerApi, 
+    private planningController:PlanningcontrollerApi, 
+    private courseSlotsService:CourseSlotsService,
+    private fb : FormBuilder, 
+    private exportService:ExportService) {
   }
 
-
   ngOnInit() {
-    let draggableEl = document.getElementById('external-events');
+    this.initForm();
+    this.initCalendar();
+    this.planningController.getByIdUsingGET6({id:1}).then(data=>{
+      this.setEvents(data?.['slots']);
+    }).catch(err=>{
+      console.error('err :',err)
+    })
+  }
+  initForm(){
     this.formGroupModel = this.fb.group({
       room: new FormControl(''),
       course: new FormControl(''),
+      courseGroup: new FormControl(''),
       teacher: new FormControl(''),
       degree: new FormControl(''),
       duration:new FormControl(''),
@@ -61,13 +79,14 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       department:new FormControl(),
       backgroundColor:new FormControl('')
     })
-    let x:CourseSlot
+  }
+  initCalendar(){
+    let draggableEl = document.getElementById('external-events');
     this.currentDraggable = new Draggable(draggableEl, {
       itemSelector: '.fc-event',
       eventData: function (eventEl: any) {
         let eventInitialColors={td:TD_COLOR,cours:COURS_COLOR,tp:TP_COLOR}
         let target_color= eventEl.innerText.toLowerCase()
-        console.log("from draggable")
         return {
           title: eventEl.innerText,
           id:uniqid(),
@@ -94,10 +113,12 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       slotMinTime: "8:00:00",
       slotMaxTime: "20:00:00",
       firstDay: 1,
+      eventTextColor:"white",
+      events: [],
       eventDragStart : function (info ) {},
       eventClick:  (info)=>{
         this.formGroupModel.controls['idEvent'].setValue(info.event.id)
-        this.prepareVerification()
+        //this.prepareVerification()
         var modal = new Modal(document.getElementById("modalManuel"), {
           keyboard: false
         });
@@ -105,10 +126,8 @@ export class PlanningManuelGeneratorComponent implements OnInit {
         modal.show();
       },
       eventChange: (change)=>{}
-
     };
   }
-
 
   deleteEvent(idEvent:string){
     let calendarApi : Calendar = this.calendarComponent.getApi();
@@ -117,20 +136,35 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   saveEvent(idEvent:string){
     let calendarApi : Calendar = this.calendarComponent.getApi();
     let event = calendarApi.getEventById(idEvent);
-    event.setExtendedProp("room",this.formGroupModel.controls['room'].value)
-    event.setExtendedProp("duration",this.formGroupModel.controls['duration'].value)
-    event.setExtendedProp("course",this.formGroupModel.controls['course'].value)
-    event.setExtendedProp("teacher",this.formGroupModel.controls['teacher'].value)
-    event.setExtendedProp("degree",this.formGroupModel.controls['degree'].value)
-    event.setProp("title",this.formGroupModel.controls['title'].value)
-    event.setProp("backgroundColor",this.formGroupModel.controls['backgroundColor'].value)
-
-    console.log("props : ",this.formGroupModel.controls['backgroundColor'].value)
+    let newobj = {
+      title:this.degrees.filter(d=>d.id==this.formGroupModel.controls['degree'].value)?.[0]?.name+' - Groupe '+ this.formGroupModel.controls['courseGroup'].value+ ' - ' + this.formGroupModel.controls['course'].value + ' - '+this.formGroupModel.controls['teacher'].value+' - '+this.formGroupModel.controls['room'].value,
+      color:this.formGroupModel.controls['backgroundColor'].value,
+      daysOfWeek:event?._def?.recurringDef?.typeData['daysOfWeek'],
+      startTime:event?._def?.recurringDef?.typeData['startTime'],
+      endTime:event?._def?.recurringDef?.typeData['endTime'],
+      id:uniqid(),
+      extendedProps:{
+        room:this.formGroupModel.controls['room'].value,
+        course:this.formGroupModel.controls['course'].value,
+        courseGroup:this.formGroupModel.controls['courseGroup'].value,
+        teacher: this.formGroupModel.controls['teacher'].value,
+        degree: this.formGroupModel.controls['degree'].value,
+        department: this.formGroupModel.controls['department'].value,
+        duration: this.formGroupModel.controls['duration'].value
+      }
+    }
+    event.remove()
+    this.calendarComponent.getApi().addEvent(newobj)
   }
   getAllEvents(){
     return this.calendarComponent.getApi().getEvents();
   }
-
+  setEvents(events){
+    this.calendarComponent.getApi().removeAllEvents();
+    for(let event of events){
+      this.calendarComponent.getApi().addEvent(this.courseSlotsService.fromCourseSlotToCalendar(event));
+    }
+  }
 
 
   /**
@@ -165,8 +199,6 @@ export class PlanningManuelGeneratorComponent implements OnInit {
         let defaulthour=dateStartStr.getHours()+1;
         endTime = defaulthour+":"+dateStartStr.getMinutes()+":"+dateStartStr.getSeconds();
       }
-      console.warn(dateEndStr.toLocaleDateString())
-      console.warn(endTime);
       let dayNumber = dateStartStr.getDay()
 
       arrayPrepared.push({
@@ -189,8 +221,6 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     }
 
     planningJson.outputs=arrayPrepared;
-    console.warn(planningJson)
-    console.warn(arrayEvents)
     //this.dataService.verifyConstraints(planningJson);
     return JSON.stringify(planningJson);
   }
@@ -208,9 +238,11 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       let event = calendarApi.getEventById(this.formGroupModel.controls['idEvent'].value)
       this.formGroupModel.controls['room'].setValue(event.extendedProps['room']);
       this.formGroupModel.controls['course'].setValue(event.extendedProps['course']);
+      this.formGroupModel.controls['courseGroup'].setValue(event.extendedProps['courseGroup'])
       this.formGroupModel.controls['teacher'].setValue(event.extendedProps['teacher']);
       this.formGroupModel.controls['degree'].setValue(event.extendedProps['degree']);
       this.formGroupModel.controls['duration'].setValue(event.extendedProps['duration']);
+      this.formGroupModel.controls['department'].setValue(event.extendedProps['department'])
       this.formGroupModel.controls['title'].setValue(event.title);
       this.formGroupModel.controls['backgroundColor'].setValue(event.backgroundColor);
     }
@@ -227,7 +259,15 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     })
     this.professorController.getAllUsingGET8().then(data=>{
       for(let prof of data){
-        this.professors.push(prof);
+        this.allProfessors.push(prof);
+      }
+      if(this.formGroupModel.controls['course']?.value){
+        this.professors = this.allProfessors.filter(professor=>{
+          if(this.courses.filter(c=>c?.name==this.formGroupModel.controls['course']?.value)?.[0]?.professors?.map(p=>p?.id).includes(professor?.id)){
+            return true;
+          }
+          return false;
+        })
       }
     })
     this.degreeController.getAllUsingGET3().then(degrees=>{
@@ -239,7 +279,20 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       for(let dep of departments) {
         this.departments.push(dep);
       }
-    })
+    });
+    this.courseGroupController.getAllUsingGET1().then(courseGroups=>{
+      for(let courseGroup of courseGroups){
+        this.allCourseGroups.push(courseGroup);
+      }
+      if(this.formGroupModel.controls['course']?.value){
+        this.courseGroups = this.allCourseGroups.filter(courseGroup=>{
+          if(courseGroup.majorCourse?.course.name==this.formGroupModel.controls['course']?.value){
+            return true;
+          }
+          return false;
+        })
+      }
+    });
   }
 
 
@@ -249,6 +302,9 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     this.roomsList = [];
     this.professors = [];
     this.departments = [];
+    this.courseGroups = [];
+    this.allCourseGroups = [];
+    this.allProfessors = [];
   }
 
 
@@ -259,11 +315,27 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   courseChangeHandler(className) {
     const selectedCourse = this.courses.find(elem => elem.name === className);
     this.formGroupModel.controls['title'].setValue(selectedCourse?.name);
-    console.log("color ",selectedCourse)
     this.formGroupModel.controls['backgroundColor'].setValue("#"+selectedCourse?.color)
     //TODO Handle duration
     this.formGroupModel.controls['duration'].setValue('1H');
     this.formGroupModel.controls['course'].setValue(selectedCourse?.name);
+    this.courseGroups = this.allCourseGroups.filter(courseGroup=>{
+      if(courseGroup?.majorCourse?.course.name==this.formGroupModel.controls['course']?.value){
+        return true;
+      }
+      return false;
+    });
+    this.professors = this.allProfessors.filter(professor=>{
+      if(this.courses.filter(c=>c?.name==this.formGroupModel.controls['course']?.value)?.[0]?.professors?.map(p=>p?.id).includes(professor?.id)){
+        return true;
+      }
+      return false;
+    })
+    this.formGroupModel.controls['teacher'].setValue("");
+    this.formGroupModel.controls['courseGroup'].setValue("");
+  }
+  changeCourseGroupHandler(courseGroup){
+    this.formGroupModel.controls['courseGroup'].setValue(courseGroup);
   }
   
   teacherChangeHandler(teacherFirstNameName: string) {
@@ -275,7 +347,18 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   }
 
   departmentsChangeHandler(departmentName :string){
-    console.log(departmentName);
+    this.formGroupModel.controls['department'].setValue(departmentName);
   }
 
+  generatePlanning(){
+    this.generating=true;
+    this.planningController.generatePlanningUsingGET().then(planning=>{
+      let slots = planning.slots?.map(slot=>this.courseSlotsService.fromCourseSlotToCalendar(slot));
+      this.calendarComponent.getApi().removeAllEvents();
+      for(let evt of slots){
+        this.calendarComponent.getApi().addEvent(evt);
+      }
+      this.generating=false;
+    })
+  }
 }

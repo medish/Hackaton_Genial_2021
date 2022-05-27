@@ -28,19 +28,12 @@ public class Planning {
     @OneToMany(mappedBy = "planning")
     private Set<CourseSlot> slots;
 
-    public Planning(int id, String name, LocalDate createdAt) {
-        this.id = id;
+    public Planning() {
+    }
+
+    public Planning(String name, LocalDate createdAt) {
         this.name = name;
         this.createdAt = createdAt;
-    }
-
-    public Planning(int id, Set<CourseSlot> slots) {
-        this.id = id;
-        this.createdAt = LocalDate.now();
-        this.slots = slots;
-    }
-
-    public Planning() {
     }
 
     public int getId() {
