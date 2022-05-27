@@ -1,13 +1,10 @@
 package selenium;
 
 
-
-import org.drools.core.command.assertion.AssertEquals;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -47,9 +44,9 @@ public class Deconnexion_Test {
         driver.get("http://localhost:4200/login");
         //driver.manage().window().setSize(new Dimension(1262, 662));
         driver.findElement(By.id("username")).click();
-        driver.findElement(By.id("username")).sendKeys("sdfsdfdsfsdf");
+        driver.findElement(By.id("username")).sendKeys("admin@u-paris.fr");
         driver.findElement(By.id("password")).click();
-        driver.findElement(By.id("password")).sendKeys("sdfsdfdsfsdfdsfdsfs");
+        driver.findElement(By.id("password")).sendKeys("motdepasse");
         driver.findElement(By.cssSelector(".btn")).click();
         driver.findElement(By.linkText("Déconnexion")).click();
         assertEquals(driver.getCurrentUrl(),"http://localhost:4200/login");

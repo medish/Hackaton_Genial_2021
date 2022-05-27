@@ -3,16 +3,11 @@ package selenium;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import server.repositories.UserRepository;
-import server.services.UserService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,15 +22,11 @@ public class RegisterCustomerTest {
     private Map<String, Object> vars;
     JavascriptExecutor js;
 
-    @Mock
-    UserRepository customerRepository;
 
-    @InjectMocks
-    private UserService cs;
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+
         String os = System.getProperty("os.name").toLowerCase();
         if (os.contains("win"))
             System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");

@@ -4,7 +4,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -12,6 +11,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+
 public class UploadConstraint {
   public static final int TIMEOUT_MILLIS = 250;
   private WebDriver driver;
@@ -42,9 +42,9 @@ public class UploadConstraint {
   public void uploadConstraint() throws InterruptedException {
     driver.get("http://localhost:4200/login");
     driver.findElement(By.id("username")).click();
-    driver.findElement(By.id("username")).sendKeys("lololol");
+    driver.findElement(By.id("username")).sendKeys("admin@u-paris.fr");
     driver.findElement(By.id("password")).click();
-    driver.findElement(By.id("password")).sendKeys("lololol");
+    driver.findElement(By.id("password")).sendKeys("motdepasse");
     driver.findElement(By.cssSelector(".btn")).click();
     wait(TIMEOUT_MILLIS);
     driver.findElement(By.cssSelector(".ms-5")).click();
