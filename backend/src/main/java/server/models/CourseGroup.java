@@ -15,7 +15,7 @@ public class CourseGroup implements IInput {
     private int id;
 
     @ManyToOne
-    private Course course;
+    private MajorCourse majorCourse;
 
     private Duration duration;
 
@@ -27,9 +27,9 @@ public class CourseGroup implements IInput {
     public CourseGroup() {
     }
 
-    public CourseGroup(int id, Course course, Duration duration, int size, RoomType roomType) {
+    public CourseGroup(int id, MajorCourse majorCourse, Duration duration, int size, RoomType roomType) {
         this.id = id;
-        this.course = course;
+        this.majorCourse = majorCourse;
         this.duration = duration;
         this.size = size;
         this.roomType = roomType;
@@ -39,8 +39,8 @@ public class CourseGroup implements IInput {
         return id;
     }
 
-    public Course getCourse() {
-        return course;
+    public MajorCourse getMajorCourse() {
+        return majorCourse;
     }
 
     public Duration getDuration() {
@@ -59,8 +59,8 @@ public class CourseGroup implements IInput {
         this.size = size;
     }
 
-    public void setCourse(Course course) {
-        this.course = course;
+    public void setMajorCourse(MajorCourse majorCourse) {
+        this.majorCourse = majorCourse;
     }
 
     public RoomType getRoomType() {
@@ -73,19 +73,19 @@ public class CourseGroup implements IInput {
 
     @JsonIgnore
     public Set<Professor> getProfessors() {
-        return course.getProfessors();
+        return majorCourse.getCourse().getProfessors();
     }
 
     public void setProfessors(Set<Professor> professors) {
-        course.setProfessors(professors);
+        majorCourse.getCourse().setProfessors(professors);
     }
 
     @JsonIgnore
     public Degree getDegree() {
-        return course.getDegree();
+        return majorCourse.getCourse().getDegree();
     }
 
     public void setDegree(Degree degree) {
-        course.setDegree(degree);
+        majorCourse.getCourse().setDegree(degree);
     }
 }

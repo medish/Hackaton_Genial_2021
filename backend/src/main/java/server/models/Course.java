@@ -1,20 +1,9 @@
 package server.models;
 
-import java.util.List;
-import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 
@@ -35,17 +24,12 @@ public class Course implements IInput {
     @Column(name = "color", length = 6)
     private String color;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "course")
-    private List<CourseGroup> courseGroup;
-
-    @JsonIgnore
-    @ManyToMany(mappedBy = "courses")
-    private Set<Major> majors;
-
     @ManyToMany(mappedBy = "courses")
     private Set<Professor> professors;
 
+
+    @OneToMany(mappedBy = "course")
+    private Set<MajorCourse> majorCourses;
     public Course() {
     }
 
@@ -83,27 +67,20 @@ public class Course implements IInput {
         this.degree = degree;
     }
 
-    public List<CourseGroup> getCourseGroup() {
-        return courseGroup;
-    }
-
-    public void setCourseGroup(List<CourseGroup> courseGroup) {
-        this.courseGroup = courseGroup;
-    }
-
-    public Set<Major> getMajors() {
-        return majors;
-    }
-
-    public void setMajors(Set<Major> majors) {
-        this.majors = majors;
-    }
-
     public Set<Professor> getProfessors() {
         return professors;
     }
 
     public void setProfessors(Set<Professor> professors) {
         this.professors = professors;
+    }
+
+    @JsonIgnore
+    public Set<MajorCourse> getMajorCourses() {
+        return majorCourses;
+    }
+
+    public void setMajorCourses(Set<MajorCourse> majorCourses) {
+        this.majorCourses = majorCourses;
     }
 }

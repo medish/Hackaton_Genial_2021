@@ -102,6 +102,20 @@ INSERT INTO major_course(major_id,course_id) VALUES (2,4);
 INSERT INTO major_course(major_id,course_id) VALUES (2,1);
 INSERT INTO major_course(major_id,course_id) VALUES (3,4);
 
+INSERT INTO course_group (major_course_major_id, major_course_course_id, duration,size,room_type) VALUES (1,1,7200000000000,80,'CM');
+INSERT INTO course_group (major_course_major_id, major_course_course_id, duration,size,room_type) VALUES (1,1,7200000000000,25,'TD');
+INSERT INTO course_group (major_course_major_id, major_course_course_id, duration,size,room_type) VALUES (1,1,7200000000000,30,'TD');
+INSERT INTO course_group (major_course_major_id, major_course_course_id, duration,size,room_type) VALUES (1,1,7200000000000,25,'TD');
+INSERT INTO course_group (major_course_major_id, major_course_course_id, duration,size,room_type) VALUES (2,1,7200000000000,80,'CM');
+INSERT INTO course_group (major_course_major_id, major_course_course_id, duration,size,room_type) VALUES (2,1,7200000000000,25,'TD');
+INSERT INTO course_group (major_course_major_id, major_course_course_id, duration,size,room_type) VALUES (2,1,7200000000000,30,'TD');
+INSERT INTO course_group (major_course_major_id, major_course_course_id, duration,size,room_type) VALUES (2,1,7200000000000,25,'TD');
+INSERT INTO course_group (major_course_major_id, major_course_course_id, duration,size,room_type) VALUES (3,4,7200000000000,80,'CM');
+INSERT INTO course_group (major_course_major_id, major_course_course_id, duration,size,room_type) VALUES (3,4,7200000000000,80,'TD');
+INSERT INTO course_group (major_course_major_id, major_course_course_id, duration,size,room_type) VALUES (1,4,7200000000000,80,'CM');
+INSERT INTO course_group (major_course_major_id, major_course_course_id, duration,size,room_type) VALUES (2,5,7200000000000,20,'CM');
+INSERT INTO course_group (major_course_major_id, major_course_course_id, duration,size,room_type) VALUES (2,5,7200000000000,20,'CM');
+
 
 INSERT INTO users (last_name,first_name,email,password,role) VALUES ('Admin','UFR','admin@u-paris.fr','oui','ADMIN');
 INSERT INTO users (last_name,first_name,email,password,role) VALUES ('Pierre','Dupont','dupont@u-paris.fr','oui','PROFESSOR');
@@ -121,19 +135,6 @@ INSERT INTO professor(id) VALUES (6);
 INSERT INTO professor(id) VALUES (7);
 INSERT INTO professor(id) VALUES (8);
 
-INSERT INTO course_group (course_id,duration,size,room_type) VALUES (1,7200000000000,80,'CM');
-INSERT INTO course_group (course_id,duration,size,room_type) VALUES (1,7200000000000,25,'TD');
-INSERT INTO course_group (course_id,duration,size,room_type) VALUES (1,7200000000000,30,'TD');
-INSERT INTO course_group (course_id,duration,size,room_type) VALUES (1,7200000000000,25,'TD');
-INSERT INTO course_group (course_id,duration,size,room_type) VALUES (2,7200000000000,80,'CM');
-INSERT INTO course_group (course_id,duration,size,room_type) VALUES (2,7200000000000,25,'TD');
-INSERT INTO course_group (course_id,duration,size,room_type) VALUES (2,7200000000000,30,'TD');
-INSERT INTO course_group (course_id,duration,size,room_type) VALUES (2,7200000000000,25,'TD');
-INSERT INTO course_group (course_id,duration,size,room_type) VALUES (3,7200000000000,80,'CM');
-INSERT INTO course_group (course_id,duration,size,room_type) VALUES (3,7200000000000,80,'TD');
-INSERT INTO course_group (course_id,duration,size,room_type) VALUES (4,7200000000000,80,'CM');
-INSERT INTO course_group (course_id,duration,size,room_type) VALUES (5,7200000000000,20,'CM');
-INSERT INTO course_group (course_id,duration,size,room_type) VALUES (5,7200000000000,20,'CM');
 
 INSERT INTO professor_course (professor_id,course_id) VALUES (2,1);
 INSERT INTO professor_course (professor_id,course_id) VALUES (3,1);
