@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {environment} from 'src/environments/environment';
 import {User} from '../model/user';
 import {TokenStorageService} from './token-storage.service';
+import {error} from "jquery";
 
 
 const httpOptions = {
@@ -39,7 +40,9 @@ export class AuthService implements OnInit {
       username,
       password
     }, httpOptions).toPromise().then(data=>{this.isLoggedIn=true});**/
-    return this.http.get(environment.baseUrl + '/signin?email=' + email + "&password=" + password, httpOptions).toPromise();
+    return this.http.get(environment.baseUrl + '/signin?email=' + email + "&password=" + password, httpOptions)
+      .pipe()
+      .toPromise();
   }
 
   logout() {

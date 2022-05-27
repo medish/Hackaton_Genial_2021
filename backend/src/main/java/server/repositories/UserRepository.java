@@ -7,6 +7,4 @@ import server.models.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
-    @Query(nativeQuery = true, value = "SELECT id FROM USERS WHERE email=:email and password=:password")
-    public User getByEmailAndPassword(String email, String password);
 }
