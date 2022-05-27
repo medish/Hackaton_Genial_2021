@@ -32,6 +32,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   courseGroups:CourseGroup[] = [];
   allCourseGroups:CourseGroup[] = [];
   professors: Professor[] = [];
+  allProfessors: Professor[] = []
   degrees: Degree[] = [];
   selectedDegree: string;
   departments: Department[] = [];
@@ -71,7 +72,6 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       eventData: function (eventEl: any) {
         let eventInitialColors={td:TD_COLOR,cours:COURS_COLOR,tp:TP_COLOR}
         let target_color= eventEl.innerText.toLowerCase()
-        console.log("from draggable")
         return {
           title: eventEl.innerText,
           id:uniqid(),
@@ -127,6 +127,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     event.setExtendedProp("courseGroup",this.formGroupModel.controls['courseGroup'].value)
     event.setExtendedProp("teacher",this.formGroupModel.controls['teacher'].value)
     event.setExtendedProp("degree",this.formGroupModel.controls['degree'].value)
+    event.setExtendedProp("department",this.formGroupModel.controls['department'].value)
     event.setProp("title",this.degrees.filter(d=>d.id==this.formGroupModel.controls['degree'].value)?.[0]?.name+' - Groupe '+ this.formGroupModel.controls['courseGroup'].value+ ' - ' + this.formGroupModel.controls['course'].value + ' - '+this.formGroupModel.controls['teacher'].value+' - '+this.formGroupModel.controls['room'].value)
     event.setProp("backgroundColor",this.formGroupModel.controls['backgroundColor'].value)
   }
@@ -215,6 +216,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       this.formGroupModel.controls['teacher'].setValue(event.extendedProps['teacher']);
       this.formGroupModel.controls['degree'].setValue(event.extendedProps['degree']);
       this.formGroupModel.controls['duration'].setValue(event.extendedProps['duration']);
+      this.formGroupModel.controls['department'].setValue(event.extendedProps['department'])
       this.formGroupModel.controls['title'].setValue(event.title);
       this.formGroupModel.controls['backgroundColor'].setValue(event.backgroundColor);
     }
@@ -231,7 +233,15 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     })
     this.professorController.getAllUsingGET8().then(data=>{
       for(let prof of data){
-        this.professors.push(prof);
+        this.allProfessors.push(prof);
+      }
+      if(this.formGroupModel.controls['course']?.value){
+        this.professors = this.allProfessors.filter(professor=>{
+          if(this.courses.filter(c=>c?.name==this.formGroupModel.controls['course']?.value)?.[0]?.professors?.map(p=>p?.id).includes(professor?.id)){
+            return true;
+          }
+          return false;
+        })
       }
     })
     this.degreeController.getAllUsingGET3().then(degrees=>{
@@ -268,6 +278,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     this.departments = [];
     this.courseGroups = [];
     this.allCourseGroups = [];
+    this.allProfessors = [];
   }
 
 
@@ -278,7 +289,6 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   courseChangeHandler(className) {
     const selectedCourse = this.courses.find(elem => elem.name === className);
     this.formGroupModel.controls['title'].setValue(selectedCourse?.name);
-    console.log("color ",selectedCourse)
     this.formGroupModel.controls['backgroundColor'].setValue("#"+selectedCourse?.color)
     //TODO Handle duration
     this.formGroupModel.controls['duration'].setValue('1H');
@@ -289,6 +299,13 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       }
       return false;
     });
+    this.professors = this.allProfessors.filter(professor=>{
+      if(this.courses.filter(c=>c?.name==this.formGroupModel.controls['course']?.value)?.[0]?.professors?.map(p=>p?.id).includes(professor?.id)){
+        return true;
+      }
+      return false;
+    })
+    this.formGroupModel.controls['teacher'].setValue("");
     this.formGroupModel.controls['courseGroup'].setValue("");
   }
   changeCourseGroupHandler(courseGroup){
@@ -304,7 +321,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   }
 
   departmentsChangeHandler(departmentName :string){
-    console.log(departmentName);
+    this.formGroupModel.controls['department'].setValue(departmentName);
   }
 
 }
