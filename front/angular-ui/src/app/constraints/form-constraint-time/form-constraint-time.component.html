@@ -1,17 +1,36 @@
 <div class="container">
   <h1 class="txt">Formulaire de contraintes de temps</h1>
 
-  <form #timeForm="ngForm" (ngSubmit)="onSubmit()" name="timeForm">
+  <form [formGroup]="timeFormGroup">
     <div class="form-group">
-      <label for="selector">Selector</label>
-      <input
-        type="text"
-        class="form-control txt"
+      <label for="selector">Sélecteur</label>
+      <select
+        class="form-control"
         id="selector"
-        required
-        [(ngModel)]="timeConstraintForm.selector"
+        formControlName="selector"
         name="selector"
-      />
+        [ngClass]="{'is-invalid': submitted && timeFormGroup.controls.selector.errors}"
+      >
+        <option *ngFor="let selector of selectors" [value]="selector.value">{{ selector.label }}</option>
+      </select>
+      <select
+              class="form-control"
+              formControlName="selectorTarget"
+              id="professor"
+              *ngIf="timeFormGroup.value.selector =='teacher'"
+              [ngClass]="{'is-invalid': submitted && timeFormGroup.controls.selectorTarget.errors}"
+      >
+        <option [value]="professor.id" *ngFor="let professor of professors">{{ professor.firstName }} {{ professor.lastName }}</option>
+      </select>
+      <select
+              class="form-control"
+              formControlName="selectorTarget"
+              id="lesson"
+              *ngIf="timeFormGroup.value.selector =='lesson'"
+              [ngClass]="{'is-invalid': submitted && timeFormGroup.controls.selectorTarget.errors}"
+      >
+        <option [value]="course.id" *ngFor="let course of courses">{{ course.name }}</option>
+      </select>
     </div>
 
     <div class="form-group">
@@ -19,8 +38,8 @@
       <select
         class="form-control txt"
         id="want"
-        required
-        [(ngModel)]="timeConstraintForm.want"
+        formControlName="want"
+        [ngClass]="{'is-invalid': submitted && timeFormGroup.controls.want.errors}"
         name="want"
       >
         <option *ngFor="let want of wants" [value]="want">{{ want }}</option>
@@ -32,8 +51,8 @@
       <select
         class="form-control"
         id="day"
-        required
-        [(ngModel)]="timeConstraintForm.day"
+        formControlName="day"
+        [ngClass]="{'is-invalid': submitted && timeFormGroup.controls.day.errors}"
         name="day"
       >
         <option *ngFor="let day of days" [value]="day">{{ day }}</option>
@@ -46,8 +65,10 @@
         type="time"
         class="form-control"
         id="startTime"
-        required
-        [(ngModel)]="timeConstraintForm.startTime"
+        min="08:00"
+        max="19:30"
+        formControlName="startTime"
+        [ngClass]="{'is-invalid': submitted && timeFormGroup.controls.startTime.errors}"
         name="startTime"
       />
     </div>
@@ -58,22 +79,26 @@
         type="time"
         class="form-control"
         id="endTime"
-        required
-        [(ngModel)]="timeConstraintForm.endTime"
+        min="08:15"
+        max="19:45"
+        formControlName="endTime"
+        [ngClass]="{'is-invalid': submitted && timeFormGroup.controls.endTime.errors}"
         name="endTime"
       />
     </div>
 
     <div class="form-group">
       <label for="room">Salle</label>
-      <input
+      <select
         type="text"
+        formControlName="room"
         class="form-control"
         id="room"
-        required
-        [(ngModel)]="timeConstraintForm.room"
+        [ngClass]="{'is-invalid': submitted && timeFormGroup.controls.room.errors}"
         name="room"
-      />
+      >
+        <option *ngFor="let room of rooms" [value]="room.id">{{ room.name }}</option>
+      </select>
     </div>
 
     <div class="form-group">
@@ -85,15 +110,18 @@
         value="50"
         class="form-control"
         id="priority"
-        required
-        [(ngModel)]="timeConstraintForm.priority"
+        [ngClass]="{'is-invalid': submitted && timeFormGroup.controls.priority.errors}"
+        formControlName="priority"
         name="priority"
       />
     </div>
     <div class="form-group form-submit-container">
-      <button type="submit" class="btn btn-primary rounded submit p-3 px-5 txt">
+      <button type="submit" (click)="onSubmit()"  class="btn btn-primary rounded submit p-3 px-5 txt">
         Valider
       </button>
+      <div *ngIf="validated" class="validated rounded">
+        <h3>Contrainte ajoutée avec succès !</h3>
+      </div>
     </div>
   </form>
 </div>

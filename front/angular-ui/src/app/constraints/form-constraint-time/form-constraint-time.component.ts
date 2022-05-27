@@ -4,6 +4,8 @@ import { ConstraintService } from '../../services/constraint/constraint.service'
 import {addUnitPriority} from "ngx-bootstrap/chronos/units/priorities";
 import {Selector} from "../../model/selector/selector";
 import {SelectorUnit} from "../../model/selector/selector-unit";
+import {Professor,ProfessorcontrollerApi,Course,CoursecontrollerApi,Room,RoomcontrollerApi} from '../../model/swagger/api'
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 
 @Component({
@@ -13,12 +15,20 @@ import {SelectorUnit} from "../../model/selector/selector-unit";
 })
 export class FormConstraintTimeComponent implements OnInit {
 
-  constructor(public constraintService:ConstraintService) { }
+  constructor(
+    public constraintService:ConstraintService,
+    private professorController: ProfessorcontrollerApi,
+    private courseController: CoursecontrollerApi,
+    private roomController: RoomcontrollerApi,
+    private formBuilder: FormBuilder
+  ) {}
+
+
   @Output('onValidate')onValidate = new EventEmitter<ConstraintTimeRoom>()
 
 
   days = [
-    'lundi','mardi', 'mercredi', 'jeudi', 'vendredi'
+    'Lundi','Mardi', 'Mercredi', 'Jeudi', 'Vendredi'
   ];
 
   wants = [
@@ -26,26 +36,40 @@ export class FormConstraintTimeComponent implements OnInit {
     'ne souhaite pas'
   ];
 
-  timeConstraintForm = {
-    selector: '',
-    want: '',
-    day: null,
-    startTime: '',
-    endTime: '',
-    room: null,
-    priority: 0
-  }
+  selectors = [
+    {
+      label:'Professeur',
+      value:'teacher'
+    },
+    {
+      label: 'Cours',
+      value: 'lesson'
+    }
+  ]
+
+  submitted = false;
+  validated = false;
+  professors : Professor[] = [];
+  courses : Course[] = [];
+  rooms : Room[] = [];
+  timeFormGroup: FormGroup;
 
   onSubmit() {
 
+    this.submitted = true;
+    this.validated = false;
+    if(this.timeFormGroup.invalid){
+      return;
+    }
+
     let form_result= [
-      this.timeConstraintForm.selector,
-      this.timeConstraintForm.want == 'souhaite' ? 'true':'false',
-      (this.days.indexOf(this.timeConstraintForm.day)+1).toString(),
-      this.timeConstraintForm.startTime+":00",
-      this.timeConstraintForm.endTime+":00",
-      this.timeConstraintForm.room,
-      this.timeConstraintForm.priority.toString()
+      this.timeFormGroup.value.selector+":id:"+this.timeFormGroup.value.selectorTarget,
+      this.timeFormGroup.value.want == 'souhaite' ? 'true':'false',
+      (this.days.indexOf(this.timeFormGroup.value.day)+1).toString(),
+      this.timeFormGroup.value.startTime+":00",
+      this.timeFormGroup.value.endTime+":00",
+      "room:id:"+this.timeFormGroup.value.room,
+      this.timeFormGroup.value.priority.toString()
     ];
 
     let slct = form_result[0].split(':')
@@ -62,17 +86,41 @@ export class FormConstraintTimeComponent implements OnInit {
       priority: parseInt(form_result[6])
     }
 
-    console.log(timeConstraint)
-    console.log(form_result)
-    const result = this.constraintService.verifySplittedLineConstraintsTimeRoom(form_result);
-    if(result){
+    this.validated = this.constraintService.verifySplittedLineConstraintsTimeRoom(form_result);
+    if(this.validated){
       this.onValidate.emit(timeConstraint);
     }
-    console.log("res : "+result);
-
   }
 
   ngOnInit(): void {
-  }
+    this.professorController.getAllUsingGET8().then(data=>{
+      for(let prof of data){
+        this.professors.push(prof);
+      }
+    });
 
+    this.courseController.getAllUsingGET().then(data=>{
+      for(let course of data){
+        this.courses.push(course);
+      }
+    });
+
+    this.roomController.getAllUsingGET9().then(data=>{
+      for(let room of data){
+        this.rooms.push(room);
+      }
+    });
+
+    this.timeFormGroup = this.formBuilder.group({
+      selector: ['', [Validators.required]],
+      selectorTarget: ['', [Validators.required]],
+      want: ['', [Validators.required]],
+      day: ['', [Validators.required]],
+      startTime: ['', [Validators.required]],
+      endTime: ['', [Validators.required]],
+      room: ['', [Validators.required]],
+      priority: ['',[Validators.required]]
+    });
+  }
 }
+
