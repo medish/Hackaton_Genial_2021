@@ -4,7 +4,10 @@ package server.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import server.models.TimeConstraint;
+import server.models.User;
+import server.models.UserRole;
 import server.repositories.TimeConstraintRepository;
+import server.repositories.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +16,9 @@ import java.util.Optional;
 public class TimeConstraintService {
     @Autowired
     private TimeConstraintRepository repository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     /**
      * Get all time constraints
@@ -72,7 +78,10 @@ public class TimeConstraintService {
         return repository.saveAndFlush(constraint);
     }
 
-
-
-
+    public List<TimeConstraint> getTimeConstraints(int user_id) {
+        User user = this.userRepository.findById(user_id).get();
+        if (user.getRole().equals(UserRole.ADMIN))
+            return this.repository.findAllTimeConstraintsFor();
+        return this.repository.findTimeConstraintFor(user);
+    }
 }
