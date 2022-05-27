@@ -71,5 +71,4 @@ public class ProblemChangedRepositoryEventListener {
             throw new IllegalStateException("The solver is solving. Please stop solving first.");
         }
     }
-
 }

@@ -112,4 +112,6 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                 .penalize("Student group subject variety", HardSoftScore.ONE_SOFT);
     }
 
+
+
 }

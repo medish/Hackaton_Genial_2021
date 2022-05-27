@@ -59,8 +59,6 @@ public class Teacher {
     }
 
     public String getName() {
-        return firstName + " "  + lastName;
+        return firstName + " " + lastName;
     }
-
-
 }

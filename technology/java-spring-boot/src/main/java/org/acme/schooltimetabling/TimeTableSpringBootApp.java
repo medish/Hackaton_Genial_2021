@@ -168,14 +168,6 @@ public class TimeTableSpringBootApp {
             Teacher teacher = new Teacher("Alain", "Turing");
 */
 
-
-
-
-
-
-
-
-
         };
     }
 
