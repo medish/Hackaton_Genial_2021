@@ -17,7 +17,7 @@ export class CourseSlotsService {
   fromCalendarToCourseSlot(calendarEvent:EventApi):CourseSlot{
     return null;
   }
-  mapDays={
+  public mapDays={
     'MONDAY':"1",
     'TUESDAY':"2",
     'WEDNESDAY':"3",
@@ -39,8 +39,8 @@ export class CourseSlotsService {
         course:courseSlot?.courseGroup?.course?.name,
         courseGroup:courseSlot?.courseGroup?.groupId,
         teacher: courseSlot?.professor?.firstName+ ' '+ courseSlot?.professor?.lastName,
-        degree: courseSlot?.courseGroup?.course?.degree,
-        department: this.departements?.filter(dep=>dep?.rooms?.map(r=>r.name)?.includes(courseSlot?.room?.name))?.[0]?.name,
+        degree: courseSlot?.courseGroup?.course?.degree?.id,
+        department: this.departements?.filter(dep=>dep?.rooms?.map(r=>r.name)?.includes(courseSlot?.room?.name))?.[0]?.id,
         duration: '1H'
       }
     }
