@@ -39,7 +39,6 @@ import {
   PlanningcontrollerApi,
   ProfessorcontrollerApi,
   RoomcontrollerApi,
-  CoursegroupcontrollerApi,
   TimeconstraintcontrollerApi,
 } from './model/swagger/api';
 import { MatRadioModule } from '@angular/material/radio';
