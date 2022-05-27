@@ -3,6 +3,7 @@ import { faFileArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { ConstraintPrecedence } from '../model/constraint/constraint-precedence';
 import { ConstraintTimeRoom } from '../model/constraint/constraint-time-room';
 import { ConstraintService } from '../services/constraint/constraint.service';
+import { AlertComponent } from 'ngx-bootstrap/alert'
 
 export enum Modes {
   CSV = 'Par fichier CSV',
