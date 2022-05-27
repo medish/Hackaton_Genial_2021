@@ -4,7 +4,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -46,9 +45,9 @@ public class ConnexionTest {
         driver.get("http://localhost:4200/login");
     //    driver.manage().window().setSize(new Dimension(1280, 680));
         driver.findElement(By.id("username")).click();
-        driver.findElement(By.id("username")).sendKeys("sdsdfsdfd");
+        driver.findElement(By.id("username")).sendKeys("admin@u-paris.fr");
         driver.findElement(By.id("password")).click();
-        driver.findElement(By.id("password")).sendKeys("sdfsdfsdfsdfsdfsdf");
+        driver.findElement(By.id("password")).sendKeys("motdepasse");
         driver.findElement(By.cssSelector(".btn")).click();
 
         synchronized (driver){

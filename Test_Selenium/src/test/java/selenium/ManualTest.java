@@ -9,6 +9,7 @@ import org.openqa.selenium.interactions.Actions;
 
 import java.util.HashMap;
 import java.util.Map;
+
 public class ManualTest {
 
   public static final int TIMEOUT_MILLIS = 250;
@@ -40,11 +41,11 @@ public class ManualTest {
   public void lol() throws InterruptedException {
     driver.get("http://localhost:4200/login");
     driver.findElement(By.id("username")).click();
-    driver.findElement(By.id("username")).sendKeys("test");
+    driver.findElement(By.id("username")).sendKeys("admin@u-paris.fr");
     driver.findElement(By.id("password")).click();
     driver.findElement(By.id("username")).click();
     driver.findElement(By.id("password")).click();
-    driver.findElement(By.id("password")).sendKeys("testest");
+    driver.findElement(By.id("password")).sendKeys("motdepasse");
     driver.findElement(By.id("password")).sendKeys(Keys.ENTER);
     wait(TIMEOUT_MILLIS);
     driver.findElement(By.cssSelector(".ms-5")).click();
