@@ -10,11 +10,11 @@ import { ProfComponent } from './prof/prof.component';
 import { HeaderComponent } from './header/header.component';
 import { TableauContraintesComponent } from './tableau-contraintes/tableau-contraintes.component';
 import { HttpClientModule } from '@angular/common/http';
-import {PlanningManuelGeneratorComponent} from "./planning-manuel-generator/planning-manuel-generator.component";
+import { PlanningManuelGeneratorComponent } from './planning-manuel-generator/planning-manuel-generator.component';
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
 import interactionPlugin from '@fullcalendar/interaction';
 import { authInterceptorProviders } from './interceptors/auth.interceptor';
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PlanningAutoGeneratorComponent } from './planning-auto-generator/planning-auto-generator.component';
 import { GetFileConstraintsComponent } from './get-file-constraints/get-file-constraints.component';
@@ -22,20 +22,31 @@ import { ConstraintsComponent } from './constraints/constraints.component';
 import { PdfExportComponent } from './pdf-export/pdf-export.component';
 import { AllPlanningsComponent } from './all-plannings/all-plannings.component';
 import { CardPlanningComponent } from './all-plannings/card-planning/card-planning.component';
-import { FormConstraintTimeComponent} from "./constraints/form-constraint-time/form-constraint-time.component";
+import { FormConstraintTimeComponent } from './constraints/form-constraint-time/form-constraint-time.component';
 import { RegisterComponent } from './register/register.component';
 import { AllUsersComponent } from './all-users/all-users.component';
-import {DataTablesModule} from "angular-datatables";
+import { DataTablesModule } from 'angular-datatables';
 import { AllRoomsComponent } from './all-rooms/all-rooms.component';
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DepartmentComponent } from './department/department.component';
 import { AllConstraintsComponent } from './all-constraints/all-constraints.component';
 import { AllGroupsComponent } from './all-groups/all-groups.component';
-import { CoursecontrollerApi, CoursegroupcontrollerApi, DegreecontrollerApi, DepartmentcontrollerApi, PlanningcontrollerApi, ProfessorcontrollerApi, RoomcontrollerApi, TimeconstraintcontrollerApi } from './model/swagger/api';
+import {
+  CoursecontrollerApi,
+  CoursegroupcontrollerApi,
+  DegreecontrollerApi,
+  DepartmentcontrollerApi,
+  PlanningcontrollerApi,
+  ProfessorcontrollerApi,
+  RoomcontrollerApi,
+  TimeconstraintcontrollerApi,
+} from './model/swagger/api';
+import { MatRadioModule } from '@angular/material/radio';
 
-FullCalendarModule.registerPlugins([ // register FullCalendar plugins
+FullCalendarModule.registerPlugins([
+  // register FullCalendar plugins
   dayGridPlugin,
-  interactionPlugin
+  interactionPlugin,
 ]);
 
 @NgModule({
@@ -59,7 +70,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     DepartmentComponent,
     AllConstraintsComponent,
     AllGroupsComponent,
-    FormConstraintTimeComponent
+    FormConstraintTimeComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -71,9 +82,20 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     ReactiveFormsModule,
     CollapseModule.forRoot(),
     DataTablesModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    MatRadioModule,
   ],
-  providers: [authInterceptorProviders,TimeconstraintcontrollerApi,RoomcontrollerApi,CoursecontrollerApi,ProfessorcontrollerApi,DegreecontrollerApi,DepartmentcontrollerApi,CoursegroupcontrollerApi,PlanningcontrollerApi],
-  bootstrap: [AppComponent]
+  providers: [
+    authInterceptorProviders,
+    TimeconstraintcontrollerApi,
+    RoomcontrollerApi,
+    CoursecontrollerApi,
+    ProfessorcontrollerApi,
+    DegreecontrollerApi,
+    DepartmentcontrollerApi,
+    CoursegroupcontrollerApi,
+    PlanningcontrollerApi,
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
