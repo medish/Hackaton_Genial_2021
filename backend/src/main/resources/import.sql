@@ -117,14 +117,14 @@ INSERT INTO course_group (major_course_major_id, major_course_course_id, duratio
 INSERT INTO course_group (major_course_major_id, major_course_course_id, duration,size,room_type) VALUES (2,5,7200000000000,20,'CM');
 
 
-INSERT INTO users (last_name,first_name,email,password,role) VALUES ('Admin','UFR','admin@u-paris.fr','oui','ADMIN');
-INSERT INTO users (last_name,first_name,email,password,role) VALUES ('Pierre','Dupont','dupont@u-paris.fr','oui','PROFESSOR');
-INSERT INTO users (last_name,first_name,email,password,role) VALUES ('Jean','Dupond','dupond@u-paris.fr','oui','PROFESSOR');
-INSERT INTO users (last_name,first_name,email,password,role) VALUES ('Philippe','Loiseau','loiseau@u-paris.fr','oui','PROFESSOR');
-INSERT INTO users (last_name,first_name,email,password,role) VALUES ('Henri','Duval','duval@u-paris.fr','oui','PROFESSOR');
-INSERT INTO users (last_name,first_name,email,password,role) VALUES ('Cloé','Vignac','vignac@u-paris.fr','oui','PROFESSOR');
-INSERT INTO users (last_name,first_name,email,password,role) VALUES ('Laura','Delarue','larue@u-paris.fr','oui','PROFESSOR');
-INSERT INTO users (last_name,first_name,email,password,role) VALUES ('Emmanuel','Macron','macron@u-paris.fr','oui','PROFESSOR');
+INSERT INTO users (last_name,first_name,email,password,role) VALUES ('Admin','UFR','admin@u-paris.fr','admin1','ADMIN');
+INSERT INTO users (last_name,first_name,email,password,role) VALUES ('Pierre','Dupont','dupont@u-paris.fr','dupont','PROFESSOR');
+INSERT INTO users (last_name,first_name,email,password,role) VALUES ('Jean','Dupond','dupond@u-paris.fr','dupond','PROFESSOR');
+INSERT INTO users (last_name,first_name,email,password,role) VALUES ('Philippe','Loiseau','loiseau@u-paris.fr','loiseau','PROFESSOR');
+INSERT INTO users (last_name,first_name,email,password,role) VALUES ('Henri','Duval','duval@u-paris.fr','duval1','PROFESSOR');
+INSERT INTO users (last_name,first_name,email,password,role) VALUES ('Cloé','Vignac','vignac@u-paris.fr','vignac','PROFESSOR');
+INSERT INTO users (last_name,first_name,email,password,role) VALUES ('Laura','Delarue','larue@u-paris.fr','delarue','PROFESSOR');
+INSERT INTO users (last_name,first_name,email,password,role) VALUES ('Emmanuel','Macron','macron@u-paris.fr','macron','PROFESSOR');
 
 
 INSERT INTO professor(id) VALUES (2);
