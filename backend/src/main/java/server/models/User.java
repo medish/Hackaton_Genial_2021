@@ -43,7 +43,8 @@ public class User implements IInput, KeyID<Integer> {
     public User() {
     }
 
-    public User(String lastName, String firstName, String email, String password, UserRole role) {
+    public User(int id, String lastName, String firstName, String email, String password, UserRole role) {
+        this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;
         this.email = email;

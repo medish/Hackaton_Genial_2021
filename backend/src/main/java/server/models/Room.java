@@ -44,7 +44,8 @@ public class Room implements IInput, KeyID<Integer> {
     public Room() {
     }
 
-    public Room(String name, Department department, int capacity, Set<RoomType> roomTypes) {
+    public Room(int id, String name, Department department, int capacity, Set<RoomType> roomTypes) {
+        this.id = id;
         this.name = name;
         this.capacity = capacity;
         this.department = department;

@@ -159,7 +159,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
         SelectorUnit[] firstSelectors = Arrays.stream(pc.getSelector().split(",")).map(SelectorUnit::builder)
                 .toArray(SelectorUnit[]::new);
 
-        SelectorUnit[] secondSelector = Arrays.stream(pc.getSelector().split(",")).map(SelectorUnit::builder)
+        SelectorUnit[] secondSelector = Arrays.stream(pc.getTarget().split(",")).map(SelectorUnit::builder)
                 .toArray(SelectorUnit[]::new);
 
         UniConstraintStream<CourseGroupOptaPlaner> firstPart = constraintFactory.forEach(CourseGroupOptaPlaner.class);

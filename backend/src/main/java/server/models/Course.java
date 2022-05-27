@@ -48,7 +48,8 @@ public class Course implements IInput, KeyID<Integer> {
     public Course() {
     }
 
-    public Course(String name, Degree degree, String color) {
+    public Course(int id, String name, Degree degree, String color) {
+        this.id = id;
         this.name = name;
         this.degree = degree;
         this.color = color;
