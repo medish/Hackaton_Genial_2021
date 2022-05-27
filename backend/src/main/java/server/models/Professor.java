@@ -24,6 +24,14 @@ public class Professor extends User {
     @OneToMany(mappedBy = "professor")
     private Set<CourseSlot> slots;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "creator")
+    private Set<TimeConstraint> timeConstraints;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "creator")
+    private Set<PrecedenceConstraint> precedenceConstraints;
+
     public Professor() {
     }
 
@@ -46,4 +54,21 @@ public class Professor extends User {
     public void setSlots(Set<CourseSlot> slots) {
         this.slots = slots;
     }
+
+    public Set<TimeConstraint> getTimeConstraints() {
+        return timeConstraints;
+    }
+
+    public void setTimeConstraints(Set<TimeConstraint> timeConstraints) {
+        this.timeConstraints = timeConstraints;
+    }
+
+    public Set<PrecedenceConstraint> getPrecedenceConstraints() {
+        return precedenceConstraints;
+    }
+
+    public void setPrecedenceConstraints(Set<PrecedenceConstraint> precedenceConstraints) {
+        this.precedenceConstraints = precedenceConstraints;
+    }
+
 }
