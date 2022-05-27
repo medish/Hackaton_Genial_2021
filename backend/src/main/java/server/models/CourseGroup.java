@@ -46,6 +46,8 @@ public class CourseGroup implements IInput {
     public long getDurationSeconds(){
         return duration.getSeconds();
     }
+
+    @JsonIgnore
     public Duration getDuration() {
         return duration;
     }
