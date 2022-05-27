@@ -40,24 +40,10 @@ export class GetFileConstraintsComponent implements OnInit {
   currentPrecedence:ConstraintPrecedence[]=[];
   errorMessageTimeAndRoom='';
   errorMessagePrecedence='';
-  constructor(public constraintService: ConstraintService) {}
-  @Output('onAddConstraintTimeRoom') onAddConstraintTimeRoom = new EventEmitter<
-    ConstraintTimeRoom[]
-  >();
-  @Output('onAddConstraintPrecedence') onAddConstraintPrecedence =
-    new EventEmitter<ConstraintPrecedence[]>();
-  ngOnInit(): void {}
-  currentFileNameTimeAndRoom = '';
-  currentTimeAndRoom: ConstraintTimeRoom[] = [];
-  currentFileNamePrecedence = '';
-  currentPrecedence: ConstraintPrecedence[] = [];
-  errorMessageTimeAndRoom = '';
-  errorMessagePrecedence = '';
   Modes = Modes;
   constraintsMode: string;
   constraintsModes: string[] = [Modes.CSV, Modes.FORM];
   faFileArrowUp = faFileArrowUp;
-  onFileSelectedTimeAndRoom(event: any) {
 
   public isOpen: boolean = false;
   dismissible: boolean = true;
@@ -65,7 +51,7 @@ export class GetFileConstraintsComponent implements OnInit {
   timeoutError: number = 20000;
   public isOpenError: boolean = false;
 
-  onFileSelectedTimeAndRoom(event:any){
+  onFileSelectedTimeAndRoom(event:any) {
     const files = event.target.files;
     const fileName = files[0].name;
     const inputFile = document.getElementById('time-and-room-button');
@@ -81,19 +67,21 @@ export class GetFileConstraintsComponent implements OnInit {
           'Une erreur de syntaxe se trouve dans le fichier. Veuillez réessayer'
         );
       } else {
-      let result = this.constraintService.parseConstraintsTimeAndRoom(fileReader.result?.toString());
-      this.errorMessageTimeAndRoom = ''
-      if(!result){
-        this.isOpenError = true;
-      }else{
-        this.currentTimeAndRoom = result;
+        let result = this.constraintService.parseConstraintsTimeAndRoom(fileReader.result?.toString());
+        this.errorMessageTimeAndRoom = ''
+        if (!result) {
+          this.isOpenError = true;
+        } else {
+          this.currentTimeAndRoom = result;
+        }
       }
-    };
-    if (event?.target?.files?.length > 0) {
-      this.currentFileNameTimeAndRoom = event.target.files[0].name;
-      fileReader.readAsText(event.target.files[0]);
+      if (event?.target?.files?.length > 0) {
+        this.currentFileNameTimeAndRoom = event.target.files[0].name;
+        fileReader.readAsText(event.target.files[0]);
+      }
     }
   }
+
   sendFileSelectedTimeAndRoom() {
     if (this.currentTimeAndRoom?.length > 0) {
       console.log(this.currentTimeAndRoom);
