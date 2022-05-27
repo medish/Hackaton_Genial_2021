@@ -3,24 +3,29 @@
   <div *ngIf="precedenceConstraints" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
     <table datatable class="table table-striped">
       <thead>
-      <th>Priorité</th>
-      <th>selecteur</th>
-      <th>strict</th>
-      <th>Cible</th>
-      <th>Souhaite</th>
-      <th>Avant/ Après</th>
-      <th>Actions</th>
+      <tr>
+        <th>Priorité</th>
+        <th>selecteur</th>
+        <th>strict</th>
+        <th>Cible</th>
+        <th>Souhaite</th>
+        <th>Avant/ Après</th>
+        <th>Professeur</th>
+        <th>Actions</th>
+      </tr>
       </thead>
       <tbody>
       <ng-container *ngFor="let precedence of precedenceConstraints">
         <tr>
-          <td>{{precedence.priority}}</td>
-          <td>{{precedence.selector}}</td>
-          <td>{{precedence.strict}}</td>
-          <td>{{precedence.target}}</td>
-          <td>{{precedence.wants}}</td>
-          <td>{{precedence.when_constraint}}</td>
-          <td>
+          <td class="mr-5">{{precedence.priority}}</td>
+          <td class="mr-5">{{precedence.selector}}</td>
+          <td class="mr-5">{{precedence.strict}}</td>
+          <td class="mr-5">{{precedence.target}}</td>
+          <td class="mr-5">{{precedence.wants}}</td>
+          <td class="mr-5">{{precedence.when_constraint}}</td>
+          <td class="mr-5" *ngIf="precedence.creator"> {{precedence.creator.lastName}} {{precedence.creator.firstName}}</td>
+          <td class="mr-5" *ngIf="! precedence.creator">N/A</td>
+          <td class="mr-5">
             <button type="button" class="btn btn-sm btn-danger" (click)="deletePrecedenceConstraints(precedence.id)">Supprimer
             </button>
           </td>
@@ -36,27 +41,32 @@
   <div *ngIf="timeConstraints" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
     <table datatable class="table table-striped">
       <thead>
-      <th>End time</th>
-      <th>Priorité</th>
-      <th>selecteur</th>
-      <th>Start time</th>
-      <th>Souhaite</th>
-      <th>Date begin</th>
-      <th>Date end</th>
-      <th>Room</th>
-      <th>Actions</th>
+      <tr>
+        <th>End time</th>
+        <th>Priorité</th>
+        <th>selecteur</th>
+        <th>Start time</th>
+        <th>Souhaite</th>
+        <th>Date begin</th>
+        <th>Date end</th>
+        <th>Room</th>
+        <th>Professeur</th>
+        <th>Actions</th>
+      </tr>
       </thead>
       <tbody>
       <ng-container *ngFor="let time of timeConstraints">
         <tr>
-          <td>{{time.endTime}}</td>
-          <td>{{time.priority}}</td>
-          <td>{{time.selector}}</td>
-          <td>{{time.startTime}}</td>
-          <td>{{time.wants}}</td>
-          <td>{{time.dateBegin.day}} {{time.dateBegin.startTime}}</td>
-          <td>{{time.dateEnd.day}} {{time.dateBegin.startTime}}</td>
-          <td>{{time.room.name}}</td>
+          <td class="mr-5">{{time.endTime}}</td>
+          <td class="mr-5">{{time.priority}}</td>
+          <td class="mr-5">{{time.selector}}</td>
+          <td class="mr-5">{{time.startTime}}</td>
+          <td class="mr-5">{{time.wants}}</td>
+          <td class="mr-5">{{time.dateBegin.day}} {{time.dateBegin.startTime}}</td>
+          <td class="mr-5">{{time.dateEnd.day}} {{time.dateBegin.startTime}}</td>
+          <td class="mr-5">{{time.room.name}}</td>
+          <td class="mr-5" *ngIf="time.creator">{{time.creator.lastName}} {{time.creator.firstName}}</td>
+          <td class="mr-5" *ngIf="! time.creator">N/A</td>
           <td>
             <button type="button" class="btn btn-sm btn-danger" (click)="deleteTimeConstraints(time.id)" >Supprimer</button>
           </td>

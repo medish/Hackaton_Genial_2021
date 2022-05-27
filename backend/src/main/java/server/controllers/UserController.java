@@ -3,8 +3,10 @@ package server.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import server.models.Professor;
 import server.models.User;
 import server.models.UserRole;
+import server.services.ProfessorService;
 import server.services.UserService;
 
 import java.util.List;
@@ -15,6 +17,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ProfessorService professorService;
 
     @GetMapping
     public List<User> getAllUsers() {

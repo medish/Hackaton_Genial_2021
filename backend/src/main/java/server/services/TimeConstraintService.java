@@ -82,6 +82,6 @@ public class TimeConstraintService {
         User user = this.userRepository.findById(user_id).get();
         if (user.getRole().equals(UserRole.ADMIN))
             return this.repository.findAllTimeConstraintsFor();
-        return this.repository.findTimeConstraintFor(user);
+        return this.repository.findTimeConstraintFor(user_id);
     }
 }
