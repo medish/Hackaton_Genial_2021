@@ -86,7 +86,7 @@ export class FormConstraintTimeComponent implements OnInit {
       priority: parseInt(form_result[6])
     }
 
-    this.validated = this.constraintService.verifySplittedLineConstraintsTimeRoom(form_result);
+    this.validated = this.constraintService.verifySplitLineConstraintsTimeRoom(form_result);
     if(this.validated){
       this.onValidate.emit(timeConstraint);
     }
@@ -123,4 +123,3 @@ export class FormConstraintTimeComponent implements OnInit {
     });
   }
 }
-
