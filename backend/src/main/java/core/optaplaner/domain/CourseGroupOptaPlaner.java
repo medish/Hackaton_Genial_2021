@@ -1,20 +1,14 @@
 package core.optaplaner.domain;
 
+import org.optaplanner.core.api.domain.entity.PlanningEntity;
+import org.optaplanner.core.api.domain.variable.PlanningVariable;
+import server.models.*;
+
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Iterator;
-
-import org.optaplanner.core.api.domain.entity.PlanningEntity;
-import org.optaplanner.core.api.domain.variable.PlanningVariable;
-
-import server.models.Course;
-import server.models.CourseGroup;
-import server.models.CourseSlot;
-import server.models.DateSlot;
-import server.models.Professor;
-import server.models.Room;
 
 @PlanningEntity
 public class CourseGroupOptaPlaner extends AbstractPersistable implements FromInputToOptaPlaner<CourseGroup> {
@@ -44,11 +38,11 @@ public class CourseGroupOptaPlaner extends AbstractPersistable implements FromIn
 
     @Override
     public String toString() {
-        return getCourse() + "(" + id + ")";
+        return getMajorCourse() + "(" + id + ")";
     }
 
-    public Course getCourse() {
-        return courseGroup.getCourse();
+    public MajorCourse getMajorCourse() {
+        return courseGroup.getMajorCourse();
     }
 
     public Duration getDuration() {

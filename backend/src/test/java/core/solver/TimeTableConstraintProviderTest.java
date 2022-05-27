@@ -1,24 +1,16 @@
 package core.solver;
 
+import core.optaplaner.domain.CourseGroupOptaPlaner;
+import core.optaplaner.domain.TimeTableOptaPlaner;
+import core.optaplaner.solver.TimeTableConstraintProvider;
+import org.junit.jupiter.api.Test;
+import org.optaplanner.test.api.score.stream.ConstraintVerifier;
+import server.models.*;
+
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.Set;
-
-import org.junit.jupiter.api.Test;
-import org.optaplanner.test.api.score.stream.ConstraintVerifier;
-
-import core.optaplaner.domain.CourseGroupOptaPlaner;
-import core.optaplaner.domain.TimeTableOptaPlaner;
-import core.optaplaner.solver.TimeTableConstraintProvider;
-import server.models.Course;
-import server.models.CourseGroup;
-import server.models.DateSlot;
-import server.models.Degree;
-import server.models.Department;
-import server.models.Professor;
-import server.models.Room;
-import server.models.RoomType;
 
 class TimeTableConstraintProviderTest {
 
@@ -53,9 +45,12 @@ class TimeTableConstraintProviderTest {
         Course subject2 = new Course("Subject2", group2, BLACK);
         Course subject3 = new Course("Subject3", group3, BLACK);
 
-        CourseGroup courseGroup1 = new CourseGroup(1, subject1, Duration.ofMinutes(60), 0, RoomType.CM);
-        CourseGroup courseGroup2 = new CourseGroup(1, subject2, Duration.ofMinutes(60), 0, RoomType.CM);
-        CourseGroup courseGroup3 = new CourseGroup(1, subject3, Duration.ofMinutes(60), 0, RoomType.CM);
+        Major impairs = new Major("Impairs");
+        Major genial = new Major("Genial");
+
+        CourseGroup courseGroup1 = new CourseGroup(1, new MajorCourse(subject1, impairs), Duration.ofMinutes(60), 0, RoomType.CM);
+        CourseGroup courseGroup2 = new CourseGroup(1, new MajorCourse(subject2, genial), Duration.ofMinutes(60), 0, RoomType.TD);
+        CourseGroup courseGroup3 = new CourseGroup(1, new MajorCourse(subject3, impairs), Duration.ofMinutes(60), 0, RoomType.CM);
 
         CourseGroupOptaPlaner firstLesson = new CourseGroupOptaPlaner(1, courseGroup1, turing);
         CourseGroupOptaPlaner conflictingLesson = new CourseGroupOptaPlaner(2, courseGroup2, curie);
@@ -86,10 +81,12 @@ class TimeTableConstraintProviderTest {
         Course subject1 = new Course("Subject1", group1, BLACK);
         Course subject2 = new Course("Subject2", group2, BLACK);
         Course subject3 = new Course("Subject3", group3, BLACK);
+        Major impairs = new Major("Impairs");
+        Major genial = new Major("Genial");
 
-        CourseGroup courseGroup1 = new CourseGroup(1, subject1, Duration.ofMinutes(60), 0, RoomType.CM);
-        CourseGroup courseGroup2 = new CourseGroup(1, subject2, Duration.ofMinutes(60), 0, RoomType.CM);
-        CourseGroup courseGroup3 = new CourseGroup(1, subject3, Duration.ofMinutes(60), 0, RoomType.CM);
+        CourseGroup courseGroup1 = new CourseGroup(1, new MajorCourse(subject1, impairs), Duration.ofMinutes(60), 0, RoomType.CM);
+        CourseGroup courseGroup2 = new CourseGroup(1, new MajorCourse(subject2, genial), Duration.ofMinutes(60), 0, RoomType.TD);
+        CourseGroup courseGroup3 = new CourseGroup(1, new MajorCourse(subject3, impairs), Duration.ofMinutes(60), 0, RoomType.CM);
 
         CourseGroupOptaPlaner firstLesson = new CourseGroupOptaPlaner(1, courseGroup1, turing, TIMESLOT1, ROOM);
         CourseGroupOptaPlaner conflictingLesson = new CourseGroupOptaPlaner(2, courseGroup2, turing, TIMESLOT1, ROOM2);
@@ -115,10 +112,13 @@ class TimeTableConstraintProviderTest {
         Course subject3 = new Course("Subject3", group3, BLACK);
         Course subject4 = new Course("Subject4", group4, BLACK);
 
-        CourseGroup courseGroup1 = new CourseGroup(1, subject1, Duration.ofMinutes(60), 0, RoomType.CM);
-        CourseGroup courseGroup2 = new CourseGroup(1, subject2, Duration.ofMinutes(60), 0, RoomType.CM);
-        CourseGroup courseGroup3 = new CourseGroup(1, subject3, Duration.ofMinutes(60), 0, RoomType.CM);
-        CourseGroup courseGroup4 = new CourseGroup(1, subject4, Duration.ofMinutes(60), 0, RoomType.CM);
+        Major impairs = new Major("Impairs");
+        Major genial = new Major("Genial");
+
+        CourseGroup courseGroup1 = new CourseGroup(1, new MajorCourse(subject1, impairs), Duration.ofMinutes(60), 0, RoomType.CM);
+        CourseGroup courseGroup2 = new CourseGroup(1, new MajorCourse(subject2, genial), Duration.ofMinutes(60), 0, RoomType.TD);
+        CourseGroup courseGroup3 = new CourseGroup(1, new MajorCourse(subject3, impairs), Duration.ofMinutes(60), 0, RoomType.CM);
+        CourseGroup courseGroup4 = new CourseGroup(1, new MajorCourse(subject4, genial), Duration.ofMinutes(60), 0, RoomType.TP);
 
         CourseGroupOptaPlaner firstLesson = new CourseGroupOptaPlaner(1, courseGroup1, turing, TIMESLOT3, ROOM);
         CourseGroupOptaPlaner secondLesson = new CourseGroupOptaPlaner(2, courseGroup2, turing, TIMESLOT4, ROOM);
