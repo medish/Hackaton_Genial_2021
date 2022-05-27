@@ -14,14 +14,13 @@ export class LoginComponent implements OnInit {
   constructor(public authService: AuthService, private tokenStorage: TokenStorageService, private router: Router) {
   }
 
+  currentUser = null;
+
   ngOnInit(): void {
-    console.log('logged in', this.authService.isLoggedIn())
-    if (this.authService.isLoggedIn())
-      this.router.navigateByUrl("/");
   }
 
   loginForm = {
-    username: '',
+    email: '',
     password: '',
   };
   isLoginFailed = false;
@@ -29,17 +28,26 @@ export class LoginComponent implements OnInit {
 
 
   onSubmitLogin(): void {
-    const {username, password} = this.loginForm;
-    this.authService.login(username, password).then(data => {
-      this.tokenStorage.saveToken(data.accessToken);
-      this.tokenStorage.saveUser(data);
-      this.isLoginFailed = false;
-      console.log(data)
-      window.location.reload();
-      console.log(data)
+    const {email, password} = this.loginForm;
+    this.authService.login(email, password).then(data => {
+      if (data != null) {
+        this.currentUser = data;
+        this.tokenStorage.saveToken(data.accessToken);
+        this.tokenStorage.saveUser(data);
+        this.isLoginFailed = false;
+        if (this.currentUser.role == "PROFESSOR") {
+          this.router.navigateByUrl("/prof");
+        } else if (this.currentUser.role == "ADMIN") {
+          this.router.navigateByUrl("/admin")
+        }
+      }
     }, err => {
       this.isLoginFailed = true;
       console.log("login failed")
     })
+  }
+
+  register() {
+    this.router.navigate(["/register"]);
   }
 }

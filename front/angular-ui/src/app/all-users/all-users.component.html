@@ -1,4 +1,6 @@
 <div class="container mt-5">
+  <button (click)="addUser()" type="button" class="btn btn-sm btn-info float-right">Ajouter un utilisateur</button>
+
   <h1>Tous les utilisateurs</h1>
   <div *ngIf="users" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
     <table datatable class="table table-striped">
@@ -6,19 +8,19 @@
       <th>Nom</th>
       <th>Prénom</th>
       <th>Email</th>
-      <th>Est admin ?</th>
+      <th>Role</th>
       <th>Action</th>
       </thead>
       <tbody>
       <ng-container *ngFor="let user of users">
         <tr>
-          <td>{{user.customer.name}}</td>
-          <td>{{user.customer.firstName}}</td>
-          <td>{{user.customer.email}}</td>
-          <td>{{user.customer.isAdmin}}</td>
+          <td>{{user.lastName}}</td>
+          <td>{{user.firstName}}</td>
+          <td>{{user.email}}</td>
+          <td>{{user.role}}</td>
           <td>
-            <button type="button" class="btn btn-sm btn-warning me-3" (click)="editUser(user)" >Modifier</button>
-            <button type="button" class="btn btn-sm btn-danger" (click)="deleteUser(user)" >Supprimer</button>
+            <button type="button" class="btn btn-sm btn-warning me-3" (click)="editUser(user)">Modifier</button>
+            <button type="button" class="btn btn-sm btn-danger" (click)="deleteUser(user)">Supprimer</button>
           </td>
         </tr>
       </ng-container>
@@ -31,7 +33,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="editModal"> <b>Modifier un utilisateur</b></h5>
+        <h5 class="modal-title" id="editModal"><b>Modifier un utilisateur</b></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
@@ -40,7 +42,8 @@
           <div class="mb-3 row">
             <label for="username" class="col-sm-2 col-form-label">Nom</label>
             <div class="col-sm-10">
-              <input [value]="" class="form-control" formControlName="name" type="text"
+              <input [value]="" class="form-control" formControlName="lastName" type="text"
+                     [ngClass]="{'is-invalid': submitted_edit && g.lastName.errors}"
                      placeholder="user name" required id="username">
             </div>
           </div>
@@ -49,6 +52,7 @@
             <label for="firstname" class="col-sm-2 col-form-label">Prénom</label>
             <div class="col-sm-10">
               <input [value]="" class="form-control" formControlName="firstname" type="text"
+                     [ngClass]="{'is-invalid': submitted_edit && g.firstname.errors}"
                      placeholder="user firstname" required id="firstname">
             </div>
           </div>
@@ -57,21 +61,109 @@
             <label for="email" class="col-sm-2 col-form-label">Email</label>
             <div class="col-sm-10">
               <input [value]="" class="form-control" formControlName="email" type="email"
+                     [ngClass]="{'is-invalid': submitted_edit && g.email.errors}"
                      placeholder="user email" required id="email">
+            </div>
+          </div>
+
+          <div class="mb-3 row">
+            <label for="role" class="col-sm-2 col-form-label">Role</label>
+            <div class="col-sm-10">
+              <select class="form-control txt" id="role" formControlName="role" required [ngClass]="{'is-invalid': submitted_edit && g.role.errors}">
+                <option>ADMIN</option>
+                <option>PROFESSOR</option>
+              </select>
             </div>
           </div>
         </div>
 
-        <div class="custom-control custom-switch">
-          <label>
-            <input type="checkbox" name="isActive" formControlName="isAdmin" required>
-            Est Admin ?
-          </label>
-        </div>
-
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-          <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" (click)="updateUser()">Enregistrer</button>
+          <button class="btn btn-primary"  (click)="updateUser()">Enregistrer
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addUser"><b>Ajouter un utilisateur</b></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form [formGroup]="formAddUser" (ngSubmit)="onSubmitAddUser()">
+        <div class="login-wrap p-4 p-md-8">
+          <div class="icon d-flex align-items-center justify-content-center">
+            <i class="bi bi-door-open"></i>
+          </div>
+
+          <div class="mb-3 row">
+            <label for="username_add" class="col-sm-2 col-form-label">Nom</label>
+            <div class="col-sm-10">
+              <input class="form-control" formControlName="lastName" type="text"
+                     [ngClass]="{'is-invalid': submitted && f.lastName.errors}"
+                     placeholder="user name" required id="username_add">
+            </div>
+            <div class="alert alert-danger invalid-feedback" role="alert" *ngIf="submitted && f.lastName.errors">
+              <div *ngIf="f.lastName.errors.required">lastName is required</div>
+            </div>
+          </div>
+
+          <div class="mb-3 row">
+            <label for="firstname_add" class="col-sm-2 col-form-label">Prénom</label>
+            <div class="col-sm-10">
+              <input class="form-control" formControlName="firstName" type="text"
+                     [ngClass]="{'is-invalid': submitted && f.firstName.errors}"
+                     placeholder="user firstname" required id="firstname_add">
+            </div>
+            <div class="alert alert-danger invalid-feedback" role="alert" *ngIf="submitted && f.firstName.errors">
+              <div *ngIf="f.firstName.errors.required">FirstName is required</div>
+            </div>
+          </div>
+
+          <div class="mb-3 row">
+            <label for="email_add" class="col-sm-2 col-form-label">Email</label>
+            <div class="col-sm-10">
+              <input class="form-control" formControlName="email" type="email"
+                     [ngClass]="{'is-invalid': submitted && f.email.errors}"
+                     placeholder="user email" required id="email_add">
+            </div>
+            <div class="alert alert-danger invalid-feedback" role="alert" *ngIf="submitted && f.email.errors">
+              <div *ngIf="f.email.errors.required">Email is required</div>
+              <div *ngIf="f.email.errors.email">Invalible email</div>
+            </div>
+          </div>
+
+          <div class="mb-3 row">
+            <label for="password" class="col-sm-2 col-form-label">Mot de passe</label>
+            <div class="col-sm-10">
+              <input class="form-control" formControlName="password" type="password"
+                     [ngClass]="{'is-invalid': submitted && f.password.errors}" required id="password" minlength="6">
+            </div>
+            <div class="alert alert-danger invalid-feedback" role="alert" *ngIf="submitted && f.password.errors">
+              <div *ngIf="f.password.errors.required">Password is required</div>
+              <div *ngIf="f.password.errors.minLength">Password must be at least 6 characters</div>
+            </div>
+          </div>
+
+          <div class="mb-3 row">
+            <label for="role_add" class="col-sm-2 col-form-label">Role</label>
+            <div class="col-sm-10">
+              <select class="form-control txt" id="role_add" formControlName="role" required>
+                <option>ADMIN</option>
+                <option>PROFESSOR</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group d-grid gap-2 d-md-flex justify-content-md-end">
+            <button [disabled]="loading" class="btn btn-sm btn-success p-3 px-5">Ajouter</button>
+          </div>
+
         </div>
       </form>
     </div>

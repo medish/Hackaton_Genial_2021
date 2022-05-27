@@ -1,18 +1,11 @@
 package core.output;
 
+import server.models.*;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import server.models.Course;
-import server.models.CourseGroup;
-import server.models.CourseSlot;
-import server.models.DateSlot;
-import server.models.Degree;
-import server.models.IInput;
-import server.models.Professor;
-import server.models.Room;
 
 public class TimeTable implements IOutput, IInput {
 
@@ -71,7 +64,7 @@ public class TimeTable implements IOutput, IInput {
                     + " | "
                     + cellList.stream()
                             .map(cellLessonList -> String.format("%-10s",
-                                    cellLessonList.stream().map(CourseSlot::getCourse).map(Course::getName)
+                                    cellLessonList.stream().map(CourseSlot::getMajorCourse).map(MajorCourse::getCourse).map(Course::getName)
                                             .collect(Collectors.joining(", "))))
                             .collect(Collectors.joining(" | "))
                     + " |\n");
@@ -98,8 +91,8 @@ public class TimeTable implements IOutput, IInput {
             stringBuilder.append("");
             stringBuilder.append("Unassigned lessons");
             for (CourseSlot lesson : unassignedLessons) {
-                stringBuilder.append("  " + lesson.getCourse().getName() + " - "
-                        + lesson.getProfessors().iterator().next() + " - " + lesson.getCourse().getDegree() + "\n");
+                stringBuilder.append("  " + lesson.getMajorCourse().getCourse().getName() + " - "
+                        + lesson.getProfessors().iterator().next() + " - " + lesson.getMajorCourse().getCourse().getDegree() + "\n");
             }
         }
 

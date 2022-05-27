@@ -3,7 +3,6 @@ package server.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -25,25 +24,19 @@ public class Course implements IInput {
     @Column(name = "color", length = 6)
     private String color;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "course")
-    private List<CourseGroup> courseGroup;
-
-    @JsonIgnore
-    @ManyToMany(mappedBy = "courses")
-    private Set<Major> majors;
-
     @ManyToMany(mappedBy = "courses")
     private Set<Professor> professors;
 
-    public Course(int id, String name, Degree degree, String color) {
-        this.id = id;
+
+    @OneToMany(mappedBy = "course")
+    private Set<MajorCourse> majorCourses;
+    public Course() {
+    }
+
+    public Course(String name, Degree degree, String color) {
         this.name = name;
         this.degree = degree;
         this.color = color;
-    }
-
-    public Course() {
     }
 
     public int getId() {
@@ -74,27 +67,20 @@ public class Course implements IInput {
         this.degree = degree;
     }
 
-    public List<CourseGroup> getCourseGroup() {
-        return courseGroup;
-    }
-    
-    public void setCourseGroup(List<CourseGroup> courseGroup) {
-        this.courseGroup = courseGroup;
-    }
-    
-    public Set<Major> getMajors() {
-        return majors;
-    }
-
-    public void setMajors(Set<Major> majors) {
-        this.majors = majors;
-    }
-
     public Set<Professor> getProfessors() {
         return professors;
     }
 
     public void setProfessors(Set<Professor> professors) {
         this.professors = professors;
+    }
+
+    @JsonIgnore
+    public Set<MajorCourse> getMajorCourses() {
+        return majorCourses;
+    }
+
+    public void setMajorCourses(Set<MajorCourse> majorCourses) {
+        this.majorCourses = majorCourses;
     }
 }

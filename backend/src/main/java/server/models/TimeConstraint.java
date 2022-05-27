@@ -15,12 +15,16 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "time_constraint")
 public class TimeConstraint implements IInput {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String selector;
     private boolean wants;
+
+    @ManyToOne
+    private Professor creator;
 
     @ManyToOne
     @JoinColumns({ @JoinColumn(name = "day_begin"), @JoinColumn(name = "time_begin") })
@@ -44,9 +48,8 @@ public class TimeConstraint implements IInput {
     public TimeConstraint() {
     }
 
-    public TimeConstraint(int id, String selector, boolean wants, DateSlot dateBegin, DateSlot dateEnd, Room room,
+    public TimeConstraint(String selector, boolean wants, DateSlot dateBegin, DateSlot dateEnd, Room room,
             int priority) {
-        this.id = id;
         this.selector = selector;
         this.wants = wants;
         this.dateBegin = dateBegin;
@@ -73,6 +76,14 @@ public class TimeConstraint implements IInput {
 
     public void setWants(boolean wants) {
         this.wants = wants;
+    }
+
+    public Professor getCreator() {
+        return creator;
+    }
+
+    public void setCreator(Professor creator) {
+        this.creator = creator;
     }
 
     public DateSlot getDateBegin() {

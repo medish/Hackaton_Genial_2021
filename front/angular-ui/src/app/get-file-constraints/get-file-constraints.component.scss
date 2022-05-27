@@ -14,13 +14,7 @@ button {
 
 .valider {
   font-family: "Work Sans", sans-serif;
-  background-color: #31fc03 !important;
   padding: 0.5rem 2rem;
-}
-
-.valider:focus,
-.valider:hover {
-  background-color: darkgreen !important;
 }
 
 .inputfile {
@@ -37,7 +31,7 @@ button {
   font-weight: 700;
   color: white;
   font-family: "Work Sans", sans-serif;
-  background-color: #0dcaf0;
+  background-color: #8d448b;
   height: 3.6rem;
   display: inline-block;
   cursor: pointer;
@@ -63,4 +57,15 @@ button {
 .attach-file-container {
   display: flex;
   justify-content: center;
+}
+
+.example-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  align-items: flex-start;
+}
+
+.example-radio-button {
+  margin: 5px;
 }
