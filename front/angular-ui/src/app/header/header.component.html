@@ -1,8 +1,7 @@
-<div *ngIf="!isLoggedIn || authService.currentRoute=='register'">
+<div *ngIf="!isLoggedIn || authService.currentRoute=='register' || authService.currentRoute=='prof'">
   <router-outlet></router-outlet>
 </div>
-
-<main *ngIf="isLoggedIn && authService.currentRoute!='register' ">
+<main *ngIf="isLoggedIn && authService.currentRoute!='register' && authService.currentRoute!='prof' ">
   <div class="d-flex flex-column flex-shrink-0 p-3 text-white " style="width: 280px; background-color: #8d448b">
     <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
       <span class="fs-4">UniPlanif</span>
@@ -50,6 +49,7 @@
         <a class="nav-link text-white" (click)="logout()"> Déconnexion </a>
       </li>
     </ul>
+
     <hr/>
     <div class="ms-3">
       <strong>François</strong>
@@ -57,7 +57,7 @@
   </div>
 
   <div class="b-example-divider"></div>
-  <div class="main-content">
+  <div class="main-content mb-5">
     <router-outlet></router-outlet>
   </div>
 </main>

@@ -16,7 +16,7 @@ import { param } from 'jquery';
 
 export class HeaderComponent implements OnInit {
 
-  constructor(public authService: AuthService, public router: Router, public c: AuthcontrollerApi, public d : CoursegroupcontrollerApi) {
+  constructor(public authService: AuthService, public router: Router, public c: AuthcontrollerApi) {
 
   }
 
@@ -33,10 +33,8 @@ export class HeaderComponent implements OnInit {
       console.log(data)
       }
     )
-    this.d.getAllUsingGET1().then(data =>{
-      let ii : Array<CourseGroup> = data;
-      console.log(ii.length);
-    })
+    // insert group
+
   }
 
 
@@ -86,6 +84,5 @@ export class HeaderComponent implements OnInit {
   auto() {
     this.router.navigate(['/auto'])
   }
-
 
 }

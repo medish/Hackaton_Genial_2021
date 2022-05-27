@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {get} from 'jquery';
 import {CourseGroup, CoursegroupcontrollerApi} from "../model/swagger/api";
 
 @Component({
@@ -9,18 +10,27 @@ import {CourseGroup, CoursegroupcontrollerApi} from "../model/swagger/api";
 export class AllGroupsComponent implements OnInit {
 
   constructor(private coursegroupcontroller: CoursegroupcontrollerApi) {
+
   }
 
-  all_groups : CourseGroup[];
+  all_groups: CourseGroup[];
+  array_filter: any[] = [];
 
-  ngOnInit(): void {
-    this.coursegroupcontroller.getAllUsingGET1().then(data => {
-      this.all_groups = data;
+  async ngOnInit(): Promise<void> {
+    this.all_groups = await this.coursegroupcontroller.getAllUsingGET1().then(data => {
+      console.log(data);
+      return data;
     })
+    this.filterByGroup();
   }
 
 
+  get(x: CourseGroup) {
+    return [x.groupId, x.course.name, x.course.degree.name, x.duration,x.roomType]
+  }
 
-
+  filterByGroup() {
+    this.array_filter = this.all_groups.map(this.get);
+  }
 
 }

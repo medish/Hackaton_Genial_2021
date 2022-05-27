@@ -26,7 +26,6 @@ import {FormConstraintTimeComponent} from "./constraints/form-constraint-time/fo
 import {RegisterComponent} from './register/register.component';
 import {AllUsersComponent} from './all-users/all-users.component';
 import {DataTablesModule} from "angular-datatables";
-
 import {AllRoomsComponent} from './all-rooms/all-rooms.component';
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {DepartmentComponent} from './department/department.component';

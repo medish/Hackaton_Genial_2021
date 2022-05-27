@@ -1,1 +1,45 @@
-<p>all-groups works!</p>
+<div class="container mt-5">
+  <h1>Les groupes</h1>
+  <hr>
+  <div>
+    <div class="float-end">
+      <button class="btn btn-success "> Ajouter</button>
+    </div>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>
+          Groupe
+        </th>
+        <th>
+          Nom cours
+        </th>
+        <th>
+          Niveau
+        </th>
+        <th>
+          Durée
+        </th>
+        <th>
+          Type du cours
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let c of this.all_groups">
+        <td>groupe {{c.groupId}}</td>
+        <td>{{c.course.name}}</td>
+        <td>{{c.course.degree.name}}</td>
+        <td>{{c.duration}}</td>
+        <td>{{c.roomType}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!--
+Ajouter :
+  Niveau, cours, durée, type de cours
+-->
