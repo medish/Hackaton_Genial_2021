@@ -1,20 +1,19 @@
 <form action="">
   <div class="form-group">
     <label for="file" class="mb-3 control-label">
-      <h5>Contraintes de temps</h5></label
-    >
+      <h5>Contraintes de temps</h5></label>
     <div class="row">
       <div class="attach-file-container">
         <input
           type="file"
-          name="file"
-          id="file"
+          name="time_file"
+          id="ordering_time_constraints"
           class="inputfile"
           data-multiple-caption="{count} files selected"
           multiple
           (change)="onFileSelectedTimeAndRoom($event)"
         />
-        <label for="file" class="attach-file-label"
+        <label for="ordering_time_constraints" class="attach-file-label" id="time-and-room-button"
           ><fa-icon [icon]="faFileArrowUp"></fa-icon> Sélectionner un
           fichier</label
         >
@@ -32,7 +31,7 @@
   </div>
 
   <div class="form-group">
-    <label for="file" class="mb-3 control-label">
+    <label for="ordering_constraints" class="mb-3 control-label">
       <h5>Contraintes de précédences</h5>
     </label>
     <div class="row">
@@ -46,7 +45,7 @@
           (change)="onFileSelectedPrecedence($event)"
           multiple
         />
-        <label for="file" class="attach-file-label"
+        <label for="ordering_constraints" class="attach-file-label" id="ordering_button"
           ><fa-icon [icon]="faFileArrowUp"></fa-icon> Sélectionner un
           fichier</label
         >
