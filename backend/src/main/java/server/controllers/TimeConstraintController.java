@@ -2,7 +2,9 @@ package server.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import server.models.PrecedenceConstraint;
 import server.models.TimeConstraint;
+import server.models.User;
 import server.services.TimeConstraintService;
 
 import java.util.List;
@@ -14,8 +16,14 @@ public class TimeConstraintController {
     private  TimeConstraintService service;
 
     @GetMapping()
-    public List<TimeConstraint> getAll(){
-        return service.getAll();
+    public List<TimeConstraint> getTimeConstraints(@RequestParam("auth") int user_id) {
+        return service.getTimeConstraints(user_id);
+    }
+
+    @RequestMapping(method = {RequestMethod.DELETE})
+    @ResponseBody
+    public void deleteTimeConstraint(@RequestParam("id") int id) {
+        this.service.delete(id);
     }
 
     @PostMapping()

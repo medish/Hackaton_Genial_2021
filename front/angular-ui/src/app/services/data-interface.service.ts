@@ -10,6 +10,7 @@ import {User} from "../model/user";
 
 import {Degree, Department, Professor, Room} from '../model/swagger/api';
 import { Lesson, RoomType } from '../model/datastore/datamodel';
+import {Constraint} from "../model/constraint/constraint";
 
 @Injectable({
   providedIn: 'root'
@@ -78,8 +79,6 @@ export class DataInterfaceService {
     .subscribe(data => callback(data, context));
   }
 
-
-
   fetchAllDepartments(callback: (departments: [Department], context: any) => any, context: any) {
     return this.http.get<[Department]>(this.url + "/departments")
     .subscribe(data => callback(data,context));
@@ -118,6 +117,20 @@ export class DataInterfaceService {
 
   fetchAllUsers(callback: (users: [User], context: any) => any, context: any) {
     return this.http.get<[User]>(this.url + "/users")
+      .subscribe(data => callback(data, context));
+  }
+
+  getTimeConstraints(callback: (constraints: [ConstraintTimeRoom], context: any) => any, context: any) {
+    let auth_user_id = context.auth_user.id;
+
+    return this.http.get<[ConstraintTimeRoom]>(this.url + "/constraints/time-and-room?auth="+auth_user_id)
+      .subscribe(data => callback(data, context));
+  }
+
+  getPrecedenceConstraints(callback: (constraints: [ConstraintPrecedence], context: any) => any, context: any) {
+    let auth_user_id = context.auth_user.id;
+
+    return this.http.get<[ConstraintPrecedence]>(this.url + "/constraints/precedence?auth="+auth_user_id)
       .subscribe(data => callback(data, context));
   }
 }
