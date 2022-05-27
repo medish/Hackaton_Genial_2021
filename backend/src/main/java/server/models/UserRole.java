@@ -1,7 +1,7 @@
 package server.models;
 
 public enum UserRole {
-    ADMIN, PROFESSOR;
+    ADMIN, PROFESSOR, GUEST;
 
     public static UserRole fromString(String value) {
         if (value == null) {

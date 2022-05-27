@@ -12,9 +12,11 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import server.services.KeyID;
+
 @Entity
 @Table(name = "time_constraint")
-public class TimeConstraint implements IInput {
+public class TimeConstraint implements IInput, KeyID<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,7 +60,8 @@ public class TimeConstraint implements IInput {
         this.priority = priority;
     }
 
-    public int getId() {
+    @Override
+    public Integer getId() {
         return id;
     }
 

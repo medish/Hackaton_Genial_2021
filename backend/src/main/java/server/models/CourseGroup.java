@@ -1,18 +1,28 @@
 package server.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import server.utils.DurationDeserialize;
-import server.utils.DurationSerializer;
-
-import javax.persistence.*;
 import java.time.Duration;
 import java.util.Set;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import server.services.KeyID;
+import server.utils.DurationDeserialize;
+import server.utils.DurationSerializer;
+
 @Entity
 @Table(name = "course_group")
-public class CourseGroup implements IInput {
+public class CourseGroup implements IInput, KeyID<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,7 +51,8 @@ public class CourseGroup implements IInput {
         this.roomType = roomType;
     }
 
-    public int getId() {
+    @Override
+    public Integer getId() {
         return id;
     }
 

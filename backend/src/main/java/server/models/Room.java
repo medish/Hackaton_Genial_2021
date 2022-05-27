@@ -15,9 +15,11 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import server.services.KeyID;
+
 @Entity
 @Table(name = "room")
-public class Room implements IInput {
+public class Room implements IInput, KeyID<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,7 +51,8 @@ public class Room implements IInput {
         this.roomTypes = roomTypes;
     }
 
-    public int getId() {
+    @Override
+    public Integer getId() {
         return id;
     }
 
