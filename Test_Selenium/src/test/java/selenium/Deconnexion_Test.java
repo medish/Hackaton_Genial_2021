@@ -46,7 +46,7 @@ public class Deconnexion_Test {
         driver.findElement(By.id("username")).click();
         driver.findElement(By.id("username")).sendKeys("admin@u-paris.fr");
         driver.findElement(By.id("password")).click();
-        driver.findElement(By.id("password")).sendKeys("motdepasse");
+        driver.findElement(By.id("password")).sendKeys("admin1");
         driver.findElement(By.cssSelector(".btn")).click();
         driver.findElement(By.linkText("Déconnexion")).click();
         assertEquals(driver.getCurrentUrl(),"http://localhost:4200/login");
