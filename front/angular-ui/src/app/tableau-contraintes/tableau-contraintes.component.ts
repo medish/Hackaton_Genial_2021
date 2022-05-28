@@ -3,7 +3,7 @@ import { ConstraintPrecedence, ConstraintPrecedenceExport } from '../model/const
 import { ConstraintTimeRoom, ConstraintTimeRoomExport } from '../model/constraint/constraint-time-room';
 import { DataInterfaceService } from '../services/data-interface.service';
 import {HttpClient} from "@angular/common/http";
-import {DateSlotDayEnum, TimeconstraintcontrollerApi} from "../model/swagger/api";
+import {DateSlotDayEnum, TimeConstraint, TimeconstraintcontrollerApi} from "../model/swagger/api";
 
 
 let CONSTRAINTS_TIME_AND_ROOM: ConstraintTimeRoom[] = [
@@ -98,7 +98,7 @@ export class TableauContraintesComponent implements OnInit, OnChanges {
         } else {
           console.log("salut");
           let timeRoomConstraint : [ConstraintTimeRoom] = change.currentValue;
-          let timeRoomConstraintExp: [ConstraintTimeRoomExport] = [null];
+          let timeRoomConstraintExp: [TimeConstraint] = [null];
           timeRoomConstraintExp.pop();
           let t = new TimeconstraintcontrollerApi();
           for(let i = 0; i < timeRoomConstraint.length; i++) {
@@ -106,14 +106,17 @@ export class TableauContraintesComponent implements OnInit, OnChanges {
             let day : DateSlotDayEnum = curr.day == 1 ? "MONDAY" : curr.day == 2 ? "TUESDAY" : curr.day == 3 ? "WEDNESDAY" : curr.day == 4 ? "TUESDAY" : "FRIDAY";
             let start = curr.dateBegin.split(":");
             let end = curr.dateEnd.split(":");
-            let tmp : ConstraintTimeRoomExport = {
+            let tmp : any = {
               id: curr.id,
               selector: curr.selector.selectorUnits[0].table+":"+curr.selector.selectorUnits[0].attribute+":"+curr.selector.selectorUnits[0].value,
               wants: curr.wants,
-              dateBegin: {day: day, startTime: {hour: parseInt(start[0]), minute: parseInt(start[1]), second: parseInt(start[2])}},
-              dateEnd: {day: day, startTime: {hour: parseInt(end[0]), minute: parseInt(end[1]), second: parseInt(end[2])}},
-              room: curr.room.selectorUnits[0].table+":"+curr.room.selectorUnits[0].attribute+":"+curr.room.selectorUnits[0].value,
-              priority: curr.priority
+              day:day,
+              dateBegin: {day:day,startTime:curr.dateBegin},
+              dateEnd: {day:day,startTime:curr.dateEnd},
+              room: curr.room,
+              priority: curr.priority,
+              startTime:curr.dateBegin,
+              endTime:curr.dateEnd
             }
             timeRoomConstraintExp.push(tmp);
           }
