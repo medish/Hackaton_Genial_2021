@@ -1,16 +1,15 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {identity, Observable, throwError } from 'rxjs';
+import {Subject, throwError} from 'rxjs';
 import { ConstraintPrecedence, ConstraintPrecedenceExport } from '../model/constraint/constraint-precedence';
 import { ConstraintTimeRoom, ConstraintTimeRoomExport } from '../model/constraint/constraint-time-room';
-import { catchError, retry } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { Planning } from '../model/planning/planning';
 import { environment } from 'src/environments/environment';
 import {User} from "../model/user";
-
 import {Degree, Department, Professor, Room, TimeConstraint} from '../model/swagger/api';
+
 import { Lesson, RoomType } from '../model/datastore/datamodel';
-import {Constraint} from "../model/constraint/constraint";
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +18,14 @@ export class DataInterfaceService {
 
   url = environment.baseUrl
 
-  constructor(private http : HttpClient) { }
+  resultChange : Subject<boolean> = new Subject<boolean>();
+
+  constructor(private http : HttpClient) {}
+
+  handleError(error: HttpErrorResponse) {
+    this.resultChange.next(false);
+    return throwError(error);
+  }
 
   signIn(username: string, password: string, callback: (wasCreated: boolean) => any) {
     const identity = {username: username, password: password};
@@ -39,23 +45,23 @@ export class DataInterfaceService {
 
   sendTimeRoomConstraints(constraints: [any]) {
     return this.http.post(this.url + "/constraints/time-and-room", constraints)
-    .pipe(catchError(this.handleError)).subscribe();
+    .pipe(catchError(this.handleError.bind(this))).subscribe((_ => this.resultChange.next(true)));
   }
 
   sendPrecedenceConstraints(constraints: [ConstraintPrecedenceExport]) {
     return this.http.post(this.url + "/constraints/precedence", constraints)
-    .pipe(catchError(this.handleError)).subscribe();
+    .pipe(catchError(this.handleError.bind(this))).subscribe((_ => { this.resultChange.next(true)}));
   }
 
   deleteTimeConstraints(constraintId: number) {
     return this.http.post(this.url + "/constraints/delete-time-and-room", constraintId)
-    .pipe(catchError(this.handleError)
+    .pipe(catchError(this.handleError.bind(this))
     ).subscribe()
   }
 
   deletePrecedenceConstraints(constraintId: number) {
     return this.http.post(this.url + "/constraints/delete-precedence", constraintId).pipe(
-      catchError(this.handleError)
+      catchError(this.handleError.bind(this))
     ).subscribe()
   }
 
@@ -91,25 +97,18 @@ export class DataInterfaceService {
   }
 
   sendDataToCore<Type>(callback: (httpStatusCode: number) => any, data : Type) {
-    return this.http.post<number>(this.url, data).pipe(catchError(this.handleError)).subscribe(
+    return this.http.post<number>(this.url, data).pipe(catchError(this.handleError.bind(this))).subscribe(
       data => callback(data)
     );
   }
 
   verifyConstraints(constraints: Planning, callback: (violatedConstraints: any) => any) {
     return this.http.post<number>(this.url + "/planning/verify", constraints)
-    .pipe(catchError(this.handleError)).subscribe(data => callback(data));
+    .pipe(catchError(this.handleError.bind(this))).subscribe(data => callback(data));
   }
-
 
   fetchAllPlannings(callback: (plannings:[Planning],context:any)=>any, context:any){
-    return this.http.get<[Planning]>(this.url+'/planning').subscribe(data=>callback(data,context))
-  }
-
-  handleError(error: HttpErrorResponse) {
-    console.log("[HTTP ERROR]: " + error);
-    window.alert("Une erreur est survenue");
-    return throwError("An error happened");
+    return this.http.get<[Planning]>(this.url + '/planning').subscribe(data=>callback(data,context))
   }
 
   fetchAllUsers(callback: (users: [User], context: any) => any, context: any) {
@@ -129,5 +128,9 @@ export class DataInterfaceService {
 
     return this.http.get<[ConstraintPrecedence]>(this.url + "/constraints/precedence?auth="+auth_user_id)
       .subscribe(data => callback(data, context));
+  }
+
+  getResult() {
+    return this.resultChange.asObservable();
   }
 }
