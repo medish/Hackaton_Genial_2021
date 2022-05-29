@@ -1,79 +1,32 @@
-<p>Gestion des routes<p>
+<div class="container mt-5">
+  <button (click)="addRoom()" type="button" class="btn btn-sm btn-info float-right">Ajouter une salle</button>
 
-<div class="container">
-  <div class="mt-5">
-    <h2> Les Utilisateurs </h2>
-    <hr>
+  <h1>Toutes les salles</h1>
+  <div *ngIf="rooms" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    <table datatable class="table table-striped">
+      <thead>
+      <th>Id</th>
+      <th>Nom</th>
+      <th>Capacite</th>
+      <th>Departement_id</th>
+    
+      </thead>
+      <tbody>
+      <ng-container *ngFor="let room of rooms">
+        <tr>
+          <td>{{room.id}}</td>
+          <td>{{room.name}}</td>
+          <td>{{room.capacity}}</td>
+          <td>{{room.department}}</td>
+          <td>
+            <button type="button" class="btn btn-sm btn-warning me-3" (click)="editRoom(room)">Modifier</button>
+            <button type="button" class="btn btn-sm btn-danger" (click)="deleteRoom(room)">Supprimer</button>
+          </td>
+        </tr>
+      </ng-container>
+      </tbody>
+    </table>
   </div>
-  <table  datatable class="row-border hover">
-    <thead>
-    <tr>
-      <th>ID</th>
-      <th>First name</th>
-      <th>Last name</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td>1</td>
-      <td>Foo</td>
-      <td>Bar</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>Someone</td>
-      <td>Youknow</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>Iamout</td>
-      <td>Ofinspiration</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>Yoda</td>
-      <td>Skywalker</td>
-    </tr>
-    <tr>
-      <td>5</td>
-      <td>Patrick</td>
-      <td>Dupont</td>
-    </tr>
-    <tr>
-      <td>6</td>
-      <td>Barack</td>
-      <td>Obama</td>
-    </tr>
-    <tr>
-      <td>7</td>
-      <td>François</td>
-      <td>Holland</td>
-    </tr>
-    <tr>
-      <td>8</td>
-      <td>Michel</td>
-      <td>Popo</td>
-    </tr>
-    <tr>
-      <td>9</td>
-      <td>Chuck</td>
-      <td>Norris</td>
-    </tr>
-    <tr>
-      <td>10</td>
-      <td>Simon</td>
-      <td>Robin</td>
-    </tr>
-    <tr>
-      <td>11</td>
-      <td>Louis</td>
-      <td>Lin</td>
-    </tr>
-    <tr>
-      <td>12</td>
-      <td>Zelda</td>
-      <td>Link</td>
-    </tr>
-    </tbody>
-  </table>
 </div>
+
+      
