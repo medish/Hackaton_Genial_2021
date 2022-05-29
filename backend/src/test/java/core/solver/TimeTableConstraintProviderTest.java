@@ -196,4 +196,32 @@ class TimeTableConstraintProviderTest {
         constraintVerifier.verifyThat((arg1, arg2) -> TimeTableConstraintProvider.PrecedenceConstraint(arg2, precedenceConstraint))
                 .given(firstLesson, secondLesson).rewardsWith(1);
     }
+
+    @Test
+    void TimeConstraint() {
+        String selector = "course:id:1, teacher:id:1, room:id:3";
+
+        TimeConstraint timeConstraint = new TimeConstraint(selector, true, TIMESLOT3, TIMESLOT4, ROOM, 1);
+
+        Professor turing = new Professor(1, "Turing", "Jean", "jean@u-paris.fr", "mdpmdp");
+
+        Degree group1 = new Degree("Group1");
+
+        Course subject1 = new Course(1, "Subject1", group1, BLACK);
+
+        Major impairs = new Major("Impairs");
+
+        CourseGroup courseGroup1 = new CourseGroup(1, new MajorCourse(subject1, impairs), H1, 0, RoomType.CM);
+
+        CourseGroupOptaPlaner firstLesson = new CourseGroupOptaPlaner(1, courseGroup1, turing, TIMESLOT3, ROOM);
+
+        constraintVerifier.verifyThat((arg1, arg2) -> TimeTableConstraintProvider.TimeConstraint(arg2, timeConstraint))
+                .given(firstLesson).rewardsWith(1);
+
+        TimeConstraint timeConstraint1 = new TimeConstraint(selector, false, TIMESLOT3, TIMESLOT4, ROOM, 1);
+
+        constraintVerifier.verifyThat((arg1, arg2) -> TimeTableConstraintProvider.TimeConstraint(arg2, timeConstraint1))
+                .given(firstLesson).penalizesBy(1);
+
+    }
 }
