@@ -179,7 +179,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
             // loop lesson
             if ("course".equals(selector.getTable())) {
                 if ("id".equals(selector.getAttribute())) {
-                    firstPart = firstPart.filter(courseGroupe -> courseGroupe.getId()==Integer.parseInt(selector.getValue()));
+                    firstPart = firstPart.filter(courseGroupe -> courseGroupe.getMajorCourse().getCourse().getId()==Integer.parseInt(selector.getValue()));
                 }
                 if ("name".equals(selector.getAttribute())) {
                     firstPart = firstPart.filter(courseGroupe -> courseGroupe.getMajorCourse().getCourse().getName().equals(selector.getValue()));
@@ -217,7 +217,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
             // loop lesson
             if ("course".equals(selector.getTable())) {
                 if ("id".equals(selector.getAttribute())) {
-                    merged = merged.filter((courseGroupe, courseGroup2) -> courseGroup2.getId()==Integer.parseInt(selector.getValue()));
+                    merged = merged.filter((courseGroupe, courseGroup2) -> courseGroup2.getMajorCourse().getCourse().getId()==Integer.parseInt(selector.getValue()));
                 }
                 if ("name".equals(selector.getAttribute())) {
                     merged = merged.filter((courseGroupe, courseGroup2) -> courseGroup2.getMajorCourse().getCourse().getName().equals(selector.getValue()));
@@ -297,7 +297,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
 
             if ("course".equals(selector.getTable())) {
                 if ("id".equals(selector.getAttribute())) {
-                    firstPart = firstPart.filter(courseGroupe -> courseGroupe.getId().equals(selector.getValue()));
+                    firstPart = firstPart.filter(courseGroupe -> courseGroupe.getMajorCourse().getCourse().getId()==Integer.parseInt(selector.getValue()));
                 }
                 if ("name".equals(selector.getAttribute())) {
                     firstPart = firstPart.filter(courseGroupe -> courseGroupe.getMajorCourse().getCourse().getName().equals(selector.getValue()));
