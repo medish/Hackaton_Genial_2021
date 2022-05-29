@@ -22,6 +22,8 @@ comme dans l'exemple suivant :
 
 Exécuter le serveur avec le main situé dans : <br>
 **Hackaton_Genial_2021\backend\src\main\java\server\MainServer.java**
+ou depuis le dossier backend en executant la commande : mvn clean compile exec:java
+
 
 Une fois le serveur lancé, une documentation générée par Swagger est disponible à l'adresse suivante : 
 http://localhost:8080/swagger-ui.html
@@ -43,8 +45,3 @@ Pour lancer le projet angular :
 Une fois le backend et le frontend lancés, l'application est disponible sur le lien suivant : 
 http://localhost:4200/login
 
-
-Pour lancer le mockserver :
-depuis Hackaton_Genial_2021\front\mockserver lancer :<br>
-`npm install -g json-server` <br>
-puis `json-server test.json --routes routes.json`
