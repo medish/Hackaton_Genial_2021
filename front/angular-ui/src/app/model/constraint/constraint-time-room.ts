@@ -12,12 +12,14 @@ export class ConstraintTimeRoom {
     dateBegin:string = '08:00:00';
     dateEnd:string = '12:00:00';
     room:Selector = {selectorUnits:[]};
-    priority:number = 0; // This attribute should be between 0 and 100
+    priority:number = 0; // This attribute should be between 0 and 100,
+    creator:number;
 }
 
 export class ConstraintTimeRoomExport {
   id:number;
   selector:string;
+  creator:number;
   wants: boolean = true;
   dateBegin:DateSlot;
   dateEnd:DateSlot;

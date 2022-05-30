@@ -84,7 +84,6 @@ export class GetFileConstraintsComponent implements OnInit {
 
   sendFileSelectedTimeAndRoom() {
     if (this.currentTimeAndRoom?.length > 0) {
-      console.log(this.currentTimeAndRoom);
       this.onAddConstraintTimeRoom.emit(this.currentTimeAndRoom);
     }
   }
@@ -101,9 +100,7 @@ export class GetFileConstraintsComponent implements OnInit {
       );
       this.errorMessagePrecedence = '';
       if (!result) {
-        window.alert(
-          'Une erreur de syntaxe se trouve dans le fichier. Veuillez réessayer'
-        );
+        this.isOpenError = true;
       } else {
         this.currentPrecedence = result;
       }
