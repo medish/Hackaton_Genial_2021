@@ -63,6 +63,10 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['les-departements'])
   }
 
+  allCourses() {
+    this.router.navigate(['les-cours'])
+  }
+
   allUsers() {
     this.router.navigate(['les-utilisateurs'])
   }

@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="mt-5">
+    <h2> Les Cours</h2>
+    <hr>
+  </div>
+  {{this.all_courses | json }}
+  <table class="table">
+    <thead>
+    <tr>
+      <th>
+        Nom
+      </th>
+      <th>Niveau</th>
+      <th>Spécialité</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let course of this.all_courses">
+      <td>{{course.name}}</td>
+      <td>{{course.degree.name}}</td>
+      <td>{{course.degree.majors[0].name}}</td>
+      <td>
+        <button class="btn btn-warning me-3" >Editer</button>
+        <button class="btn btn-danger"> Supprimer</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

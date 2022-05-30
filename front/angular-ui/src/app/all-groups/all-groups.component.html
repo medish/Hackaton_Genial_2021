@@ -12,7 +12,7 @@
         <th>Nom cours</th>
         <th>Niveau</th>
         <th>Nombre d'étudiant</th>
-        <th>Spécialités</th>
+        <th>Spécialité</th>
         <th>Durée</th>
         <th>Type du cours</th>
         <th>Action</th>
@@ -69,7 +69,7 @@
 
 
           <div class="mb-3 row">
-            <label for="cours" class="col-sm-2 col-form-label">Les spécialités </label>
+            <label for="cours" class="col-sm-2 col-form-label">Spécialité</label>
             <div class="col-sm-10">
               <select name="" class="form-control" [value]="" formControlName="major_name" id="c">
                 <option *ngFor="let major of this.all_majors" value="{{major.id}}">{{major.name}}</option>
@@ -81,8 +81,7 @@
           <div class="mb-3 row">
             <label for="duration" class="col-sm-2 col-form-label">Durée</label>
             <div class="col-sm-10">
-              <input [value]="" class="form-control" formControlName="duration" type="time"
-                     placeholder="cours" required id="duration">
+              <input [value]="" class="" formControlName="duration" type="text" required id="duration">
             </div>
           </div>
 

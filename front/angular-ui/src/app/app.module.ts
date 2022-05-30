@@ -45,6 +45,7 @@ import {
   RoomcontrollerApi
 } from './model/swagger/api';
 import {MatRadioModule} from "@angular/material/radio";
+import { AllCoursesComponent } from './all-courses/all-courses.component';
 
 
 FullCalendarModule.registerPlugins([
@@ -75,6 +76,7 @@ FullCalendarModule.registerPlugins([
     AllConstraintsComponent,
     AllGroupsComponent,
     FormConstraintTimeComponent,
+    AllCoursesComponent,
   ],
   imports: [
     BrowserAnimationsModule,

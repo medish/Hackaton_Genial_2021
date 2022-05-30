@@ -10,7 +10,7 @@ import {
   MajorCourse,
 } from "../model/swagger/api";
 import {document} from "ngx-bootstrap/utils";
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-all-groups',
@@ -37,11 +37,11 @@ export class AllGroupsComponent implements OnInit {
   formGroupModal = new FormGroup({
     groupe_name: new FormControl(),
     niveau: new FormControl(),
-    cours_name: new FormControl(),
-    major_name: new FormControl(),
-    duration: new FormControl(),
-    roomtype: new FormControl(),
-    nb_students: new FormControl(),
+    cours_name: new FormControl([Validators.required]),
+    major_name: new FormControl([Validators.required]),
+    duration: new FormControl([Validators.required]),
+    roomtype: new FormControl([Validators.required]),
+    nb_students: new FormControl([Validators.required]),
   })
 
 
@@ -51,11 +51,23 @@ export class AllGroupsComponent implements OnInit {
       return data;
     })
 
+    //todo get major degree and synchronization and filter enfonction des levels
     this.majors.getAllUsingGET5().then(data => {
         this.all_majors = data;
       }
     )
 
+
+    // @ts-ignore
+    var time_instance = flatpickr('#duration', {
+      enableTime: true,
+      noCalendar: true,
+      dateFormat: "H:i",
+      time_24hr: true,
+      minTime:'00:30',
+      maxTime:'09:00',
+      defaultDate:this.toHHMMSS(this.formGroupModal.controls['duration'].value)
+    });
 
 
     this.is_edit_cliked = false;
@@ -79,10 +91,13 @@ export class AllGroupsComponent implements OnInit {
     this.formGroupModal.controls['groupe_name'].disable();
     this.formGroupModal.controls['duration'].setValue(this.toHHMMSS(group.duration));
     this.formGroupModal.controls['roomtype'].setValue(group.roomType);
+    this.formGroupModal.controls['major_name'].setValue(group.majorCourse.major.id);
     this.formGroupModal.controls['cours_name'].setValue(group.majorCourse.course.id);
     this.formGroupModal.controls['nb_students'].setValue(group.size);
     modal.show();
   }
+
+
 
 
   deleteGroup(group: CourseGroup) {
@@ -91,11 +106,21 @@ export class AllGroupsComponent implements OnInit {
   }
 
 
+  handleDeleteGroup(group: CourseGroup) {
+    console.log('delete groupe');
+  }
+
+
+
   handleAddEdit() {
     if (!this.is_edit_cliked) {
       this.insertNewGroupe()
+    }else{
+      console.log("edit group")
+      this.handleEditCourseGroup()
     }
   }
+
 
 
   /**
@@ -126,6 +151,7 @@ export class AllGroupsComponent implements OnInit {
   }
 
 
+
   insertNewGroupe() {
     let res: CourseGroup;
     res = new class implements CourseGroup {
@@ -136,13 +162,18 @@ export class AllGroupsComponent implements OnInit {
       size: number;
     }
     res.size = this.formGroupModal.value.nb_students;
+    console.log(this.formGroupModal.get('duration'));
     // @ts-ignore
-    res.duration = 7200;
+    res.duration = this.timeToSecond(this.formGroupModal.value.duration.toString());
     console.log(this.formGroupModal.value.duration);
     res.majorCourse = this.getMajorCourse(this.formGroupModal.value.cours_name, this.formGroupModal.value.major_name);
     res.roomType = this.formGroupModal.value.roomtype;
     console.log(res);
 
+    //test is valid
+    // [ngClass]="{'is-invalid': submitted && f.username.errors}
+
+    //if(this.formGroupModal)
     this.coursegroupcontroller.insertUsingPOST1({courseGroup: res}).then(
       response => {
         if (response == true) {
@@ -154,6 +185,43 @@ export class AllGroupsComponent implements OnInit {
   }
 
 
+
+  handleEditCourseGroup(){
+    // check form
+
+    let res: CourseGroup;
+    res = new class implements CourseGroup {
+      duration: Duration;
+      id: number;
+      majorCourse: MajorCourse;
+      roomType: CourseGroupRoomTypeEnum;
+      size: number;
+    }
+
+    res.size = this.formGroupModal.value.nb_students;
+    console.log(this.formGroupModal.get('duration'));
+    // @ts-ignore
+    res.duration = this.timeToSecond(this.formGroupModal.value.duration.toString()); // todo get real duration and convert it to second
+
+    console.log(this.formGroupModal.value.duration);
+    res.majorCourse = this.getMajorCourse(this.formGroupModal.value.cours_name, this.formGroupModal.value.major_name);
+    res.roomType = this.formGroupModal.value.roomtype;
+    console.log(res);
+
+    // todo use update
+    //
+    this.coursegroupcontroller.insertUsingPOST1({courseGroup: res}).then(
+      response => {
+        if (response == true) {
+          alert('Modification OK ')
+          location.reload();
+        }
+      }
+    )
+
+
+  }
+
   /**
    * Convert seconds to time format HH:MM:SS
    * @param timeInSeconds
@@ -162,7 +230,6 @@ export class AllGroupsComponent implements OnInit {
     var sec_num = parseInt(timeInSeconds, 10);
     var hours: any = Math.floor(sec_num / 3600);
     var minutes: any = Math.floor((sec_num - (hours * 3600)) / 60);
-    var seconds: any = sec_num - (hours * 3600) - (minutes * 60);
 
     if (hours < 10) {
       hours = "0" + hours;
@@ -170,16 +237,16 @@ export class AllGroupsComponent implements OnInit {
     if (minutes < 10) {
       minutes = "0" + minutes;
     }
-    if (seconds < 10) {
-      seconds = "0" + seconds;
-    }
-    return hours + ':' + minutes + ':' + seconds;
+    return hours + ':' + minutes;
   }
 
 
-  timeToSecond(time) {
+  timeToSecond(time:string) {
+    console.log(time)
     var a = time.split(':');
-    return (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
+    // @ts-ignore
+    return (a[0]) * 60 * 60 + (a[1]) * 60 ;
+
   }
 
 
