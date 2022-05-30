@@ -22,12 +22,12 @@ public class PrecedenceConstraintController {
     @Autowired
     private PrecedenceConstraintService service;
 
-    @PostMapping()
+    @PostMapping("/all")
     public List<PrecedenceConstraint> insertAll(@RequestBody List<PrecedenceConstraint> constraints) {
         return service.insert(constraints);
     }
 
-    @PostMapping("/all")
+    @PostMapping()
     public PrecedenceConstraint insert(@RequestBody PrecedenceConstraint constraint) {
         return service.insert(constraint);
     }
