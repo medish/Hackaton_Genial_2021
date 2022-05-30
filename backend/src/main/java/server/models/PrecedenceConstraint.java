@@ -72,8 +72,7 @@ public class PrecedenceConstraint implements IInput, KeyID<Integer> {
     public void setCreator(Professor creator) {
         this.creator = creator;
     }
-
-    public String getWhen() {
+    public String getWhenConstraint() {
         return whenConstraint;
     }
 

@@ -24,6 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SolverOptaplanerTest {
 
+    private static final Duration H2 = Duration.ofMinutes(115);
+    private static final Duration H1 = Duration.ofMinutes(55);
     private static final String BLACK = "000000";
 
     private TimeTableOptaPlaner problem;
@@ -52,18 +54,18 @@ class SolverOptaplanerTest {
         Department ufrInfo = new Department("UFR d'informatique");
 
         List<Room> roomList = new ArrayList<>(3);
-        roomList.add(new Room("Room A", ufrInfo, 3, Set.of(RoomType.TD)));
-        roomList.add(new Room("Room B", ufrInfo, 3, Set.of(RoomType.TD)));
-        roomList.add(new Room("Room C", ufrInfo, 3, Set.of(RoomType.TD)));
+        roomList.add(new Room(1, "Room A", ufrInfo, 3, Set.of(RoomType.TD)));
+        roomList.add(new Room(2, "Room B", ufrInfo, 3, Set.of(RoomType.TD)));
+        roomList.add(new Room(3, "Room C", ufrInfo, 3, Set.of(RoomType.TD)));
 
         List<CourseGroupOptaPlaner> lessonList = new ArrayList<>();
         long id = 0;
 
-        Professor turing = new Professor("Turing", "Jean", "jean@u-paris.fr", "mdpmdp");
-        Professor curie = new Professor("Curie", "Jeanne", "jeanne@u-paris.fr", "mdpmdp");
-        Professor darwin = new Professor("Darwin", "Jeanne", "jeanne@u-paris.fr", "mdpmdp");
-        Professor jones = new Professor("Jones", "Jeanne", "jeanne@u-paris.fr", "mdpmdp");
-        Professor cruz = new Professor("Cruz", "Jeanne", "jeanne@u-paris.fr", "mdpmdp");
+        Professor turing = new Professor(1, "Turing", "Jean", "jean@u-paris.fr", "mdpmdp");
+        Professor curie = new Professor(2, "Curie", "Jeanne", "jeanne@u-paris.fr", "mdpmdp");
+        Professor darwin = new Professor(3, "Darwin", "Jeanne", "jeanne@u-paris.fr", "mdpmdp");
+        Professor jones = new Professor(4, "Jones", "Jeanne", "jeanne@u-paris.fr", "mdpmdp");
+        Professor cruz = new Professor(5, "Cruz", "Jeanne", "jeanne@u-paris.fr", "mdpmdp");
 
         Degree grade9 = new Degree("9th grade");
         Degree grade10 = new Degree("10th grade");
@@ -72,42 +74,42 @@ class SolverOptaplanerTest {
         Major genial = new Major("Genial");
         Major data = new Major("Data");
 
-        Course math9 = new Course("Math", grade9, BLACK);
-        Course physics9 = new Course("Physics", grade9, BLACK);
-        Course chemistry9 = new Course("Chemistry", grade9, BLACK);
-        Course biology9 = new Course("Biology", grade9, BLACK);
-        Course history9 = new Course("History", grade9, BLACK);
-        Course english9 = new Course("English", grade9, BLACK);
-        Course spanish9 = new Course("Spanish", grade9, BLACK);
-        Course math10 = new Course("Math", grade10, BLACK);
-        Course physics10 = new Course("Physics", grade10, BLACK);
-        Course chemistry10 = new Course("Chemistry", grade10, BLACK);
-        Course history10 = new Course("History", grade10, BLACK);
-        Course english10 = new Course("English", grade10, BLACK);
-        Course spanish10 = new Course("Spanish", grade10, BLACK);
-        Course french10 = new Course("French", grade10, BLACK);
-        Course geography10 = new Course("Geography", grade10, BLACK);
+        Course math9 = new Course(1, "Math", grade9, BLACK);
+        Course physics9 = new Course(2, "Physics", grade9, BLACK);
+        Course chemistry9 = new Course(3, "Chemistry", grade9, BLACK);
+        Course biology9 = new Course(4, "Biology", grade9, BLACK);
+        Course history9 = new Course(5, "History", grade9, BLACK);
+        Course english9 = new Course(6, "English", grade9, BLACK);
+        Course spanish9 = new Course(7, "Spanish", grade9, BLACK);
+        Course math10 = new Course(8, "Math", grade10, BLACK);
+        Course physics10 = new Course(9, "Physics", grade10, BLACK);
+        Course chemistry10 = new Course(10, "Chemistry", grade10, BLACK);
+        Course history10 = new Course(11, "History", grade10, BLACK);
+        Course english10 = new Course(12, "English", grade10, BLACK);
+        Course spanish10 = new Course(13, "Spanish", grade10, BLACK);
+        Course french10 = new Course(14, "French", grade10, BLACK);
+        Course geography10 = new Course(15, "Geography", grade10, BLACK);
 
-        CourseGroup courseGroup1 = new CourseGroup(1, new MajorCourse(math9, genial), Duration.ofMinutes(60), 20, RoomType.CM);
-        CourseGroup courseGroup2 = new CourseGroup(2, new MajorCourse(math9, impairs), Duration.ofMinutes(60), 20, RoomType.CM);
-        CourseGroup courseGroup3 = new CourseGroup(1, new MajorCourse(physics9, genial), Duration.ofMinutes(60), 20, RoomType.CM);
-        CourseGroup courseGroup4 = new CourseGroup(1, new MajorCourse(chemistry9, impairs), Duration.ofMinutes(60), 20, RoomType.TD);
-        CourseGroup courseGroup5 = new CourseGroup(1, new MajorCourse(biology9, genial), Duration.ofMinutes(60), 20, RoomType.CM);
-        CourseGroup courseGroup6 = new CourseGroup(1, new MajorCourse(history9, genial), Duration.ofMinutes(60), 20, RoomType.CM);
-        CourseGroup courseGroup7 = new CourseGroup(1, new MajorCourse(english9, impairs), Duration.ofMinutes(60), 20, RoomType.CM);
-        CourseGroup courseGroup8 = new CourseGroup(2, new MajorCourse(english9, genial), Duration.ofMinutes(120), 20, RoomType.TD);
-        CourseGroup courseGroup9 = new CourseGroup(1, new MajorCourse(spanish9, genial), Duration.ofMinutes(120), 20, RoomType.CM);
-        CourseGroup courseGroup10 = new CourseGroup(2, new MajorCourse(spanish9, impairs), Duration.ofMinutes(120), 20, RoomType.TP);
-        CourseGroup courseGroup11 = new CourseGroup(1, new MajorCourse(math10, impairs), Duration.ofMinutes(120), 20, RoomType.TP);
-        CourseGroup courseGroup12 = new CourseGroup(2, new MajorCourse(math10, genial), Duration.ofMinutes(60), 20, RoomType.TD);
-        CourseGroup courseGroup13 = new CourseGroup(3, new MajorCourse(math10, data), Duration.ofMinutes(60), 20, RoomType.CM);
-        CourseGroup courseGroup14 = new CourseGroup(1, new MajorCourse(physics10, genial), Duration.ofMinutes(60), 20, RoomType.CM);
-        CourseGroup courseGroup15 = new CourseGroup(1, new MajorCourse(chemistry10, impairs), Duration.ofMinutes(60), 20, RoomType.TD);
-        CourseGroup courseGroup16 = new CourseGroup(1, new MajorCourse(french10, impairs), Duration.ofMinutes(60), 20, RoomType.CM);
-        CourseGroup courseGroup17 = new CourseGroup(1, new MajorCourse(geography10, genial), Duration.ofMinutes(60), 20, RoomType.CM);
-        CourseGroup courseGroup18 = new CourseGroup(1, new MajorCourse(history10, impairs), Duration.ofMinutes(60), 20, RoomType.TD);
-        CourseGroup courseGroup19 = new CourseGroup(1, new MajorCourse(english10, genial), Duration.ofMinutes(60), 20, RoomType.CM);
-        CourseGroup courseGroup20 = new CourseGroup(1, new MajorCourse(spanish10, genial), Duration.ofMinutes(60), 20, RoomType.TP);
+        CourseGroup courseGroup1 = new CourseGroup(1, new MajorCourse(math9, genial), H1, 20, RoomType.CM);
+        CourseGroup courseGroup2 = new CourseGroup(2, new MajorCourse(math9, impairs), H1, 20, RoomType.CM);
+        CourseGroup courseGroup3 = new CourseGroup(1, new MajorCourse(physics9, genial), H1, 20, RoomType.CM);
+        CourseGroup courseGroup4 = new CourseGroup(1, new MajorCourse(chemistry9, impairs), H1, 20, RoomType.TD);
+        CourseGroup courseGroup5 = new CourseGroup(1, new MajorCourse(biology9, genial), H1, 20, RoomType.CM);
+        CourseGroup courseGroup6 = new CourseGroup(1, new MajorCourse(history9, genial), H1, 20, RoomType.CM);
+        CourseGroup courseGroup7 = new CourseGroup(1, new MajorCourse(english9, impairs), H1, 20, RoomType.CM);
+        CourseGroup courseGroup8 = new CourseGroup(2, new MajorCourse(english9, genial), H2, 20, RoomType.TD);
+        CourseGroup courseGroup9 = new CourseGroup(1, new MajorCourse(spanish9, genial), H2, 20, RoomType.CM);
+        CourseGroup courseGroup10 = new CourseGroup(2, new MajorCourse(spanish9, impairs), H2, 20, RoomType.TP);
+        CourseGroup courseGroup11 = new CourseGroup(1, new MajorCourse(math10, impairs), H2, 20, RoomType.TP);
+        CourseGroup courseGroup12 = new CourseGroup(2, new MajorCourse(math10, genial), H1, 20, RoomType.TD);
+        CourseGroup courseGroup13 = new CourseGroup(3, new MajorCourse(math10, data), H1, 20, RoomType.CM);
+        CourseGroup courseGroup14 = new CourseGroup(1, new MajorCourse(physics10, genial), H1, 20, RoomType.CM);
+        CourseGroup courseGroup15 = new CourseGroup(1, new MajorCourse(chemistry10, impairs), H1, 20, RoomType.TD);
+        CourseGroup courseGroup16 = new CourseGroup(1, new MajorCourse(french10, impairs), H1, 20, RoomType.CM);
+        CourseGroup courseGroup17 = new CourseGroup(1, new MajorCourse(geography10, genial), H1, 20, RoomType.CM);
+        CourseGroup courseGroup18 = new CourseGroup(1, new MajorCourse(history10, impairs), H1, 20, RoomType.TD);
+        CourseGroup courseGroup19 = new CourseGroup(1, new MajorCourse(english10, genial), H1, 20, RoomType.CM);
+        CourseGroup courseGroup20 = new CourseGroup(1, new MajorCourse(spanish10, genial), H1, 20, RoomType.TP);
 
         lessonList.add(new CourseGroupOptaPlaner(id++, courseGroup1, turing));
         lessonList.add(new CourseGroupOptaPlaner(id++, courseGroup2, turing));
