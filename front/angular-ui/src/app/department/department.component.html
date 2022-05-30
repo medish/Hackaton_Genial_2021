@@ -4,7 +4,7 @@
     <hr>
   </div>
   <div class="float-end">
-    <button class="btn btn-success">Ajouter</button>
+    <button class="btn btn-success" (click)="addDepartment()">Ajouter</button>
   </div>
   <table class="table">
     <thead>
@@ -23,4 +23,35 @@
     </tr>
     </tbody>
   </table>
+
+
+
+  <div class="modal fade" id="modal-add-dep" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModal"><b> Ajouter un département </b></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form [formGroup]="formDepModal">
+          <div class="modal-body">
+
+            <div class="mb-3 row" id="div_groupe_name">
+              <label for="name_department" class="col-sm-2 col-form-label">Nom du département </label>
+              <div class="col-sm-10">
+                <input [value]="" class="form-control" formControlName="name_department" type="text"
+                       placeholder="" required id="name_department">
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" (click)="handleAction()">Enregistrer
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>

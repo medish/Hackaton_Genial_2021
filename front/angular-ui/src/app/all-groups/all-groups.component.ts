@@ -157,7 +157,6 @@ export class AllGroupsComponent implements OnInit {
   }
 
 
-
   handleDelete() {
     return this.http.delete(environment.baseUrl + '/courses-groups/' + this.courses_group_to_delete.id).subscribe(data => {
       console.log(data);
@@ -165,9 +164,6 @@ export class AllGroupsComponent implements OnInit {
     })
 
   }
-
-
-
 
 
   insertNewGroupe() {
@@ -194,12 +190,14 @@ export class AllGroupsComponent implements OnInit {
     //if(this.formGroupModal)
     this.coursegroupcontroller.insertUsingPOST1({courseGroup: res}).then(
       response => {
-        if (response == true) {
-          alert('Insertion OK ')
-          location.reload();
-        }
+        alert('Insertion OK ')
+        location.reload();
+        console.log(response);
       }
-    )
+    ).catch
+    (error => {
+      console.log(error)
+    });
   }
 
 
@@ -214,7 +212,6 @@ export class AllGroupsComponent implements OnInit {
       roomType: CourseGroupRoomTypeEnum;
       size: number;
     }
-
     res.size = this.formGroupModal.value.nb_students;
     console.log(this.formGroupModal.get('duration'));
     // @ts-ignore
@@ -225,13 +222,13 @@ export class AllGroupsComponent implements OnInit {
     res.roomType = this.formGroupModal.value.roomtype;
     console.log(res);
 
-    // todo use update
-    //
 
-    //httpOptions.params= httpOptions.params.set()
-    /*this.http.post(environment.baseUrl + '/users', {}, httpOptions).subscribe(data =>{
+    this.http.put(environment.baseUrl + '/courses-groups', {
+      courseGroup:res
+    }).subscribe(data => {
+      console.log("hhfh")
       console.log(data);
-    }) */
+    })
 
 
     /*  ({courseGroup: res}).then(
