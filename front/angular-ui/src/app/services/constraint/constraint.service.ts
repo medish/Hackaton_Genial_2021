@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ConstraintPrecedence } from 'src/app/model/constraint/constraint-precedence';
 import { ConstraintTimeRoom } from 'src/app/model/constraint/constraint-time-room';
 import { Selector } from 'src/app/model/selector/selector';
+import {TokenStorageService} from "../token-storage.service";
 
 let CSV_SEPARATOR = ';';
 let SELECTOR_SEPARATOR = ',';
@@ -12,7 +13,11 @@ let SELECTOR_INTERNAL_SEPARATOR = ':';
 })
 export class ConstraintService {
 
-  constructor() { }
+  private tokenService : TokenStorageService;
+
+  constructor(tokenService: TokenStorageService) {
+    this.tokenService = tokenService;
+  }
 
   /**
   *
@@ -35,7 +40,8 @@ export class ConstraintService {
           day: parseInt(lineSplitted[2]),
           dateBegin: lineSplitted[3],
           dateEnd: lineSplitted[4],
-          priority: parseInt(lineSplitted[6])
+          priority: parseInt(lineSplitted[6]),
+          creator: this.tokenService.getUser().id
         })
       }
     }
@@ -64,9 +70,9 @@ export class ConstraintService {
 
   parseConstraintsPrecedence(constraints: string): ConstraintPrecedence[] {
     let lines = constraints.split(/\r\n|\r|\n/);
-
     let result: ConstraintPrecedence[] = [];
     let lineSplit = []
+    let user = this.tokenService.getUser();
     for (let line of lines) {
       lineSplit = line.split(CSV_SEPARATOR);
       if (!this.verifySplitLinePrecedence(lineSplit)) return null;
@@ -77,8 +83,9 @@ export class ConstraintService {
         priority: parseInt(lineSplit[5]),
         whenConstraint: lineSplit[2],
         strict: lineSplit[3] == 'true',
-        selectorTarget: this.parseSelector(lineSplit[4])
-      })
+        selectorTarget: this.parseSelector(lineSplit[4]),
+        creator: user.id
+      });
     }
     return result;
   }

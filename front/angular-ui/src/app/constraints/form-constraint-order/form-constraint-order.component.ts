@@ -6,6 +6,7 @@ import {
 } from "../../model/swagger/api";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ConstraintPrecedence} from "../../model/constraint/constraint-precedence";
+import {TokenStorageService} from "../../services/token-storage.service";
 
 @Component({
   selector: 'app-form-constraint-order',
@@ -17,7 +18,8 @@ export class FormConstraintOrderComponent implements OnInit {
   constructor(
     public constraintService:ConstraintService,
     private courseController: CoursecontrollerApi,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private tokenService: TokenStorageService
   ) { }
 
   @Output('onValidate')onValidate = new EventEmitter<ConstraintPrecedence>()
@@ -80,7 +82,8 @@ export class FormConstraintOrderComponent implements OnInit {
       whenConstraint: this.orderFormGroup.value.when.toLowerCase(),
       strict: form_result[3],
       selectorTarget: {selectorUnits: [{table: selector2[0], attribute: selector2[1], value: selector2[2]}]},
-      priority: this.orderFormGroup.value.priority
+      priority: this.orderFormGroup.value.priority,
+      creator: this.tokenService.getUser().id
     }
 
     this.validated = this.constraintService.verifySplitLinePrecedence(form_result)
