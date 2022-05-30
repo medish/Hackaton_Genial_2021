@@ -48,7 +48,7 @@ public abstract class AbstractService<T extends KeyID<ID>, ID> {
      * @param CourseSlots {@link CourseSlot}
      */
     public List<T> insert(List<T> courseSlots) {
-        if (courseSlots.stream().anyMatch(courseSlot -> getById(courseSlot.getId()).isEmpty())) {
+        if (courseSlots.stream().anyMatch(courseSlot -> getById(courseSlot.getId()).isPresent())) {
             return List.of();
         }
         return getRepository().saveAllAndFlush(courseSlots);
@@ -60,7 +60,7 @@ public abstract class AbstractService<T extends KeyID<ID>, ID> {
      * @param id CourseSlot's ID
      */
     public boolean delete(ID id) {
-        if (getById(id).isPresent()) {
+        if (getById(id).isEmpty()) {
             return false;
         }
         getRepository().deleteById(id);
