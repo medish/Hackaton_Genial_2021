@@ -43,13 +43,13 @@ export class DataInterfaceService {
     .subscribe(data => callback(data));
   }
 
-  sendTimeRoomConstraints(constraints: [ConstraintTimeRoomExport]) {
-    return this.http.post(this.url + "/constraints/time-and-room", constraints)
+  sendTimeRoomConstraints(constraints: [any]) {
+    return this.http.post(this.url + "/constraints/time-and-room/all", constraints)
     .pipe(catchError(this.handleError.bind(this))).subscribe((_ => this.resultChange.next(true)));
   }
 
-  sendPrecedenceConstraints(constraints: [ConstraintPrecedenceExport]) {
-    return this.http.post(this.url + "/constraints/precedence", constraints)
+  sendPrecedenceConstraints(constraints: [any]) {
+    return this.http.post(this.url + "/constraints/precedence/all", constraints)
     .pipe(catchError(this.handleError.bind(this))).subscribe((_ => { this.resultChange.next(true)}));
   }
 

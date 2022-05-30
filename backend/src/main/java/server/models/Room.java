@@ -44,6 +44,10 @@ public class Room implements IInput, KeyID<Integer> {
     public Room() {
     }
 
+    public Room(int id) {
+        this.id = id;
+    }
+
     public Room(int id, String name, Department department, int capacity, Set<RoomType> roomTypes) {
         this.id = id;
         this.name = name;

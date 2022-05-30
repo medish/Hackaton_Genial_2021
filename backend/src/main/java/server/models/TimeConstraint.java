@@ -29,7 +29,7 @@ public class TimeConstraint implements IInput, KeyID<Integer> {
     @JoinColumns({ @JoinColumn(name = "day_begin"), @JoinColumn(name = "time_begin") })
     private DateSlot dateBegin;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumns({ @JoinColumn(name = "day_end"), @JoinColumn(name = "time_end") })
     private DateSlot dateEnd;
 
