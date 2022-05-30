@@ -16,6 +16,9 @@ import {AllConstraintsComponent} from "./all-constraints/all-constraints.compone
 import {AllGroupsComponent} from "./all-groups/all-groups.component";
 import { RegisterComponent } from './register/register.component';
 import { ChangeRouteService } from './services/change-route.service';
+import {AllCoursesComponent} from "./all-courses/all-courses.component";
+import {AllDegreesComponent} from "./all-degrees/all-degrees.component";
+
 const routes: Routes = [
   {path:'login',component:LoginComponent},
   {path:'admin',component:AdminComponent,canActivate: [AuthGuard,ChangeRouteService]},
@@ -30,7 +33,9 @@ const routes: Routes = [
   {path:'les-departements',component:DepartmentComponent,canActivate: [AuthGuard,ChangeRouteService]},
   {path:'les-contraintes',component:AllConstraintsComponent,canActivate: [AuthGuard,ChangeRouteService]},
   {path:'les-groupes',component:AllGroupsComponent,canActivate: [AuthGuard,ChangeRouteService]},
-  {path:'register',component:RegisterComponent}
+  {path:'les-degres',component:AllDegreesComponent,canActivate: [AuthGuard,ChangeRouteService]},
+  {path:'register',component:RegisterComponent},
+  {path:'les-cours',component:AllCoursesComponent,canActivate: [AuthGuard,ChangeRouteService]}
 ];
 
 

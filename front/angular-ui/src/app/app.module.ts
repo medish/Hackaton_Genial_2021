@@ -32,17 +32,22 @@ import { DepartmentComponent } from './department/department.component';
 import { AllConstraintsComponent } from './all-constraints/all-constraints.component';
 import { AllGroupsComponent } from './all-groups/all-groups.component';
 import {
+  AuthcontrollerApi,
   CoursecontrollerApi,
   CoursegroupcontrollerApi,
   DegreecontrollerApi,
-  DepartmentcontrollerApi,
+  DepartmentcontrollerApi, MajorcontrollerApi,
   PlanningcontrollerApi,
   ProfessorcontrollerApi,
   RoomcontrollerApi,
   TimeconstraintcontrollerApi,
 } from './model/swagger/api';
 import { MatRadioModule } from '@angular/material/radio';
-import { AlertModule, AlertConfig } from 'ngx-bootstrap/alert'
+import { AlertModule, AlertConfig } from 'ngx-bootstrap/alert';
+import { FormConstraintOrderComponent } from './constraints/form-constraint-order/form-constraint-order.component'
+import { AllCoursesComponent } from './all-courses/all-courses.component';
+import { AllDegreesComponent } from './all-degrees/all-degrees.component'
+
 
 FullCalendarModule.registerPlugins([
   // register FullCalendar plugins
@@ -72,6 +77,9 @@ FullCalendarModule.registerPlugins([
     AllConstraintsComponent,
     AllGroupsComponent,
     FormConstraintTimeComponent,
+    FormConstraintOrderComponent,
+    AllCoursesComponent,
+    AllDegreesComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -84,21 +92,24 @@ FullCalendarModule.registerPlugins([
     CollapseModule.forRoot(),
     DataTablesModule,
     FontAwesomeModule,
+    FontAwesomeModule,
     MatRadioModule,
     FontAwesomeModule,
     AlertModule
   ],
-  providers: [
-    authInterceptorProviders,
+
+  providers: [authInterceptorProviders,
+    AuthcontrollerApi,
+    CoursegroupcontrollerApi,
     TimeconstraintcontrollerApi,
     RoomcontrollerApi,
     CoursecontrollerApi,
     ProfessorcontrollerApi,
     DegreecontrollerApi,
     DepartmentcontrollerApi,
-    CoursegroupcontrollerApi,
     PlanningcontrollerApi,
+    MajorcontrollerApi
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -21,7 +21,11 @@ jobs:
           distribution: "temurin"
           cache: maven
       - name: Build backend
-        run: mvn -B package --file backend/pom.xml -DskipTests
+        run: mvn -B package --file backend/pom.xml
+      # - uses: actions/upload-artifact@v3
+      #   with:
+      #     name: spring-jar
+      #     path: backend/target/backend-0.0.1-SNAPSHOT.jar
   build-frontend:
     runs-on: ubuntu-latest
     defaults:
@@ -35,5 +39,39 @@ jobs:
           cache: "npm"
           cache-dependency-path: front/angular-ui/package-lock.json
       - run: npm ci
-      - run: npm install -g @angular/cli
       - run: npm run build
+      # - uses: actions/upload-artifact@v3
+      #   with:
+      #     name: angular-ui
+      #     path: front/angular-ui/dist/angular-ui/
+  test-selenium:
+    needs: [build-backend, build-frontend]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: "npm"
+          cache-dependency-path: front/angular-ui/package-lock.json
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: "17"
+          distribution: "temurin"
+          cache: maven
+      - uses: actions/download-artifact@v3
+        with:
+          name: spring-jar
+      - uses: actions/download-artifact@v3
+        with:
+          name: angular-ui
+      - name: run server
+        run: java -jar backend-0.0.1-SNAPSHOT.jar &
+      - name: build UI
+        run: cd front/angular-ui && npm ci && npm run build
+      - name: run UI
+        #        run: npm install -g http-server && http-server -p 4200 &
+        run: cd front/angular-ui && npm start &
+      - name: validation tests
+        run: mvn -B test --file Test_Selenium/pom.xml

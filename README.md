@@ -6,7 +6,7 @@ Les dépendances Maven sont situées dans le fichier **Hackaton_Genial_2021\back
 # Prérequis côté backend :
 - PostgreSQL installé
 - Créer une Database dans PostgreSQL (ex: app_calendar)
-- Java 16 installé avec la variable Java_Home initialisée
+- Java 17 installé avec la variable Java_Home initialisée
 
  ## instructions d'installation
 Configurer les fichiers suivants avec vos identifiants PostgreSQL: <br>
@@ -22,6 +22,7 @@ comme dans l'exemple suivant :
 
 Exécuter le serveur avec le main situé dans : <br>
 **Hackaton_Genial_2021\backend\src\main\java\server\MainServer.java**
+ou la commande **mvn spring-boot:run** depuis le dossier backend
 
 Une fois le serveur lancé, une documentation générée par Swagger est disponible à l'adresse suivante : 
 http://localhost:8080/swagger-ui.html

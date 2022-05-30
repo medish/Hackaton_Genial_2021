@@ -60,7 +60,7 @@ public abstract class AbstractService<T extends KeyID<ID>, ID> {
      * @param id CourseSlot's ID
      */
     public boolean delete(ID id) {
-        if (getById(id).isPresent()) {
+        if (getById(id).isEmpty()) {
             return false;
         }
         getRepository().deleteById(id);

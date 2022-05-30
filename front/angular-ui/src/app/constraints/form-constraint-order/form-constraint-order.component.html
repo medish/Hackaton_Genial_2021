@@ -1,0 +1,91 @@
+<div class="container">
+  <h1 class="txt">Formulaire de contraintes d'ordre</h1>
+
+  <form [formGroup]="orderFormGroup">
+    <div class="form-group">
+      <label for="firstCourse">Premier cours</label>
+      <select
+        class="form-control"
+        formControlName="firstCourse"
+        id="firstCourse"
+        [ngClass]="{'is-invalid': submitted && orderFormGroup.controls.firstCourse.errors}"
+      >
+        <option [value]="course.id" *ngFor="let course of courses">{{ course.name }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="want">Volonté</label>
+      <select
+        class="form-control txt"
+        id="want"
+        formControlName="want"
+        [ngClass]="{'is-invalid': submitted && orderFormGroup.controls.want.errors}"
+        name="want"
+      >
+        <option *ngFor="let want of wants" [value]="want">{{ want }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="when">Quand</label>
+        <select
+          class="form-control"
+          id="when"
+          formControlName="when"
+          [ngClass]="{'is-invalid': submitted && orderFormGroup.controls.when .errors}"
+          name="when"
+        >
+          <option *ngFor="let when of whens" [value]="when">{{ when }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="strict">Strict</label>
+      <select
+        class="form-control"
+        id="strict"
+        formControlName="strict"
+        [ngClass]="{'is-invalid': submitted && orderFormGroup.controls.strict.errors}"
+        name="strict"
+        >
+          <option *ngFor="let strict of stricts" [value]="strict" >{{strict}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="secondCourse">Deuxième cours</label>
+      <select
+        class="form-control"
+        formControlName="secondCourse"
+        id="secondCourse"
+        [ngClass]="{'is-invalid': submitted && orderFormGroup.controls.secondCourse.errors}"
+      >
+        <option [value]="course.id" *ngFor="let course of courses">{{ course.name }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="priority">Priorité</label>
+      <input
+        type="number"
+        max="100"
+        min="1"
+        value="50"
+        class="form-control"
+        id="priority"
+        [ngClass]="{'is-invalid': submitted && orderFormGroup.controls.priority.errors}"
+        formControlName="priority"
+        name="priority"
+      />
+    </div>
+    <div class="form-group form-submit-container">
+      <button type="submit" (click)="onSubmit()"  class="btn btn-primary rounded submit p-3 px-5 txt">
+        Valider
+      </button>
+      <div *ngIf="validated" class="validated rounded">
+        <h3>Contrainte ajoutée avec succès !</h3>
+      </div>
+    </div>
+  </form>
+</div>

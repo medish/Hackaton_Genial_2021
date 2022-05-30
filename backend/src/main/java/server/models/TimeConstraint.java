@@ -1,8 +1,5 @@
 package server.models;
 
-import java.time.LocalTime;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,7 +29,7 @@ public class TimeConstraint implements IInput, KeyID<Integer> {
     @JoinColumns({ @JoinColumn(name = "day_begin"), @JoinColumn(name = "time_begin") })
     private DateSlot dateBegin;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumns({ @JoinColumn(name = "day_end"), @JoinColumn(name = "time_end") })
     private DateSlot dateEnd;
 
@@ -40,12 +37,6 @@ public class TimeConstraint implements IInput, KeyID<Integer> {
     private Room room;
 
     private int priority;
-
-    @Column(name = "start_time")
-    private LocalTime startTime;
-
-    @Column(name = "end_time")
-    private LocalTime endTime;
 
     public TimeConstraint() {
     }
@@ -119,22 +110,6 @@ public class TimeConstraint implements IInput, KeyID<Integer> {
 
     public void setPriority(int priority) {
         this.priority = priority;
-    }
-
-    public LocalTime getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public LocalTime getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(LocalTime endTime) {
-        this.endTime = endTime;
     }
 
 }
