@@ -25,7 +25,6 @@ const routes: Routes = [
   {path:'prof',component:ProfComponent,canActivate: [AuthGuard,ChangeRouteService]},
   {path:'manuel',component:PlanningManuelGeneratorComponent,canActivate: [AuthGuard,ChangeRouteService]},
   {path:'tableau',component:TableauContraintesComponent,canActivate: [AuthGuard,ChangeRouteService]},
-  {path:'auto',component:PlanningAutoGeneratorComponent,canActivate: [AuthGuard,ChangeRouteService]},
   {path:'all-plannings',component:AllPlanningsComponent, canActivate: [AuthGuard,ChangeRouteService]},
   {path:'',redirectTo:'/admin',pathMatch:'full'},
   {path:'les-utilisateurs',component:AllUsersComponent,canActivate: [AuthGuard,ChangeRouteService]},

@@ -46,7 +46,7 @@ public class PlanningController {
     }
 
     @PutMapping()
-    public Planning update(@RequestBody Planning planning) {
+        public Planning update(@RequestBody Planning planning) {
         return service.update(planning);
     }
 

@@ -13,11 +13,6 @@ export class AdminComponent implements OnInit {
   ngOnInit(): void {    
   }
 
-
-  runAuto() {
-    this.router.navigate(['/auto']);
-  }
-
   runManual() {
     this.router.navigate(['/manuel']);
   }
