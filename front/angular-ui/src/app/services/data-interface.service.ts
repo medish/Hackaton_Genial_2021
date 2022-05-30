@@ -43,7 +43,7 @@ export class DataInterfaceService {
     .subscribe(data => callback(data));
   }
 
-  sendTimeRoomConstraints(constraints: [any]) {
+  sendTimeRoomConstraints(constraints: [ConstraintTimeRoomExport]) {
     return this.http.post(this.url + "/constraints/time-and-room", constraints)
     .pipe(catchError(this.handleError.bind(this))).subscribe((_ => this.resultChange.next(true)));
   }

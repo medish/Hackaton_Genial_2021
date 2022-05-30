@@ -18,25 +18,21 @@ export enum Modes {
   selector: 'app-get-file-constraints',
   templateUrl: './get-file-constraints.component.html',
   styleUrls: ['./get-file-constraints.component.scss'],
-  providers: [DataInterfaceService],
+  providers: [DataInterfaceService]
 })
 export class GetFileConstraintsComponent implements OnInit {
-  constructor(
-    private constraintService: ConstraintService,
-    private messagingService: MessagingService
-  ) {
-    messagingService.currentMessageState.pipe(skip(1)).subscribe((value) => {
+
+  constructor(private constraintService: ConstraintService, private messagingService: MessagingService) {
+    messagingService.currentMessageState.pipe(skip(1)).subscribe(value => {
       this.isOpenError = !value;
       this.isOpen = value;
-    });
+    })
   }
-  @Output('onAddConstraintTimeRoom') onAddConstraintTimeRoom = new EventEmitter<
-    ConstraintTimeRoom[]
-  >();
-  @Output('onAddConstraintPrecedence') onAddConstraintPrecedence =
-    new EventEmitter<ConstraintPrecedence[]>();
+  @Output('onAddConstraintTimeRoom')onAddConstraintTimeRoom = new EventEmitter<ConstraintTimeRoom[]>()
+  @Output('onAddConstraintPrecedence')onAddConstraintPrecedence = new EventEmitter<ConstraintPrecedence[]>();
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   currentFileNameTimeAndRoom = '';
   currentTimeAndRoom: ConstraintTimeRoom[] = [];
@@ -67,9 +63,7 @@ export class GetFileConstraintsComponent implements OnInit {
       );
       this.errorMessageTimeAndRoom = '';
       if (!result) {
-        window.alert(
-          'Une erreur de syntaxe se trouve dans le fichier. Veuillez réessayer'
-        );
+        this.isOpenError = true;
       } else {
         let result = this.constraintService.parseConstraintsTimeAndRoom(
           fileReader.result?.toString()
@@ -85,7 +79,7 @@ export class GetFileConstraintsComponent implements OnInit {
         this.currentFileNameTimeAndRoom = event.target.files[0].name;
         fileReader.readAsText(event.target.files[0]);
       }
-    };
+    }
   }
 
   sendFileSelectedTimeAndRoom() {

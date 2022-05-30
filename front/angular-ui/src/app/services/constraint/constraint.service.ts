@@ -20,6 +20,7 @@ export class ConstraintService {
   * @returns null if errors, else the list of parsed constraints
   */
   parseConstraintsTimeAndRoom(constraints: string): ConstraintTimeRoom[] {
+    console.log("hey");
     let lines = constraints.split('\n');
     let result: ConstraintTimeRoom[] = [];
     let lineSplitted = [];
