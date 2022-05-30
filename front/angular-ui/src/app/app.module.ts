@@ -42,7 +42,8 @@ import {
   TimeconstraintcontrollerApi,
 } from './model/swagger/api';
 import { MatRadioModule } from '@angular/material/radio';
-import { AlertModule, AlertConfig } from 'ngx-bootstrap/alert'
+import { AlertModule, AlertConfig } from 'ngx-bootstrap/alert';
+import { FormConstraintOrderComponent } from './constraints/form-constraint-order/form-constraint-order.component'
 
 FullCalendarModule.registerPlugins([
   // register FullCalendar plugins
@@ -72,6 +73,7 @@ FullCalendarModule.registerPlugins([
     AllConstraintsComponent,
     AllGroupsComponent,
     FormConstraintTimeComponent,
+    FormConstraintOrderComponent,
   ],
   imports: [
     BrowserAnimationsModule,
