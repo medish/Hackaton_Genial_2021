@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import server.models.CourseSlot;
+import server.models.Planning;
 import server.services.CourseSlotService;
 
 @RestController
@@ -35,11 +36,13 @@ public class CourseSlotController {
 
     @PostMapping()
     public CourseSlot insert(@RequestBody CourseSlot courseSlot) {
+        courseSlot.setPlanning(new Planning(1,null,null));
         return service.insert(courseSlot);
     }
 
     @PutMapping()
     public CourseSlot update(@RequestBody CourseSlot courseSlot) {
+        courseSlot.setPlanning(new Planning(1,null,null));
         return service.update(courseSlot);
     }
 

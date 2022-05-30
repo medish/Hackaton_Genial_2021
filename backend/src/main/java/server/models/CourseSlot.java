@@ -31,7 +31,6 @@ public class CourseSlot implements Serializable, KeyID<Integer> {
     private CourseGroup courseGroup;
 
     @ManyToOne
-    @JsonIgnore
     private Planning planning;
 
     @ManyToOne
@@ -98,6 +97,7 @@ public class CourseSlot implements Serializable, KeyID<Integer> {
         return courseGroup;
     }
 
+    @JsonIgnore
     public Planning getPlanning() {
         return planning;
     }

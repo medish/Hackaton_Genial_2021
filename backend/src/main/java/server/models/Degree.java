@@ -31,7 +31,7 @@ public class Degree implements IInput, KeyID<Integer> {
     @OneToMany(mappedBy = "degree")
     private Set<Course> courses;
 
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    //@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @ManyToMany(mappedBy = "degrees")
     private Set<Major> majors;
 
