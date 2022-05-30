@@ -204,7 +204,6 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     event.remove()
     console.log("new obj",newobj)
     calendarApi.addEvent(newobj)
-    console.log(this.getAllEvents())
     this.callVerify()
   }
   getAllEvents() {
