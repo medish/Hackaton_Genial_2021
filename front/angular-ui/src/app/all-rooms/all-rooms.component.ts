@@ -31,14 +31,14 @@ export class AllRoomsComponent implements OnInit {
     this.formGroupModal = this.formBuilder.group({
       name: ['', [Validators.required, Validators.max(255), Validators.min(20)]],
       capacity: ['', [Validators.required, Validators.max(255), Validators.min(20)]],
-      department_id:['', [Validators.required, Validators.max(255), Validators.min(20)]],
+      roomTypes:['', [Validators.required, Validators.max(255), Validators.min(20)]],
       id: []
     });
 
     this.formAddRoom = this.formBuilderAddRoom.group({
       name: ['', [Validators.required, Validators.max(255), Validators.min(20)]],
       capacity: ['', [Validators.required, Validators.max(255), Validators.min(20)]],
-      department_id:['', [Validators.required, Validators.max(255), Validators.min(20)]],
+      roomTypes:['', [Validators.required, Validators.max(255), Validators.min(20)]],
       id: []
     });
   }
@@ -56,7 +56,7 @@ export class AllRoomsComponent implements OnInit {
 
     this.formGroupModal.controls['name'].setValue(room.name);
     this.formGroupModal.controls['capacity'].setValue(room.capacity);
-    this.formGroupModal.controls['department'].setValue(room.department);
+    this.formGroupModal.controls['roomTypes'].setValue(room.roomTypes);
     this.formGroupModal.controls['id'].setValue(room.id)
     modal.show();
   }
@@ -74,7 +74,7 @@ export class AllRoomsComponent implements OnInit {
 
     this.roomService.updateRoom(
       this.formGroupModal.controls['name'].value, this.formGroupModal.controls['capacity'].value,
-      this.formGroupModal.controls['departement_id'].value,this.formGroupModal.controls['id'].value);
+      this.formGroupModal.controls['roomTypes'].value,this.formGroupModal.controls['id'].value);
     const modal = new Modal(document.getElementById("editRoomModal"), {
       keyboard: false
     });
@@ -106,6 +106,6 @@ export class AllRoomsComponent implements OnInit {
 
     this.roomService.addRoom(this.formAddRoom.controls['name'].value,
       this.formAddRoom.controls['capacity'].value,
-      this.formAddRoom.controls['departement_id'].value)
+      this.formAddRoom.controls['roomTypes'].value)
   }
 }

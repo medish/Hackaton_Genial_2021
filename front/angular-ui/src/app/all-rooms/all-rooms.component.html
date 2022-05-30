@@ -7,8 +7,8 @@
       <thead>
       <th>Id</th>
       <th>Nom</th>
-      <th>Capacite</th>
-      <th>Departement_id</th>
+      <th>Capacité</th>
+      <th>Type</th>
     
       </thead>
       <tbody>
@@ -17,7 +17,7 @@
           <td>{{room.id}}</td>
           <td>{{room.name}}</td>
           <td>{{room.capacity}}</td>
-          <td>{{room.department}}</td>
+          <td>{{room.roomTypes}}</td>
           <td>
             <button type="button" class="btn btn-sm btn-warning me-3" (click)="editRoom(room)">Modifier</button>
             <button type="button" class="btn btn-sm btn-danger" (click)="deleteRoom(room)">Supprimer</button>
@@ -29,4 +29,112 @@
   </div>
 </div>
 
-      
+<div class="modal fade" id="editRoomModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModal"><b>Modifier une salle</b></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form [formGroup]="formGroupModal">
+        <div class="modal-body">
+          <div class="mb-3 row">
+            <label for="name" class="col-sm-2 col-form-label">Nom</label>
+            <div class="col-sm-10">
+              <input [value]="" class="form-control" formControlName="name" type="text"
+                     [ngClass]="{'is-invalid': submitted_edit && g.lastName.errors}"
+                     placeholder="nom de la salle" required id="name">
+            </div>
+          </div>
+
+          <div class="mb-3 row">
+            <label for="capacity" class="col-sm-2 col-form-label">Capacité</label>
+            <div class="col-sm-10">
+              <input [value]="" class="form-control" formControlName="capacity" type="text"
+                     [ngClass]="{'is-invalid': submitted_edit && g.firstname.errors}"
+                     placeholder="capacite de la salle" required id="capacity">
+            </div>
+          </div>
+
+         
+
+          <div class="mb-3 row">
+            <label for="roomTypes" class="col-sm-2 col-form-label">roomType</label>
+            <div class="col-sm-10">
+              <select class="form-control txt" id="role" formControlName="roomTypes" required [ngClass]="{'is-invalid': submitted_edit && g.role.errors}">
+                <option>CM</option>
+                <option>TD</option>
+                <option>TP</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button class="btn btn-primary"  (click)="updateRoom()">Enregistrer
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="addRoomModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addRoom"><b>Ajouter une salle</b></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form [formGroup]="formAddRoom" (ngSubmit)="onSubmitAddRoom()">
+        <div class="login-wrap p-4 p-md-8">
+          <div class="icon d-flex align-items-center justify-content-center">
+            <i class="bi bi-door-open"></i>
+          </div>
+
+          <div class="mb-3 row">
+            <label for="name" class="col-sm-2 col-form-label">Nom</label>
+            <div class="col-sm-10">
+              <input class="form-control" formControlName="name" type="text"
+                     [ngClass]="{'is-invalid': submitted && f.lastName.errors}"
+                     placeholder="nom de la salle" required id="name">
+            </div>
+            <div class="alert alert-danger invalid-feedback" role="alert" *ngIf="submitted && f.lastName.errors">
+              <div *ngIf="f.lastName.errors.required">name is required</div>
+            </div>
+          </div>
+
+          <div class="mb-3 row">
+            <label for="name" class="col-sm-2 col-form-label">Capacité</label>
+            <div class="col-sm-10">
+              <input class="form-control" formControlName="name" type="text"
+                     [ngClass]="{'is-invalid': submitted && f.capacity.errors}"
+                     placeholder="capacite de la salle" required id="capacity">
+            </div>
+            <div class="alert alert-danger invalid-feedback" role="alert" *ngIf="submitted && f.capacityerrors">
+              <div *ngIf="f.capacity.errors.required">capacity is required</div>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="roomTypes" class="col-sm-2 col-form-label">Type</label>
+            <div class="col-sm-10">
+              <select class="form-control txt" id="roomTypes" formControlName="roomTypes" required>
+                <option>CM</option>
+                <option>TP</option>
+                <option>TD</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group d-grid gap-2 d-md-flex justify-content-md-end">
+            <button [disabled]="loading" class="btn btn-sm btn-success p-3 px-5">Ajouter</button>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
