@@ -73,6 +73,7 @@ export interface Course {
     "id"?: number;
     "name"?: string;
     "professors"?: Array<Professor>;
+    "majorCourses"?: Array<MajorCourse>;
 }
 
 export interface CourseGroup {

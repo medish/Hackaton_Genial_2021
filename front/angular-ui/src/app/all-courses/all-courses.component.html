@@ -1,4 +1,6 @@
 <div class="container">
+  <button (click)="addCours()" type="button" class="btn btn-sm btn-info float-right">Ajouter un Cours</button>
+
   <div class="mt-5">
     <h2> Les Cours</h2>
     <hr>
@@ -11,7 +13,6 @@
       </th>
       <th>Niveau</th>
       <th>Spécialité</th>
-      <th>Action</th>
     </tr>
     </thead>
     <tbody>
@@ -19,12 +20,101 @@
       <td>{{course.name}}</td>
       <td>{{course.degree.name}}</td>
       <td>{{course.degree.majors[0].name}}</td>
-      <td>
-        <button class="btn btn-warning me-3" >Editer</button>
-        <button class="btn btn-danger"> Supprimer</button>
-      </td>
     </tr>
     </tbody>
   </table>
 </div>
+
+<div class="modal fade" id="addCoursModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addCours"><b>Ajouter un Cours</b></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form [formGroup]="this.formAddCours" (ngSubmit)="this.onSubmitAddCours()">
+        <div class=" p-4 p-md-8">
+          <div class="mb-3 row">
+            <label for="name_add" class="col-sm-2 col-form-label">Nom</label>
+            <div class="col-sm-10">
+              <input class="form-control" formControlName="name" type="text"
+                     [ngClass]="{'is-invalid': submittedAddCours && g.name.errors}"
+                     placeholder="degree name" required id="name_add">
+            </div>
+            <div class="alert alert-danger invalid-feedback" role="alert" *ngIf="submittedAddCours && this.g.name.errors">
+              <div *ngIf="this.g.name.errors.required">Name is required</div>
+            </div>
+          </div>
+
+          <div class="mb-3 row">
+            <label for="color_add" class="col-sm-2 col-form-label">Couleur</label>
+            <div class="col-sm-10">
+              <input class="form-control" formControlName="color" type="text"
+                     [ngClass]="{'is-invalid': submittedAddCours && g.color.errors}"
+                     placeholder="color code hexa" required id="color_add">
+            </div>
+            <div class="alert alert-danger invalid-feedback" role="alert" *ngIf="submittedAddCours && this.g.color.errors">
+              <div *ngIf="this.g.color.errors.required">color is required</div>
+            </div>
+          </div>
+
+          <div class="mb-3 row">
+            <label for="degree" class="col-sm-2 col-form-label">Niveau</label>
+            <div class="col-sm-10">
+              <select
+                type="text"
+                formControlName="degree"
+                class="form-control"
+                id="degree"
+                [ngClass]="{'is-invalid': submittedAddCours && this.g.degree.errors}"
+                name="degree"
+              >
+                <option *ngFor="let degree of this.degrees" [value]="degree.id">{{ degree.name }}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mb-3 row">
+            <label for="major" class="col-sm-2 col-form-label">Spécialité</label>
+            <div class="col-sm-10">
+              <select
+                type="text"
+                formControlName="major"
+                class="form-control"
+                id="major"
+                [ngClass]="{'is-invalid': submittedAddCours && this.g.degree.errors}"
+                name="major"
+              >
+                <option *ngFor="let major of this.majors" [value]="major.id">{{ major.name }}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mb-3 row">
+            <label for="profeesor" class="col-sm-2 col-form-label">Professeur</label>
+            <div class="col-sm-10">
+              <select
+                type="text"
+                formControlName="professor"
+                class="form-control"
+                id="profeesor"
+                [ngClass]="{'is-invalid': submittedAddCours && this.g.professor.errors}"
+                name="profeesor"
+              >
+                <option *ngFor="let prof of this.professors" [value]="prof.id">{{ prof.firstName }} {{prof.lastName}}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group d-grid gap-2 d-md-flex justify-content-md-end">
+            <button [disabled]="loadingAddCours" class="btn btn-sm btn-success p-3 px-5">Ajouter</button>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 
