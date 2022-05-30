@@ -56,7 +56,6 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     private degreeController: DegreecontrollerApi,
     private departementController: DepartmentcontrollerApi,
     private courseGroupController: CoursegroupcontrollerApi,
-    private authService: AuthService,
     private planningController: PlanningcontrollerApi,
     private courseSlotsService: CourseSlotsService,
     private fb: FormBuilder,
@@ -165,21 +164,20 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     if(!event?.end && event?.start){
       event.setEnd(new Date(event?.start.getTime()+60*60*1000));
     }
-    let dofwk = event?.start.getDay()?event?.start.getDay():event?._def?.recurringDef?.typeData['daysOfWeek']%7;
+    let dofwk = event?.start?.getDay()?event?.start.getDay():event?._def?.recurringDef?.typeData['daysOfWeek']%7;
+    console.log("dofwk",dofwk)
+    dofwk=dofwk-1
     let startWeek = this.getMonday(new Date());
     startWeek.setDate(startWeek.getDate() + dofwk);
+    let end:any = event.end;
+    let start:any = event.start;
     if(!event?.end){
-      event.setEnd( startWeek.toISOString().split('T')[0]+"T"+(event?._def?.recurringDef?.typeData['endTime']?event?._def?.recurringDef?.typeData['endTime']:this.msToHMS2(event?.end?.getHours(),event?.end?.getMinutes(),event?.end?.getSeconds())))
+      end =  startWeek.toISOString().split('T')[0]+"T"+(event?._def?.recurringDef?.typeData['endTime']?this.msToHMS(event?._def?.recurringDef?.typeData['endTime'].milliseconds):this.msToHMS2(event?.end?.getHours(),event?.end?.getMinutes(),event?.end?.getSeconds()))
     }
     if(!event?.start){
-      event.setStart( startWeek.toISOString().split('T')[0]+"T"+(event?._def?.recurringDef?.typeData['startTime']? event?._def?.recurringDef?.typeData['startTime']:this.msToHMS2(event?.start?.getHours(),event?.start?.getMinutes(),event?.start?.getSeconds())))
+      start = startWeek.toISOString().split('T')[0]+"T"+(event?._def?.recurringDef?.typeData['startTime']? this.msToHMS(event?._def?.recurringDef?.typeData['startTime'].milliseconds):this.msToHMS2(event?.start?.getHours(),event?.start?.getMinutes(),event?.start?.getSeconds()))
     }
-    console.log("tststststs",this.msToHMS2(event?.start?.getHours(),event?.start?.getMinutes(),event?.start?.getSeconds()))
-    console.log("tststs2 ",this.msToHMS2(event?.end?.getHours(),event?.end?.getMinutes(),event?.end?.getSeconds()));
-    console.log("tststs 3 ",event?.start.getDay()%7);
-    console.log("tststst4",event?._def?.recurringDef?.typeData['daysOfWeek']?"yes":"no");
-    console.log("tststst5",event?._def?.recurringDef?.typeData['startTime']?"yes":"no");
-    console.log("tststst6",event?._def?.recurringDef?.typeData['endTime']?"yes":"no");
+
     let newobj = {
       title: this.degrees.filter(d => d.id == this.formGroupModel.controls['degree'].value)?.[0]?.name + ' - Groupe ' + this.formGroupModel.controls['courseGroup'].value + ' - ' + this.formGroupModel.controls['course'].value + ' - ' + this.formGroupModel.controls['teacher'].value + ' - ' + this.formGroupModel.controls['room'].value,
       color: this.formGroupModel.controls['backgroundColor'].value,
@@ -187,8 +185,8 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       //startTime: event?._def?.recurringDef?.typeData['startTime']? event?._def?.recurringDef?.typeData['startTime']:this.msToHMS2(event?.start?.getHours(),event?.start?.getMinutes(),event?.start?.getSeconds()),
       //endTime: event?._def?.recurringDef?.typeData['endTime']?event?._def?.recurringDef?.typeData['endTime']:this.msToHMS2(event?.end?.getHours(),event?.end?.getMinutes(),event?.end?.getSeconds()),
       // daysOfWeek: event?.start.getDay()%7?event?.start.getDay()%7:event?._def?.recurringDef?.typeData['daysOfWeek'],
-      start: event.start,
-      end: event.end,
+      start: start,
+      end: end,
       id: uniqid(),
       extendedProps: {
         room: this.formGroupModel.controls['room'].value,
@@ -419,12 +417,12 @@ export class PlanningManuelGeneratorComponent implements OnInit {
 
   msToHMS(ms) {
     // 1- Convert to seconds:
-    let seconds = ms / 1000;
+    let seconds = Math.floor(ms / 1000);
     // 2- Extract hours:
-    const hours = seconds / 3600; // 3,600 seconds in 1 hour
+    const hours = Math.floor(seconds / 3600); // 3,600 seconds in 1 hour
     seconds = seconds % 3600; // seconds remaining after extracting hours
     // 3- Extract minutes:
-    const minutes = seconds / 60; // 60 seconds in 1 minute
+    const minutes = Math.floor(seconds / 60); // 60 seconds in 1 minute
     // 4- Keep only seconds not extracted to minutes:
     seconds = seconds % 60;
     return this.msToHMS2(hours,minutes,seconds)
