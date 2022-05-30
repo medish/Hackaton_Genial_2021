@@ -1,9 +1,7 @@
-import { splitAtColon } from '@angular/compiler/src/util';
 import { Injectable } from '@angular/core';
 import { ConstraintPrecedence } from 'src/app/model/constraint/constraint-precedence';
 import { ConstraintTimeRoom } from 'src/app/model/constraint/constraint-time-room';
 import { Selector } from 'src/app/model/selector/selector';
-
 
 let CSV_SEPARATOR = ';';
 let SELECTOR_SEPARATOR = ',';
@@ -28,7 +26,7 @@ export class ConstraintService {
     for (let line of lines) {
       if (line.length > 0) {
         lineSplitted = line.split(CSV_SEPARATOR);
-        if (!this.verifySplittedLineConstraintsTimeRoom(lineSplitted)) return null;
+        if (!this.verifySplitLineConstraintsTimeRoom(lineSplitted)) return null;
         result.push({
           id: Math.random(),
           selector: this.parseSelector(lineSplitted[0]),
@@ -54,11 +52,11 @@ export class ConstraintService {
     priority => priority?.match(/^0*(?:[1-9][0-9]?|100)$/)
   ]
 
-  verifySplittedLineConstraintsTimeRoom(splittedLine: string[]) {
-    if (!splittedLine) return false;
-    if (splittedLine.length != 7) return false;
-    for (let i = 0; i < splittedLine.length; i++) {
-      if (!this.predicatesTimeAndRoomEntry[i](splittedLine[i])) return false;
+  verifySplitLineConstraintsTimeRoom(splitLine: string[]) {
+    if (!splitLine) return false;
+    if (splitLine.length != 7) return false;
+    for (let i = 0; i < splitLine.length; i++) {
+      if (!this.predicatesTimeAndRoomEntry[i](splitLine[i])) return false;
       console.log('Passage')
     }
     return true;
@@ -68,18 +66,18 @@ export class ConstraintService {
     let lines = constraints.split(/\r\n|\r|\n/);
 
     let result: ConstraintPrecedence[] = [];
-    let lineSplitted = []
+    let lineSplit = []
     for (let line of lines) {
-      lineSplitted = line.split(CSV_SEPARATOR);
-      if (!this.verifySplittedLinePrecedence(lineSplitted)) return null;
+      lineSplit = line.split(CSV_SEPARATOR);
+      if (!this.verifySplitLinePrecedence(lineSplit)) return null;
       result.push({
         id: Math.random(),
-        selector: this.parseSelector(lineSplitted[0]),
-        wants: lineSplitted[1] == 'true',
-        priority: parseInt(lineSplitted[5]),
-        whenConstraint: lineSplitted[2],
-        strict: lineSplitted[3] == 'true',
-        selectorTarget: this.parseSelector(lineSplitted[4])
+        selector: this.parseSelector(lineSplit[0]),
+        wants: lineSplit[1] == 'true',
+        priority: parseInt(lineSplit[5]),
+        whenConstraint: lineSplit[2],
+        strict: lineSplit[3] == 'true',
+        selectorTarget: this.parseSelector(lineSplit[4])
       })
     }
     return result;
@@ -94,13 +92,13 @@ export class ConstraintService {
     this.predicatesTimeAndRoomEntry[6]
   ]
 
-  verifySplittedLinePrecedence(splittedLine: string[]): boolean {
+  verifySplitLinePrecedence(splitLine: string[]): boolean {
 
-    if (!splittedLine) return false;
+    if (!splitLine) return false;
 
-    if (splittedLine.length != 6) return false;
+    if (splitLine.length != 6) return false;
 
-    for (let i = 0; i < splittedLine.length; i++)if (!this.predicatesPrecedence[i](splittedLine[i])) return false;
+    for (let i = 0; i < splitLine.length; i++)if (!this.predicatesPrecedence[i](splitLine[i])) return false;
     return true;
   }
 

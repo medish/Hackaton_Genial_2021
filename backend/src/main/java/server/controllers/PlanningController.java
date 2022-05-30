@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +23,7 @@ import server.services.PlanningSolver;
 @RestController
 @RequestMapping(ControllerRoutes.PLANNINGS)
 public class PlanningController {
+
     @Autowired
     private PlanningService service;
 
@@ -34,23 +36,28 @@ public class PlanningController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Planning> getById(int id) {
+    public Optional<Planning> getById(@PathVariable int id) {
         return service.getById(id);
     }
 
     @PostMapping()
-    public void insertPlanning(@RequestBody Planning planning) {
-        service.insert(planning);
+    public Planning insert(@RequestBody Planning planning) {
+        return service.insert(planning);
+    }
+
+    @PutMapping()
+    public Planning update(@RequestBody Planning planning) {
+        return service.update(planning);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable int id) {
-        service.delete(id);
+    public boolean delete(@PathVariable int id) {
+        return service.delete(id);
     }
 
-    @GetMapping("/auto")
-    public Planning generatePlanning() {
-        return planningSolver.solve();
+    @GetMapping("/auto/{id}")
+    public Planning generatePlanning(@PathVariable int id) {
+        return planningSolver.solve(id);
     }
 
     @PostMapping("/verify/{id}")

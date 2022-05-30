@@ -17,6 +17,14 @@ export class LoginComponent implements OnInit {
   currentUser = null;
 
   ngOnInit(): void {
+    if(this.authService.isLoggedIn()){
+      this.currentUser = this.authService.getUser()
+      if (this.currentUser.role == "PROFESSOR") {
+        this.router.navigateByUrl("/prof");
+      } else if (this.currentUser.role == "ADMIN") {
+        this.router.navigateByUrl("/admin")
+      }
+    }
   }
 
   loginForm = {
@@ -40,6 +48,7 @@ export class LoginComponent implements OnInit {
         } else if (this.currentUser.role == "ADMIN") {
           this.router.navigateByUrl("/admin")
         }
+        location.reload()
       }
     }, err => {
       this.isLoginFailed = true;

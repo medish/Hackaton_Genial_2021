@@ -1,3 +1,14 @@
 .txt {
   font-family: 'Work Sans', sans-serif;
 }
+
+.validated {
+  border: 1px solid rgb(124, 196, 17);
+  border-radius: 1%;
+  margin: 2%;
+  padding: 2%;
+}
+
+.validated h3 {
+  color: green;
+}
