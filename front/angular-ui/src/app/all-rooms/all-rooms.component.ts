@@ -1,6 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Department, DepartmentcontrollerApi, RoomcontrollerApi} from '../model/swagger/api';
 import {Room} from "../model/swagger/api";
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../../environments/environment";
+
+
 
 @Component({
   selector: 'app-all-rooms',
@@ -9,8 +13,9 @@ import {Room} from "../model/swagger/api";
 })
 export class AllRoomsComponent implements OnInit {
 
-  constructor(private roomcontrollerApi: RoomcontrollerApi, private departmentcontrollerApi: DepartmentcontrollerApi) {
+  constructor(private roomcontrollerApi: RoomcontrollerApi, private departmentcontrollerApi: DepartmentcontrollerApi, private http: HttpClient) {
   }
+
 
   all_rooms: Room[] = []
   all_departments: Department[] = [];
@@ -35,8 +40,14 @@ export class AllRoomsComponent implements OnInit {
 
   }
 
-  deleteRoom(room: Room): void {
 
+  deleteRoom(room: Room): void {
+    this.http.delete(environment.baseUrl + "/rooms/" + room.id).subscribe(data => {
+      console.log(data);
+      alert(data);
+    })
   }
+
+
 
 }

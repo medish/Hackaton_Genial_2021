@@ -49,19 +49,16 @@ export class DepartmentComponent implements OnInit {
 
 
   handlEdit() {
-    console.log(this.department_to_edit)
-    let res: Department;
-    res = new class implements Department {
 
-    }
-
-    this.department_to_edit.name = "heh";
+    this.department_to_edit.name = this.formDepModal.controls['name_department'].value;
+    console.log(this.department_to_edit);
     this.http.put(environment.baseUrl + '/departments', {
-      department: res
+      department: this.department_to_edit
     }).subscribe(data => {
       console.log(data);
     })
   }
+
 
 
   handleAddDepartement() {

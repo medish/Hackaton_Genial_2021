@@ -31,4 +31,29 @@
     </ng-container>
     </tbody>
   </table>
+
+  <div class="modal fade" id="modal--group" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id=""><b>Salle</b></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3 row" id="div_groupe_name">
+            <label for="groupe_name" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+              <input [value]="" class="form-control" formControlName="groupe_name" type="text"
+                     placeholder="" required id="groupe_name">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
 </div>

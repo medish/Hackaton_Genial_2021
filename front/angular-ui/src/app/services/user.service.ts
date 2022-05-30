@@ -30,11 +30,12 @@ export class UserService {
   }
 
   deleteUser(id: string) {
-    return this.http.delete(environment.baseUrl + '/users?id=' + id, httpOptions)
+    return this.http.delete(environment.baseUrl + '/users/' + id, httpOptions)
       .pipe().toPromise().then(data => window.location.reload()).catch(err => {
         console.log("error on delete user");
       })
   }
+
 
   addUser(lastName: string, firstname: string, email: string, role: string, password: string) {
     return this.http.post(
