@@ -27,6 +27,7 @@ public class Planning implements KeyID<Integer> {
     private String name;
 
     @Column(name = "created_at", nullable = false)
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate createdAt;
 
     @OneToMany(mappedBy = "planning")

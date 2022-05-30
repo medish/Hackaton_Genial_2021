@@ -10,14 +10,19 @@ import uniqid from 'uniqid';
 import { document } from "ngx-bootstrap/utils";
 import { ExportService } from '../services/export/export.service';
 import { faFile } from '@fortawesome/free-solid-svg-icons';
-import { Course, CoursecontrollerApi, CourseGroup, CoursegroupcontrollerApi, CourseSlot, Degree, DegreecontrollerApi, Department, DepartmentcontrollerApi, Planning, PlanningcontrollerApi, Professor, ProfessorcontrollerApi, Room, RoomcontrollerApi, TimeconstraintcontrollerApi } from '../model/swagger/api';
+import { Course, CoursecontrollerApi, CourseGroup, CoursegroupcontrollerApi, CourseSlot, Degree, DegreecontrollerApi, Department, DepartmentcontrollerApi, Planning, PlanningcontrollerApi, PrecedenceConstraint, Professor, ProfessorcontrollerApi, Room, RoomcontrollerApi, TimeconstraintcontrollerApi } from '../model/swagger/api';
 import { CourseSlotsService } from '../services/course-slots/course-slots.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { AuthService } from '../services/auth.service';
 
 
 export const TD_COLOR = "#0d6efd";
 export const COURS_COLOR = "#dc3545";
 export const TP_COLOR = "#ffc107";
-
+const httpOptions = {
+  headers: new HttpHeaders({'Content-Type': 'application/json'}),
+}
 @Component({
   selector: 'app-planning-manuel-generator',
   templateUrl: './planning-manuel-generator.component.html',
@@ -25,6 +30,7 @@ export const TP_COLOR = "#ffc107";
 })
 
 export class PlanningManuelGeneratorComponent implements OnInit {
+
   options: CalendarOptions;
   formGroupModel: FormGroup;
 
@@ -44,13 +50,13 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   generating: boolean = false;
   @ViewChild('calendar') calendarComponent: FullCalendarComponent;
   selectedPlanning: Planning;
-  constructor(private roomController: RoomcontrollerApi,
+  constructor(private http: HttpClient, private roomController: RoomcontrollerApi,
     private courseController: CoursecontrollerApi,
     private professorController: ProfessorcontrollerApi,
     private degreeController: DegreecontrollerApi,
     private departementController: DepartmentcontrollerApi,
     private courseGroupController: CoursegroupcontrollerApi,
-    private timeConstraintController: TimeconstraintcontrollerApi,
+    private authService: AuthService,
     private planningController: PlanningcontrollerApi,
     private courseSlotsService: CourseSlotsService,
     private fb: FormBuilder,
@@ -60,6 +66,8 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   ngOnInit() {
     this.initForm();
     this.initCalendar();
+    this.clearExistingData();
+    this.callInitData();
     this.planningController.getAllUsingGET6().then(data => {
       let planning = data.sort((p1, p2) => p2.id - p1.id)?.[0]
       this.selectedPlanning = planning;
@@ -104,7 +112,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       editable: true,
       initialView: 'timeGridWeek',
       locale: 'fr',
-      timeZone: 'UTC',
+      timeZone: 'local',
       dayHeaderFormat: {
         weekday: 'long'
       },
@@ -120,7 +128,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       eventTextColor: "white",
       events: [],
       eventDragStop: (info) => {
-        this.callVerify()
+        //this.callVerify()
       },
       eventClick: (info) => {
         this.formGroupModel.controls['idEvent'].setValue(info.event.id)
@@ -132,7 +140,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
         modal.show();
       },
       eventChange: () => {
-        this.callVerify()
+        //this.callVerify()
       }
     };
   }
@@ -258,16 +266,21 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       this.formGroupModel.controls['idBack'].setValue(event.extendedProps['idBack']);
     }
     this.clearExistingData();
+    this.callInitData();
+  }
+
+
+  private callInitData() {
     this.roomController.getAllUsingGET9().then(data => {
       for (let room of data) {
         this.roomsList.push(room);
       }
-    })
+    });
     this.courseController.getAllUsingGET().then(data => {
       for (let course of data) {
         this.courses.push(course);
       }
-    })
+    });
     this.professorController.getAllUsingGET8().then(data => {
       for (let prof of data) {
         this.allProfessors.push(prof);
@@ -278,14 +291,14 @@ export class PlanningManuelGeneratorComponent implements OnInit {
             return true;
           }
           return false;
-        })
+        });
       }
-    })
+    });
     this.degreeController.getAllUsingGET3().then(degrees => {
       for (let degree of degrees) {
         this.degrees.push(degree);
       }
-    })
+    });
     this.departementController.getAllUsingGET4().then(departments => {
       for (let dep of departments) {
         this.departments.push(dep);
@@ -301,11 +314,10 @@ export class PlanningManuelGeneratorComponent implements OnInit {
             return true;
           }
           return false;
-        })
+        });
       }
     });
   }
-
 
   clearExistingData() {
     this.degrees = [];
@@ -363,7 +375,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
 
   generatePlanning() {
     this.generating = true;
-    this.planningController.generatePlanningUsingGET().then(planning => {
+    this.http.get(environment.baseUrl+ '/planning/auto/1',httpOptions).pipe().toPromise().then((planning:Planning) => {
       let slots = planning.slots?.map(slot => this.courseSlotsService.fromCourseSlotToCalendar(slot));
       this.calendarComponent.getApi().removeAllEvents();
       for (let evt of slots) {
@@ -383,6 +395,9 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     const minutes = seconds / 60; // 60 seconds in 1 minute
     // 4- Keep only seconds not extracted to minutes:
     seconds = seconds % 60;
+    return this.msToHMS2(hours,minutes,seconds)
+  }
+  msToHMS2(hours,minutes,seconds) {
     return hours.toLocaleString('en-US', {
       minimumIntegerDigits: 2,
       useGrouping: false
@@ -394,33 +409,119 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       useGrouping: false
     });
   }
-  callVerify() {
+  async callVerify() {
     let allEvents = this.getAllEvents();
     let allSlots = [];
+    console.log("room list",this.roomsList);
+    
     for (let event of allEvents) {
       console.log('event ', event)
-      allSlots.push(this.courseSlotsService.fromCalendarToCourseSlot({
-        title: this.degrees.filter(d => d.id == this.formGroupModel.controls['degree'].value)?.[0]?.name + ' - Groupe ' + this.formGroupModel.controls['courseGroup'].value + ' - ' + this.formGroupModel.controls['course'].value + ' - ' + this.formGroupModel.controls['teacher'].value + ' - ' + this.formGroupModel.controls['room'].value,
-        backgroundColor: this.formGroupModel.controls['backgroundColor'].value,
-        daysOfWeek: event?._def?.recurringDef?.typeData['daysOfWeek'],
-        startTime: this.msToHMS(event?._def?.recurringDef?.typeData['startTime']?.milliseconds),
-        endTime: this.msToHMS(event?._def?.recurringDef?.typeData['endTime']?.milliseconds),
+      let eventToSlot={
+        title: this.degrees.filter(d => d.id == event.extendedProps['degree'])?.[0]?.name + ' - Groupe ' + event.extendedProps['courseGroup'] + ' - ' + event.extendedProps['course'] + ' - ' + event.extendedProps['teacher'] + ' - ' + event.extendedProps['room'],
+        backgroundColor: event?.backgroundColor,
+        daysOfWeek: event?.start.getDay()%7,
+        startTime: this.msToHMS2(event?.start.getHours(),event?.start.getMinutes(),event?.start.getSeconds()),
+        endTime: this.msToHMS2(event?.end.getHours(),event?.end.getMinutes(),event?.end.getSeconds()),
         id: uniqid(),
         extendedProps: {
-          room: this.roomsList?.filter(room => room?.name == this.formGroupModel.controls['room']?.value)?.[0],
-          course: this.courses?.filter(course => course?.name == this.formGroupModel.controls['course']?.value)?.[0],
-          courseGroup: this.allCourseGroups?.filter(courseGroup => courseGroup.id == this.formGroupModel.controls['courseGroup']?.value)?.[0],
-          teacher: this.allProfessors?.filter(professor => (professor?.firstName + ' ' + professor?.lastName) == this.formGroupModel.controls['teacher']?.value)?.[0],
-          degree: this.degrees?.filter(degree => degree.id == this.formGroupModel.controls['degree']?.value)?.[0],
-          department: this.departments?.filter(department => department.id == this.formGroupModel.controls['department'].value)?.[0],
-          duration: this.formGroupModel.controls['duration'].value,
-          idBack: this.formGroupModel.controls['idBack'].value
+          room: this.roomsList?.filter(room => room?.name == event.extendedProps['room'])?.[0],
+          course: this.courses?.filter(course => course?.name == event.extendedProps['course'])?.[0],
+          courseGroup: this.allCourseGroups?.filter(courseGroup => courseGroup.id == event.extendedProps['courseGroup'])?.[0],
+          teacher: this.allProfessors?.filter(professor => (professor?.firstName + ' ' + professor?.lastName) == event.extendedProps['teacher'])?.[0],
+          degree: this.degrees?.filter(degree => degree.id == event.extendedProps['degree'])?.[0],
+          department: this.departments?.filter(department => department.id == event.extendedProps['department'])?.[0],
+          duration: event.extendedProps['duration'],
+          idBack: event.extendedProps['idBack']
         }
-      }))
+      }
+      allSlots.push(this.courseSlotsService.fromCalendarToCourseSlot(eventToSlot))
+      console.log('eventToSlot  ', eventToSlot)
     }
-    this.planningController
-      ?.insertPlanningUsingPOST({ planning: { createdAt: this.selectedPlanning?.createdAt, slots: allSlots, id: this.selectedPlanning?.id, name: this.selectedPlanning?.name } }).then(data => {
-        console.log("done", data)
-      })
+    console.log('sent : ',{ createdAt: this.selectedPlanning?.createdAt, slots: allSlots, id: this.selectedPlanning?.id, name: this.selectedPlanning?.name })
+    for(let slot of allSlots){
+      slot.planning = {id:1}
+      if(slot?.id){
+        await this.http.put(environment.baseUrl+"/courses-slots",slot,httpOptions).pipe().toPromise().then(data=>{console.log("done upd",data);})
+      }else{
+        await this.http.post(environment.baseUrl+"/courses-slots",slot,httpOptions).pipe().toPromise().then(data=>{console.log("done ins",data);})
+      }
+    }
+    this.http.post(environment.baseUrl+"/planning/verify/1",{id:1},httpOptions).pipe().toPromise().then(data=>{console.log("verif done ",data);
+    })
+    /*this.http.put(environment.baseUrl+"/courses-slots",{
+      "courseGroup": {
+          "id": 6,
+          "majorCourse": {
+              "course": {
+                  "id": 1,
+                  "name": "Algorithmique",
+                  "degree": {
+                      "id": 1,
+                      "name": "Licence 1",
+                      "majors": [
+                          4
+                      ]
+                  },
+                  "color": "DD33DD",
+                  "professors": [
+                      {
+                          "id": 4,
+                          "lastName": "Philippe",
+                          "firstName": "Loiseau",
+                          "email": "loiseau@u-paris.fr",
+                          "password": "loiseau",
+                          "role": "PROFESSOR"
+                      },
+                      {
+                          "id": 3,
+                          "lastName": "Jean",
+                          "firstName": "Dupond",
+                          "email": "dupond@u-paris.fr",
+                          "password": "dupond",
+                          "role": "PROFESSOR"
+                      },
+                      {
+                          "id": 2,
+                          "lastName": "Pierre",
+                          "firstName": "Dupont",
+                          "email": "dupont@u-paris.fr",
+                          "password": "dupont",
+                          "role": "PROFESSOR"
+                      }
+                  ]
+              },
+              "major": {
+                  "id": 2,
+                  "name": "DATA"
+              }
+          },
+          "duration": 7200,
+          "size": 25,
+          "roomType": "TD"
+      },
+      "endTime": "20:00:00",
+      "dateSlot": {
+          "day": "MONDAY",
+          "startTime": "18:00:00"
+      },
+      "id": 6,
+      "professor": {
+          "id": 2,
+          "lastName": "Pierre",
+          "firstName": "Dupont",
+          "email": "dupont@u-paris.fr",
+          "password": "dupont",
+          "role": "PROFESSOR"
+      },
+      "room": {
+          "id": 1,
+          "name": "1A",
+          "capacity": 120,
+          "roomTypes": [
+              "CM"
+          ]
+      }
+  },httpOptions).pipe().toPromise().then(d=>{console.log("done",d);
+    })*/
   }
 }

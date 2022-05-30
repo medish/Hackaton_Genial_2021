@@ -15,7 +15,6 @@ export class CourseSlotsService {
   }
 
   fromCalendarToCourseSlot(calendarEvent): CourseSlot {
-    console.log("calev : ",calendarEvent)
     return {
       courseGroup: calendarEvent.extendedProps['courseGroup'],
       endTime:calendarEvent.endTime,
@@ -23,7 +22,6 @@ export class CourseSlotsService {
       id: calendarEvent.extendedProps['idBack'],
       professor: calendarEvent.extendedProps['teacher'],
       room: calendarEvent.extendedProps['room'],
-      startTime:calendarEvent.startTime
     };
   }
   public mapDays = {
