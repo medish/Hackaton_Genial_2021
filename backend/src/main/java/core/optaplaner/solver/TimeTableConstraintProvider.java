@@ -39,7 +39,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
         // A room can accommodate at most one lesson at the same time.
         return constraintFactory
                 // Select each pair of 2 different Course groupe
-                .forEachUniquePair(CourseGroupOptaPlaner.class,
+                .fromUniquePair(CourseGroupOptaPlaner.class,
                         // .... in the same timeSlot
                         Joiners.equal(CourseGroupOptaPlaner::getDateSlot),
                         // ... in the same room ...
@@ -51,7 +51,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
     public Constraint teacherConflict(ConstraintFactory constraintFactory) {
         // A teacher can teach at most one lesson at the same time.
         return constraintFactory
-                .forEachUniquePair(CourseGroupOptaPlaner.class,
+                .fromUniquePair(CourseGroupOptaPlaner.class,
                         Joiners.equal(CourseGroupOptaPlaner::getDateSlot),
                         Joiners.equal(CourseGroupOptaPlaner::getProfessor))
                 .penalize("Teacher conflict", HardSoftScore.ONE_HARD);
@@ -60,7 +60,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
     public Constraint teacherTimeEfficiency(ConstraintFactory constraintFactory) {
         // A teacher prefers to teach sequential lessons and dislikes gaps between lessons.
         return constraintFactory
-                .forEach(CourseGroupOptaPlaner.class)
+                .from(CourseGroupOptaPlaner.class)
                 .join(CourseGroupOptaPlaner.class,
                         Joiners.equal(CourseGroupOptaPlaner::getProfessor),
                         Joiners.equal(CourseGroupOptaPlaner::getDay))
@@ -73,7 +73,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
     public Constraint teacherRoomStability(ConstraintFactory constraintFactory) {
         // A teacher prefers to teach in a single room.
         return constraintFactory
-                .forEachUniquePair(CourseGroupOptaPlaner.class,
+                .fromUniquePair(CourseGroupOptaPlaner.class,
                         Joiners.equal(CourseGroupOptaPlaner::getProfessor))
                 .filter((courseGroupe1, courseGroupe2) -> courseGroupe1.getRoom() != courseGroupe2.getRoom())
                 .penalize("Teacher room stability", HardSoftScore.ONE_SOFT);
@@ -82,7 +82,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
     public Constraint studentGroupConflict(ConstraintFactory constraintFactory) {
         // A student can attend at most one lesson at the same time
         return constraintFactory
-                .forEachUniquePair(CourseGroupOptaPlaner.class,
+                .fromUniquePair(CourseGroupOptaPlaner.class,
                         Joiners.equal(CourseGroupOptaPlaner::getDateSlot),
                         Joiners.equal(CourseGroupOptaPlaner::getCouseGroupe))
                 .penalize("Student group conflict", HardSoftScore.ONE_HARD);
@@ -91,7 +91,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
     public Constraint teacherTimeJustAfterTwoLessonConflict(ConstraintFactory constraintFactory, String[] courses) {
         // A teacher prefer to teach lesson1 French just after lesson2 Chemistry
         return constraintFactory
-                .forEach(CourseGroupOptaPlaner.class)
+                .from(CourseGroupOptaPlaner.class)
                 .filter(courseGroupe -> courseGroupe.getMajorCourse().getCourse().getName().equals(courses[0]))
                 .join(CourseGroupOptaPlaner.class)
                 .filter((lesson, lesson2) -> lesson2.getMajorCourse().getCourse().getName().equals(courses[1]))
@@ -102,7 +102,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
     public Constraint teacherLessonRoomTimePreferencesConflict(ConstraintFactory constraintFactory, String course, String profName, String romeName, int[] time) {
         // Teacher teacher1 'Turing' does not want to teach Course1 'Math' in room 'C' at Hour '8H30'
         return constraintFactory
-                .forEach(CourseGroupOptaPlaner.class)
+                .from(CourseGroupOptaPlaner.class)
                 .filter(courseGroupe -> courseGroupe.getMajorCourse().getCourse().getName().equals(course))
                 .filter(courseGroupe -> courseGroupe.getProfessor().getLastName().equals(profName))
                 .filter(courseGroupe -> courseGroupe.getStartTime().equals(LocalTime.of(time[0], time[1], time[2])))
@@ -113,7 +113,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
     public Constraint teacherLessonRoomPreferencesConflict(ConstraintFactory constraintFactory, String course, String profName, String romeName) {
         // Teacher 'profName' does not want to teach 'course' in Room 'romName'
         return constraintFactory
-                .forEach(CourseGroupOptaPlaner.class)
+                .from(CourseGroupOptaPlaner.class)
                 .filter(courseGroupe -> courseGroupe.getMajorCourse().getCourse().getName().equals(course))
                 .filter(courseGroupe -> courseGroupe.getProfessor().getLastName().equals(profName))
                 .filter(courseGroupe -> courseGroupe.getRoom().getName().equals(romeName))
@@ -123,7 +123,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
     public Constraint teacherLessonNotInRoomPreferencesConflict(ConstraintFactory constraintFactory, String course, String profName, String romeName) {
         // Teacher 'profName' want to teach 'course' in Room 'romName'
         return constraintFactory
-                .forEach(CourseGroupOptaPlaner.class)
+                .from(CourseGroupOptaPlaner.class)
                 .filter(courseGroupe -> courseGroupe.getProfessor().getLastName().equals(profName))
                 .filter(courseGroupe -> courseGroupe.getMajorCourse().getCourse().getName().equals(course))
                 .filter(courseGroupe -> !courseGroupe.getRoom().getName().equals(romeName))
@@ -133,7 +133,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
     public static Constraint techLessonBefore(ConstraintFactory constraintFactory, String courseName1, String courseName2) {
         // Lesson courseName1 avant courseName2 ( courseName1 -> courseName2 )
         return constraintFactory
-                .forEach(CourseGroupOptaPlaner.class)
+                .from(CourseGroupOptaPlaner.class)
                 .filter(courseGroupOptaPlaner -> courseGroupOptaPlaner.getMajorCourse().getCourse().getName().equals(courseName1))
                 .join(CourseGroupOptaPlaner.class)
                 .filter((courseGroupOptaPlaner, courseGroupOptaPlaner2) -> courseGroupOptaPlaner2.getMajorCourse().getCourse().getName().equals(courseName2))
@@ -144,7 +144,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
     public static Constraint techLessonAfter(ConstraintFactory constraintFactory, String courseName1, String courseName2) {
         // Lesson courseName1 apres courseName2 ( courseName2 -> courseName1 )
         return constraintFactory
-                .forEach(CourseGroupOptaPlaner.class)
+                .from(CourseGroupOptaPlaner.class)
                 .filter(courseGroupOptaPlaner -> courseGroupOptaPlaner.getMajorCourse().getCourse().getName().equals(courseName1))
                 .join(CourseGroupOptaPlaner.class)
                 .filter((courseGroupOptaPlaner, courseGroupOptaPlaner2) -> courseGroupOptaPlaner2.getMajorCourse().getCourse().getName().equals(courseName2))
@@ -166,7 +166,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
         SelectorUnit[] secondSelector = Arrays.stream(pc.getTarget().split(",")).map(SelectorUnit::builder)
                 .toArray(SelectorUnit[]::new);
 
-        UniConstraintStream<CourseGroupOptaPlaner> firstPart = constraintFactory.forEach(CourseGroupOptaPlaner.class);
+        UniConstraintStream<CourseGroupOptaPlaner> firstPart = constraintFactory.from(CourseGroupOptaPlaner.class);
 
         // filter with first selectors
         for (SelectorUnit selector : firstSelectors) {
@@ -285,7 +285,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
         SelectorUnit[] firstSelectors = Arrays.stream(tc.getSelector().split(",")).map(SelectorUnit::builder)
                 .toArray(SelectorUnit[]::new);
 
-        UniConstraintStream<CourseGroupOptaPlaner> firstPart = constraintFactory.forEach(CourseGroupOptaPlaner.class);
+        UniConstraintStream<CourseGroupOptaPlaner> firstPart = constraintFactory.from(CourseGroupOptaPlaner.class);
 
         for (SelectorUnit selector : firstSelectors) {
             if ("teacher".equals(selector.getTable())) {
