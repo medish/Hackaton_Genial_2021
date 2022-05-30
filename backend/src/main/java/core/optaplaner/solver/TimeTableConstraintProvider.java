@@ -1,8 +1,11 @@
 package core.optaplaner.solver;
 
-import core.optaplaner.SolverOptaplaner;
-import core.optaplaner.domain.CourseGroupOptaPlaner;
-import core.selector.SelectorUnit;
+import java.time.Duration;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.optaplanner.core.api.score.stream.Constraint;
 import org.optaplanner.core.api.score.stream.ConstraintFactory;
@@ -10,15 +13,14 @@ import org.optaplanner.core.api.score.stream.ConstraintProvider;
 import org.optaplanner.core.api.score.stream.Joiners;
 import org.optaplanner.core.api.score.stream.bi.BiConstraintStream;
 import org.optaplanner.core.api.score.stream.uni.UniConstraintStream;
+
+import core.optaplaner.SolverOptaplaner;
+import core.optaplaner.domain.CourseGroupOptaPlaner;
+import core.selector.SelectorUnit;
+import server.models.DateSlot;
 import server.models.PrecedenceConstraint;
 import server.models.RoomType;
 import server.models.TimeConstraint;
-
-import java.time.Duration;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class TimeTableConstraintProvider implements ConstraintProvider {
     @Override
@@ -85,6 +87,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                         Joiners.equal(CourseGroupOptaPlaner::getCouseGroupe))
                 .penalize("Student group conflict", HardSoftScore.ONE_HARD);
     }
+
     public Constraint teacherTimeJustAfterTwoLessonConflict(ConstraintFactory constraintFactory, String[] courses) {
         // A teacher prefer to teach lesson1 French just after lesson2 Chemistry
         return constraintFactory
@@ -102,7 +105,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                 .forEach(CourseGroupOptaPlaner.class)
                 .filter(courseGroupe -> courseGroupe.getMajorCourse().getCourse().getName().equals(course))
                 .filter(courseGroupe -> courseGroupe.getProfessor().getLastName().equals(profName))
-                .filter(courseGroupe-> courseGroupe.getStartTime().equals(LocalTime.of(time[0], time[1], time[2])))
+                .filter(courseGroupe -> courseGroupe.getStartTime().equals(LocalTime.of(time[0], time[1], time[2])))
                 .filter(courseGroupe -> courseGroupe.getRoom().getName().equals(romeName))
                 .penalize("Teacher 'profName' does not want to teach 'course' in room 'romName' at time", HardSoftScore.ONE_SOFT);
     }
@@ -123,7 +126,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                 .forEach(CourseGroupOptaPlaner.class)
                 .filter(courseGroupe -> courseGroupe.getProfessor().getLastName().equals(profName))
                 .filter(courseGroupe -> courseGroupe.getMajorCourse().getCourse().getName().equals(course))
-                .filter(courseGroupe -> ! courseGroupe.getRoom().getName().equals(romeName))
+                .filter(courseGroupe -> !courseGroupe.getRoom().getName().equals(romeName))
                 .penalize("Teacher 'profName' want to teach 'course' in Room 'romName'", HardSoftScore.ONE_SOFT);
     }
 
@@ -151,6 +154,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
 
     /**
      * Precedence Constraint
+     * 
      * @param constraintFactory
      * @param pc
      * @return
@@ -241,7 +245,6 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
         // checking when field -> avant/apres + strict
         String whenConstraint = pc.getWhenConstraint();
 
-
         if (whenConstraint.equals("avant")) {
             if (pc.isStrict()) {
                 merged = merged.filter((courseGroupe1, courseGroupe2) -> courseGroupe1.isBeforeInDay(courseGroupe2)
@@ -250,7 +253,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                 merged = merged.filter((courseGroupe1, courseGroupe2) -> courseGroupe1.isBeforeInDay(courseGroupe2));
             }
         }
-        //cours2 apres le cours1
+        // cours2 apres le cours1
         if (whenConstraint.equals("apres")) {
             if (pc.isStrict()) {
                 merged = merged.filter((courseGroupe1, courseGroupe2) -> courseGroupe1.isAfterInDay(courseGroupe2)
@@ -260,20 +263,19 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
             }
         }
 
-        String displayedMsg = null;
         // verify the type of constraint -> give positive or negative score to the
         // constraint evaluation
         if (pc.isWants()) {// True
-            displayedMsg = firstSelectors.toString() + " is " + whenConstraint + ' ' + secondSelector.toString();
-
+            String displayedMsg = firstSelectors + " is " + whenConstraint + ' ' + secondSelector;
             return merged.reward(displayedMsg, HardSoftScore.ofSoft(pc.getPriority()));
         }
-        displayedMsg = firstSelectors.toString() + " is not" + whenConstraint + ' ' + secondSelector.toString();
+        String displayedMsg = firstSelectors + " is not" + whenConstraint + ' ' + secondSelector;
         return merged.penalize(displayedMsg, HardSoftScore.ofSoft(pc.getPriority()));
     }
 
     /**
      * Time Constraint
+     * 
      * @param constraintFactory
      * @param tc
      * @return
@@ -315,22 +317,16 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
             }
         }
 
-        LocalTime startAt = tc.getStartTime();
+        DateSlot startAt = tc.getDateBegin();
         if (startAt != null) {
-            firstPart = firstPart.filter(lesson -> lesson.getStartTime().equals(startAt));
+            firstPart = firstPart.filter(lesson -> lesson.getStartTime().equals(startAt.getStartTime()));
         }
 
-        String message = null;
-
-        Boolean wants = tc.isWants();
-
-        if (wants) {
-            message = firstSelectors.toString() + " is " + "at" + tc.getStartTime();
-
+        if (tc.isWants()) {
+            String message = firstSelectors + " is " + "at" + tc.getDateBegin();
             return firstPart.reward(message, HardSoftScore.ofSoft(tc.getPriority()));
         }
-        message = firstSelectors.toString() + " is not" + "at" + tc.getStartTime();
-
+        String message = firstSelectors + " is not" + "at" + tc.getDateBegin();
         return firstPart.penalize(message, HardSoftScore.ofSoft(tc.getPriority()));
     }
 }
