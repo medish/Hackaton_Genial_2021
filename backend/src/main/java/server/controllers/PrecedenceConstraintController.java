@@ -27,7 +27,7 @@ public class PrecedenceConstraintController {
         return service.insert(constraints);
     }
 
-    @PostMapping()
+    @PostMapping("/all")
     public PrecedenceConstraint insert(@RequestBody PrecedenceConstraint constraint) {
         return service.insert(constraint);
     }
