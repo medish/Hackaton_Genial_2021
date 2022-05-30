@@ -20,8 +20,12 @@ export class HeaderComponent implements OnInit {
   url: string;
   public active_item: string = '/admin';
 
+  auth_user = null;
+
+
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isLoggedIn();
+    this.auth_user = this.authService.getUser();
   }
   ngAfterViewChecked(): void {
     this.active_item = this.router.url;

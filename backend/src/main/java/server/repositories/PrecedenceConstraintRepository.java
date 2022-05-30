@@ -13,6 +13,6 @@ public interface PrecedenceConstraintRepository extends JpaRepository<Precedence
     @Query(nativeQuery = true, value = "SELECT * from precedence_constraint")
     public List<PrecedenceConstraint> findAllPrecedenceConstraintsFor();
 
-    @Query(nativeQuery = true, value = "SELECT * FROM precedence_constraint")
-    public List<PrecedenceConstraint> findPrecedenceConstraintFor(User user);
+    @Query(nativeQuery = true, value = "SELECT * FROM precedence_constraint where creator_id=:user_id")
+    public List<PrecedenceConstraint> findPrecedenceConstraintFor(int user_id);
 }

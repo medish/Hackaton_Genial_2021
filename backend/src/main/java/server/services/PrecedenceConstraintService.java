@@ -82,6 +82,6 @@ public class PrecedenceConstraintService {
 
         if (user.getRole().equals(UserRole.ADMIN))
             return this.repository.findAllPrecedenceConstraintsFor();
-        return this.repository.findPrecedenceConstraintFor(user);
+        return this.repository.findPrecedenceConstraintFor(user_id);
     }
 }

@@ -7,7 +7,8 @@ import { catchError } from 'rxjs/operators';
 import { Planning } from '../model/planning/planning';
 import { environment } from 'src/environments/environment';
 import {User} from "../model/user";
-import {Degree, Department, Professor, Room} from '../model/swagger/api';
+import {Degree, Department, Professor, Room, TimeConstraint} from '../model/swagger/api';
+
 import { Lesson, RoomType } from '../model/datastore/datamodel';
 
 @Injectable({
@@ -42,7 +43,7 @@ export class DataInterfaceService {
     .subscribe(data => callback(data));
   }
 
-  sendTimeRoomConstraints(constraints: [ConstraintTimeRoomExport]) {
+  sendTimeRoomConstraints(constraints: [any]) {
     return this.http.post(this.url + "/constraints/time-and-room", constraints)
     .pipe(catchError(this.handleError.bind(this))).subscribe((_ => this.resultChange.next(true)));
   }
