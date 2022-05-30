@@ -14,14 +14,14 @@ export class ConstraintService {
   constructor(private http: HttpClient) { }
 
   public deletePrecedenceConstraint(precedence: string) {
-    return this.http.delete(environment.baseUrl + '/constraints/precedence?id=' + precedence, httpOptions)
+    return this.http.delete(environment.baseUrl + '/constraints/precedence/{id}?id=' + precedence, httpOptions)
       .pipe().toPromise().then(data => window.location.reload()).catch(err => {
         console.log("error on delete precedence constraint");
       })
   }
 
   public  deleteTimeConstraint(time: string) {
-    return this.http.delete(environment.baseUrl + '/constraints/time-and-room?id=' + time, httpOptions)
+    return this.http.delete(environment.baseUrl + '/constraints/time-and-room/{id}?id=' + time, httpOptions)
       .pipe().toPromise().then(data => window.location.reload()).catch(err => {
         console.log("error on delete time constraint");
       })

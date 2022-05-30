@@ -32,7 +32,6 @@
                 <td>{{constraint?.hourBegin}} - {{constraint?.hourEnd}}</td>
                 <td>{{constraint?.roomName}}</td>
                 <td>{{constraint?.priority}}</td>
-                <td><button type="button" class="btn btn-danger" (click)="deleteConstraint('constraintTimeRoom' + i,i,'TR')"><i class="bi bi-trash-fill"></i></button></td>
             </tr>
         </tbody>
     </table>
@@ -69,7 +68,6 @@
                 <td>{{constraint?.selectorTarget?.selectorUnits[0]?.attribute}}</td>
                 <td>{{constraint?.selectorTarget?.selectorUnits[0]?.value}}</td>
                 <td>{{constraint?.priority}}</td>
-                <td><button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="deleteConstraint('constraintPrecedence' + i,i,'P')"><i class="bi bi-trash-fill"></i></button></td>
             </tr>
         </tbody>
     </table>

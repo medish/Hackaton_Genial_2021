@@ -85,10 +85,6 @@ export class HeaderComponent implements OnInit {
     this.active_item = '/les-contraintes';
   }
 
-  auto() {
-    this.router.navigate(['/auto']);
-  }
-
   allDegrees() {
     this.router.navigate(['les-degres']);
     this.active_item = '/les-degres'
