@@ -11,9 +11,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import server.services.KeyID;
+
 @Entity
 @Table(name = "planning")
-public class Planning {
+public class Planning implements KeyID<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,12 +33,14 @@ public class Planning {
     public Planning() {
     }
 
-    public Planning(String name, LocalDate createdAt) {
+    public Planning(int id, String name, LocalDate createdAt) {
+        this.id = id;
         this.name = name;
         this.createdAt = createdAt;
     }
 
-    public int getId() {
+    @Override
+    public Integer getId() {
         return id;
     }
 

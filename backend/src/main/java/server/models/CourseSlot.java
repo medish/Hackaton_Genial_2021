@@ -1,17 +1,25 @@
 package server.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.Set;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import server.services.KeyID;
+
 @Entity
 @Table(name = "course_slot")
-public class CourseSlot implements Serializable {
+public class CourseSlot implements Serializable, KeyID<Integer> {
 
     private static final long serialVersionUID = 1L;
 
@@ -81,7 +89,8 @@ public class CourseSlot implements Serializable {
                 || (courseSlot.getStartTime().plus(courseSlot.getDuration()).isAfter(getStartTime()));
     }
 
-    public int getId() {
+    @Override
+    public Integer getId() {
         return id;
     }
 

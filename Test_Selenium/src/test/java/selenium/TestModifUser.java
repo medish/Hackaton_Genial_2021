@@ -56,7 +56,7 @@ public class TestModifUser {
         driver.findElement(By.id("username")).click();
         driver.findElement(By.id("username")).sendKeys("admin@u-paris.fr");
         driver.findElement(By.id("password")).click();
-        driver.findElement(By.id("password")).sendKeys("motedepasse");
+        driver.findElement(By.id("password")).sendKeys("admin1");
         driver.findElement(By.cssSelector(".btn")).click();
         synchronized (driver){
             driver.wait(TIMEOUT_MILLIS);

@@ -44,7 +44,7 @@ public class UploadConstraint {
     driver.findElement(By.id("username")).click();
     driver.findElement(By.id("username")).sendKeys("admin@u-paris.fr");
     driver.findElement(By.id("password")).click();
-    driver.findElement(By.id("password")).sendKeys("motdepasse");
+    driver.findElement(By.id("password")).sendKeys("admin1");
     driver.findElement(By.cssSelector(".btn")).click();
     wait(TIMEOUT_MILLIS);
     driver.findElement(By.cssSelector(".ms-5")).click();

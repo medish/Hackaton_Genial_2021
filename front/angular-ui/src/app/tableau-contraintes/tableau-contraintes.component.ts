@@ -1,9 +1,12 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import {Component, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import { ConstraintPrecedence, ConstraintPrecedenceExport } from '../model/constraint/constraint-precedence';
 import { ConstraintTimeRoom, ConstraintTimeRoomExport } from '../model/constraint/constraint-time-room';
 import { DataInterfaceService } from '../services/data-interface.service';
 import {HttpClient} from "@angular/common/http";
-import {DateSlotDayEnum, TimeconstraintcontrollerApi} from "../model/swagger/api";
+import {DateSlotDayEnum, TimeConstraint, TimeconstraintcontrollerApi} from "../model/swagger/api";
+import {filter, Observable} from "rxjs";
+import {Router} from "@angular/router";
+import {MessagingService} from "../services/messaging.service";
 
 
 let CONSTRAINTS_TIME_AND_ROOM: ConstraintTimeRoom[] = [
@@ -52,25 +55,28 @@ const CONSTRAINTS_PRECEDENCE:ConstraintPrecedence[]=[
 
 export class TableauContraintesComponent implements OnInit, OnChanges {
 
-
   deleteConstraint(id_constraint_clicked,index,type){
     let constraint = document.getElementById(id_constraint_clicked);
     constraint.innerHTML = "";
     if(type=='TR')this.serv.deleteTimeConstraints(this.constraintsTimeRoom[index].id)
     else if(type=='P')this.serv.deletePrecedenceConstraints(this.constraintPrecedence[index].id);
   }
-
-
   @Input("constraintsTimeRoom") constraintsTimeRoom = CONSTRAINTS_TIME_AND_ROOM;
   @Input("constraintPrecedence") constraintPrecedence = CONSTRAINTS_PRECEDENCE;
-  constructor(private serv:DataInterfaceService, private http : HttpClient) { }
+
+  confirmationMessage : Observable<Boolean>;
+
+  constructor(private serv:DataInterfaceService, messagingService: MessagingService) {
+    serv.getResult().subscribe(value => {
+      messagingService.updateMessage(value);
+    });
+  }
   ngOnInit(): void {
     this.serv.fetchPrecedenceConstraints((data)=>{this.constraintPrecedence = data})
     this.serv.fetchTimeConstraints((data)=>{this.constraintsTimeRoom=data})
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    let dataService = new DataInterfaceService(this.http);
     for (let propName in changes) {
       let change = changes[propName];
       if(change.currentValue.length != 0) {
@@ -94,11 +100,10 @@ export class TableauContraintesComponent implements OnInit, OnChanges {
             precedenceConstraint.push(tmp);
           }
           console.log(precedenceConstraint);
-          dataService.sendPrecedenceConstraints(precedenceConstraint);
+          this.serv.sendPrecedenceConstraints(precedenceConstraint);
         } else {
-          console.log("salut");
           let timeRoomConstraint : [ConstraintTimeRoom] = change.currentValue;
-          let timeRoomConstraintExp: [ConstraintTimeRoomExport] = [null];
+          let timeRoomConstraintExp: [TimeConstraint] = [null];
           timeRoomConstraintExp.pop();
           let t = new TimeconstraintcontrollerApi();
           for(let i = 0; i < timeRoomConstraint.length; i++) {
@@ -106,18 +111,21 @@ export class TableauContraintesComponent implements OnInit, OnChanges {
             let day : DateSlotDayEnum = curr.day == 1 ? "MONDAY" : curr.day == 2 ? "TUESDAY" : curr.day == 3 ? "WEDNESDAY" : curr.day == 4 ? "TUESDAY" : "FRIDAY";
             let start = curr.dateBegin.split(":");
             let end = curr.dateEnd.split(":");
-            let tmp : ConstraintTimeRoomExport = {
+            let tmp : any = {
               id: curr.id,
               selector: curr.selector.selectorUnits[0].table+":"+curr.selector.selectorUnits[0].attribute+":"+curr.selector.selectorUnits[0].value,
               wants: curr.wants,
-              dateBegin: {day: day, startTime: {hour: parseInt(start[0]), minute: parseInt(start[1]), second: parseInt(start[2])}},
-              dateEnd: {day: day, startTime: {hour: parseInt(end[0]), minute: parseInt(end[1]), second: parseInt(end[2])}},
-              room: curr.room.selectorUnits[0].table+":"+curr.room.selectorUnits[0].attribute+":"+curr.room.selectorUnits[0].value,
-              priority: curr.priority
+              day:day,
+              dateBegin: {day:day,startTime:curr.dateBegin},
+              dateEnd: {day:day,startTime:curr.dateEnd},
+              room: curr.room,
+              priority: curr.priority,
+              startTime:curr.dateBegin,
+              endTime:curr.dateEnd
             }
             timeRoomConstraintExp.push(tmp);
           }
-          dataService.sendTimeRoomConstraints(timeRoomConstraintExp);
+          this.serv.sendTimeRoomConstraints(timeRoomConstraintExp);
         }
       }
     }
