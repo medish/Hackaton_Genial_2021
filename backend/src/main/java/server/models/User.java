@@ -13,10 +13,12 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import server.services.KeyID;
+
 @Entity
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class User implements IInput {
+public class User implements IInput, KeyID<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,6 +43,15 @@ public class User implements IInput {
     public User() {
     }
 
+    public User(int id, String lastName, String firstName, String email, String password, UserRole role) {
+        this.id = id;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
     public User(String lastName, String firstName, String email, String password, UserRole role) {
         this.lastName = lastName;
         this.firstName = firstName;
@@ -49,7 +60,8 @@ public class User implements IInput {
         this.role = role;
     }
 
-    public int getId() {
+    @Override
+    public Integer getId() {
         return id;
     }
 

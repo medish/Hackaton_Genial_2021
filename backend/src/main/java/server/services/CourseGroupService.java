@@ -1,74 +1,20 @@
 package server.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+
 import server.models.CourseGroup;
 import server.repositories.CourseGroupRepository;
 
-import java.util.List;
-import java.util.Optional;
-
 @Service
-public class CourseGroupService {
+public class CourseGroupService extends AbstractService<CourseGroup, Integer> {
+
     @Autowired
     private CourseGroupRepository repository;
 
-    /**
-     * Gets all CourseGroups.
-     * @return List of CourseGroups {@link CourseGroup}
-     */
-    public List<CourseGroup> getAll(){
-        return repository.findAll();
+    @Override
+    public JpaRepository<CourseGroup, Integer> getRepository() {
+        return repository;
     }
-
-    /**
-     * Get CourseGroup by ID
-     * @param id CourseGroup's ID
-     * @return {@link CourseGroup}
-     */
-    public Optional<CourseGroup> getById(int id){
-        return repository.findById(id);
-    }
-
-    /**
-     * Insert a CourseGroup record
-     * @param CourseGroup {@link CourseGroup}
-     */
-    public void insert(CourseGroup CourseGroup){
-        repository.saveAndFlush(CourseGroup);
-    }
-
-    /**
-     * Insert multiple CourseGroup records
-     * @param CourseGroups {@link CourseGroup}
-     */
-    public void insert(List<CourseGroup> CourseGroups){
-        repository.saveAllAndFlush(CourseGroups);
-    }
-
-    /**
-     * Delete a CourseGroup record
-     * @param id CourseGroup's ID
-     */
-    public void delete(int id){
-        repository.deleteById(id);
-    }
-
-    /**
-     * Delete multiple CourseGroup records.
-     * @param ids List of IDs.
-     */
-    public void delete(List<Integer> ids){
-        repository.deleteAllById(ids);
-    }
-
-    /**
-     * Update a CourseGroup record
-     * @param CourseGroup {@link CourseGroup}
-     * @return The new record of {@link CourseGroup}
-     */
-    public CourseGroup update(CourseGroup CourseGroup){
-        return repository.saveAndFlush(CourseGroup);
-    }
-
 }

@@ -14,10 +14,12 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import server.services.KeyID;
+
 @Entity
 
 @Table(name = "degree")
-public class Degree implements IInput {
+public class Degree implements IInput, KeyID<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +42,8 @@ public class Degree implements IInput {
         this.name = name;
     }
 
-    public int getId() {
+    @Override
+    public Integer getId() {
         return id;
     }
 

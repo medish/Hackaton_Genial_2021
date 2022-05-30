@@ -5,7 +5,7 @@
 <hibernate-configuration>
     <session-factory>
 
-        <property name="connection.url">jdbc:postgresql://localhost/hackaton</property> <!-- BD Mane -->
+        <property name="connection.url">jdbc:postgresql://localhost/app_calendar</property> <!-- BD Mane -->
         <property name="connection.driver_class">org.postgresql.Driver</property> <!-- DB Driver -->
         <property name="connection.username">postgres</property> <!-- DB User -->
         <property name="connection.password">postgres</property> <!-- DB Password -->

@@ -1,14 +1,29 @@
 package server.models;
 
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import server.services.KeyID;
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 
 @Table(name = "course")
-public class Course implements IInput {
+public class Course implements IInput, KeyID<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,19 +42,21 @@ public class Course implements IInput {
     @ManyToMany(mappedBy = "courses")
     private Set<Professor> professors;
 
-
     @OneToMany(mappedBy = "course")
     private Set<MajorCourse> majorCourses;
+
     public Course() {
     }
 
-    public Course(String name, Degree degree, String color) {
+    public Course(int id, String name, Degree degree, String color) {
+        this.id = id;
         this.name = name;
         this.degree = degree;
         this.color = color;
     }
 
-    public int getId() {
+    @Override
+    public Integer getId() {
         return id;
     }
 

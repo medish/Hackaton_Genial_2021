@@ -1,7 +1,10 @@
 package server.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import server.models.User;
 import server.models.UserRole;
@@ -16,15 +19,8 @@ public class RegisterController {
 
     @PostMapping()
     public int registerNewUser(@RequestParam("lastName") String lastName, @RequestParam("firstName") String firstName,
-                               @RequestParam("email") String email, @RequestParam("password") String password) {
-        User user = new User();
-        user.setLastName(lastName);
-        user.setFirstName(firstName);
-        user.setEmail(email);
-        user.setPassword(password);
-        user.setRole(UserRole.PROFESSOR);
-
+            @RequestParam("email") String email, @RequestParam("password") String password) {
+        User user = new User(lastName, firstName, email, password, UserRole.GUEST);
         return this.service.insert(user);
     }
-
 }

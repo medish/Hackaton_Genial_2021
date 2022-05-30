@@ -1,38 +1,54 @@
 package server.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import server.models.PrecedenceConstraint;
-import server.models.TimeConstraint;
-import server.models.User;
-import server.services.TimeConstraintService;
-
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import server.models.TimeConstraint;
+import server.services.TimeConstraintService;
 
 @RestController
 @RequestMapping(ControllerRoutes.CONSTRAINTS_TIME)
 public class TimeConstraintController {
+
     @Autowired
-    private  TimeConstraintService service;
+    private TimeConstraintService service;
+
+    @PostMapping("/all")
+    public List<TimeConstraint> insertAll(@RequestBody List<TimeConstraint> constraints) {
+        return service.insert(constraints);
+    }
+
+    @PostMapping()
+    public TimeConstraint insert(@RequestBody TimeConstraint constraint) {
+        return service.insert(constraint);
+    }
+
+    @PutMapping()
+    public TimeConstraint update(@RequestBody TimeConstraint constraint) {
+        return service.update(constraint);
+    }
+
+    @DeleteMapping("/{id}")
+    public boolean deleteTimeConstraint(@RequestParam int id) {
+        return this.service.delete(id);
+    }
+
+    @DeleteMapping("/delete")
+    public boolean deleteAll(@RequestBody List<Integer> ids) {
+        return service.delete(ids);
+    }
 
     @GetMapping()
     public List<TimeConstraint> getTimeConstraints(@RequestParam("auth") int user_id) {
         return service.getTimeConstraints(user_id);
-    }
-
-    @RequestMapping(method = {RequestMethod.DELETE})
-    @ResponseBody
-    public void deleteTimeConstraint(@RequestParam("id") int id) {
-        this.service.delete(id);
-    }
-
-    @PostMapping()
-    public void insertAll(@RequestBody List<TimeConstraint> constraints){
-        service.insert(constraints);
-    }
-
-    @PostMapping("/delete")
-    public void deleteAll(@RequestBody List<Integer> ids){
-        service.delete(ids);
     }
 }

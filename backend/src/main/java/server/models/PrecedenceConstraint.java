@@ -8,10 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import server.services.KeyID;
+
 @Entity
 
 @Table(name = "precedence_constraint")
-public class PrecedenceConstraint implements IInput {
+public class PrecedenceConstraint implements IInput, KeyID<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,7 +44,8 @@ public class PrecedenceConstraint implements IInput {
         this.priority = priority;
     }
 
-    public int getId() {
+    @Override
+    public Integer getId() {
         return id;
     }
 
@@ -69,8 +72,7 @@ public class PrecedenceConstraint implements IInput {
     public void setCreator(Professor creator) {
         this.creator = creator;
     }
-
-    public String getWhen() {
+    public String getWhenConstraint() {
         return whenConstraint;
     }
 

@@ -1,0 +1,30 @@
+cours:nom:Concepts informatiques;false;after;true;cours:nom:Programmation fonctionelle;85
+cours:nom:Langage a objets avancé;false;after;true;cours:nom:Programmation orientée objets;64
+cours:nom:Mathématiques;true;after;true;cours:nom:Génie Logiciel;10
+cours:nom:Langage C;true;after;false;cours:nom:Protocoles réseaux;0
+cours:nom:Langage C;false;before;true;cours:nom:Initiation a la programmation;24
+cours:nom:Compléments POO;true;before;true;cours:nom:Langage C;34
+cours:nom:Initiation a la programmation;false;before;false;cours:nom:Langage a objets avancé;87
+cours:nom:Composants mobiles;false;after;true;cours:nom:Compléments POO;66
+cours:nom:Mathématiques discrètes;false;before;true;cours:nom:Protocoles réseaux;59
+cours:nom:Droit de l informatique;true;after;true;cours:nom:Base de données avancée;72
+cours:nom:Sécurité;true;after;false;cours:nom:Anglais;3
+cours:nom:Programmation fonctionelle;true;before;false;cours:nom:Sécurité;6
+cours:nom:Sécurité;false;before;false;cours:nom:Langage C;60
+cours:nom:Génie Logiciel;true;before;false;cours:nom:Programmation fonctionelle;0
+cours:nom:Droit de l informatique;false;before;false;cours:nom:Mathématiques;66
+cours:nom:Langage a objets avancé;false;before;true;cours:nom:Initiation a la programmation;0
+cours:nom:Base de données avancée;false;after;false;cours:nom:Anglais;42
+cours:nom:Droit de l informatique;false;after;false;cours:nom:Base de données avancée;7
+cours:nom:Droit de l informatique;false;before;true;cours:nom:Génie Logiciel;79
+cours:nom:Compléments POO;true;before;false;cours:nom:Langage a objets avancé;26
+cours:nom:Internet et outils;true;before;true;cours:nom:Génie Logiciel;67
+cours:nom:Initiation a la programmation;false;before;false;cours:nom:Sécurité;60
+cours:nom:Composants mobiles;true;before;false;cours:nom:Initiation a la programmation;64
+cours:nom:Compléments POO;false;before;false;cours:nom:Protocoles réseaux;64
+cours:nom:Mathématiques discrètes;false;after;false;cours:nom:Programmation orientée objets;55
+cours:nom:Algorithmique;true;after;true;cours:nom:Programmation fonctionelle;69
+cours:nom:Mathématiques;false;before;false;cours:nom:Mathématiques discrètes;98
+cours:nom:Base de données;true;after;true;cours:nom:Programmation orientée objets;50
+cours:nom:Programmation orientée objets;false;before;true;cours:nom:Programmation fonctionelle;16
+cours:nom:Programmation orientée objets;false;after;true;cours:nom:Mathématiques;38
