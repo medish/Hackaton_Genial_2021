@@ -44,7 +44,8 @@ import {
 } from './model/swagger/api';
 import {MatRadioModule} from "@angular/material/radio";
 import { AllCoursesComponent } from './all-courses/all-courses.component';
-import { AlertModule, AlertConfig } from 'ngx-bootstrap/alert'
+import { AlertModule, AlertConfig } from 'ngx-bootstrap/alert';
+import { AllDegreesComponent } from './all-degrees/all-degrees.component'
 
 
 FullCalendarModule.registerPlugins([
@@ -75,7 +76,8 @@ FullCalendarModule.registerPlugins([
     AllConstraintsComponent,
     AllGroupsComponent,
     FormConstraintTimeComponent,
-    AllCoursesComponent
+    AllCoursesComponent,
+    AllDegreesComponent
   ],
   imports: [
     BrowserAnimationsModule,
