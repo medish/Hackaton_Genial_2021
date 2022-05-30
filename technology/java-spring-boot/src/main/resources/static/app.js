@@ -181,7 +181,6 @@ function addDegree() {
 }
 
 function addStudentGroup() {
-  fetchDegrees();
   var name = $("#student_group_name").val();
   $.post("/degree", JSON.stringify({
     "name": name
@@ -212,10 +211,8 @@ function addLesson() {
   var subject = $("#lesson_subject").val();
   $.post("/lessons", JSON.stringify({
     "subject": subject,
-    "teacher": $("#lesson_teacher").val().trim(),
-    "studentGroup": $("#lesson_studentGroup").val().trim()
-    var teacher = $("#room_department_select").find(":selected").val();
-
+    "teacherIds": $("#lesson_teacher_select").val(),
+    "studentGroupIds": $("#lesson_studentGroup_select").val()
   }), function () {
     refreshTimeTable();
   }).fail(function (xhr, ajaxOptions, thrownError) {
@@ -444,7 +441,7 @@ function fetchTeachers() {
     for(const teacher of teachers) {
          $('#lesson_teacher_select').append($('<option>', {
              value: teacher.id,
-             text: teacher.firstName + " " + teacher.lastName;
+             text: teacher.firstName + " " + teacher.lastName
          }));
     }
   });
@@ -455,7 +452,7 @@ function fetchStudentGroups() {
     for(const studentGroup of studentGroups) {
          $('#lesson_studentGroup_select').append($('<option>', {
              value: studentGroup.id,
-             text: studentGroup.name;
+             text: studentGroup.name
          }));
     }
   });
