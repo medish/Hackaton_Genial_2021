@@ -116,6 +116,8 @@
   </div>
 </div>
 
+
+
 <div class="modal fade" id="modal-delete-group" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -128,7 +130,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
-        <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Oui, supprimer</button>
+        <button type="submit" class="btn btn-danger" data-bs-dismiss="modal" (click)="handleDelete()">Oui, supprimer</button>
       </div>
     </div>
   </div>

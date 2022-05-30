@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {AuthService} from '../services/auth.service';
 import {AuthcontrollerApi, CourseGroup, CoursegroupcontrollerApi} from "../model/swagger/api";
-import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
-import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
+import {faCalendarDays} from '@fortawesome/free-solid-svg-icons';
+import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 
 @Component({
   selector: 'app-header',
@@ -28,10 +28,10 @@ export class HeaderComponent implements OnInit {
     this.isLoggedIn = this.authService.isLoggedIn();
     this.auth_user = this.authService.getUser();
   }
+
   ngAfterViewChecked(): void {
     this.active_item = this.router.url;
   }
-
 
 
   logout() {
@@ -63,9 +63,12 @@ export class HeaderComponent implements OnInit {
     this.active_item = '/les-departements';
   }
 
+
   allCourses() {
-    this.router.navigate(['les-cours'])
+    this.router.navigate(['les-cours']);
+    this.active_item = '/les-cours';
   }
+
 
   allUsers() {
     this.router.navigate(['les-utilisateurs']);

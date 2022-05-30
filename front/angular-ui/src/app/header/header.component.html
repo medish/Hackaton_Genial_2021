@@ -113,6 +113,20 @@
 
       <li>
         <a
+          (click)="allCourses()"
+          class="nav-link text-white"
+          [className]="
+            active_item === '/les-cours'
+              ? 'actived nav-link text-white'
+              : 'nav-link text-white'
+          "
+        >
+          Cours
+        </a>
+      </li>
+
+      <li>
+        <a
           (click)="allDepartments()"
           class="nav-link text-white title"
           [className]="

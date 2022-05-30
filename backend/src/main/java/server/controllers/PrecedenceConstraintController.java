@@ -22,7 +22,7 @@ public class PrecedenceConstraintController {
     @Autowired
     private PrecedenceConstraintService service;
 
-    @PostMapping()
+    @PostMapping("/all")
     public List<PrecedenceConstraint> insertAll(@RequestBody List<PrecedenceConstraint> constraints) {
         return service.insert(constraints);
     }

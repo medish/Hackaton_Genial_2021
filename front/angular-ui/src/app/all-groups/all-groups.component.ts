@@ -11,6 +11,13 @@ import {
 } from "../model/swagger/api";
 import {document} from "ngx-bootstrap/utils";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {environment} from "../../environments/environment";
+
+const httpOptions = {
+  headers: new HttpHeaders({'Content-Type': 'application/json'}),
+  params: new HttpParams()
+}
 
 @Component({
   selector: 'app-all-groups',
@@ -21,7 +28,7 @@ export class AllGroupsComponent implements OnInit {
 
   constructor(private coursegroupcontroller: CoursegroupcontrollerApi,
               private course: CoursecontrollerApi,
-              private majors: MajorcontrollerApi) {
+              private majors: MajorcontrollerApi, private http: HttpClient) {
 
   }
 
@@ -64,9 +71,9 @@ export class AllGroupsComponent implements OnInit {
       noCalendar: true,
       dateFormat: "H:i",
       time_24hr: true,
-      minTime:'00:30',
-      maxTime:'09:00',
-      defaultDate:this.toHHMMSS(this.formGroupModal.controls['duration'].value)
+      minTime: '00:30',
+      maxTime: '09:00',
+      defaultDate: this.toHHMMSS(this.formGroupModal.controls['duration'].value)
     });
 
 
@@ -98,10 +105,11 @@ export class AllGroupsComponent implements OnInit {
   }
 
 
-
+  courses_group_to_delete: CourseGroup;
 
   deleteGroup(group: CourseGroup) {
     const modal = new Modal(document.getElementById("modal-delete-group"));
+    this.courses_group_to_delete = group;
     modal.show();
   }
 
@@ -111,16 +119,14 @@ export class AllGroupsComponent implements OnInit {
   }
 
 
-
   handleAddEdit() {
     if (!this.is_edit_cliked) {
       this.insertNewGroupe()
-    }else{
+    } else {
       console.log("edit group")
       this.handleEditCourseGroup()
     }
   }
-
 
 
   /**
@@ -149,6 +155,18 @@ export class AllGroupsComponent implements OnInit {
     this.is_edit_cliked = false;
     modal.show();
   }
+
+
+
+  handleDelete() {
+    return this.http.delete(environment.baseUrl + '/courses-groups/' + this.courses_group_to_delete.id).subscribe(data => {
+      console.log(data);
+      alert(data);
+    })
+
+  }
+
+
 
 
 
@@ -185,8 +203,7 @@ export class AllGroupsComponent implements OnInit {
   }
 
 
-
-  handleEditCourseGroup(){
+  handleEditCourseGroup() {
     // check form
 
     let res: CourseGroup;
@@ -210,14 +227,21 @@ export class AllGroupsComponent implements OnInit {
 
     // todo use update
     //
-    this.coursegroupcontroller.insertUsingPOST1({courseGroup: res}).then(
-      response => {
-        if (response == true) {
-          alert('Modification OK ')
-          location.reload();
-        }
-      }
-    )
+
+    //httpOptions.params= httpOptions.params.set()
+    /*this.http.post(environment.baseUrl + '/users', {}, httpOptions).subscribe(data =>{
+      console.log(data);
+    }) */
+
+
+    /*  ({courseGroup: res}).then(
+       response => {
+         if (response == true) {
+           alert('Modification OK ')
+           location.reload();
+         }
+       }
+     ) */
 
 
   }
@@ -241,11 +265,11 @@ export class AllGroupsComponent implements OnInit {
   }
 
 
-  timeToSecond(time:string) {
+  timeToSecond(time: string) {
     console.log(time)
     var a = time.split(':');
     // @ts-ignore
-    return (a[0]) * 60 * 60 + (a[1]) * 60 ;
+    return (a[0]) * 60 * 60 + (a[1]) * 60;
 
   }
 

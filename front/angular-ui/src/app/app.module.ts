@@ -94,7 +94,6 @@ FullCalendarModule.registerPlugins([
     AlertModule
   ],
 
-
   providers: [authInterceptorProviders,
     AuthcontrollerApi,
     CoursegroupcontrollerApi,
