@@ -44,7 +44,6 @@ public class TimeTable {
     @PlanningEntityCollectionProperty
     private List<Lesson> lessonList;
 
-
     @PlanningScore
     private HardSoftScore score;
 

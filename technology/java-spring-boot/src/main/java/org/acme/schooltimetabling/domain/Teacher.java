@@ -39,6 +39,8 @@ public class Teacher {
     @Column
     private String lastName;
 
+    public Teacher() {}
+
     // No-arg constructor required for Hibernate and OptaPlanner
     public Teacher(String firstName, String lastName) {
     	this.firstName = firstName;
@@ -60,5 +62,21 @@ public class Teacher {
 
     public String getName() {
         return firstName + " " + lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

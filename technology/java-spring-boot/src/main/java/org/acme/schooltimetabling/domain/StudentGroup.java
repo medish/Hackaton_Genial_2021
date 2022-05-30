@@ -19,10 +19,8 @@ package org.acme.schooltimetabling.domain;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.lookup.PlanningId;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class StudentGroup {
@@ -33,18 +31,18 @@ public class StudentGroup {
 
     private String name;
 
-    @ManyToOne
-    private Degree degree;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "student_group_fid", referencedColumnName = "id")
+    private List<Degree> degrees;
 
     // No-arg constructor required for Hibernate and OptaPlanner
-    public StudentGroup(String groupName, Degree degree) {
+    public StudentGroup(String groupName) {
         this.name = groupName;
-        this.degree = degree;
     }
 
     @Override
     public String toString() {
-        return name + " (" + id + ")" + " - " + degree.toString();
+        return name + " (" + id + ")";
     }
 
     // ************************************************************************
@@ -54,10 +52,15 @@ public class StudentGroup {
     public Long getId() {
         return id;
     }
-    public Degree getDegree() {
-        return degree;
-    }
     public String getName() {
         return name;
     }
+
+    public void addDegree(Degree degree) {
+        degrees.add(degree);
+    }
+    public List<Degree> getDegrees() {
+        return degrees;
+    }
+    
 }

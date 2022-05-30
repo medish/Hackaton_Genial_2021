@@ -16,19 +16,7 @@
   <name>OptaPlanner Quickstarts</name>
 
   <modules>
-    <module>hello-world</module>
     <module>technology/java-spring-boot</module>
-    <module>technology/java-activemq-quarkus</module>
-    <module>technology/kotlin-quarkus</module>
-    <module>use-cases/school-timetabling</module>
-    <module>use-cases/facility-location</module>
-    <module>use-cases/maintenance-scheduling</module>
-    <module>use-cases/call-center</module>
-    <module>use-cases/vaccination-scheduling</module>
-    <module>use-cases/vehicle-routing</module>
-    <module>use-cases/order-picking</module>
-    <module>use-cases/employee-scheduling</module>
-    <module>build/quickstarts-showcase</module>
   </modules>
 
   <profiles>
@@ -39,9 +27,7 @@
           <name>full</name>
         </property>
       </activation>
-      <modules>
-        <module>build/optaplanner-distribution</module>
-      </modules>
+
     </profile>
   </profiles>
 

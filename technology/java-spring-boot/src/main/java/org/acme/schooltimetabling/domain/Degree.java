@@ -19,6 +19,7 @@ package org.acme.schooltimetabling.domain;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.lookup.PlanningId;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -30,6 +31,7 @@ public class Degree {
     @Id @GeneratedValue
     private Long id;
 
+    @Column
     private String name;
 
     // No-arg constructor required for Hibernate and OptaPlanner
@@ -53,4 +55,11 @@ public class Degree {
         return id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

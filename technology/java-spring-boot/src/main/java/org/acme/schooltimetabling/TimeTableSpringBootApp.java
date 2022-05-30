@@ -20,9 +20,7 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 import org.acme.schooltimetabling.domain.*;
-import org.acme.schooltimetabling.persistence.LessonRepository;
-import org.acme.schooltimetabling.persistence.RoomRepository;
-import org.acme.schooltimetabling.persistence.TimeslotRepository;
+import org.acme.schooltimetabling.persistence.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -37,98 +35,102 @@ public class TimeTableSpringBootApp {
         SpringApplication.run(TimeTableSpringBootApp.class, args);
     }
 
-    @Value("${timeTable.demoData:SMALL}")
-    private DemoData demoData;
-
     @Bean
     public CommandLineRunner demoData(
             TimeslotRepository timeslotRepository,
             RoomRepository roomRepository,
-            LessonRepository lessonRepository) {
+            LessonRepository lessonRepository,
+            TeacherRepository teacherRepository,
+            DepartmentRepository departmentRepository
+
+    ) {
         return (args) -> {
-            if (demoData == DemoData.NONE) {
-                return;
-            }
 
             Department sophieGermain = new Department("Sophie Germain");
             Department hallAuxFarine = new Department("Hall aux farine");
 
-            Degree m1 = new Degree("m1");
-            Degree m2 = new Degree("m2");
+            roomRepository.deleteAll();
+            departmentRepository.deleteAll();
 
-            StudentGroup genial_m2 = new StudentGroup("genial", m2);
-            StudentGroup imapairs_m2 = new StudentGroup("imapairs", m2);
-            StudentGroup imapairs_m1 = new StudentGroup("imapairs", m1);
-            StudentGroup data_m1 = new StudentGroup("data", m1);
+            departmentRepository.save(sophieGermain);
+            departmentRepository.save(hallAuxFarine);
 
-
-            timeslotRepository.save(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(8, 30), LocalTime.of(9, 30)));
-            timeslotRepository.save(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(9, 30), LocalTime.of(10, 30)));
-            timeslotRepository.save(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(10, 30), LocalTime.of(11, 30)));
-            timeslotRepository.save(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(13, 30), LocalTime.of(14, 30)));
-            timeslotRepository.save(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(14, 30), LocalTime.of(15, 30)));
-            timeslotRepository.save(new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(8, 30), LocalTime.of(9, 30)));
-            timeslotRepository.save(new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(9, 30), LocalTime.of(10, 30)));
-            timeslotRepository.save(new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(10, 30), LocalTime.of(11, 30)));
-            timeslotRepository.save(new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(13, 30), LocalTime.of(14, 30)));
-            timeslotRepository.save(new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(14, 30), LocalTime.of(15, 30)));
-            if (demoData == DemoData.LARGE) {
-                timeslotRepository.save(new Timeslot(DayOfWeek.WEDNESDAY, LocalTime.of(8, 30), LocalTime.of(9, 30)));
-                timeslotRepository.save(new Timeslot(DayOfWeek.WEDNESDAY, LocalTime.of(9, 30), LocalTime.of(10, 30)));
-                timeslotRepository.save(new Timeslot(DayOfWeek.WEDNESDAY, LocalTime.of(10, 30), LocalTime.of(11, 30)));
-                timeslotRepository.save(new Timeslot(DayOfWeek.WEDNESDAY, LocalTime.of(13, 30), LocalTime.of(14, 30)));
-                timeslotRepository.save(new Timeslot(DayOfWeek.WEDNESDAY, LocalTime.of(14, 30), LocalTime.of(15, 30)));
-                timeslotRepository.save(new Timeslot(DayOfWeek.THURSDAY, LocalTime.of(8, 30), LocalTime.of(9, 30)));
-                timeslotRepository.save(new Timeslot(DayOfWeek.THURSDAY, LocalTime.of(9, 30), LocalTime.of(10, 30)));
-                timeslotRepository.save(new Timeslot(DayOfWeek.THURSDAY, LocalTime.of(10, 30), LocalTime.of(11, 30)));
-                timeslotRepository.save(new Timeslot(DayOfWeek.THURSDAY, LocalTime.of(13, 30), LocalTime.of(14, 30)));
-                timeslotRepository.save(new Timeslot(DayOfWeek.THURSDAY, LocalTime.of(14, 30), LocalTime.of(15, 30)));
-                timeslotRepository.save(new Timeslot(DayOfWeek.FRIDAY, LocalTime.of(8, 30), LocalTime.of(9, 30)));
-                timeslotRepository.save(new Timeslot(DayOfWeek.FRIDAY, LocalTime.of(9, 30), LocalTime.of(10, 30)));
-                timeslotRepository.save(new Timeslot(DayOfWeek.FRIDAY, LocalTime.of(10, 30), LocalTime.of(11, 30)));
-                timeslotRepository.save(new Timeslot(DayOfWeek.FRIDAY, LocalTime.of(13, 30), LocalTime.of(14, 30)));
-                timeslotRepository.save(new Timeslot(DayOfWeek.FRIDAY, LocalTime.of(14, 30), LocalTime.of(15, 30)));
-            }
-
-            // Rooms
-
-            // Rooms Sophie Germain
-
-
-
-
-            Room room1Sophie = new Room("room 1", Room.RoomType.SIMPLE, 40, sophieGermain);
-            Room room2Sophie = new Room("room 2", Room.RoomType.SIMPLE, 40,  sophieGermain);
-            Room room3Sophie = new Room("room 3", Room.RoomType.SIMPLE, 40,  sophieGermain);
-            Room room4Sophie = new Room("room 4", Room.RoomType.SIMPLE, 40,  sophieGermain);
-            Room room5Sophie = new Room("room 5", Room.RoomType.SIMPLE, 40,  sophieGermain);
-            Room room6Sophie = new Room("room 6", Room.RoomType.SIMPLE, 40,  sophieGermain);
-            Room room7Sophie = new Room("room 7", Room.RoomType.SIMPLE, 40,  sophieGermain);
-            Room roomTp1Sophie = new Room("room Tp1", Room.RoomType.TP, 40,  sophieGermain);
-            Room roomTp2Sophie = new Room("room Tp2", Room.RoomType.TP, 40,  sophieGermain);
-            Room roomTp3Sophie = new Room("room Tp3", Room.RoomType.TP, 40,  sophieGermain);
-
-
-            // Rooms Hall aux Farines
-
-            Room Amphi1Hall = new Room("amphi 1", Room.RoomType.AMPHI, 150, hallAuxFarine);
-            Room Amphi2Hall = new Room("amphi 2", Room.RoomType.AMPHI, 200, hallAuxFarine);
-            Room Amphi3Hall = new Room("amphi 3", Room.RoomType.AMPHI, 300, hallAuxFarine);
-
-            roomRepository.save(room1Sophie);
-            roomRepository.save(room2Sophie);
-            roomRepository.save(room3Sophie);
-            roomRepository.save(room4Sophie);
-            roomRepository.save(room5Sophie);
-            roomRepository.save(room6Sophie);
-            roomRepository.save(room7Sophie);
-            roomRepository.save(roomTp1Sophie);
-            roomRepository.save(roomTp2Sophie);
-            roomRepository.save(roomTp3Sophie);
-
-            roomRepository.save(Amphi1Hall);
-            roomRepository.save(Amphi2Hall);
-            roomRepository.save(Amphi3Hall);
+//            Degree m1 = new Degree("m1");
+//            Degree m2 = new Degree("m2");
+//
+//            StudentGroup genial_m2 = new StudentGroup("genial");
+//            StudentGroup imapairs = new StudentGroup("imapairs");
+//
+//            StudentGroup data_m1 = new StudentGroup("data");
+//
+//
+//            timeslotRepository.save(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(8, 30), LocalTime.of(9, 30)));
+//            timeslotRepository.save(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(9, 30), LocalTime.of(10, 30)));
+//            timeslotRepository.save(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(10, 30), LocalTime.of(11, 30)));
+//            timeslotRepository.save(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(13, 30), LocalTime.of(14, 30)));
+//            timeslotRepository.save(new Timeslot(DayOfWeek.MONDAY, LocalTime.of(14, 30), LocalTime.of(15, 30)));
+//            timeslotRepository.save(new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(8, 30), LocalTime.of(9, 30)));
+//            timeslotRepository.save(new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(9, 30), LocalTime.of(10, 30)));
+//            timeslotRepository.save(new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(10, 30), LocalTime.of(11, 30)));
+//            timeslotRepository.save(new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(13, 30), LocalTime.of(14, 30)));
+//            timeslotRepository.save(new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(14, 30), LocalTime.of(15, 30)));
+//            if (demoData == DemoData.LARGE) {
+//                timeslotRepository.save(new Timeslot(DayOfWeek.WEDNESDAY, LocalTime.of(8, 30), LocalTime.of(9, 30)));
+//                timeslotRepository.save(new Timeslot(DayOfWeek.WEDNESDAY, LocalTime.of(9, 30), LocalTime.of(10, 30)));
+//                timeslotRepository.save(new Timeslot(DayOfWeek.WEDNESDAY, LocalTime.of(10, 30), LocalTime.of(11, 30)));
+//                timeslotRepository.save(new Timeslot(DayOfWeek.WEDNESDAY, LocalTime.of(13, 30), LocalTime.of(14, 30)));
+//                timeslotRepository.save(new Timeslot(DayOfWeek.WEDNESDAY, LocalTime.of(14, 30), LocalTime.of(15, 30)));
+//                timeslotRepository.save(new Timeslot(DayOfWeek.THURSDAY, LocalTime.of(8, 30), LocalTime.of(9, 30)));
+//                timeslotRepository.save(new Timeslot(DayOfWeek.THURSDAY, LocalTime.of(9, 30), LocalTime.of(10, 30)));
+//                timeslotRepository.save(new Timeslot(DayOfWeek.THURSDAY, LocalTime.of(10, 30), LocalTime.of(11, 30)));
+//                timeslotRepository.save(new Timeslot(DayOfWeek.THURSDAY, LocalTime.of(13, 30), LocalTime.of(14, 30)));
+//                timeslotRepository.save(new Timeslot(DayOfWeek.THURSDAY, LocalTime.of(14, 30), LocalTime.of(15, 30)));
+//                timeslotRepository.save(new Timeslot(DayOfWeek.FRIDAY, LocalTime.of(8, 30), LocalTime.of(9, 30)));
+//                timeslotRepository.save(new Timeslot(DayOfWeek.FRIDAY, LocalTime.of(9, 30), LocalTime.of(10, 30)));
+//                timeslotRepository.save(new Timeslot(DayOfWeek.FRIDAY, LocalTime.of(10, 30), LocalTime.of(11, 30)));
+//                timeslotRepository.save(new Timeslot(DayOfWeek.FRIDAY, LocalTime.of(13, 30), LocalTime.of(14, 30)));
+//                timeslotRepository.save(new Timeslot(DayOfWeek.FRIDAY, LocalTime.of(14, 30), LocalTime.of(15, 30)));
+//            }
+//
+//            // Rooms
+//
+//            // Rooms Sophie Germain
+//
+//
+//
+//
+//            Room room1Sophie = new Room("room 1", Room.RoomType.SIMPLE, 40, sophieGermain);
+//            Room room2Sophie = new Room("room 2", Room.RoomType.SIMPLE, 40,  sophieGermain);
+//            Room room3Sophie = new Room("room 3", Room.RoomType.SIMPLE, 40,  sophieGermain);
+//            Room room4Sophie = new Room("room 4", Room.RoomType.SIMPLE, 40,  sophieGermain);
+//            Room room5Sophie = new Room("room 5", Room.RoomType.SIMPLE, 40,  sophieGermain);
+//            Room room6Sophie = new Room("room 6", Room.RoomType.SIMPLE, 40,  sophieGermain);
+//            Room room7Sophie = new Room("room 7", Room.RoomType.SIMPLE, 40,  sophieGermain);
+//            Room roomTp1Sophie = new Room("room Tp1", Room.RoomType.TP, 40,  sophieGermain);
+//            Room roomTp2Sophie = new Room("room Tp2", Room.RoomType.TP, 40,  sophieGermain);
+//            Room roomTp3Sophie = new Room("room Tp3", Room.RoomType.TP, 40,  sophieGermain);
+//
+//
+//            // Rooms Hall aux Farines
+//
+//            Room Amphi1Hall = new Room("amphi 1", Room.RoomType.AMPHI, 150, hallAuxFarine);
+//            Room Amphi2Hall = new Room("amphi 2", Room.RoomType.AMPHI, 200, hallAuxFarine);
+//            Room Amphi3Hall = new Room("amphi 3", Room.RoomType.AMPHI, 300, hallAuxFarine);
+//
+//            roomRepository.save(room1Sophie);
+//            roomRepository.save(room2Sophie);
+//            roomRepository.save(room3Sophie);
+//            roomRepository.save(room4Sophie);
+//            roomRepository.save(room5Sophie);
+//            roomRepository.save(room6Sophie);
+//            roomRepository.save(room7Sophie);
+//            roomRepository.save(roomTp1Sophie);
+//            roomRepository.save(roomTp2Sophie);
+//            roomRepository.save(roomTp3Sophie);
+//
+//            roomRepository.save(Amphi1Hall);
+//            roomRepository.save(Amphi2Hall);
+//            roomRepository.save(Amphi3Hall);
 
 //            Lesson griGenial_m2 = new Lesson("GRI", genial_m2);
 //            Lesson pocaGenial_m2 = new Lesson("POCA", genial_m2);
@@ -171,10 +173,5 @@ public class TimeTableSpringBootApp {
         };
     }
 
-    public enum DemoData {
-        NONE,
-        SMALL,
-        LARGE
-    }
 
 }

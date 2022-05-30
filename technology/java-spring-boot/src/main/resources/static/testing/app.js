@@ -168,54 +168,12 @@ function addDepartment() {
   $('#departmentDialog').modal('toggle');
 }
 
-function addDegree() {
-  var name = $("#degree_name").val();
-  $.post("/degree", JSON.stringify({
-    "name": name
-  }), function () {
-    //refreshTimeTable();
-  }).fail(function (xhr, ajaxOptions, thrownError) {
-    showError("Adding degree (" + name + ") failed.", xhr);
-  });
-  $('#degreeDialog').modal('toggle');
-}
-
-function addStudentGroup() {
-  fetchDegrees();
-  var name = $("#student_group_name").val();
-  $.post("/degree", JSON.stringify({
-    "name": name
-  }), function () {
-    refreshTimeTable();
-  }).fail(function (xhr, ajaxOptions, thrownError) {
-    showError("Adding student group (" + name + ") failed.", xhr);
-  });
-  $('#studentGroupDialog').modal('toggle');
-}
-
-function addTeacher() {
-  var firstName = $("#teacher_firstname").val();
-  var lastName = $("#teacher_lastname").val();
-
-  $.post("/teacher", JSON.stringify({
-    "firstName": firstName,
-    "lastName": lastName
-  }), function () {
-    refreshTimeTable();
-  }).fail(function (xhr, ajaxOptions, thrownError) {
-    showError("Adding  teacher (" + firstname + " " + lastname + ") failed.", xhr);
-  });
-  $('#teacherDialog').modal('toggle');
-}
-
 function addLesson() {
-  var subject = $("#lesson_subject").val();
+  var subject = $("#lesson_subject").val().trim();
   $.post("/lessons", JSON.stringify({
     "subject": subject,
     "teacher": $("#lesson_teacher").val().trim(),
     "studentGroup": $("#lesson_studentGroup").val().trim()
-    var teacher = $("#room_department_select").find(":selected").val();
-
   }), function () {
     refreshTimeTable();
   }).fail(function (xhr, ajaxOptions, thrownError) {
@@ -254,19 +212,11 @@ function deleteTimeslot(timeslot) {
 }
 
 function addRoom() {
-  var name = $("#room_name").val();
-  var roomCapacity = $("#room_capacity").val();
-  var roomType = $("#room_type_select").find(":selected").text();
-  var departmentId = $("#room_department_select").find(":selected").val();
-
-//  var department_name= $("#room_department_select").find(":selected").text();
-    $.post("/room", JSON.stringify({
-    "roomName": name,
-    "capacity": roomCapacity,
-    "roomType": roomType,
-    "departmentId": departmentId
- }), function () {
-    //refreshTimeTable();
+  var name = $("#room_name").val().trim();
+  $.post("/rooms", JSON.stringify({
+    "name": name
+  }), function () {
+    refreshTimeTable();
   }).fail(function (xhr, ajaxOptions, thrownError) {
     showError("Adding room (" + name + ") failed.", xhr);
   });
@@ -348,19 +298,6 @@ $(document).ready(function () {
   $("#addRoomSubmitButton").click(function () {
     addRoom();
   });
-  $("#addDegreeSubmitButton").click(function () {
-      addDegree();
-  });
-    $("#addStudentGroupSubmitButton").click(function () {
-        addStudentGroup();
-    });
-
-    $("#addTeacherSubmitButton").click(function () {
-            addTeacher();
-        });
-
-
-
 
   refreshTimeTable();
 });
@@ -417,93 +354,11 @@ function buildPercentageColor(floorColor, ceilColor, shadePercentage) {
   return red | green | blue;
 }
 
-function fetchDepartments() {
+$(document).ready(function(){  
   $.getJSON("/departments", function (departments) {
-    for(const department of departments) {
-         $('#room_department_select').append($('<option>', {
-             value: department.id,
-             text: department.name
-         }));
-    }
+    window.alert(departments);
+    //$('<option>').val('999').text('999').appendTo('#groupid');
+
+    
   });
-}
-
-function fetchDegrees() {
-  $.getJSON("/degrees", function (degrees) {
-    for(const degree of degrees) {
-         $('#student_group_degree_select').append($('<option>', {
-             value: degree.id,
-             text: degree.name
-         }));
-    }
-  });
-}
-
-function fetchTeachers() {
-  $.getJSON("/teachers", function (teachers) {
-    for(const teacher of teachers) {
-         $('#lesson_teacher_select').append($('<option>', {
-             value: teacher.id,
-             text: teacher.firstName + " " + teacher.lastName;
-         }));
-    }
-  });
-}
-
-function fetchStudentGroups() {
-  $.getJSON("/studentGroups", function (studentGroups) {
-    for(const studentGroup of studentGroups) {
-         $('#lesson_studentGroup_select').append($('<option>', {
-             value: studentGroup.id,
-             text: studentGroup.name;
-         }));
-    }
-  });
-}
-
-//function fetchLessons() {
-//  $.getJSON("/lessons", function (lessons) {
-//    for(const lesson of lessons) {
-//         $('#student_group_degree_select').append($('<option>', {
-//             value: degree.id,
-//             text: degree.name
-//         }));
-//    }
-//  });
-//}
-
-(function(){
-    fetchDepartments();
-    fetchDegrees();
-})();
-
-$(document).ready(function () {
-
-    var select = $('#student_group_degree_select');
-     $('#student_group_degree_select').multiselect({
-        enableFiltering: true,
-        enableCaseInsensitiveFiltering: true
-     });
 });
-
-
-
-// $('#student_group_degree').on('submit', function(event){
-//  event.preventDefault();
-//  var form_data = $(this).serialize();
-//  $.ajax({
-//   url:"insert.php",
-//   method:"POST",
-//   data:form_data,
-//   success:function(data)
-//   {
-//    $('#student_group_degree option:selected').each(function(){
-//     $(this).prop('selected', false);
-//    });
-//    $('#student_group_degree').multiselect('refresh');
-//    alert(data);
-//   }
-//  });
-// });
-
-

@@ -27,6 +27,7 @@ import org.optaplanner.core.api.domain.variable.PlanningVariable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
+@PlanningEntity
 public class Lesson {
 
     @PlanningId

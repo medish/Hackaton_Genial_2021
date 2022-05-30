@@ -16,12 +16,7 @@
 
 package org.acme.schooltimetabling.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 import org.optaplanner.core.api.domain.lookup.PlanningId;
 
@@ -31,20 +26,19 @@ public class Room {
     @PlanningId
     @Id @GeneratedValue
     private Long id;
-    
-    private RoomType roomType;
 
-
-    @OneToOne
-    private Department department;
-        
     @Column
     private String name;
-    
+
+    @Enumerated(EnumType.ORDINAL)
+    private RoomType roomType;
+
     @Column
     private int capacity;
 
-    
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name="department_id")
+    private Department department;
 
     // No-arg constructor required for Hibernate
     public Room() {
@@ -55,11 +49,6 @@ public class Room {
         this.capacity = capacity;
         this.roomType = roomType;
         this.department = department;
-    }
-
-    public Room(long id, String name, int capacity, RoomType roomType, Department department) {
-        this(name, roomType, capacity, department);
-        this.id = id;
     }
 
     @Override
@@ -79,7 +68,32 @@ public class Room {
         return name;
     }
 
-    public enum RoomType {
-        SIMPLE, TP, AMPHI
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public RoomType getRoomType() {
+        return roomType;
+    }
+
+    public void setRoomType(RoomType roomType) {
+        this.roomType = roomType;
     }
 }
+

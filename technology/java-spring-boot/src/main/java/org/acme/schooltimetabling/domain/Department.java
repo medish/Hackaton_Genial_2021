@@ -18,10 +18,7 @@ package org.acme.schooltimetabling.domain;
 
 import org.optaplanner.core.api.domain.lookup.PlanningId;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Department {
@@ -41,11 +38,6 @@ public class Department {
         this.name = name;
     }
 
-    public Department(long id, String name) {
-        this(name);
-        this.id = id;
-    }
-
     @Override
     public String toString() {
         return name;
@@ -61,6 +53,10 @@ public class Department {
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }
