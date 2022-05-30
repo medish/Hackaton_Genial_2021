@@ -22,7 +22,7 @@ public class TimeConstraintController {
     @Autowired
     private TimeConstraintService service;
 
-    @PostMapping()
+    @PostMapping("/all")
     public List<TimeConstraint> insertAll(@RequestBody List<TimeConstraint> constraints) {
         return service.insert(constraints);
     }
