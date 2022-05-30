@@ -66,6 +66,8 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: angular-ui
+      - name: start docker-compose
+        run: cd backend && docker-compose up -d
       - name: run server
         run: java -jar backend-0.0.1-SNAPSHOT.jar &
       - name: build UI
