@@ -13,8 +13,9 @@ import server.models.Professor;
 import server.services.ProfessorService;
 
 @RestController
-@RequestMapping(value = ControllerRoutes.PROFESSORS)
+@RequestMapping(ControllerRoutes.PROFESSORS)
 public class ProfessorController {
+
     @Autowired
     private ProfessorService service;
 
@@ -23,7 +24,7 @@ public class ProfessorController {
         return service.getAll();
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping("/{id}")
     public Optional<Professor> getById(@PathVariable int id) {
         return this.service.getById(id);
     }

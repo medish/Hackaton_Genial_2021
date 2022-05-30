@@ -9,10 +9,12 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
 
+import server.services.KeyID;
+
 @Entity
 @Table(name = "date_slot")
 @IdClass(DateSlotId.class)
-public class DateSlot implements IInput, Serializable {
+public class DateSlot implements IInput, Serializable, KeyID<DateSlotId> {
 
     private static final long serialVersionUID = 1L;
 
@@ -28,6 +30,14 @@ public class DateSlot implements IInput, Serializable {
     }
 
     public DateSlot() {
+    }
+
+    @Override
+    public DateSlotId getId() {
+        DateSlotId dateSlotId = new DateSlotId();
+        dateSlotId.setDay(day);
+        dateSlotId.setStartTime(startTime);
+        return dateSlotId;
     }
 
     public DayOfWeek getDay() {

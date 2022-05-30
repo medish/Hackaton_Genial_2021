@@ -13,10 +13,12 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import server.services.KeyID;
+
 @Entity
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class User implements IInput {
+public class User implements IInput, KeyID<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,7 +51,8 @@ public class User implements IInput {
         this.role = role;
     }
 
-    public int getId() {
+    @Override
+    public Integer getId() {
         return id;
     }
 

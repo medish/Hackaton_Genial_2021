@@ -1,37 +1,54 @@
 package server.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import server.models.PrecedenceConstraint;
-import server.models.User;
-import server.services.PrecedenceConstraintService;
-
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import server.models.PrecedenceConstraint;
+import server.services.PrecedenceConstraintService;
 
 @RestController
 @RequestMapping(ControllerRoutes.CONSTRAINTS_PRECEDENCE)
 public class PrecedenceConstraintController {
+
     @Autowired
     private PrecedenceConstraintService service;
 
-    @GetMapping()
-    public List<PrecedenceConstraint> getPrecedenceConstraints(@RequestParam("auth")int user_id) {
-        return service.getPrecedenceConstraints(user_id);
-    }
-
-    @RequestMapping(method = {RequestMethod.DELETE})
-    @ResponseBody
-    public void deleteConstraint(@RequestParam("id") int id) {
-        this.service.delete(id);
+    @PostMapping()
+    public List<PrecedenceConstraint> insertAll(@RequestBody List<PrecedenceConstraint> constraints) {
+        return service.insert(constraints);
     }
 
     @PostMapping()
-    public void insertAll(@RequestBody List<PrecedenceConstraint> constraints){
-        service.insert(constraints);
+    public PrecedenceConstraint insert(@RequestBody PrecedenceConstraint constraint) {
+        return service.insert(constraint);
     }
 
-    @PostMapping("/delete")
-    public void deleteAll(@RequestBody List<Integer> ids){
-        service.delete(ids);
+    @PutMapping()
+    public PrecedenceConstraint update(@RequestBody PrecedenceConstraint constraint) {
+        return service.update(constraint);
+    }
+
+    @DeleteMapping("/{id}")
+    public boolean delete(@RequestParam int id) {
+        return this.service.delete(id);
+    }
+
+    @DeleteMapping("/delete")
+    public boolean deleteAll(@RequestBody List<Integer> ids) {
+        return service.delete(ids);
+    }
+
+    @GetMapping()
+    public List<PrecedenceConstraint> getPrecedenceConstraints(@RequestParam("auth") int user_id) {
+        return service.getPrecedenceConstraints(user_id);
     }
 }

@@ -10,9 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import server.services.KeyID;
+
 @Entity
 @Table(name = "department")
-public class Department implements IInput {
+public class Department implements IInput, KeyID<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +33,8 @@ public class Department implements IInput {
         this.name = name;
     }
 
-    public int getId() {
+    @Override
+    public Integer getId() {
         return id;
     }
 

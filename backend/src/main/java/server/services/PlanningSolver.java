@@ -47,7 +47,7 @@ public class PlanningSolver {
      * 
      * @return {@link Planning}
      */
-    public Planning solve() {
+    public Planning solve(int id) {
         dateSlotService.insert(dateList);
         // Constraints Time + precedence
         List<TimeConstraint> timeConstraints = timeConstraintService.getAll();
@@ -62,7 +62,7 @@ public class PlanningSolver {
         List<CourseSlot> resolvedOutput = solver.solve(timeTable, timeConstraints, precedenceConstraints)
                 .getCourseSlots();
 
-        Planning planning = new Planning("name", LocalDate.now());
+        Planning planning = new Planning(id, "name", LocalDate.now());
         planningService.insert(planning);
 
         planning.setSlots(new HashSet<>(resolvedOutput));
