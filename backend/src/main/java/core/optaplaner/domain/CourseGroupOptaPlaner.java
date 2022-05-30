@@ -9,6 +9,7 @@ import java.time.Duration;
 import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 
 @PlanningEntity
 public class CourseGroupOptaPlaner extends AbstractPersistable implements FromInputToOptaPlaner<CourseGroup> {
@@ -136,4 +137,7 @@ public class CourseGroupOptaPlaner extends AbstractPersistable implements FromIn
     public CourseSlot toOutput() {
         return new CourseSlot(courseGroup, null, professor, room, dateSlot);
     }
+
+    public CourseGroup getCouseGroupe() { return this.courseGroup; }
+
 }

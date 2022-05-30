@@ -35,10 +35,13 @@ public class Professor extends User {
     public Professor() {
     }
 
+    public Professor(int id, String name, String firstName, String email, String password) {
+        super(id, name, firstName, email, password, UserRole.PROFESSOR);
+    }
+
     public Professor(String name, String firstName, String email, String password) {
         super(name, firstName, email, password, UserRole.PROFESSOR);
     }
-
     public Set<Course> getCourses() {
         return courses;
     }

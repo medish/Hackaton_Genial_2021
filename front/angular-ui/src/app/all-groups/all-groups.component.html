@@ -1,1 +1,205 @@
-<p>all-groups works!</p>
+<div class="container mt-5">
+  <h1>Les groupes</h1>
+  <hr>
+  <div>
+    <div class="float-end">
+      <button class="btn btn-success" (click)="addCourseGroup()"> Ajouter</button>
+    </div>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Groupe</th>
+        <th>Nom cours</th>
+        <th>Niveau</th>
+        <th>Nombre d'étudiant</th>
+        <th>Spécialité</th>
+        <th>Durée</th>
+        <th>Type du cours</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let c of this.all_groups">
+        <td>groupe {{c.id}}</td>
+        <td>{{c.majorCourse.course.name}}</td>
+        <td>{{c.majorCourse.course.degree.name}}</td>
+        <td>{{c.size}}</td>
+        <td>{{c.majorCourse.major.name}}</td>
+        <td>{{toHHMMSS(c.duration)}}</td>
+        <td>{{c.roomType}}</td>
+        <td>
+          <button class="btn btn-warning me-3" (click)="editGroup(c)">Editer</button>
+          <button class="btn btn-danger" (click)="deleteGroup(c)"> Supprimer</button>
+        </td>
+      </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modal-group" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModal"><b>Editer un groupe</b></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form [formGroup]="formGroupModal">
+        <div class="modal-body">
+          <div class="mb-3 row" id="div_groupe_name">
+            <label for="groupe_name" class="col-sm-2 col-form-label">Nom du groupe</label>
+            <div class="col-sm-10">
+              <input [value]="" class="form-control" formControlName="groupe_name" type="text"
+                     placeholder="" required id="groupe_name">
+            </div>
+          </div>
+
+          <div class="mb-3 row">
+            <label for="cours" class="col-sm-2 col-form-label">Cours</label>
+            <div class="col-sm-10">
+              <select name="" class="form-control" [value]="" formControlName="cours_name" id="cours">
+                <option *ngFor="let matiere of this.all_courses" value="{{matiere.id}}">{{matiere.name}}
+                  - {{matiere.degree.name}}</option>
+              </select>
+            </div>
+          </div>
+
+
+          <div class="mb-3 row">
+            <label for="cours" class="col-sm-2 col-form-label">Spécialité</label>
+            <div class="col-sm-10">
+              <select name="" class="form-control" [value]="" formControlName="major_name" id="c">
+                <option *ngFor="let major of this.all_majors" value="{{major.id}}">{{major.name}}</option>
+              </select>
+            </div>
+          </div>
+
+
+          <div class="mb-3 row">
+            <label for="duration" class="col-sm-2 col-form-label">Durée</label>
+            <div class="col-sm-10">
+              <input [value]="" class="" formControlName="duration" type="text" required id="duration">
+            </div>
+          </div>
+
+
+          <div class="mb-3 row">
+            <label for="nb_students" class="col-sm-2 col-form-label">Nombre d'étudiants</label>
+            <div class="col-sm-10">
+              <input [value]="" class="form-control" formControlName="nb_students" type="number"
+                     placeholder="" required id="nb_students">
+            </div>
+          </div>
+
+
+          <div class="mb-3 row">
+            <label for="roomType" class="col-sm-2 col-form-label">Type du cours</label>
+            <div class="col-sm-10">
+              <select [value]="" name="rooms" id="roomType" formControlName="roomtype" class="form-control">
+                <option value="CM">CM</option>
+                <option value="TP">TP</option>
+                <option value="TD">TD</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" (click)="handleAddEdit()">Enregistrer
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="modal-delete-group" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id=""><b>Suppression d'un groupe </b></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Voulez-vous supprimer ce groupe ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
+        <button type="submit" class="btn btn-danger" data-bs-dismiss="modal" (click)="handleDelete()">Oui, supprimer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--Add group-->
+<div class="modal fade" id="modal-add-groupe" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="formGroupModal">
+          <div class="modal-body">
+            <div class="mb-3 row">
+              <label for="groupe_name" class="col-sm-2 col-form-label">Nom du groupe </label>
+              <div class="col-sm-10">
+                <input [value]="" class="form-control" formControlName="groupe_name" type="text"
+                       placeholder="Nom du groupe" required id="add_groupe_name">
+              </div>
+            </div>
+
+            <div class="mb-3 row">
+              <label for="cours" class="col-sm-2 col-form-label">Cours</label>
+              <div class="col-sm-10">
+                <select name="" class="form-control" [value]="" formControlName="cours_name" id="add_cours">
+                  <option *ngFor="let matiere of all_courses" value="{{matiere.id}}">{{matiere.name}}
+                    - {{matiere.degree.name}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="mb-3 row">
+              <label for="duration" class="col-sm-2 col-form-label">Durée</label>
+              <div class="col-sm-10">
+                <input [value]="" class="form-control" formControlName="duration" type="time"
+                       placeholder="cours" required id="add_duration">
+              </div>
+            </div>
+
+            <div class="mb-3 row">
+              <label for="nb_students" class="col-sm-2 col-form-label">Nombre d'étudiants</label>
+              <div class="col-sm-10">
+                <input [value]="" class="form-control" formControlName="nb_students" type="number"
+                       placeholder="" required id="add_nb_students">
+              </div>
+            </div>
+
+            <div class="mb-3 row">
+              <label for="roomType" class="col-sm-2 col-form-label">Type du cours</label>
+              <div class="col-sm-10">
+                <select [value]="" name="rooms" id="add_roomType" formControlName="roomtype" class="form-control">
+                  <option value="CM">CM</option>
+                  <option value="TP">TP</option>
+                  <option value="TD">TD</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Enregistrer</button>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,79 +1,34 @@
-<p>Gestion des routes<p>
-
 <div class="container">
   <div class="mt-5">
-    <h2> Les Utilisateurs </h2>
+    <h2> Les Salles </h2>
     <hr>
   </div>
-  <table  datatable class="row-border hover">
+  <div class="float-end">
+    <div class="btn btn-success">Ajouter</div>
+  </div>
+  <table class="table">
     <thead>
     <tr>
-      <th>ID</th>
-      <th>First name</th>
-      <th>Last name</th>
+      <th>Nom</th>
+      <th>Capacité</th>
+      <th>Type</th>
+      <th>Département</th>
+      <th>Action</th>
     </tr>
     </thead>
     <tbody>
-    <tr>
-      <td>1</td>
-      <td>Foo</td>
-      <td>Bar</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>Someone</td>
-      <td>Youknow</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>Iamout</td>
-      <td>Ofinspiration</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>Yoda</td>
-      <td>Skywalker</td>
-    </tr>
-    <tr>
-      <td>5</td>
-      <td>Patrick</td>
-      <td>Dupont</td>
-    </tr>
-    <tr>
-      <td>6</td>
-      <td>Barack</td>
-      <td>Obama</td>
-    </tr>
-    <tr>
-      <td>7</td>
-      <td>François</td>
-      <td>Holland</td>
-    </tr>
-    <tr>
-      <td>8</td>
-      <td>Michel</td>
-      <td>Popo</td>
-    </tr>
-    <tr>
-      <td>9</td>
-      <td>Chuck</td>
-      <td>Norris</td>
-    </tr>
-    <tr>
-      <td>10</td>
-      <td>Simon</td>
-      <td>Robin</td>
-    </tr>
-    <tr>
-      <td>11</td>
-      <td>Louis</td>
-      <td>Lin</td>
-    </tr>
-    <tr>
-      <td>12</td>
-      <td>Zelda</td>
-      <td>Link</td>
-    </tr>
+    <ng-container *ngFor="let dep of all_departments;">
+      <tr *ngFor="let room of dep.rooms">
+        <td>{{room.name}}</td>
+        <td>{{room.capacity}}</td>
+        <td>{{room.roomTypes}}</td>
+        <td>{{dep.name}}</td>
+        <td>
+          <button class="btn btn-warning me-3" (click)="editRoom(room)">Editer</button>
+          <button class="btn btn-danger" (click)="deleteRoom(room) "> Supprimer</button>
+        </td>
+      </tr>
+    </ng-container>
     </tbody>
   </table>
 </div>
