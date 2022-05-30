@@ -51,7 +51,7 @@
           <div class="mb-3 row">
             <label for="capacity" class="col-sm-2 col-form-label">Capacité</label>
             <div class="col-sm-10">
-              <input [value]="" class="form-control" formControlName="capacity" type="text"
+              <input [value]="" class="form-control" formControlName="capacity" type="number" min="0"
                      [ngClass]="{'is-invalid': submitted_edit && g.firstname.errors}"
                      placeholder="capacite de la salle" required id="capacity">
             </div>
@@ -110,7 +110,7 @@
           <div class="mb-3 row">
             <label for="name" class="col-sm-2 col-form-label">Capacité</label>
             <div class="col-sm-10">
-              <input class="form-control" formControlName="name" type="text"
+              <input class="form-control" formControlName="name" type="number" min="0"
                      [ngClass]="{'is-invalid': submitted && f.capacity.errors}"
                      placeholder="capacite de la salle" required id="capacity">
             </div>
