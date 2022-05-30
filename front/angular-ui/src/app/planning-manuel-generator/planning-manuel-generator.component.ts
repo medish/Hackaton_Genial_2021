@@ -56,7 +56,6 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     private degreeController: DegreecontrollerApi,
     private departementController: DepartmentcontrollerApi,
     private courseGroupController: CoursegroupcontrollerApi,
-    private authService: AuthService,
     private planningController: PlanningcontrollerApi,
     private courseSlotsService: CourseSlotsService,
     private fb: FormBuilder,
@@ -97,6 +96,7 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     this.currentDraggable = new Draggable(draggableEl, {
       itemSelector: '.fc-event',
       eventData: function (eventEl: any) {
+        console.log('event el',eventEl)
         let eventInitialColors = { td: TD_COLOR, cours: COURS_COLOR, tp: TP_COLOR }
         let target_color = eventEl.innerText.toLowerCase()
         return {
@@ -149,15 +149,44 @@ export class PlanningManuelGeneratorComponent implements OnInit {
     let calendarApi: Calendar = this.calendarComponent.getApi();
     calendarApi.getEventById(idEvent)?.remove();
   }
+  getMonday(d) {
+    d = new Date(d);
+    var day = d.getDay(),
+        diff = d.getDate() - day + (day == 0 ? -6:1); // adjust when day is sunday
+    return new Date(d.setDate(diff));
+  }
+  
+
   saveEvent(idEvent: string) {
     let calendarApi: Calendar = this.calendarComponent.getApi();
     let event = calendarApi.getEventById(idEvent);
+    console.log("evttttt",event);
+    if(!event?.end && event?.start){
+      event.setEnd(new Date(event?.start.getTime()+60*60*1000));
+    }
+    let dofwk = event?.start?.getDay()?event?.start.getDay():event?._def?.recurringDef?.typeData['daysOfWeek']%7;
+    console.log("dofwk",dofwk)
+    dofwk=dofwk-1
+    let startWeek = this.getMonday(new Date());
+    startWeek.setDate(startWeek.getDate() + dofwk);
+    let end:any = event.end;
+    let start:any = event.start;
+    if(!event?.end){
+      end =  startWeek.toISOString().split('T')[0]+"T"+(event?._def?.recurringDef?.typeData['endTime']?this.msToHMS(event?._def?.recurringDef?.typeData['endTime'].milliseconds):this.msToHMS2(event?.end?.getHours(),event?.end?.getMinutes(),event?.end?.getSeconds()))
+    }
+    if(!event?.start){
+      start = startWeek.toISOString().split('T')[0]+"T"+(event?._def?.recurringDef?.typeData['startTime']? this.msToHMS(event?._def?.recurringDef?.typeData['startTime'].milliseconds):this.msToHMS2(event?.start?.getHours(),event?.start?.getMinutes(),event?.start?.getSeconds()))
+    }
+
     let newobj = {
       title: this.degrees.filter(d => d.id == this.formGroupModel.controls['degree'].value)?.[0]?.name + ' - Groupe ' + this.formGroupModel.controls['courseGroup'].value + ' - ' + this.formGroupModel.controls['course'].value + ' - ' + this.formGroupModel.controls['teacher'].value + ' - ' + this.formGroupModel.controls['room'].value,
       color: this.formGroupModel.controls['backgroundColor'].value,
-      daysOfWeek: event?._def?.recurringDef?.typeData['daysOfWeek'],
-      startTime: event?._def?.recurringDef?.typeData['startTime'],
-      endTime: event?._def?.recurringDef?.typeData['endTime'],
+      //daysOfWeek: event?._def?.recurringDef?.typeData['daysOfWeek']?event?._def?.recurringDef?.typeData['daysOfWeek']:event?.start.getDay()%7,
+      //startTime: event?._def?.recurringDef?.typeData['startTime']? event?._def?.recurringDef?.typeData['startTime']:this.msToHMS2(event?.start?.getHours(),event?.start?.getMinutes(),event?.start?.getSeconds()),
+      //endTime: event?._def?.recurringDef?.typeData['endTime']?event?._def?.recurringDef?.typeData['endTime']:this.msToHMS2(event?.end?.getHours(),event?.end?.getMinutes(),event?.end?.getSeconds()),
+      // daysOfWeek: event?.start.getDay()%7?event?.start.getDay()%7:event?._def?.recurringDef?.typeData['daysOfWeek'],
+      start: start,
+      end: end,
       id: uniqid(),
       extendedProps: {
         room: this.formGroupModel.controls['room'].value,
@@ -171,7 +200,8 @@ export class PlanningManuelGeneratorComponent implements OnInit {
       }
     }
     event.remove()
-    this.calendarComponent.getApi().addEvent(newobj)
+    console.log("new obj",newobj)
+    calendarApi.addEvent(newobj)
     this.callVerify()
   }
   getAllEvents() {
@@ -387,12 +417,12 @@ export class PlanningManuelGeneratorComponent implements OnInit {
 
   msToHMS(ms) {
     // 1- Convert to seconds:
-    let seconds = ms / 1000;
+    let seconds = Math.floor(ms / 1000);
     // 2- Extract hours:
-    const hours = seconds / 3600; // 3,600 seconds in 1 hour
+    const hours = Math.floor(seconds / 3600); // 3,600 seconds in 1 hour
     seconds = seconds % 3600; // seconds remaining after extracting hours
     // 3- Extract minutes:
-    const minutes = seconds / 60; // 60 seconds in 1 minute
+    const minutes = Math.floor(seconds / 60); // 60 seconds in 1 minute
     // 4- Keep only seconds not extracted to minutes:
     seconds = seconds % 60;
     return this.msToHMS2(hours,minutes,seconds)
@@ -412,10 +442,13 @@ export class PlanningManuelGeneratorComponent implements OnInit {
   async callVerify() {
     let allEvents = this.getAllEvents();
     let allSlots = [];
-    console.log("room list",this.roomsList);
+    //console.log("room list",this.roomsList);
     
     for (let event of allEvents) {
-      console.log('event ', event)
+      //console.log('event ', event)
+      if(!event?.end){
+        event.setEnd(new Date(event?.start.getTime()+60*60*1000));
+      }
       let eventToSlot={
         title: this.degrees.filter(d => d.id == event.extendedProps['degree'])?.[0]?.name + ' - Groupe ' + event.extendedProps['courseGroup'] + ' - ' + event.extendedProps['course'] + ' - ' + event.extendedProps['teacher'] + ' - ' + event.extendedProps['room'],
         backgroundColor: event?.backgroundColor,
@@ -435,93 +468,17 @@ export class PlanningManuelGeneratorComponent implements OnInit {
         }
       }
       allSlots.push(this.courseSlotsService.fromCalendarToCourseSlot(eventToSlot))
-      console.log('eventToSlot  ', eventToSlot)
+      //console.log('eventToSlot  ', eventToSlot)
     }
-    console.log('sent : ',{ createdAt: this.selectedPlanning?.createdAt, slots: allSlots, id: this.selectedPlanning?.id, name: this.selectedPlanning?.name })
+    //console.log('sent : ',{ createdAt: this.selectedPlanning?.createdAt, slots: allSlots, id: this.selectedPlanning?.id, name: this.selectedPlanning?.name })
     for(let slot of allSlots){
       slot.planning = {id:1}
       if(slot?.id){
-        await this.http.put(environment.baseUrl+"/courses-slots",slot,httpOptions).pipe().toPromise().then(data=>{console.log("done upd",data);})
+        await this.http.put(environment.baseUrl+"/courses-slots",slot,httpOptions).pipe().toPromise().then(data=>{})
       }else{
-        await this.http.post(environment.baseUrl+"/courses-slots",slot,httpOptions).pipe().toPromise().then(data=>{console.log("done ins",data);})
+        await this.http.post(environment.baseUrl+"/courses-slots",slot,httpOptions).pipe().toPromise().then(data=>{})
       }
     }
-    this.http.post(environment.baseUrl+"/planning/verify/1",{id:1},httpOptions).pipe().toPromise().then(data=>{console.log("verif done ",data);
-    })
-    /*this.http.put(environment.baseUrl+"/courses-slots",{
-      "courseGroup": {
-          "id": 6,
-          "majorCourse": {
-              "course": {
-                  "id": 1,
-                  "name": "Algorithmique",
-                  "degree": {
-                      "id": 1,
-                      "name": "Licence 1",
-                      "majors": [
-                          4
-                      ]
-                  },
-                  "color": "DD33DD",
-                  "professors": [
-                      {
-                          "id": 4,
-                          "lastName": "Philippe",
-                          "firstName": "Loiseau",
-                          "email": "loiseau@u-paris.fr",
-                          "password": "loiseau",
-                          "role": "PROFESSOR"
-                      },
-                      {
-                          "id": 3,
-                          "lastName": "Jean",
-                          "firstName": "Dupond",
-                          "email": "dupond@u-paris.fr",
-                          "password": "dupond",
-                          "role": "PROFESSOR"
-                      },
-                      {
-                          "id": 2,
-                          "lastName": "Pierre",
-                          "firstName": "Dupont",
-                          "email": "dupont@u-paris.fr",
-                          "password": "dupont",
-                          "role": "PROFESSOR"
-                      }
-                  ]
-              },
-              "major": {
-                  "id": 2,
-                  "name": "DATA"
-              }
-          },
-          "duration": 7200,
-          "size": 25,
-          "roomType": "TD"
-      },
-      "endTime": "20:00:00",
-      "dateSlot": {
-          "day": "MONDAY",
-          "startTime": "18:00:00"
-      },
-      "id": 6,
-      "professor": {
-          "id": 2,
-          "lastName": "Pierre",
-          "firstName": "Dupont",
-          "email": "dupont@u-paris.fr",
-          "password": "dupont",
-          "role": "PROFESSOR"
-      },
-      "room": {
-          "id": 1,
-          "name": "1A",
-          "capacity": 120,
-          "roomTypes": [
-              "CM"
-          ]
-      }
-  },httpOptions).pipe().toPromise().then(d=>{console.log("done",d);
-    })*/
+    this.http.post(environment.baseUrl+"/planning/verify/1",{id:1},httpOptions).pipe().toPromise().then(data=>{});
   }
 }
