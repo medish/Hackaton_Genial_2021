@@ -42,9 +42,10 @@ import {
   RoomcontrollerApi,
   TimeconstraintcontrollerApi,
 } from './model/swagger/api';
-import {MatRadioModule} from "@angular/material/radio";
-import { AllCoursesComponent } from './all-courses/all-courses.component';
+import { MatRadioModule } from '@angular/material/radio';
 import { AlertModule, AlertConfig } from 'ngx-bootstrap/alert';
+import { FormConstraintOrderComponent } from './constraints/form-constraint-order/form-constraint-order.component'
+import { AllCoursesComponent } from './all-courses/all-courses.component';
 import { AllDegreesComponent } from './all-degrees/all-degrees.component'
 
 
@@ -76,6 +77,7 @@ FullCalendarModule.registerPlugins([
     AllConstraintsComponent,
     AllGroupsComponent,
     FormConstraintTimeComponent,
+    FormConstraintOrderComponent,
     AllCoursesComponent,
     AllDegreesComponent
   ],

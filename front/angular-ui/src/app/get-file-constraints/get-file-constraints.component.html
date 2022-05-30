@@ -3,6 +3,10 @@
     <label for="file" class="mb-3 control-label">
       <h5 class="txt">Contraintes de précédences</h5>
     </label>
+    <app-form-constraint-order
+      (onValidate)="onAddConstraintPrecedence.emit([$event])"
+    >
+    </app-form-constraint-order>
     <div class="row">
       <div class="attach-file-container">
         <input

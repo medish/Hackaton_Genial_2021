@@ -75,7 +75,6 @@ export class TableauContraintesComponent implements OnInit, OnChanges {
       let change = changes[propName];
       if(change.currentValue.length != 0) {
         if (change.currentValue[0].whenConstraint != null) {
-          //let precedenceConstraint: [ConstraintPrecedence] = change.currentValue;
           let precedenceConstraint: [ConstraintPrecedenceExport] = [null];
           precedenceConstraint.pop();
           let prec : [ConstraintPrecedence] = change.currentValue;
@@ -92,6 +91,7 @@ export class TableauContraintesComponent implements OnInit, OnChanges {
               priority: curr.priority
             }
             precedenceConstraint.push(tmp);
+            console.log("strict : "+tmp.strict);
           }
           console.log(precedenceConstraint);
           dataService.sendPrecedenceConstraints(precedenceConstraint);
