@@ -52,6 +52,14 @@ public class User implements IInput, KeyID<Integer> {
         this.role = role;
     }
 
+    public User(String lastName, String firstName, String email, String password, UserRole role) {
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
     @Override
     public Integer getId() {
         return id;
