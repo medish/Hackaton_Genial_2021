@@ -67,6 +67,7 @@ public class PlanningSolver {
         for (CourseSlot courseSlot : resolvedOutput) {
             courseSlot.setPlanning(planning);
         }
+        courseSlotService.delete(courseSlotService.getAll().stream().map(CourseSlot::getId).toList());
         courseSlotService.insert(resolvedOutput);
         return planning;
     }
