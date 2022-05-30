@@ -13,6 +13,6 @@ public interface TimeConstraintRepository extends JpaRepository<TimeConstraint, 
     @Query(nativeQuery = true, value = "SELECT * FROM time_constraint")
     public List<TimeConstraint> findAllTimeConstraintsFor();
 
-    @Query(nativeQuery = true, value = "SELECT * FROM  time_constraint")
-    public List<TimeConstraint> findTimeConstraintFor(User user);
+    @Query(nativeQuery = true, value = "SELECT * FROM  time_constraint where creator_id=:user_id")
+    public List<TimeConstraint> findTimeConstraintFor(int user_id);
 }
