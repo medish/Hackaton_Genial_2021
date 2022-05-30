@@ -14,7 +14,6 @@ import core.SolverTimeTable;
 import core.optaplaner.SolverOptaplaner;
 import core.optaplaner.domain.TimeTableOptaPlaner;
 import core.output.TimeTable;
-import core.planning.DateList;
 import server.models.CourseSlot;
 import server.models.DateSlot;
 import server.models.Planning;
@@ -39,7 +38,6 @@ public class PlanningSolver {
     @Autowired
     private PrecedenceConstraintService precedenceConstraintService;
 
-    private static final List<DateSlot> dateList = DateList.build();
     private static final SolverTimeTable solver = new SolverOptaplaner();
 
     /**
@@ -48,7 +46,7 @@ public class PlanningSolver {
      * @return {@link Planning}
      */
     public Planning solve(int id) {
-        dateSlotService.insert(dateList);
+        List<DateSlot> dateList = dateSlotService.getAll();
         // Constraints Time + precedence
         List<TimeConstraint> timeConstraints = timeConstraintService.getAll();
         List<PrecedenceConstraint> precedenceConstraints = precedenceConstraintService.getAll();
@@ -85,6 +83,8 @@ public class PlanningSolver {
         List<PrecedenceConstraint> precedenceConstraints = precedenceConstraintService.getAll();
         // Rooms
         List<Room> roomList = roomService.getAll();
+
+        List<DateSlot> dateList = dateSlotService.getAll();
 
         TimeTable timeTable = new TimeTable(dateList, roomList, new ArrayList<>(planning.getSlots()));
 
