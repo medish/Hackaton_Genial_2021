@@ -6,6 +6,7 @@ import {Selector} from "../../model/selector/selector";
 import {SelectorUnit} from "../../model/selector/selector-unit";
 import {Professor,ProfessorcontrollerApi,Course,CoursecontrollerApi,Room,RoomcontrollerApi} from '../../model/swagger/api'
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {TokenStorageService} from "../../services/token-storage.service";
 
 
 @Component({
@@ -20,7 +21,8 @@ export class FormConstraintTimeComponent implements OnInit {
     private professorController: ProfessorcontrollerApi,
     private courseController: CoursecontrollerApi,
     private roomController: RoomcontrollerApi,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private tokenService: TokenStorageService
   ) {}
 
 
@@ -86,7 +88,8 @@ export class FormConstraintTimeComponent implements OnInit {
       dateBegin: form_result[3],
       dateEnd: form_result[4],
       room: this.rooms.filter(r=>r.id==this.timeFormGroup.value.room)?.[0],
-      priority: parseInt(form_result[6])
+      priority: parseInt(form_result[6]),
+      creator: this.tokenService.getUser().id
     }
 
     this.validated = this.constraintService.verifySplitLineConstraintsTimeRoom(form_result);
